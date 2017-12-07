@@ -126,6 +126,8 @@ class Explanation {
 	private func Seven () {
 		nr = 7
 		desc = desc + "Seven (7) is a Mersenne prime"
+		desc = desc + "\nThe heptagon can not be constructed by ruler and compass"
+		
 		latex = latex + "7 = M_3 = 2^3 - 1\\\\"
 	}
 }
