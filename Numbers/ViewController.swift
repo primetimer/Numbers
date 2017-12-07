@@ -9,40 +9,18 @@
 import UIKit
 import iosMath
 
-/*
-class Explain {
-	
-	private var vc : ViewController!
-	private var info0 = UILabel()
-	private var math = MTMathUILabel()
-	init(vc : UIViewController) {
-		self.vc = vc
-		info0.lineBreakMode = .byWordWrapping
-		info0.numberOfLines = 0
-		vc.view.addSubview(info0)
-		
-		
-	}
-	func setInfo(str: Str)
-	
-	func Layout(x0: CGFloat, y0: CGFloat) {
-		
-		
-	}
-	
-	
-	
-}
-
-*/
-
 class DescTableCell: UITableViewCell {
 	
 	private (set) var uidesc = UITextView()
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(uidesc)
-		uidesc.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+		uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
+		
+		uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+		uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+		uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+		uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -55,7 +33,7 @@ class FormTableCell: UITableViewCell {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(uimath)
-		uimath.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+		uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -111,6 +89,15 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 	private var desc : String = "A text"
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
 	
+	private func GetExplanation() {
+		guard let text = uisearch.text else { return }
+		guard let nr = Int(text) else { return }
+		
+		let exp = Explain.shared.GetExplanation(nr: nr)
+		desc = exp.desc
+		formula = exp.latex
+	}
+	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 1
 	}
@@ -163,9 +150,10 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 		switch indexPath.section {
 		case 0:
 			if let temp = uidesctemp {
-				temp.sizeToFit()
-				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
-				return height + 20.0
+				let size = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude))
+				let frame = CGRect(origin: CGPoint.zero, size: size)
+				temp.frame = frame
+				return size.height + 20.0
 			}
 		case 1:
 			if let temp = uiformtemp {
@@ -251,6 +239,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 	
 	@objc func doneButtonAction() {
 		self.uisearch.resignFirstResponder()
+		GetExplanation()
+		tv.reloadData()
 	}
 	
 	func setupAutoLayout() {
