@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
 		54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */; };
 		54E43A4E1FD44A1100C25A42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4D1FD44A1100C25A42 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		0152CA84599AE3E7BE79E272 /* Pods_NumbersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NumbersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A04DC416C676164E1126677 /* Pods-Numbers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Numbers.release.xcconfig"; path = "Pods/Target Support Files/Pods-Numbers/Pods-Numbers.release.xcconfig"; sourceTree = "<group>"; };
+		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
 		54E43A481FD44A1100C25A42 /* Numbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Numbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +119,7 @@
 				54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */,
 				547565591FD99F9F00A09CA7 /* Explain.swift */,
 				54E43A4D1FD44A1100C25A42 /* ViewController.swift */,
+				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
 				54E43A6B1FD44B4100C25A42 /* Extensions.swift */,
 				54E43A4F1FD44A1100C25A42 /* Main.storyboard */,
 				54E43A521FD44A1100C25A42 /* Assets.xcassets */,
@@ -348,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54E43A4E1FD44A1100C25A42 /* ViewController.swift in Sources */,
+				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */,
 				54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,

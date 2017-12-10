@@ -201,6 +201,14 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 		return tv
 	}()
 	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		uisearch.text = "36"
+		GetExplanation()
+		tv.reloadData()
+	}
+	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		print(iosMathVersionNumber)
