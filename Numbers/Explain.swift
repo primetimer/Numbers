@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BigInt
 
 class Explain {
 	
@@ -31,7 +32,14 @@ class Explanation {
 	internal (set) var nr : Int
 	internal (set) var desc = ""
 	internal (set) var latex = ""
+	internal (set) var properties : [String] = []
 	
+	internal var wikiurl : String {
+		get {
+			let url = "https://en.wikipedia.org/wiki/" + String(nr) //+ "_(number)"
+			return url
+		}
+	}
 	init(nr: Int) {
 		self.nr = nr
 		switch nr {
@@ -109,11 +117,26 @@ class Explanation {
 			N35()
 		case 36:
 			N36()
+		case 37:
+			N37()
+		case 38:
+			N38()
+		case 39:
+			N39()
+		case 40:
+			N40()
+		case 41:
+			N41()
 		default:
 			desc = String(nr)
 		}
 		
+		if let factorlatex = FactorCache.shared.Latex(n: nr) {
+			latex = latex + "\n" + factorlatex
+		}
+		
 		if Tester.shared.isSpecial(n: nr) {
+			properties.append(Tester.shared.properties(n: nr))
 			desc = desc + "\n" + Tester.shared.getDesc(n: nr)!
 			latex = latex + "\\\\" + Tester.shared.getLatex(n: nr)!
 		}
@@ -135,17 +158,12 @@ class Explanation {
 		nr = 1
 		desc = "One (1) is the succesor of Zero."
 		desc = desc + "\nIf you multiply any number n by One, the result is n itself."
-		
 		latex = "\\forall n \\in \\mathbb{N} : n = n\\cdot{1}"
 	}
 	
 	private func Two() {
-		nr = 2
-		
-		desc = desc + "Two (2) is the first prime number."
-		desc = desc + "\n2 is the smallest prime nummber and the only even prime number."
-		
-		latex = latex + "2 = 1 + 1\\\\"
+		nr = 2		
+		//latex = latex + "2 = 1 + 1 \\\\"
 		latex = latex + "n>0, n+n = n\\cdot{n}  \\Rightarrow n = 2"
 		latex = latex + "\\\\ \\sum_{k=0}^\\infty 1/2^k = 2 "
 	}
@@ -153,9 +171,8 @@ class Explanation {
 	private func Three() {
 		nr = 3
 		
-		desc = desc + "Three (3) is the first odd prime number."
-		
-		latex = latex + "3 = 1 + 2\\\\"
+		//desc = desc + "Three (3) is the first odd prime number."
+		//latex = latex + "3 = 1 + 2\\\\"
 		latex = latex + "F_0 = 2^{2^{0}} + 1 = 3 \\\\"
 		latex = latex + "M_2 = 2^{2} - 1 = 3 \\\\ "
 	}
@@ -163,20 +180,18 @@ class Explanation {
 	private func Four() {
 		nr = 4
 		
-		desc = desc + "Four (4) is a square number."
-		desc = desc + "\nIt is the smallest composite number."
-		
+		//desc = desc + "Four (4) is a square number."
+		desc = desc + "\n4 is the smallest composite number."
 		latex = latex + "4 = 2+2 = 2\\cdot{2} = 2^2\\\\"
 	}
 	
 	private func Five() {
 		nr = 5
 		
-		desc = desc + "Five (5) is a prime number."
-		desc = desc + "\nFive is a Fibonacci number."
-		
-		latex = latex + "5 = 2+3 \\\\"
-		latex = latex + "F_1 = 2^{2^{1}} + 1"
+		//desc = desc + "Five (5) is a prime number."
+		//desc = desc + "\nFive is a Fibonacci number."
+		//latex = latex + "5 = 2+3 \\\\"
+		//latex = latex + "F_1 = 2^{2^{1}} + 1"
 	}
 	
 	private func Six() {
@@ -196,18 +211,18 @@ class Explanation {
 	
 	private func Eight () {
 		nr = 8
-		desc = desc + "Eight (8) is a cube number. Eight is the only Fibonacci Number, which is a cube."
+		//desc = desc + "Eight (8) is a cube number. Eight is the only Fibonacci Number, which is a cube."
 		
-		latex = latex + "8 = 2^3 \\\\"
-		latex = latex + "8 = 3+5 \\\\"
+		//latex = latex + "8 = 2^3 \\\\"
+		//latex = latex + "8 = 3+5 \\\\"
 
 	}
 	
 	private func Nine () {
 		nr = 9
-		desc = desc + "Nine (9) is a square number."
+		//desc = desc + "Nine (9) is a square number."
 		desc = desc + "The smallest even composite number"
-		latex = latex + "9 = 3^2 = 3\\cdot{3} \\\\"
+		//latex = latex + "9 = 3^2 = 3\\cdot{3} \\\\"
 	}
 	
 	private func Ten () {
@@ -215,36 +230,34 @@ class Explanation {
 		desc = desc + "Ten (10) is the sum of the first three primes"
 		latex = latex + "10 = 2 + 3 + 5 \\\\"
 		latex = latex + "10 = 0! + 1! + 2! +3! \\\\"
-		latex = latex + "10 =  \\{ a>0 : \\forall n \\in \\mathbbmin{N}: n - \\phi(n) \\neq a  \\} \\\\"
-		latex = latex + "\\phi(n) = | \\{ x \\in  \\mathbb{N} :  1\\leq x\\leq n  \\land gcd(x,n) = 1  \\} |"
-		
+		latex = latex + "10 =  min \\{ a>0 : \\forall n \\in \\mathbb{N}: n - \\phi(n) \\neq a  \\} \\\\"
+		latex = latex + "\\phi(n) = | \\{ x_{\\leq n} \\in  \\mathbb{N} :  gcd(x,n) = 1  \\} | \\\\"
 	}
 	
 	private func Eleven () {
 		nr = 11
 		desc = desc + "Eleven (11) is the smallest two digit prime number."
 		latex = latex + "M_{11} = 2^{11} - 1 = 2047 = 23 \\cdot{89} \\\\"
-		
 	}
 	
 	private func Twelve () {
 		nr = 12
-		desc = desc + "Twelve (12) is the smallest two digit prime number."
+		desc = desc + "Twelve (12) is the product of the first factorials"
 		latex = latex + "12 = 1! \\cdot{2!} \\cdot{3!}  \\\\"
 		
 	}
 	
 	private func Thirteen () {
 		nr = 13
-		desc = desc + "Thirteen (13) is the smallest mirp prime. A prime is a mirp prime, when the reversed digits form a prime number. mirp(13) = 31."
-		latex = latex + "13 = 5 + 8 \\text{ (Fibonacci number)}  \\\\"
+		//desc = desc + "Thirteen (13) is the smallest mirp prime. A prime is a mirp prime, when the reversed digits form a prime number. mirp(13) = 31."
+		//latex = latex + "13 = 5 + 8 \\text{ (Fibonacci number)}  \\\\"
 	}
 	
 	private func Fourteen() {
 		nr = 14
 		desc = desc + "Fourteen (14) is the lowest even n for which the equation φ(x) = n has no solution, making it the first even nontotient."
 		latex = latex + "14 =  min \\{ n \\in \\mathbb{N} | \\forall x \\in \\mathbb{N} : \\phi(x) \\neq n  \\} \\\\"
-		latex = latex + "\\phi(n) = | \\{ x \\in  \\mathbb{N} :  1\\leq x\\leq n  \\land gcd(x,n) = 1  \\} |"
+		//latex = latex + "\\phi(n) = | \\{ x \\in  \\mathbb{N} :  1\\leq x\\leq n  \\land gcd(x,n) = 1  \\} |"
 	}
 	
 	private func Fifteen() {
@@ -261,8 +274,8 @@ class Explanation {
 	
 	private func Sixteen() {
 		nr = 16
-		desc = desc + "Sixteen (16) is the fourth power of two"
-		latex = latex + "16 = 2^4 = 4^2 \\\\"
+		//desc = desc + "Sixteen (16) is the fourth power of two"
+		//latex = latex + "16 = 2^4 = 4^2 \\\\"
 		latex = latex + "n = a^b = b^a, a \\neq b  \\Rightarrow n = 16\\\\"
 		latex = latex + "16 = 2^{2^2} \\\\"
 	}
@@ -283,13 +296,14 @@ class Explanation {
 	
 	private func Nineteen() {
 		nr = 19
-		desc = desc + "Every number can be representes as the sum of nineteen (19) quartic numbers."
+		desc = desc + "Every number can be represented as the sum of nineteen (19) quartic numbers."
 		latex = latex + "\\forall n\\in \\mathbb{N} :  \\exists a_k : n=\\sum_{k=1}^{19} a_k^{2^{2}}\\\\"
 	}
 	
 	private func N20() {
 		nr = 20
-		desc = desc + "Twenty (20) ist a tetahedral number."
+		//desc = desc + "Twenty (20) ist a tetahedral number."
+		desc = "The sum of the proper divisors of 20 is greater than 20, so 20 is an abundant number. 20 is the first abundant number not divisable by three"
 		latex = latex + "20 = min \\{n:\\sum_{d|n} d < n, \\neg 3 \\mid  n \\}   \\\\"
 	}
 	
@@ -301,9 +315,9 @@ class Explanation {
 	
 	private func N22() {
 		nr = 22
-		desc = desc + "Twentytwo (22) ist a pentagonal number."
-		latex = latex + "22 = \\frac{3\\cdot{4^2} - 4}{2} = p_g(4) \\\\"
-		latex = latex + "p_g(n) = \\frac{3\\cdot{n^2} - n}{2} \\\\"
+		//desc = desc + "Twentytwo (22) ist a pentagonal number."
+		//latex = latex + "22 = \\frac{3\\cdot{4^2} - 4}{2} = p_g(4) \\\\"
+		//latex = latex + "p_g(n) = \\frac{3\\cdot{n^2} - n}{2} \\\\"
 	}
 	
 	private func N23() {
@@ -333,8 +347,8 @@ class Explanation {
 	
 	private func N27() {
 		nr = 27
-		desc = desc + "Twentyseven (27) ist a cube number"
-		latex = latex + "27 = 3^3  \\\\"
+		//desc = desc + "Twentyseven (27) ist a cube number"
+		//latex = latex + "27 = 3^3  \\\\"
 	}
 	
 	private func N28() {
@@ -346,8 +360,8 @@ class Explanation {
 	
 	private func N29() {
 		nr = 29
-		desc = desc + "Twentynine (29) is a twin prime"
-		latex = latex + "29 = 2^2 + 3^2 + 4^2 \\\\"
+		//desc = desc + "Twentynine (29) is a twin prime"
+		//latex = latex + "29 = 2^2 + 3^2 + 4^2 \\\\"
 	}
 	
 	private func N30() {
@@ -357,8 +371,8 @@ class Explanation {
 	}
 	private func N31() {
 		nr = 31
-		desc = desc + "Thirtyone (31) is a twin prime and the third Mersenne prime"
-		latex = latex + "31 = M_5 = 2^5-1 \\in \\mathbb{P}\\\\"
+		//desc = desc + "Thirtyone (31) is a twin prime and the third Mersenne prime"
+		//latex = latex + "31 = M_5 = 2^5-1 \\in \\mathbb{P}\\\\"
 	}
 	private func N32() {
 		nr = 32
@@ -375,21 +389,21 @@ class Explanation {
 	
 	private func N34() {
 		nr = 34
-		desc = desc + "Thirtyfour (34) is a Fibonacci number"
-		latex = latex + "34 = 13 + 21"
+		//desc = desc + "Thirtyfour (34) is a Fibonacci number"
+		//latex = latex + "34 = 13 + 21"
 	}
 	
 	private func N35() {
 		nr = 35
-		desc = desc + "Thirtyfive (35) is a tetrahedral number"
-		latex = latex + "35 = 1 + 3 + 6 + 10 + 15\\\\"
-		latex = latex + "35 = \\sum_{k=1}^5 \\frac{k (\\cdot{k+1})}{2}"
+		//desc = desc + "Thirtyfive (35) is a tetrahedral number"
+		//latex = latex + "35 = 1 + 3 + 6 + 10 + 15\\\\"
+		//latex = latex + "35 = \\sum_{k=1}^5 \\frac{k (\\cdot{k+1})}{2}"
 	}
 	
 	private func N36() {
 		nr = 36
 		desc = desc + "Thirtysix (36) is a square number and a triangular number"
-		latex = latex + "36 = 6^2 = 6 \\cdot{6} \\\\"
+		//latex = latex + "36 = 6^2 = 6 \\cdot{6} \\\\"
 		latex = latex + "36 = \\frac{7\\cdot{8}}{2} \\\\"
 		latex = latex + "36 = 1^3 + 2^3 + 3^3  \\\\"
 		latex = latex + "36 = 17 + 19 \\\\"
@@ -398,11 +412,35 @@ class Explanation {
 	
 	private func N37() {
 		nr = 37
-		desc = desc + "Thirtyseven (37) is a prime number. 37 is the smallest prime, which is not a supersingular prime. "
-		latex = latex + "36 = 6^2 = 6 \\cdot{6} \\\\"
-		latex = latex + "36 = \\frac{7\\cdot{8}}{2} \\\\"
-		latex = latex + "36 = 1^3 + 2^3 + 3^3  \\\\"
-		latex = latex + "36 = 17 + 19 \\\\"
-		
+		desc = desc + "37 is the smallest prime, which is not a supersingular prime. \n"
+		desc = desc + "37 is the first irregular prime number. 37 is a divisor of the numerator of the Benroulli number B32"
+		latex = latex + "37 \\mid numerator(B_{32}), B_{32} = \\frac{-7709321041217}{510} \\\\"
+		latex = latex + "37 = min \\{ p \\in \\mathbb{P} | \\exists B_{2k} = \\frac{a_k}{b_k} : p \\mid a_k \\} \\\\"
+	}
+	
+	private func N38() {
+		nr = 38
+		desc = desc + "38 is the sum of the squares of the first three prime numbers"
+		latex = "38 = 2^2 + 3^2 + 5^2\\\\"
+	}
+	
+	private func N39() {
+		nr = 39
+		desc = desc + "39 is the sum of the first odd primes"
+		latex = "39 = 3+5+7+11+13 \\\\"
+	}
+	
+	private func N40() {
+		nr = 40
+		//desc = desc + "40 is the first number, with nothing special to tell about"
+		//latex = "40 \\in R \\land 40 \\notin R"
+	}
+	
+	private func N41() {
+		nr = 41
+		desc = desc + "41 ist the sum of the first six prime numbers."
+		desc = desc + "n^2+n+41 gives a long series of prime numbers for n in 0...39"
+		latex = latex + "41 = 2+3+5+7+11+13 \\\\"
+		latex = latex + "\\forall n<41-1 : n^2+n+41 \\in \\mathbb{P}  \\\\"
 	}
 }

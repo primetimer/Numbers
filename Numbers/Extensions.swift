@@ -9,6 +9,23 @@
 import Foundation
 import UIKit
 
+extension Int {
+	func formatnumber() -> String {
+		let formater = NumberFormatter()
+		formater.groupingSeparator = "."
+		formater.numberStyle = .decimal
+		return formater.string(from: NSNumber(value: self))!
+	}
+}
+
+extension String {
+	mutating func appendnl(_ append : String) {
+		if append.count == 0 { return }
+		if self.count>0 { self = self + "\n" }
+		self = self + append
+	}
+}
+
 extension UIViewController {
 	internal var navh : CGFloat {
 		get {
@@ -82,4 +99,6 @@ extension UIView {
 		}
 	}
 }
+
+
 

@@ -8,19 +8,13 @@
 
 import UIKit
 import iosMath
+import BigInt
+import PrimeFactors
 
-class DescTableCell: UITableViewCell {
-	
-	private (set) var uidesc = UITextView()
+class BaseNrTableCell : UITableViewCell {
+	var nr : Int = 0
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		contentView.addSubview(uidesc)
-		uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
-		
-		uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-		uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -28,7 +22,25 @@ class DescTableCell: UITableViewCell {
 	}
 }
 
-class FormTableCell: UITableViewCell {
+class DescTableCell: BaseNrTableCell {
+	private (set) var uidesc = UITextView()
+	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		contentView.addSubview(uidesc)
+		uidesc.font = UIFont(name: "Arial", size: 18.0)
+		uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
+		
+		uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+		uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+		uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+		uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+	}
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+class FormTableCell: BaseNrTableCell {
 	private (set) var uimath = MTMathUILabel()
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,15 +53,50 @@ class FormTableCell: UITableViewCell {
 	}
 }
 class CustomTableViewHeader: UITableViewHeaderFooterView {
-	
 	override init(reuseIdentifier: String?) {
 		super.init(reuseIdentifier: reuseIdentifier)
-		
 		contentView.backgroundColor = .orange
+	}
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
+	private (set) var uiweb = UIWebView()
+	private var wikiurl : String = ""
+	func SetWikiUrl(wiki : String) {
+		if wiki == wikiurl {
+			return
+		}
+		wikiurl = wiki
+		if let url = URL(string: wiki) {
+			let request = URLRequest(url: url)
+			uiweb.loadRequest(request)
+			uiweb.delegate = self
+		}
+	}
+	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		contentView.addSubview(uiweb)
+		//uidesc.font = UIFont(name: "Arial", size: 18.0)
+		uiweb.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: NrViewController.wikiheight)
+		
+		uiweb.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+		uiweb.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+		uiweb.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+		uiweb.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+	func webViewDidFinishLoad(_ webView: UIWebView)
+	{
+		if let table = self.superview as? UITableView {
+			let idx = IndexPath(row: 0, section: 2)
+			//table.reloadRows(at: [idx], with: .automatic)
+		}
 	}
 }
 
@@ -73,29 +120,32 @@ class CustomTableViewFooter: UITableViewHeaderFooterView {
 */
 
 
-class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate  {
-	
+class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate  {
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
+	private let wikicellId = "wikicellId"
+	static let wikiheight : CGFloat = 600.0
 	
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
 	private var uidesctemp : UITextView? = nil
 	private var uiformtemp : MTMathUILabel? = nil
+	private var uiwebtemp : UIWebView? = nil
 	
 	private var desc : String = "A text"
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
+	private var wikiurl : String = "wikipedia.de"
 	
+	var currnr = 2
 	private func GetExplanation() {
-		guard let text = uisearch.text else { return }
-		guard let nr = Int(text) else { return }
-		
-		let exp = Explain.shared.GetExplanation(nr: nr)
+		let exp = Explain.shared.GetExplanation(nr: currnr)
+		uisearch.text = String(currnr)
 		desc = exp.desc
 		formula = exp.latex
+		wikiurl = exp.wikiurl
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -103,7 +153,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
+		return 3
 	}
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -112,6 +162,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 			return "Description"
 		case 1:
 			return "Formula"
+		case 2:
+			return "Wikipedia"
 		default:
 			return nil
 		}
@@ -161,8 +213,12 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
 				return height + 20.0
 			}
+		case 2:
+			if let temp = uiwebtemp {
+				return NrViewController.wikiheight
+			}
 		default:
-			break
+			assert(false)
 		}
 		return 150
 	}
@@ -181,14 +237,19 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 				uiformtemp = cell.uimath
 				return cell
 			}
+		case 2:
+			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
+				uiwebtemp = cell.uiweb
+				cell.SetWikiUrl(wiki: self.wikiurl)
+				return cell
+			}
 		default:
 			break
 		}
 		return UITableViewCell()
 	}
-
+	
 	lazy var tv: UITableView = {
-		
 		let tv = UITableView(frame: .zero, style: .plain)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.backgroundColor = .lightGray
@@ -198,19 +259,63 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 		//tv.register(CustomTableViewFooter.self, forHeaderFooterViewReuseIdentifier: self.footerId)
 		tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
+		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		return tv
 	}()
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		uisearch.text = "36"
 		GetExplanation()
 		tv.reloadData()
 	}
 	
+	private var myToolbar: UIToolbar!
+	private var backButton: UIBarButtonItem!
+	private var fwdButton: UIBarButtonItem!
+	
+	private func CreateToolBar() {
+		// make uitoolbar instance
+		let frame = CGRect(x: 0, y: self.view.bounds.height - 44.0, width: self.view.width, height: 40.0)
+		myToolbar = UIToolbar(frame: frame)
+		
+		// set the position of the toolbar
+		myToolbar.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height-20.0)
+		
+		// set the color of the toolbar
+		myToolbar.barStyle = .blackTranslucent
+		myToolbar.tintColor = .white
+		myToolbar.backgroundColor = .black
+		
+		// make a button
+		backButton = UIBarButtonItem(title: "Previous", style:.plain, target: self, action:
+			#selector(backButtonAction))
+		let flexibleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+		fwdButton = UIBarButtonItem(title: "Next", style:.plain, target: self, action: #selector(fwdButtonAction))
+		
+		// add the buttons on the toolbar
+		myToolbar.items = [backButton,flexibleButton,fwdButton]
+		
+		// add the toolbar to the view.
+		self.view.addSubview(myToolbar)
+	}
+	
+	@objc func backButtonAction() {
+		if currnr <= 0 { return }
+		currnr = currnr - 1
+		GetExplanation()
+			tv.reloadData()
+	}
+	@objc func fwdButtonAction() {
+		if currnr <= 0 { currnr = 0 }
+		currnr = currnr + 1
+		GetExplanation()
+			tv.reloadData()
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		CreateToolBar()
 		print(iosMathVersionNumber)
 		
 		uisearch.searchBarStyle = UISearchBarStyle.prominent
@@ -233,7 +338,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 		let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
 		doneToolbar.barStyle       = UIBarStyle.default
 		let flexSpace              = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-		let done: UIBarButtonItem  = UIBarButtonItem(title: "Search", style: UIBarButtonItemStyle.done, target: self, action: #selector(ViewController.doneButtonAction))
+		let done: UIBarButtonItem  = UIBarButtonItem(title: "Search", style: UIBarButtonItemStyle.done, target: self, action: #selector(NrViewController.doneButtonAction))
 		
 		var items = [UIBarButtonItem]()
 		items.append(flexSpace)
@@ -247,6 +352,9 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 	
 	@objc func doneButtonAction() {
 		self.uisearch.resignFirstResponder()
+		guard let text = uisearch.text else { return }
+		guard let nr = Int(text) else { return }
+		currnr = nr
 		GetExplanation()
 		tv.reloadData()
 	}
@@ -256,17 +364,18 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 		uisearch.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 		uisearch.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 		uisearch.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		//uisearch.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 		tv.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 		tv.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-		tv.topAnchor.constraint(equalTo: uisearch.bottomAnchor).isActive = true
-		tv.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		tv.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		tv.bottomAnchor.constraint(equalTo: myToolbar.topAnchor).isActive = true
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+	
+	
 	/*
 	private func fillweb(n : UInt64) {
 		let localfilePath = Bundle.main.url(forResource: "home", withExtension: "html");
