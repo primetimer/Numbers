@@ -11,6 +11,16 @@
 		543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078231FDEC08B0036516F /* SpokenNumber.swift */; };
 		543078261FDF07A20036516F /* AbundanceTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078251FDF07A20036516F /* AbundanceTester.swift */; };
 		543078281FDF377A0036516F /* PalindromicTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078271FDF377A0036516F /* PalindromicTester.swift */; };
+		5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078291FE3C1180036516F /* SquareDrawer.swift */; };
+		5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782B1FE3C1B60036516F /* FactorDrawer.swift */; };
+		5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782D1FE3C3BF0036516F /* SphereDrawer.swift */; };
+		543078301FE3E1350036516F /* FaktorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782F1FE3E1350036516F /* FaktorView.swift */; };
+		545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE021FE6375A0035B9EA /* UlamDrawer.swift */; };
+		545ECE051FE637C20035B9EA /* TheUlam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE041FE637C20035B9EA /* TheUlam.swift */; };
+		545ECE071FE63E480035B9EA /* UlamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE061FE63E480035B9EA /* UlamView.swift */; };
+		545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE081FE64DBF0035B9EA /* DrawCell.swift */; };
+		545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */; };
+		545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE0C1FE664570035B9EA /* FactorCache.swift */; };
 		546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546AB3541FDD5FEA007887E8 /* PrimeTester.swift */; };
 		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
@@ -45,6 +55,16 @@
 		543078231FDEC08B0036516F /* SpokenNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
 		543078251FDF07A20036516F /* AbundanceTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbundanceTester.swift; sourceTree = "<group>"; };
 		543078271FDF377A0036516F /* PalindromicTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalindromicTester.swift; sourceTree = "<group>"; };
+		543078291FE3C1180036516F /* SquareDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareDrawer.swift; sourceTree = "<group>"; };
+		5430782B1FE3C1B60036516F /* FactorDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorDrawer.swift; sourceTree = "<group>"; };
+		5430782D1FE3C3BF0036516F /* SphereDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereDrawer.swift; sourceTree = "<group>"; };
+		5430782F1FE3E1350036516F /* FaktorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaktorView.swift; sourceTree = "<group>"; };
+		545ECE021FE6375A0035B9EA /* UlamDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UlamDrawer.swift; sourceTree = "<group>"; };
+		545ECE041FE637C20035B9EA /* TheUlam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheUlam.swift; sourceTree = "<group>"; };
+		545ECE061FE63E480035B9EA /* UlamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UlamView.swift; sourceTree = "<group>"; };
+		545ECE081FE64DBF0035B9EA /* DrawCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawCell.swift; sourceTree = "<group>"; };
+		545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaktorDrawerUlam.swift; sourceTree = "<group>"; };
+		545ECE0C1FE664570035B9EA /* FactorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorCache.swift; sourceTree = "<group>"; };
 		546AB3541FDD5FEA007887E8 /* PrimeTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTester.swift; sourceTree = "<group>"; };
 		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -107,10 +127,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		543078311FE4158C0036516F /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
+				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,
+				543078291FE3C1180036516F /* SquareDrawer.swift */,
+				5430782D1FE3C3BF0036516F /* SphereDrawer.swift */,
+				5430782F1FE3E1350036516F /* FaktorView.swift */,
+				5430782B1FE3C1B60036516F /* FactorDrawer.swift */,
+				545ECE021FE6375A0035B9EA /* UlamDrawer.swift */,
+				545ECE041FE637C20035B9EA /* TheUlam.swift */,
+				545ECE061FE63E480035B9EA /* UlamView.swift */,
+			);
+			path = Drawer;
+			sourceTree = "<group>";
+		};
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
-				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				54749B5E1FDD5C3F00F6B130 /* Podfile */,
 				54E43A4A1FD44A1100C25A42 /* Numbers */,
 				54E43A5F1FD44A1100C25A42 /* NumbersTests */,
@@ -132,6 +167,9 @@
 		54E43A4A1FD44A1100C25A42 /* Numbers */ = {
 			isa = PBXGroup;
 			children = (
+				543078311FE4158C0036516F /* Drawer */,
+				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
+				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				543078231FDEC08B0036516F /* SpokenNumber.swift */,
 				5430781F1FDE94B50036516F /* ICSInfiniteScrolling.swift */,
 				543078201FDE94B50036516F /* ICSPullToRefresh.swift */,
@@ -383,12 +421,22 @@
 				5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
+				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
+				545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
+				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
+				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
+				545ECE051FE637C20035B9EA /* TheUlam.swift in Sources */,
 				5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */,
 				54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */,
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
+				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
+				543078301FE3E1350036516F /* FaktorView.swift in Sources */,
+				545ECE071FE63E480035B9EA /* UlamView.swift in Sources */,
+				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
 				543078281FDF377A0036516F /* PalindromicTester.swift in Sources */,
+				545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

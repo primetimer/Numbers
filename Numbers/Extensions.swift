@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import BigInt
+import PrimeFactors
 
 extension Int {
 	func formatnumber() -> String {
@@ -15,6 +17,14 @@ extension Int {
 		formater.groupingSeparator = "."
 		formater.numberStyle = .decimal
 		return formater.string(from: NSNumber(value: self))!
+	}
+}
+
+extension UInt64 {
+	var isPrime : Bool {
+		get {
+			return PrimeCache.shared.IsPrime(p: BigUInt(self))
+		}
 	}
 }
 

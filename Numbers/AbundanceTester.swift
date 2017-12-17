@@ -10,55 +10,9 @@ import Foundation
 import BigInt
 import PrimeFactors
 
-public class NSFactorArray : NSObject {
-	public override init() {
-		super.init()
-	}
-	init(f: [BigUInt]) {
-		super.init()
-		arr = f
-	}
-	var arr : [BigUInt] = []
-}
-public class FactorCache {
-	
-	static let strat = PrimeFactorStrategy()
-	private var pcache = NSCache<NSString, NSFactorArray>()
-	static public var shared = FactorCache()
 
-	private init() {}
-	
-	public func Factor(p: BigUInt) -> [BigUInt] {		
-		if PrimeCache.shared.IsPrime(p: p) {
-			return [p]
-		}
-		let nsstr = NSString(string: String(p.hashValue))
-		if let cachep = pcache.object(forKey: nsstr) {
-			return cachep.arr
-		}
-		let factors = FactorCache.strat.Factorize(ninput: p)
-		let nsarr = NSFactorArray(f: factors)
 
-		pcache.setObject(nsarr, forKey: nsstr)
-		return factors
-	}
-	
-	public func Sigma(p: BigUInt) -> BigUInt {
-		var (ret,produkt) = (BigUInt(1),BigUInt(1))
-		let factors = Factor(p: p)
-		let count = factors.count
-		if count == 0 { return ret }
-		for i in 0..<count {
-			produkt = produkt * factors[i]
-			if (i + 1 < count) && (factors[i] == factors [i+1]) {
-				continue
-			}
-			ret = ret * ( produkt * (factors[i]) - 1 ) / ((factors[i]) - 1)
-			produkt = BigUInt(1)
-		}
-		return ret
-	}
-	
+extension FactorCache {
 	public func Latex(n: Int) -> String? {
 		if n<2 { return nil }
 		let bign = BigUInt(n)

@@ -52,6 +52,8 @@ class FormTableCell: BaseNrTableCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 }
+
+
 class CustomTableViewHeader: UITableViewHeaderFooterView {
 	override init(reuseIdentifier: String?) {
 		super.init(reuseIdentifier: reuseIdentifier)
@@ -93,10 +95,12 @@ class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 	}
 	func webViewDidFinishLoad(_ webView: UIWebView)
 	{
+		/*
 		if let table = self.superview as? UITableView {
 			let idx = IndexPath(row: 0, section: 2)
-			//table.reloadRows(at: [idx], with: .automatic)
+			table.reloadRows(at: [idx], with: .automatic)
 		}
+		*/
 	}
 }
 
@@ -120,13 +124,16 @@ class CustomTableViewFooter: UITableViewHeaderFooterView {
 */
 
 
+
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate  {
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
+	//private let drawcellId = "drawcellId"
 	static let wikiheight : CGFloat = 600.0
+	private let drawcells = DrawingCells()
 	
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
@@ -134,6 +141,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var uidesctemp : UITextView? = nil
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
+	//private var uidrawtemp : FaktorView? = nil
+	//private var uidrawtemp : [UIView?] = [nil,nil,nil,nil,nil]
 	
 	private var desc : String = "A text"
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
@@ -149,11 +158,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if section == 2 {
+			return 5
+		}
 		return 1
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 3
+		return 4
 	}
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -163,6 +175,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case 1:
 			return "Formula"
 		case 2:
+			return "Drawing"
+		case 3:
 			return "Wikipedia"
 		default:
 			return nil
@@ -214,6 +228,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return height + 20.0
 			}
 		case 2:
+			let row = indexPath.row
+			if let temp = drawcells.cells[row].uidraw {
+				let size = CGSize(width: self.view.width, height: self.view.width)
+				let frame = CGRect(origin: CGPoint.zero, size: size)
+				temp.frame = frame
+				return size.height + 20.0
+			}
+		case 3:
 			if let temp = uiwebtemp {
 				return NrViewController.wikiheight
 			}
@@ -238,6 +260,20 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return cell
 			}
 		case 2:
+			let row = indexPath.row
+			let cell = drawcells.cells[row]
+			cell.nr = currnr
+			return cell
+			/*
+			if let cell = tableView.dequeueReusableCell(withIdentifier: drawcellId, for: indexPath) as? DrawTableCell {
+				let row = indexPath.row
+				cell.type = row
+				uidrawtemp[row] = cell.uidraw
+				cell.nr = currnr
+				return cell
+			}
+			*/
+		case 3:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
 				cell.SetWikiUrl(wiki: self.wikiurl)
@@ -260,6 +296,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
+		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
 		return tv
 	}()
 	
@@ -309,7 +346,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		if currnr <= 0 { currnr = 0 }
 		currnr = currnr + 1
 		GetExplanation()
-			tv.reloadData()
+		tv.reloadData()
 	}
 	
 	override func viewDidLoad() {
@@ -374,16 +411,5 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	
-	/*
-	private func fillweb(n : UInt64) {
-		let localfilePath = Bundle.main.url(forResource: "home", withExtension: "html");
-		let myRequest = NSURLRequest(URL: localfilePath!);
-		layout.web.loadRequest(myRequest);
-		
-	}
-	*/
-	
 }
 
