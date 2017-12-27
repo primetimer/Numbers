@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PolygonalView : UIView {
+class PolygonalView : DrawNrView {
 	
 	private var poly : Int = 4
 	init (poly : Int) {
@@ -19,6 +19,8 @@ class PolygonalView : UIView {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	/*
 	private var _imageview : UIImageView? = nil
 	var imageview : UIImageView {
 		get {
@@ -31,21 +33,31 @@ class PolygonalView : UIView {
 			return _imageview!
 		}
 	}
+	*/
 	
+	override var frame : CGRect {
+		set {
+			super.frame = newValue
+			imageview.frame = CGRect(origin: .zero, size: newValue.size)
+		}
+		get { return super.frame }
+	}
+	/*
 	private var nr : UInt64 = 1
 	func SetNumber(_ nextnr : UInt64) {
 		self.nr = nextnr
 	}
+	*/
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		imageview.animationDuration = 0
-		imageview.animationRepeatCount = 1
+		//imageview.animationDuration = 0
+		//imageview.animationRepeatCount = 1
 		CreateImages(rect)
 	}
 	
 	private func CreateImages(_ rect : CGRect)  {
-		var images : [UIImage] = []
+		//var images : [UIImage] = []
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
 		guard let context = UIGraphicsGetCurrentContext() else { return }
 		
@@ -55,11 +67,11 @@ class PolygonalView : UIView {
 		let pentagon = PolygonDrawer(nr: self.nr, poly: poly, rect: rect)
 		pentagon.DrawNumber(context : context)
 		let newimage  = UIGraphicsGetImageFromCurrentImageContext()
-		images.append(newimage!)
+		//images.append(newimage!)
 		UIGraphicsEndImageContext()
 	
-		imageview.animationImages = images
-		imageview.image = images.last
+		//imageview.animationImages = images
+		imageview.image = newimage
 	}
 }
 
@@ -118,7 +130,7 @@ class PolygonDrawer : NSObject
 				return n
 			}
 			n = n + 1
-		} while n<1000
+		} while n<100
 		return n
 	}
 	private func Radius() -> CGFloat
@@ -148,8 +160,7 @@ class PolygonDrawer : NSObject
 		
 		//Translate
 		let xxx = (xx - rx / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + rx / 2.0
-		//let yyy = (yy - ry / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + ry / 2.0 //
-		//let xxx = xx * CGFloat(ticks) / CGFloat(tickscale)
+		//let yyy = (yy - ry / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + ry / 2.0
 		let yyy = yy * CGFloat(ticks) / CGFloat(tickscale)
 		return CGPoint(x: xxx, y: yyy)
 	}
@@ -157,7 +168,13 @@ class PolygonDrawer : NSObject
 	func DrawNumber(context : CGContext)
 	{
 		self.context = context
+		/*
+		let color = UIColor.blue
+		color.setFill()
+		context.fill(CGRect(x: 0,y: 0 ,width: 320 , height: 320))
+		*/
 		let maxk = nth-1
+		if maxk<0 { return }
 		for l in 0...maxk {
 			let k = maxk - l
 			let hue = Double(k-1) / Double(maxk)
@@ -166,7 +183,7 @@ class PolygonDrawer : NSObject
 				let n = j
 				let pt = GetXYPoly(n:n, ticks: k, tickscale: maxk+1)
 				let radius = CGFloat(secant) * rx / 2.0 / CGFloat(maxk) * CGFloat(maxk) / CGFloat(maxk+1)
-				let pt2 = CGPoint(x: pt.x, y: pt.y + radius )
+				let pt2 = CGPoint(x: pt.x, y: pt.y + radius * 3 / 4)
 				DrawPoint(xy: pt2, radius: radius, hue: hue)
 			}
 		}
@@ -178,20 +195,6 @@ class PolygonDrawer : NSObject
 		let y = CGFloat(j) * Radius() + Radius() / 2.0
 		return CGPoint(x: x, y: y)
 	}
-	
-	/*
-	func DrawNumber(context : CGContext)
-	{
-		self.context = context
-		let nroot = Int(sqrt(Double(nr)))
-		for i in 0..<nroot {
-			for j in 0..<nroot {
-				let xy = GetXY(i,j)
-				DrawPoint(xy: xy, radius: Radius(), hue: 0.0)
-			}
-		}
-	}
-	*/
 }
 
 

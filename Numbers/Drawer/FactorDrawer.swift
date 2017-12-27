@@ -151,7 +151,7 @@ class FaktorDrawerParam {
 		return false
 	}
 	
-	fileprivate var _type : FaktorDrawType = .ulam //.polygon //.tree // .circle
+	private var _type : FaktorDrawType = .polygon //.tree // .circle
 	
 	var type : FaktorDrawType {
 		set {

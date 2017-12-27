@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 
 
-class FaktorView: UIView {
+class FaktorView: DrawNrView {
 	
 	var param = FaktorDrawerParam()
-	fileprivate var _imageview : UIImageView? = nil
+	/*
+	private var _imageview : UIImageView? = nil
 	var imageview : UIImageView {
 		get {
 			if _imageview == nil {
@@ -25,12 +26,14 @@ class FaktorView: UIView {
 			return _imageview!
 		}
 	}
+	*/
 	
-	#if os(iOS)
+	/*
 	var nr : UInt64 {
 		set { param.nr = newValue }
 		get { return param.nr }
 	}
+	*/
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -38,11 +41,10 @@ class FaktorView: UIView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	#endif
 	
-	func SetNumber(_ nextnr : UInt64) {
+	override func SetNumber(_ nextnr : UInt64) {
+		super.SetNumber(nextnr)
 		param.nr = nextnr
-		//CreateImages()
 	}
 	
 	override func draw(_ rect: CGRect) {
@@ -65,7 +67,7 @@ class FaktorView: UIView {
 		}
 	}
 	
-	fileprivate func CreateImages(_ rect : CGRect)  {
+	private func CreateImages(_ rect : CGRect)  {
 		var images : [UIImage] = []
 		let drawer = param.CreateDrawer(rect)
 		let maxrekurs = drawer.CalcRekursLevel()

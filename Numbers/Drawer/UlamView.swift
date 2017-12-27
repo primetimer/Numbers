@@ -9,7 +9,7 @@
 import UIKit
 
 
-class UlamView: UIScrollView {
+class UlamView: DrawNrView {
 	
 	private var _ulammode = UlamType.square
 	private var _start : UInt64 = 2         // Irrelevant!? Alles UlamDraw

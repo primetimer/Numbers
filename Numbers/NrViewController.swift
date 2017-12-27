@@ -15,6 +15,7 @@ class BaseNrTableCell : UITableViewCell {
 	var nr : Int = 0
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		self.accessoryType = .disclosureIndicator
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -53,7 +54,6 @@ class FormTableCell: BaseNrTableCell {
 	}
 }
 
-
 class CustomTableViewHeader: UITableViewHeaderFooterView {
 	override init(reuseIdentifier: String?) {
 		super.init(reuseIdentifier: reuseIdentifier)
@@ -83,7 +83,6 @@ class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 		contentView.addSubview(uiweb)
 		//uidesc.font = UIFont(name: "Arial", size: 18.0)
 		uiweb.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: NrViewController.wikiheight)
-		
 		uiweb.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		uiweb.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 		uiweb.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -159,7 +158,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 2 {
-			return 5
+			return TableCellType.allValues.count
 		}
 		return 1
 	}
@@ -212,28 +211,31 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	// MARK :- Cell
 	//
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		let width = tableView.frame.size.width - 20
+		let width = tableView.frame.size.width // - 20
 		switch indexPath.section {
 		case 0:
 			if let temp = uidesctemp {
 				let size = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude))
 				let frame = CGRect(origin: CGPoint.zero, size: size)
 				temp.frame = frame
-				return size.height + 20.0
+				return size.height //+ 20.0
 			}
 		case 1:
 			if let temp = uiformtemp {
 				temp.sizeToFit()
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
-				return height + 20.0
+				return height //+ 20.0
 			}
 		case 2:
 			let row = indexPath.row
+			let tablerow = drawcells.cells[row]
+			tablerow.isHidden = tablerow.isSpecial ? false : true
+			if !tablerow.isSpecial { return 0.0 }
 			if let temp = drawcells.cells[row].uidraw {
-				let size = CGSize(width: self.view.width, height: self.view.width)
-				let frame = CGRect(origin: CGPoint.zero, size: size)
-				temp.frame = frame
-				return size.height + 20.0
+				//let size = CGSize(width: self.view.width, height: self.view.width)
+				//let frame = CGRect(origin: CGPoint.zero, size: size)
+				let height = temp.bottom
+				return height
 			}
 		case 3:
 			if let temp = uiwebtemp {
@@ -243,6 +245,42 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			assert(false)
 		}
 		return 150
+	}
+	
+	func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
+			if cell.expanded {
+				tableView.beginUpdates()
+				cell.expanded = false
+				tableView.deselectRow(at: indexPath, animated: true)
+				tableView.endUpdates()
+				return nil
+			}
+		}
+		return indexPath
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
+			if cell.expanded {
+				tableView.beginUpdates()
+				cell.expanded = false
+				tableView.endUpdates()
+				cell.expanded = false
+				tableView.deselectRow(at: indexPath, animated: true)
+				return
+			}
+			tableView.beginUpdates()
+			cell.expanded = true
+			tableView.endUpdates()
+		}
+	}
+	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
+			tableView.beginUpdates()
+			cell.expanded = false
+			tableView.endUpdates()
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -263,6 +301,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			let row = indexPath.row
 			let cell = drawcells.cells[row]
 			cell.nr = currnr
+			cell.selectionStyle = .none
 			return cell
 			/*
 			if let cell = tableView.dequeueReusableCell(withIdentifier: drawcellId, for: indexPath) as? DrawTableCell {
@@ -307,6 +346,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	private var myToolbar: UIToolbar!
+	private var tempButton: UIBarButtonItem!
 	private var backButton: UIBarButtonItem!
 	private var fwdButton: UIBarButtonItem!
 	
@@ -324,13 +364,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		myToolbar.backgroundColor = .black
 		
 		// make a button
-		backButton = UIBarButtonItem(title: "Previous", style:.plain, target: self, action:
-			#selector(backButtonAction))
+		tempButton = UIBarButtonItem(title: "", style:.plain, target: self, action: nil)
+		backButton = UIBarButtonItem(title: "Previous", style:.plain, target: self, action: #selector(backButtonAction))
 		let flexibleButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
 		fwdButton = UIBarButtonItem(title: "Next", style:.plain, target: self, action: #selector(fwdButtonAction))
 		
 		// add the buttons on the toolbar
-		myToolbar.items = [backButton,flexibleButton,fwdButton]
+		myToolbar.items = [tempButton, backButton,  flexibleButton,fwdButton]
 		
 		// add the toolbar to the view.
 		self.view.addSubview(myToolbar)

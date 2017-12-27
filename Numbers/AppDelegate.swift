@@ -26,6 +26,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.window!.rootViewController = nav
 		self.window?.makeKeyAndVisible()
 		
+		#if false
+			let d = DyckWord(n: 4)
+			for i in 0...10 {
+				let x = d.CreateRandom()
+				print(d.bitString(x: x))
+			}
+		#endif
+		#if false
+			let d = DyckWord(n: 4)
+			d.compute()
+			print(d)
+			//1:00001111,
+			//2:00010111,
+			//3:00011011,
+			//4:00011101,
+			//5: 00100111,
+			//6: 00101011,
+			//7: 00101101,00110011, 00110101, 01000111, 01001011, 01001101, 01010011, 01010101
+		#endif
+
 		return true
 	}
 

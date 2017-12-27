@@ -127,6 +127,12 @@ class Explanation {
 			N40()
 		case 41:
 			N41()
+		case 42:
+			N42()
+		case 73:
+			N73()
+		case 1729:
+			N1729()
 		default:
 			desc = String(nr)
 		}
@@ -442,5 +448,28 @@ class Explanation {
 		desc = desc + "n^2+n+41 gives a long series of prime numbers for n in 0...39"
 		latex = latex + "41 = 2+3+5+7+11+13 \\\\"
 		latex = latex + "\\forall n<41-1 : n^2+n+41 \\in \\mathbb{P}  \\\\"
+	}
+	
+	private func N42() {
+		nr = 42
+		desc = desc + "The number 42 is, in The Hitchhiker's Guide to the Galaxy by Douglas Adams, the 'Answer to the Ultimate Question of Life, the Universe, and Everything'."
+		desc = desc + " Detailed analysis oh the used algorithm show's that this is not right, due to an rounding error. The correct answer is 41."
+		latex = latex + "41 = 2+3+5+7+11+13 \\\\"
+		latex = latex + "\\forall n<41-1 : n^2+n+41 \\in \\mathbb{P}  \\\\"
+	}
+	
+	private func N73() {
+		nr = 73
+		desc = desc + "The number 73 is a mirp-prime, since 37 is also a prime. This is also true in binary representation. 73 is the 21st prime and 37 is the 12th prime. 73 is a palindorm also in morse code."
+		latex = latex + "73 = 1001001_2 = 111_8 \\\\"
+		latex = latex + "73 = \\text{ - - ... ... - -} \\\\"
+	}
+	
+	private func N1729() {
+		nr = 1729
+		desc = desc + "1729 is the Hardy-Ramunajan number. \n"
+		desc = desc + "I remember once going to see him when he was ill at Putney. I had ridden in taxi cab number 1729 and remarked that the number seemed to me rather a dull one, and that I hoped it was not an unfavourable omen. 'No,' he replied, 'it is a very interesting number; it is the smallest number expressible as the sum of two cubes in two different ways."
+		//desc = desc + "1729 is the smallest number which can be represented in two different ways as the sum of two cubes. 1729 is called the Hardy-Ramanunjan number. "
+		latex = latex + "1729 = 1^3 + 12^3 = 9^3 + 10^3 \\\\"
 	}
 }
