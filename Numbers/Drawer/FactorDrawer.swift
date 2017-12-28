@@ -157,7 +157,6 @@ class FaktorDrawerParam {
 		set {
 			if newValue != _type {
 				_type = newValue
-				//               _drawer = nil
 			}
 		}
 		get {

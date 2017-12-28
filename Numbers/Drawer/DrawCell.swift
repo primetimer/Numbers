@@ -123,8 +123,11 @@ class DrawTableCell: BaseNrTableCell {
 				_uidraw = FiboView() //FaktorView()
 				numtester = FibonacciTester() // PrimeTester()
 			case .Faktor:
-				_uidraw = UlamView() // FaktorView()
-				numtester = AbundanceTester()
+				let faktorview = FaktorView()
+				faktorview.param.type = .tree
+				_uidraw = faktorview
+				numtester = FactorTester()
+				
 			case .Triangular:
 				_uidraw = PolygonalView(poly: 3)
 				numtester = TriangleTester()
@@ -174,10 +177,15 @@ class DrawTableCell: BaseNrTableCell {
 				isSpecial = test.isSpecial(n: nr)
 			}
 			if _uidraw == nil { return }
+			if !isSpecial {
+				uidraw?.isHidden = true
+				return
+			}
 			if let view = _uidraw as? DrawNrView {
 				view.SetNumber(UInt64(nr))
 			}
 			uilabel.text = numtester?.property()
+			uidraw?.isHidden = false
 			_uidraw?.setNeedsDisplay()
 		}
 		get {

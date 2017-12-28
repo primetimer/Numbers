@@ -224,7 +224,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			if let temp = uiformtemp {
 				temp.sizeToFit()
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
-				return height //+ 20.0
+				return height + 20.0
 			}
 		case 2:
 			let row = indexPath.row

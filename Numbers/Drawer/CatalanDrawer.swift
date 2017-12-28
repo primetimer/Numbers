@@ -182,6 +182,8 @@ class CatalanView: DrawNrView {
 
 	override func SetNumber(_ nextnr : UInt64) {
 		if nextnr == self.nr { return }
+		displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+		displayLink = nil
 		while !shapeLayer.isEmpty {
 			ClearShapes()
 		}
@@ -189,7 +191,9 @@ class CatalanView: DrawNrView {
 		let n = nextnr //min(nextnr,maxdraw)
 		self.nth = catalan.Nth(n: Int(n))
 		dyck = DyckWord(n: UInt64(nth))
-		//dyck.compute()
+		if catalan.isSpecial(n: Int(n)) {
+			CreateDisplayLink()
+		}
 	}
 	
 	var dyck : DyckWord = DyckWord(n:0)
@@ -284,8 +288,9 @@ class CatalanView: DrawNrView {
 	var drawcounter : UInt64 = 0
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-
 		if self.nth == 0 { return }
+		if !catalan.isSpecial(n: Int(nr)) { return }
+	
 		
 		if self.rx != rect.width || self.ry != rect.height {
 				ClearShapes()

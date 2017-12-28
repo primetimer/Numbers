@@ -82,22 +82,57 @@ class Tester : NumTester {
 	}
 }
 
+class FactorTester : NumTester {
+	private let primetester = PrimeTester()
+	func isSpecial(n: Int) -> Bool {
+		return !primetester.isSpecial(n: n)
+	}
+	
+	func getDesc(n: Int) -> String? {
+		return nil
+	}
+	
+	func getLatex(n: Int) -> String? {
+		return nil
+	}
+	
+	func property() -> String {
+		return "Factorization"
+	}
+	
+	
+}
+
 class DullTester : NumTester {
 	
 	let firstdull = 39
+	let seconddull = 46
 	func isSpecial(n: Int) -> Bool {
 		return Tester.shared.isDull(n: n)
 	}
 	
 	func getDesc(n: Int) -> String? {
-		if n == firstdull {
+		switch n
+		{
+		case firstdull:
 			return "39 is the smallest dull number"
-		}
+		case seconddull:
+			return "46 is the first really boring number"
+		default:
 		return String(n) + " is a dull number"
+		}
 	}
 	
 	func getLatex(n: Int) -> String? {
-		return ""
+		var latex = ""
+		switch n {
+		case firstdull:
+			latex = "39 = min \\{ n \\in \\mathbb{N}  : n \\notin \\mathbb{I} \\} \\\\"
+			latex = latex + "\\mathbb{I} := \\{ n : n \\text{ is interesting} \\} "
+		default:
+			latex = String(n) + " \\notin \\mathbb{I} := \\{ n : n \\text{ is interesting} \\} \\\\"
+		}
+		return latex
 	}
 	
 	func property() -> String {

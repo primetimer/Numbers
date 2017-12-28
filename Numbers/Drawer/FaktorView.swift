@@ -13,27 +13,6 @@ import UIKit
 class FaktorView: DrawNrView {
 	
 	var param = FaktorDrawerParam()
-	/*
-	private var _imageview : UIImageView? = nil
-	var imageview : UIImageView {
-		get {
-			if _imageview == nil {
-				let rect = CGRect(x: 0, y: 0 , width: frame.width, height: frame.height)
-				_imageview = UIImageView(frame:rect)
-				_imageview?.backgroundColor = self.backgroundColor
-				addSubview(_imageview!)
-			}
-			return _imageview!
-		}
-	}
-	*/
-	
-	/*
-	var nr : UInt64 {
-		set { param.nr = newValue }
-		get { return param.nr }
-	}
-	*/
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -75,8 +54,6 @@ class FaktorView: DrawNrView {
 		do {
 			
 			for k in 0...maxrekurs {
-				
-				//print("Drawing", k)
 				param.maxrekurs = UInt64(k)
 				param.rectLimit = 64
 				param.rect = rect
