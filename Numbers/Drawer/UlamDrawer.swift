@@ -83,7 +83,7 @@ class UlamDrawer:  NSObject {
 		if PrimeCache.shared.IsPrime(p: BigUInt(p)) {
 			return .red
 		}
-		return .blue
+		return .green
 		/*
 		if colored {
 			let prev = p.PrevPrime()

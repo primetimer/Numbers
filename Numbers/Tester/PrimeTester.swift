@@ -15,14 +15,14 @@ class PrimeTester : NumTester {
 	func property() -> String {
 		return "prime"
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		let p = BigUInt(n)
 		if PrimeCache.shared.IsPrime(p: p) {
 			return true
 		}
 		return false
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nstr = String(n)
 		
@@ -50,7 +50,7 @@ class PrimeTester : NumTester {
 		return latex
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n<2 { return nil }
 		//if n==2 { return "2 is the one and only even prime" }

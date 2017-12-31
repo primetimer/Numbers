@@ -11,7 +11,7 @@ import UIKit
 import BigInt
 import PrimeFactors
 
-class FaktorDrawerUlam : FaktorDrawer {
+class FaktorDrawerLuckyUlam : FaktorDrawer {
 	
 	private var ulam : UlamDrawer!
 	
@@ -21,18 +21,10 @@ class FaktorDrawerUlam : FaktorDrawer {
 	
 	override func drawFaktor(_ rect: CGRect, context: CGContext) {
 		
-		let r = Radius(0)
-		var count = TheUlamBase.defcount
-		if UInt64(count) > param.nr {
-			count = Int(param.nr)
-		}
-		#if false //Fruehre Version
-		count = Int(pow(Double(param.nr),1.0 / 3.0 ))
-		count = max(count,100)
-			#else
-			count = Int(pow(Double(param.nr),1.0 / 2.0 ))
-			count = max(count,100)
-			#endif
+		var count = min(param.nr,1000)
+		
+		//count = Int(pow(Double(param.nr),1.0 / 3.0 ))
+		//count = max(count,100)
 		
 		ulam = UlamDrawer(pointcount: Int(count), utype: .square)
 		ulam.pstart = 1
@@ -48,18 +40,15 @@ class FaktorDrawerUlam : FaktorDrawer {
 			ulam.draw_spiral(context)
 		//}
 		
-		let divisors = FactorCache.shared.Divisors(p: BigUInt(param.nr))
-		let m = divisors.count
+		let m = max(100,param.nr)
 		ulam.colored = true
 		
-		for i in 0..<m {
-			let t = divisors[i]
-			if /* t > 3600 || */ t < ulam.pstart {
-				continue
+		let luckytester = LuckyTester()
+		for i in 1..<m {
+			if luckytester.isSpecial(n: BigUInt(i)) {
+				let ulamindex = Int(i - ulam.pstart)
+				ulam.draw_number(context, ulamindex : ulamindex, p: i)
 			}
-			let p = UInt64(t)
-			let ulamindex = Int(p - ulam.pstart)
-			ulam.draw_number(context, ulamindex : ulamindex, p: p)
 		}
 	}
 	

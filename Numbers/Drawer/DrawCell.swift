@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import BigInt
 
 class DrawNrView : UIView {
 
@@ -55,8 +56,8 @@ class DrawingCells {
 		}
 	}
 	
-	private var _nr = 0
-	var nr : Int {
+	private var _nr : BigUInt = 0
+	var nr : BigUInt {
 		set {
 			if newValue == _nr { return }
 			_nr = newValue
@@ -81,8 +82,9 @@ enum TableCellType : Int {
 	case Faktor = 8
 	case Lucas = 9
 	case Catalan = 10
+	case Lucky = 11
 	
-	static let allValues : [TableCellType] = [Prime, Fibo,Triangular,Square,Pentagonal,Hexagonal, Palindromic,Abundant,Faktor,Lucas,Catalan]
+	static let allValues : [TableCellType] = [Prime, Fibo,Triangular,Square,Pentagonal,Hexagonal, Palindromic,Abundant,Faktor,Lucas,Catalan,Lucky]
 }
 
 
@@ -109,7 +111,7 @@ class DrawTableCell: BaseNrTableCell {
 			return _expanded
 		}
 	}
-	var uidraw : UIView? {
+	var uidraw : DrawNrView? {
 		get { return _uidraw }
 	}
 	var type : TableCellType {
@@ -120,14 +122,18 @@ class DrawTableCell: BaseNrTableCell {
 			//_uidraw?.removeFromSuperview()
 			switch type {
 			case .Fibo:
-				_uidraw = FiboView() //FaktorView()
-				numtester = FibonacciTester() // PrimeTester()
+				_uidraw = FiboView()
+				numtester = FibonacciTester()
 			case .Faktor:
 				let faktorview = FaktorView()
-				faktorview.param.type = .tree
+				faktorview.param.type = .polygon
 				_uidraw = faktorview
 				numtester = FactorTester()
-				
+			case .Lucky:
+				let faktorview = FaktorView()
+				faktorview.param.type = .lucky
+				_uidraw = faktorview
+				numtester = LuckyTester()
 			case .Triangular:
 				_uidraw = PolygonalView(poly: 3)
 				numtester = TriangleTester()
@@ -146,10 +152,18 @@ class DrawTableCell: BaseNrTableCell {
 			case .None:
 				break
 			case .Prime:
-				_uidraw = UlamView()
+				let ulam = UlamView()
+				if nr > BigUInt(Int64.max) {
+					_uidraw = nil
+				} else {
+					ulam.start = UInt64(nr)
+					_uidraw = ulam
+				}
 				numtester = PrimeTester()
 			case .Abundant:
-				_uidraw = FaktorView()
+				let faktorview = FaktorView()
+				faktorview.param.type = .ulam
+				_uidraw = faktorview
 				numtester = AbundanceTester()
 			case .Lucas:
 				_uidraw = LucasView()
@@ -168,7 +182,7 @@ class DrawTableCell: BaseNrTableCell {
 			return _type
 		}
 	}
-	override var nr : Int {
+	override var nr : BigUInt {
 		set {
 			if newValue == nr { return }
 			
@@ -181,8 +195,8 @@ class DrawTableCell: BaseNrTableCell {
 				uidraw?.isHidden = true
 				return
 			}
-			if let view = _uidraw as? DrawNrView {
-				view.SetNumber(UInt64(nr))
+			if nr <= BigUInt(Int64.max) {
+				uidraw?.SetNumber(UInt64(nr))
 			}
 			uilabel.text = numtester?.property()
 			uidraw?.isHidden = false

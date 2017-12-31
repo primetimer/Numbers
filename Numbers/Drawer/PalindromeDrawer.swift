@@ -8,42 +8,29 @@
 
 import Foundation
 import UIKit
+import BigInt
 
 /*
 func drawMyText(myText:String,textColor:UIColor, FontName:String, FontSize:CGFloat, inRect:CGRect){
-	
-	let textFont = UIFont(name: FontName, size: FontSize)!
-	let textFontAttributes = [
-		NSFontAttributeName: textFont,
-		NSForegroundColorAttributeName: textColor,
-		] as [String : Any]
-	
-	myText.draw(in: inRect, withAttributes: textFontAttributes)
+
+let textFont = UIFont(name: FontName, size: FontSize)!
+let textFontAttributes = [
+NSFontAttributeName: textFont,
+NSForegroundColorAttributeName: textColor,
+] as [String : Any]
+
+myText.draw(in: inRect, withAttributes: textFontAttributes)
 }
 */
 
 class PalindromeView : DrawNrView {
-
+	
 	init () {
 		super.init(frame: CGRect.zero)
 	}
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	/*
-	private var _imageview : UIImageView? = nil
-	var imageview : UIImageView {
-		get {
-			if _imageview == nil {
-				let rect = CGRect(x: 0, y: 0 , width: frame.width, height: frame.height)
-				_imageview = UIImageView(frame:rect)
-				_imageview?.backgroundColor = self.backgroundColor
-				addSubview(_imageview!)
-			}
-			return _imageview!
-		}
-	}
-	*/
 	
 	override var frame : CGRect {
 		set {
@@ -52,13 +39,6 @@ class PalindromeView : DrawNrView {
 		}
 		get { return super.frame }
 	}
-	
-	/*
-	private var nr : UInt64 = 1
-	func SetNumber(_ nextnr : UInt64) {
-		self.nr = nextnr
-	}
-	*/
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
@@ -128,47 +108,51 @@ class PalindromeDrawer : NSObject
 	
 	func DrawNumber(context : CGContext)
 	{
-		
+		let ptester = PalindromicTester()
+		let base = ptester.PalindromicBase(n: BigUInt(self.nr))
+		if base.count == 0 { return }
 		self.context = context
 		let w = rx / 2
-		let h = ry 
-		
+		let h = ry
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.alignment = .right
 		
-		let myText = String(nr)
-		
-		var fontSize : CGFloat = 12.0
-		var prevFontSize : CGFloat = fontSize
-		
-		while true {
-			let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
-						  NSAttributedStringKey.font:UIFont.systemFont(ofSize: fontSize),
-						  NSAttributedStringKey.foregroundColor : UIColor.red,
-			]
-		
-			let attrString = NSAttributedString(string: myText,attributes: attributes)
-			let size = attrString.size()
-			if size.width > w {
-				let halfrect = CGRect(x:0 , y:0 , width: w, height: h)
-				let color = colorWithGradient(frame: halfrect, colors: [.red,.blue])
-				
-				fontSize = prevFontSize
-				let drawattributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
-								  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize:prevFontSize),
-								  NSAttributedStringKey.foregroundColor : color,
-								  ]
-				let drawString = NSAttributedString(string: myText,attributes: drawattributes)
-				let drawsize = drawString.size()
-				let y = (h - drawsize.height) / 2.0 // - drawsize.height / 2.0
-				
+		let dy = ry / CGFloat(base.count)
+		var y0 : CGFloat = 0
+		for  b in base {
+
+			var myText = String(nr,radix : b)
+			if b == 2 { myText = myText + "₂" } // "₀ " //₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
+			if b == 16 { myText = myText + "₁₆" }
+			var fontSize : CGFloat = 12.0
+			var prevFontSize : CGFloat = fontSize
 			
-				let rt = CGRect(x: 0, y: y, width: w, height: h)
-				drawString.draw(in: rt)
-				break
+			while true {
+				let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
+								  NSAttributedStringKey.font:UIFont.systemFont(ofSize: fontSize),
+								  NSAttributedStringKey.foregroundColor : UIColor.red]
+				let attrString = NSAttributedString(string: myText,attributes: attributes)
+				let size = attrString.size()
+				if size.width > w {
+					let halfrect = CGRect(x:0 , y:y0 , width: w, height: dy)
+					let color = colorWithGradient(frame: halfrect, colors: [.red,.blue])
+					
+					fontSize = prevFontSize
+					let drawattributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
+										  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize:prevFontSize),
+										  NSAttributedStringKey.foregroundColor : color,
+										  ]
+					let drawString = NSAttributedString(string: myText,attributes: drawattributes)
+					let drawsize = drawString.size()
+					let y = (dy - drawsize.height) / 2.0
+					let rt = CGRect(x: 0, y: y + y0 , width: w, height: dy)
+					drawString.draw(in: rt)
+					break
+				}
+				prevFontSize = fontSize
+				fontSize = fontSize + 2.0
 			}
-			prevFontSize = fontSize
-			fontSize = fontSize + 2.0
+			y0 = y0 + dy
 		}
 	}
 }

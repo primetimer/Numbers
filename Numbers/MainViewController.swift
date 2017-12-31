@@ -24,13 +24,15 @@ class NrTableCell: UITableViewCell {
 		//uinr.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 		uinr.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 		uinr.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		//self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-		self.accessoryType = UITableViewCellAccessoryType.detailDisclosureButton
+		self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+		//self.accessoryType = UITableViewCellAccessoryType.detailDisclosureButton
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	
 }
 
 class NrTableViewHeader: UITableViewHeaderFooterView {
@@ -68,11 +70,19 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 	}
 	private let pagesize : Int = 200
 	
+	
+	//Not called since no detail button
 	func tableView(_ tableView: UITableView,
 				   accessoryButtonTappedForRowWith indexPath: IndexPath) {
 
 		let subvc = NrViewController()
-		subvc.currnr = startnr  + indexPath.row
+		subvc.currnr = BigUInt(startnr  + indexPath.row)
+		self.navigationController?.pushViewController(subvc, animated: true)
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let subvc = NrViewController()
+		subvc.currnr = BigUInt(startnr  + indexPath.row)
 		self.navigationController?.pushViewController(subvc, animated: true)
 	}
 	
@@ -158,10 +168,6 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerId) as! NrTableViewHeader
 		return header
 	}
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		return
-	}
 
 	//
 	// MARK :- Cell
@@ -190,7 +196,7 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 				let nr = startnr + row
 				let spoken = SpokenNumber.shared.spoken(n: nr)
 				let strnr = nr.formatnumber()
-				let props = GetExplanation(nr: nr)
+				let props = GetExplanation(nr: BigUInt(nr))
 				cell.uinr.text = strnr + "\n" + spoken + "\n" + props
 				
 				uinrtemp = cell.uinr
@@ -310,7 +316,7 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		super.didReceiveMemoryWarning()
 	}
 	
-	private func GetExplanation(nr : Int) -> String {
+	private func GetExplanation(nr : BigUInt) -> String {
 		let exp = Explain.shared.GetExplanation(nr: nr)
 		var ans = ""
 		for p in exp.properties {

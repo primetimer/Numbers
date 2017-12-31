@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BigInt
 
 class TetrahedralTest : NumTester {
 	func property() -> String {
@@ -18,11 +19,11 @@ class TetrahedralTest : NumTester {
 		return false
 	}
 	
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		let (b,_) = test(n: n)
 		return b
 	}
-	private func test(n: Int) -> (Bool,Int) {
+	private func test(n: BigUInt) -> (Bool,Int) {
 		if n == 0 { return (false,0) }
 		var (sum,k) = (0,1)
 		while sum < n {
@@ -33,13 +34,13 @@ class TetrahedralTest : NumTester {
 		return (false,k)
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a tetrahedral number"
 		return str
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		let (_,k) = test(n: n)
 		
 		let latex = String(n) + "= \\sum_{k=1}^{" + String(k) + "}\\frac{k\\cdot{(k+1)}}{2}"

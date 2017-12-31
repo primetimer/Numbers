@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import BigInt
 
 extension CGFloat {
 	func sgn() -> CGFloat {
@@ -29,7 +30,7 @@ class LucasView: DrawNrView {
 	override func SetNumber(_ nextnr : UInt64) {
 		super.SetNumber(nextnr)
 		let lucas = LucasTester()
-		maxlevel = Int(lucas.Nth(n: Int(nextnr))) - 1
+		maxlevel = Int(lucas.Nth(n: BigUInt(nextnr))) - 1
 		ry2 = ry / CGFloat(nextnr) / 4.0 * CGFloat(pow(2.0,Double(maxlevel)))
 		//dangle = Double.pi / Double(maxlevel) / 2.0
 	}

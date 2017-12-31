@@ -7,26 +7,63 @@
 //
 
 import Foundation
+import BigInt
 
 class PalindromicTester : NumTester {
-	func isSpecial(n: Int) -> Bool {
+	private let radix = [10,2,16]
+	func isSpecial(n: BigUInt) -> Bool {
 		if n < 11 { return false }
-		let c = Array(String(n))
+		let pbase = PalindromicBase(n: n)
+		if pbase.isEmpty { return false }
+		return true
+	}
 	
+	func PalindromicBase(n: BigUInt) -> [Int] {
+		var ans : [Int] = []
+		for r in radix {
+			let s = String(n,radix :r)
+			if ispalindromicString(s: s) {
+				ans.append(r)
+			}
+		}
+		return ans
+	}
+	
+	private func ispalindromicString(s : String) -> Bool
+	{
+		let c = Array(s)
+		if c.count <= 1 { return false }
 		for i in 0..<c.count {
 			if c[i] != c[c.count - i - 1] {
-					return false
+				return false
 			}
 		}
 		return true
 	}
 	
-	func getDesc(n: Int) -> String? {
-		return String(n) + " is palindromic"
+	func getDesc(n: BigUInt) -> String? {
+		let pbase = PalindromicBase(n: n)
+		if pbase.count == 0 { return nil }
+		var desc = String(n) + " is palindromic"
+		if pbase.count == 1 && pbase[0] == 10 {
+			return desc
+		}
+		desc = desc + " in base "
+		for b in pbase {
+			desc = desc + String(b) + " "
+		}
+		return desc
 	}
 	
-	func getLatex(n: Int) -> String? {
-		return ""
+	func getLatex(n: BigUInt) -> String? {
+		let pbase = PalindromicBase(n: n)
+		if pbase.count == 0 { return nil }
+		var latex = String(n)
+		for b in pbase {
+			latex = latex + " = " + String(n,radix : b).uppercased() + "_{" + String(b) + "}"
+		}
+		return latex
+
 	}
 	
 	func property() -> String {

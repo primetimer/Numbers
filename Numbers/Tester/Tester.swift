@@ -11,9 +11,9 @@ import BigInt
 import PrimeFactors
 
 protocol NumTester {
-	func isSpecial(n: Int) -> Bool
-	func getDesc(n: Int) -> String?
-	func getLatex(n: Int) -> String?
+	func isSpecial(n: BigUInt) -> Bool
+	func getDesc(n: BigUInt) -> String?
+	func getLatex(n: BigUInt) -> String?
 	func property() -> String	//Name of tested property
 }
 
@@ -28,16 +28,18 @@ class Tester : NumTester {
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
 										 Pow2Tester(),MersenneTester(), ProthTester(),
+										 HCNTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),
-										 DullTester()]
+										 DullTester(), LuckyTester(),
+										 MathConstantTester()]
 	private init() {}
 	
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		return true //!isDull(n: n)
 	}
 	
-	func isDull(n: Int) -> Bool {
+	func isDull(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
 		for t in testers {
 			if t is DullTester {
@@ -50,7 +52,7 @@ class Tester : NumTester {
 		return true
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		var str : String = ""
 		for t in testers {
 			if t.isSpecial(n: n) {
@@ -60,18 +62,28 @@ class Tester : NumTester {
 		return str
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		var latex : String = ""
 		for t in testers {
 			if t.isSpecial(n: n) {
-				latex = latex + t.getLatex(n: n)! + "\\\\"
+				if let ltest = t.getLatex(n: n) {
+					latex = latex + ltest + "\\\\"
+				}
 			}
 		}
 		return latex
 	}
 	
-	func properties(n: Int) -> String {
+	func properties(n: BigUInt) -> String {
 		var prop : String = ""
+		if n == 0 {
+			prop = "Neutral Element of addition"
+		}
+		if n == 1 {
+			prop = "Neutral Element of mulitplication"
+		}
+
+
 		for t in testers {
 			if t.isSpecial(n: n) {
 				if prop.count > 0 { prop = prop + "\n" }
@@ -84,15 +96,15 @@ class Tester : NumTester {
 
 class FactorTester : NumTester {
 	private let primetester = PrimeTester()
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		return !primetester.isSpecial(n: n)
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		return nil
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		return nil
 	}
 	
@@ -105,13 +117,13 @@ class FactorTester : NumTester {
 
 class DullTester : NumTester {
 	
-	let firstdull = 39
-	let seconddull = 46
-	func isSpecial(n: Int) -> Bool {
+	let firstdull = BigUInt(39)
+	let seconddull = BigUInt(46)
+	func isSpecial(n: BigUInt) -> Bool {
 		return Tester.shared.isDull(n: n)
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		switch n
 		{
 		case firstdull:
@@ -123,7 +135,7 @@ class DullTester : NumTester {
 		}
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		var latex = ""
 		switch n {
 		case firstdull:
@@ -146,8 +158,7 @@ class TriangleTester : NumTester {
 	func property() -> String {
 		return "triangle"
 	}
-	
-	
+
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }
 		return false
@@ -156,19 +167,20 @@ class TriangleTester : NumTester {
 		let troot = (sqrt(8.0*x+1) - 1.0) / 2.0
 		return troot
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
+		if n == 0 { return false }
 		let tr = troot(x: Double(n))
 		return IsInt(x: tr)
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a triangle number"
 		return str
 	}	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = Int(troot(x: Double(n)))
-		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "}  k \\\\"
+		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "}  k"
 		return latex
 	}
 }
@@ -185,16 +197,16 @@ class PentagonalTester : NumTester {
 		let troot = (sqrt(24.0*x+1) + 1.0) / 6.0
 		return troot
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		let tr = troot(x: Double(n))
 		return IsInt(x: tr)
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a pentagonal number"
 		return str
 	}
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = Int(troot(x: Double(n)))
 		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "} \\frac{3\\cdot{k^2-k}}{2} \\\\"
@@ -203,11 +215,11 @@ class PentagonalTester : NumTester {
 }
 
 class Pow2Tester : NumTester {
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		return String(n) + " is a power of 2"
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if n <= 1 { return nil }
 		var (nn,pow) = (n,0)
 		while nn>1 {
@@ -221,7 +233,7 @@ class Pow2Tester : NumTester {
 	func property() -> String {
 		return "power of two"
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		if n == 1 { return false }
 		var nn = n
@@ -249,19 +261,19 @@ class HexagonalTester : NumTester {
 		let troot = (sqrt(8*x+1) + 1.0) / 4.0
 		return troot
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		let tr = troot(x: Double(n))
 		return IsInt(x: tr)
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a hexagonal number"
 		return str
 	}
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = Int(troot(x: Double(n)))
-		let latex = String(n) + "= \\sum_{k=0}^{" + String(nth-1) + "} (4k+1) \\\\"
+		let latex = String(n) + "= \\sum_{k=0}^{" + String(nth-1) + "} (4k+1)"
 		return latex
 	}
 }
@@ -279,16 +291,17 @@ class SquareTester : NumTester {
 		let root = sqrt(x)
 		return root
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
+		if n == 0 { return false }
 		let r = root(x: Double(n))
 		return IsInt(x: r)
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a square"
 		return str
 	}
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = String(Int(root(x: Double(n))))
 		
@@ -309,16 +322,17 @@ class CubeTester : NumTester {
 		let root = pow(x,1.0/3.0)
 		return root
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
+		if n == 0 { return false }
 		let r = root(x: Double(n))
 		return IsInt(x: r)
 	}
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a cube"
 		return str
 	}
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = String(Int(root(x: Double(n))))
 		let latex = String(n) + "=" + nth + "^3 = " + nth + "\\cdot{" + nth + "}" + "\\cdot{" + nth + "}"
@@ -336,7 +350,7 @@ class FibonacciTester : NumTester {
 		return false
 	}
 	
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		if n == 1 { return true }
 		let n2 = Double(n) * Double(n)
@@ -348,28 +362,35 @@ class FibonacciTester : NumTester {
 		return false
 	}
 	
-	private func prev(n: Int) -> Int {
+	private func Nth(n: BigUInt) -> Int {
+		let phi = (1.0 + sqrt(5)) / 2.0
+		let a = Double(n)*sqrt(5.0)+0.5
+		let l = log(a) / log(phi)
+		let nth = floor(l)
+		return Int(nth)
+	}
+	
+	private func prev(n: BigUInt) -> BigUInt {
 		let phi = (1.0 + sqrt(5)) / 2.0
 		let nbyphi = Double(n) / phi
 		let round = Darwin.round(nbyphi)
-		return Int(round)
+		return BigUInt(round)
 	}
-	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a Fibonacci number"
 		return str
 	}
-	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n == 1 {
-			return " 1 = 0 + 1"
+			return nil
 		}
 		let prevf = prev(n: n)
 		let secf = n - prevf
-		
-		let latex = String(n) + "=" + String(secf) + "+" + String(prevf)
+		let nth = Nth(n:n)
+		var latex = String(n) + "=" + String(secf) + "+" + String(prevf) + " = "
+		latex = latex + "f_{" + String(nth-2) + "} + f_{" + String(nth-1) + "}"
 		return latex
 	}
 }
@@ -384,10 +405,10 @@ class LucasTester : NumTester {
 		return false
 	}
 	
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		if n <= 3 { return true }
-		var (l1,l2,l3) = (2,1,3)
+		var (l1,l2,l3) = (BigUInt(2),BigUInt(1),BigUInt(3))
 		
 		while n>l3 {
 			l3 = l1 + l2
@@ -400,11 +421,11 @@ class LucasTester : NumTester {
 		return false
 	}
 	
-	private func prev(n: Int) -> (Int,Int) {
+	private func prev(n: BigUInt) -> (BigUInt,BigUInt) {
 		if n == 1 { return (0,1) }
 		if n == 2 { return (0,2) }
 		if n == 3 { return (1,2) }
-		var (l1,l2,l3) = (2,1,3)
+		var (l1,l2,l3) = (BigUInt(2),BigUInt(1),BigUInt(3))
 		
 		while n>=l3 {
 			l3 = l1 + l2
@@ -415,13 +436,13 @@ class LucasTester : NumTester {
 		return (0,0)
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a Lucas number"
 		return str
 	}
 	
-	func Nth(n: Int) -> Int {
+	func Nth(n: BigUInt) -> Int {
 		if n == 2 { return 1 }
 		if n == 1 { return 2 }
 		if n == 3 { return 3 }
@@ -439,13 +460,15 @@ class LucasTester : NumTester {
 	
 	
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		if n == 1 {
-			return " 1 = 0 + 1"
+		if n <= 2 {
+			return nil
 		}
 		let (l1,l2) = prev(n: n)
-		let latex = String(n) + "=" + String(l1) + "+" + String(l2)
+		let nth = Nth(n: n)
+		var latex = String(n) + "=" + String(l1) + "+" + String(l2)
+		latex = latex + " = L_{" + String(nth-3) + "} + L_{" + String(nth-2) + "}"
 		return latex
 	}
 }

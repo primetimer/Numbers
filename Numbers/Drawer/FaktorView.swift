@@ -29,6 +29,7 @@ class FaktorView: DrawNrView {
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		
+		param.withanimation = true
 		if param.withanimation {
 			CreateImages(rect)
 			imageview.animationDuration = TimeInterval(param.maxrekurs)
@@ -52,7 +53,6 @@ class FaktorView: DrawNrView {
 		let maxrekurs = drawer.CalcRekursLevel()
 		
 		do {
-			
 			for k in 0...maxrekurs {
 				param.maxrekurs = UInt64(k)
 				param.rectLimit = 64

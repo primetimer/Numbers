@@ -27,6 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.window?.makeKeyAndVisible()
 		
 		#if false
+			let hcn = HCNumber()
+			#endif
+		#if false
+			do {
+				let lucky = LuckyArr.shared
+				for i : Int in 0..<100 {
+					if lucky.test(n: i) {
+						print(i)
+					}
+				}
+				print(lucky.last)
+			}
+			#endif
+		#if false
 			let d = DyckWord(n: 4)
 			for i in 0...10 {
 				let x = d.CreateRandom()

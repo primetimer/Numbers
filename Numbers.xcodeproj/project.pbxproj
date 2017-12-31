@@ -39,6 +39,10 @@
 		54E43A561FD44A1100C25A42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A541FD44A1100C25A42 /* LaunchScreen.storyboard */; };
 		54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A601FD44A1100C25A42 /* NumbersTests.swift */; };
 		54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A6B1FD44B4100C25A42 /* Extensions.swift */; };
+		54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */; };
+		54FD752A1FF58F0100AE24E8 /* FaktorDrawerLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */; };
+		54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD752B1FF6144300AE24E8 /* PiTester.swift */; };
+		54FD752E1FF7926100AE24E8 /* HCNTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD752D1FF7926100AE24E8 /* HCNTester.swift */; };
 		9163829E31EAC3ECBEDB13F5 /* Pods_NumbersTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0152CA84599AE3E7BE79E272 /* Pods_NumbersTests.framework */; };
 		9FDC7C69DC975F34D34BD3E0 /* Pods_Numbers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2E98F1911A709B88DD3475 /* Pods_Numbers.framework */; };
 /* End PBXBuildFile section */
@@ -96,6 +100,10 @@
 		54E43A601FD44A1100C25A42 /* NumbersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersTests.swift; sourceTree = "<group>"; };
 		54E43A621FD44A1100C25A42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54E43A6B1FD44B4100C25A42 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyTester.swift; sourceTree = "<group>"; };
+		54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaktorDrawerLucky.swift; sourceTree = "<group>"; };
+		54FD752B1FF6144300AE24E8 /* PiTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiTester.swift; sourceTree = "<group>"; };
+		54FD752D1FF7926100AE24E8 /* HCNTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCNTester.swift; sourceTree = "<group>"; };
 		6B2E98F1911A709B88DD3475 /* Pods_Numbers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Numbers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D988E9BBEFDE6764A19683A /* Pods-Numbers.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Numbers.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Numbers/Pods-Numbers.debug.xcconfig"; sourceTree = "<group>"; };
 		C14B9384D8053C0F5D5041E4 /* Pods-NumbersTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NumbersTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NumbersTests/Pods-NumbersTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +155,7 @@
 			children = (
 				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
 				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,
+				54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */,
 				543078291FE3C1180036516F /* SquareDrawer.swift */,
 				548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */,
 				54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */,
@@ -166,8 +175,11 @@
 		54923FB51FF434C3006993F2 /* Tester */ = {
 			isa = PBXGroup;
 			children = (
+				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
 				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
+				54FD752B1FF6144300AE24E8 /* PiTester.swift */,
 				54923FB11FF0F137006993F2 /* MersenneTester.swift */,
+				54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */,
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				543078251FDF07A20036516F /* AbundanceTester.swift */,
@@ -449,8 +461,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				543078261FDF07A20036516F /* AbundanceTester.swift in Sources */,
+				54FD752E1FF7926100AE24E8 /* HCNTester.swift in Sources */,
 				5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
+				54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */,
 				54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
@@ -463,12 +477,14 @@
 				548DE2EE1FEA3BC500646D91 /* FiboDrawer.swift in Sources */,
 				5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */,
 				54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */,
+				54FD752A1FF58F0100AE24E8 /* FaktorDrawerLucky.swift in Sources */,
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				54923FB01FEF87B0006993F2 /* LucasDrawer.swift in Sources */,
 				54923FAE1FEF8724006993F2 /* TetrahedralTester.swift in Sources */,
 				54923FB21FF0F137006993F2 /* MersenneTester.swift in Sources */,
 				543078301FE3E1350036516F /* FaktorView.swift in Sources */,
+				54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */,
 				545ECE071FE63E480035B9EA /* UlamView.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,

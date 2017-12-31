@@ -13,35 +13,89 @@ import PrimeFactors
 
 
 extension FactorCache {
-	public func Latex(n: Int) -> String? {
+	public func Latex(n: BigUInt, withpot : Bool) -> String? {
 		if n<2 { return nil }
-		let bign = BigUInt(n)
-		let factors = Factor(p: bign)
+		let factors = Factor(p: n)
 		if factors.count < 2 { return nil }
 		var latex = String(n) + "="
-		for (index,f) in factors.enumerated() {
-			if index > 0 { latex = latex + "\\cdot{" }
-			latex = latex + String(f)
-			if index > 0 { latex = latex + "}" }
+
+		if withpot {
+			let fwithpots = FactorsWithPot(n: n)
+			for (index,f) in fwithpots.enumerated() {
+				if index > 0 { latex = latex + "\\cdot{" }
+				latex = latex + String(f.f)
+				if f.e > 1 {
+					latex = latex + "^{" + String(f.e) + "}"
+				}
+				if index>0 {
+					latex = latex + "}"
+				}
+			}
+		} else {
+			for (index,f) in factors.enumerated() {
+				if index > 0 { latex = latex + "\\cdot{" }
+				latex = latex + String(f)
+				if index > 0 { latex = latex + "}" }
+			}
 		}
+		latex = latex + "\\\\"
 		return latex
+	}
+	
+	struct FactorWithPot {
+		
+		init(f: BigUInt) {
+			self.f = f
+			self.e = 1
+		}
+		init(f: BigUInt, e: Int) {
+			self.f = f
+			self.e = e
+		}
+		
+		var f: BigUInt = 0
+		var e: Int = 0
+		
+	}
+	
+	func FactorsWithPot(n: BigUInt) -> [FactorWithPot] {
+		var ans : [FactorWithPot] = []
+		let factors = Factor(p: n)
+		
+		var pot = 1
+		for (index,f) in factors.enumerated() {
+			if index+1 == factors.count {
+				let fwithpot = FactorWithPot(f: f, e: pot)
+				ans.append(fwithpot)
+			} else {
+				if f == factors[index+1] {
+					pot = pot + 1
+				}
+				else {
+					let fwithpot = FactorWithPot(f: f, e: pot)
+					ans.append(fwithpot)
+					pot = 1
+				}
+			}
+		}
+		return ans
 	}
 }
 
 class AbundanceTester : NumTester {
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		//let sigma0 = SumOfProperDivisors(n: n)
 		let desc = String(n) + " is excessive (abundant)"
 		return desc
 	}
 	
-	private func SumOfProperDivisors(n: Int) -> BigUInt {
+	private func SumOfProperDivisors(n: BigUInt) -> BigUInt {
 		let p = BigUInt(n)
 		let sigma = FactorCache.shared.Sigma(p: p)
 		return sigma - p
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		var latex = String(n) + "<" + "\\sigma^{*}(n) = \\sum_{k \\mid{n}, k<n} k = "
 		let sigma = FactorCache.shared.Sigma(p: BigUInt(n)) - BigUInt(n)
 		latex = latex + String(sigma)
@@ -50,7 +104,7 @@ class AbundanceTester : NumTester {
 	func property() -> String {
 		return "excessive"
 	}
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		let p = BigUInt(n)
 		let sigma = FactorCache.shared.Sigma(p: p)
@@ -62,7 +116,7 @@ class AbundanceTester : NumTester {
 }
 
 class NonTotientTester : NumTester {
-	func isSpecial(n: Int) -> Bool {
+	func isSpecial(n: BigUInt) -> Bool {
 		
 		//2p is nontotient iff 2p+1 is prime
 		if n % 2 == 1 { return false }
@@ -93,11 +147,11 @@ class NonTotientTester : NumTester {
 		return false		
 	}
 	
-	func getDesc(n: Int) -> String? {
+	func getDesc(n: BigUInt) -> String? {
 		return "non totient"
 	}
 	
-	func getLatex(n: Int) -> String? {
+	func getLatex(n: BigUInt) -> String? {
 		var latex = String(n)
 		latex = latex + "\\in \\{ n \\in \\mathbb{N} | \\forall x \\in \\mathbb{N} : \\phi(x) \\neq n  \\} \\\\"
 		latex = latex + "\\phi(n) = | \\{ x_{\\leq n} \\in  \\mathbb{N} :  gcd(x,n) = 1  \\} |"

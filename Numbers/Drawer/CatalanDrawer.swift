@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import BigInt
 
 extension UInt64 {
 	func ClearBit(i: UInt64) -> UInt64{
@@ -189,9 +190,9 @@ class CatalanView: DrawNrView {
 		}
 		super.SetNumber(nextnr)
 		let n = nextnr //min(nextnr,maxdraw)
-		self.nth = catalan.Nth(n: Int(n))
+		self.nth = catalan.Nth(n: BigUInt(n))
 		dyck = DyckWord(n: UInt64(nth))
-		if catalan.isSpecial(n: Int(n)) {
+		if catalan.isSpecial(n: BigUInt(Int(n))) {
 			CreateDisplayLink()
 		}
 	}
@@ -289,9 +290,8 @@ class CatalanView: DrawNrView {
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		if self.nth == 0 { return }
-		if !catalan.isSpecial(n: Int(nr)) { return }
+		if !catalan.isSpecial(n: BigUInt(nr)) { return }
 	
-		
 		if self.rx != rect.width || self.ry != rect.height {
 				ClearShapes()
 				self.drawcounter = 0

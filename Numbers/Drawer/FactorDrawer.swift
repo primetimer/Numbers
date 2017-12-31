@@ -17,6 +17,7 @@ enum FaktorDrawType : Int {
 	case tree   = 1
 	case polygon = 2
 	case ulam = 3
+	case lucky = 4
 }
 
 #if os(OSX)
@@ -174,6 +175,8 @@ class FaktorDrawerParam {
 			return FaktorDrawerPolygon(param: self, rect: rect)
 		case .ulam:
 			return FaktorDrawerUlam(param: self, rect: rect)
+		case .lucky:
+			return FaktorDrawerLuckyUlam(param: self, rect: rect)
 		}
 	}
 }

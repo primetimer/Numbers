@@ -12,7 +12,7 @@ import BigInt
 import PrimeFactors
 
 class BaseNrTableCell : UITableViewCell {
-	var nr : Int = 0
+	var nr : BigUInt = 0
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .disclosureIndicator
@@ -147,7 +147,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiurl : String = "wikipedia.de"
 	
-	var currnr = 2
+	var currnr : BigUInt = 2
 	private func GetExplanation() {
 		let exp = Explain.shared.GetExplanation(nr: currnr)
 		uisearch.text = String(currnr)
@@ -238,7 +238,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return height
 			}
 		case 3:
-			if let temp = uiwebtemp {
+			if uiwebtemp != nil {
 				return NrViewController.wikiheight
 			}
 		default:
@@ -430,7 +430,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	@objc func doneButtonAction() {
 		self.uisearch.resignFirstResponder()
 		guard let text = uisearch.text else { return }
-		guard let nr = Int(text) else { return }
+		guard let nr = BigUInt(text) else { return }
 		currnr = nr
 		GetExplanation()
 		tv.reloadData()

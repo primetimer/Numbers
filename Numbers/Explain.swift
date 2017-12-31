@@ -13,13 +13,13 @@ class Explain {
 	
 	static let shared = Explain()
 	
-	private var dict : [Int:Explanation] = [:]
+	private var dict : [BigUInt:Explanation] = [:]
 	private init() {
 		dict[0] = Explanation(nr: 0)
 		dict[1] = Explanation(nr: 1)
 	}
 	
-	func GetExplanation(nr : Int) -> Explanation {
+	func GetExplanation(nr : BigUInt) -> Explanation {
 		if let ex = dict[nr] {
 			return ex
 		}
@@ -29,7 +29,7 @@ class Explain {
 
 class Explanation {
 	
-	internal (set) var nr : Int
+	internal (set) var nr : BigUInt
 	internal (set) var desc = ""
 	internal (set) var latex = ""
 	internal (set) var properties : [String] = []
@@ -40,147 +40,160 @@ class Explanation {
 			return url
 		}
 	}
-	init(nr: Int) {
+	init(nr: BigUInt) {
 		self.nr = nr
-		switch nr {
-		case 0:
-			Zero()
-		case 1:
-			One()
-		case 2:
-			Two()
-		case 3:
-			Three()
-		case 4:
-			Four()
-		case 5:
-			Five()
-		case 6:
-			Six()
-		case 7:
-			Seven()
-		case 8:
-			Eight()
-		case 9:
-			Nine()
-		case 10:
-			Ten()
-		case 11:
-			Eleven()
-		case 12:
-			Twelve()
-		case 13:
-			Thirteen()
-		case 14:
-			Fourteen()
-		case 15:
-			Fifteen()
-		case 16:
-			Sixteen()
-		case 17:
-			Seventeen()
-		case 18:
-			EightTeen()
-		case 19:
-			Nineteen()
-		case 20:
-			N20()
-		case 21:
-			N21()
-		case 22:
-			N22()
-		case 23:
-			N23()
-		case 24:
-			N24()
-		case 25:
-			N25()
-		case 26:
-			N26()
-		case 27:
-			N27()
-		case 28:
-			N28()
-		case 29:
-			N29()
-		case 30:
-			N30()
-		case 31:
-			N31()
-		case 32:
-			N32()
-		case 33:
-			N33()
-		case 34:
-			N34()
-		case 35:
-			N35()
-		case 36:
-			N36()
-		case 37:
-			N37()
-		case 38:
-			N38()
-		case 39:
-			N39()
-		case 40:
-			N40()
-		case 41:
-			N41()
-		case 42:
-			N42()
-		case 73:
-			N73()
-		case 1729:
-			N1729()
-		default:
+		self.desc = ""
+		
+		if nr < BigUInt(Int32.max)
+		{
+			switch Int(nr) {
+			case 0:
+				Zero()
+			case 1:
+				One()
+			case 2:
+				Two()
+			case 3:
+				Three()
+			case 4:
+				Four()
+			case 5:
+				Five()
+			case 6:
+				Six()
+			case 7:
+				Seven()
+			case 8:
+				Eight()
+			case 9:
+				Nine()
+			case 10:
+				Ten()
+			case 11:
+				Eleven()
+			case 12:
+				Twelve()
+			case 13:
+				Thirteen()
+			case 14:
+				Fourteen()
+			case 15:
+				Fifteen()
+			case 16:
+				Sixteen()
+			case 17:
+				Seventeen()
+			case 18:
+				EightTeen()
+			case 19:
+				Nineteen()
+			case 20:
+				N20()
+			case 21:
+				N21()
+			case 22:
+				N22()
+			case 23:
+				N23()
+			case 24:
+				N24()
+			case 25:
+				N25()
+			case 26:
+				N26()
+			case 27:
+				N27()
+			case 28:
+				N28()
+			case 29:
+				N29()
+			case 30:
+				N30()
+			case 31:
+				N31()
+			case 32:
+				N32()
+			case 33:
+				N33()
+			case 34:
+				N34()
+			case 35:
+				N35()
+			case 36:
+				N36()
+			case 37:
+				N37()
+			case 38:
+				N38()
+			case 39:
+				N39()
+			case 40:
+				N40()
+			case 41:
+				N41()
+			case 42:
+				N42()
+			case 73:
+				N73()
+			case 1729:
+				N1729()
+			default:
+				break
+			}
+		}
+		if desc == "" {
 			desc = String(nr)
 		}
 		
-		if let factorlatex = FactorCache.shared.Latex(n: nr) {
-			latex = latex + "\n" + factorlatex
+		switch(nr) {
+		case 0,1,2,3,4,5,7,8,9,11:
+			break
+		default:
+			if let factorlatex = FactorCache.shared.Latex(n: nr, withpot:  true) {
+				latex = latex + factorlatex
+			}
 		}
-		
 		if Tester.shared.isSpecial(n: nr) {
 			properties.append(Tester.shared.properties(n: nr))
 			desc = desc + "\n" + Tester.shared.getDesc(n: nr)!
-			latex = latex + "\\\\" + Tester.shared.getLatex(n: nr)!
+			latex = latex + Tester.shared.getLatex(n: nr)!
 		}
 	}
 	
 	private func Zero() {
-		nr = 0
-		
+		nr = 0		
 		desc = desc + "Zero (0) is the first natural number."
 		desc = desc + "Zero is the the additive neutral element."
 		desc = desc + "\nIf you add zero to any number n, the reuslt is n itself."
 		desc = desc + "\nIf you multiply any number by Zero, the result is zero."
 		
-		latex = "\\forall n \\in \\mathbb{N} : n = n + 0"
+		latex = latex + "\\forall n \\in \\mathbb{N} : n = n + 0 \\\\"
+		latex = latex + "\\forall n \\in \\mathbb{N} : 0 = n \\cdot{0} \\\\"
+		latex = latex + "0 := \\{\\} \\\\"
 	}
-
-
+	
+	
 	private func One() {
 		nr = 1
 		desc = "One (1) is the succesor of Zero."
 		desc = desc + "\nIf you multiply any number n by One, the result is n itself."
-		latex = "\\forall n \\in \\mathbb{N} : n = n\\cdot{1}"
+		latex = "\\forall n \\in \\mathbb{N} : n = n\\cdot{1}\\\\"
+		latex = latex + "1 := \\{ 0 \\} = \\{\\{ \\}\\} \\\\"
 	}
 	
 	private func Two() {
 		nr = 2		
 		//latex = latex + "2 = 1 + 1 \\\\"
 		latex = latex + "n>0, n+n = n\\cdot{n}  \\Rightarrow n = 2"
-		latex = latex + "\\\\ \\sum_{k=0}^\\infty 1/2^k = 2 "
+		latex = latex + "\\\\ \\sum_{k=0}^\\infty 1/2^k = 2 \\\\"
 	}
 	
 	private func Three() {
 		nr = 3
-		
 		//desc = desc + "Three (3) is the first odd prime number."
 		//latex = latex + "3 = 1 + 2\\\\"
-		latex = latex + "F_0 = 2^{2^{0}} + 1 = 3 \\\\"
-		latex = latex + "M_2 = 2^{2} - 1 = 3 \\\\ "
+		//latex = latex + "F_0 = 2^{2^{0}} + 1 = 3 \\\\"
+		//latex = latex + "M_2 = 2^{2} - 1 = 3 \\\\ "
 	}
 	
 	private func Four() {
@@ -203,8 +216,8 @@ class Explanation {
 	private func Six() {
 		nr = 6
 		desc = desc + "Six (6) is the smallest number which is neither a square nor a prime."
-		latex = latex + "6 = 1\\cdot{2}\\cdot{3} = 3! \\\\"
-		latex = latex + "2^1\\cdot({2^2-1}) = 6 "
+		//latex = latex + "6 = 1\\cdot{2}\\cdot{3} = 3! \\\\"
+		//latex = latex + "2^1\\cdot({2^2-1}) = 6 \\\\"
 	}
 	
 	private func Seven () {
@@ -212,7 +225,7 @@ class Explanation {
 		desc = desc + "Seven (7) is a Mersenne prime"
 		desc = desc + "\nThe heptagon can not be constructed by ruler and compass"
 		
-		latex = latex + "7 = M_3 = 2^3 - 1\\\\"
+		//latex = latex + "7 = M_3 = 2^3 - 1\\\\"
 	}
 	
 	private func Eight () {
@@ -221,7 +234,7 @@ class Explanation {
 		
 		//latex = latex + "8 = 2^3 \\\\"
 		//latex = latex + "8 = 3+5 \\\\"
-
+		
 	}
 	
 	private func Nine () {
