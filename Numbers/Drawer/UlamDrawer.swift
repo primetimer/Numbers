@@ -78,7 +78,7 @@ class UlamDrawer:  NSObject {
 		//count = min(count,TheUlamBase.defcount)
 	}
 	
-	private func getColor(_ p : UInt64) -> UIColor?
+	internal func getColor(_ p : UInt64) -> UIColor?
 	{
 		if PrimeCache.shared.IsPrime(p: BigUInt(p)) {
 			return .red
@@ -244,9 +244,6 @@ class UlamDrawer:  NSObject {
 		let startRadius: CGFloat = 0
 		let color = getColor(p)
 		if color == nil { return }
-		
-		
-		
 		let colors = [UIColor.white.cgColor,color!.cgColor]
 		let colorspace = CGColorSpaceCreateDeviceRGB()
 		let locations: [CGFloat] = [0.0, 1.0]
@@ -262,13 +259,20 @@ class UlamDrawer:  NSObject {
 	{
 		let r = getPointSize(p)
 		var startPoint = CGPoint()
-		startPoint.x = xy.x - r * 0.5
-		startPoint.y = xy.y - r * 0.5
+		startPoint.x = xy.x - r * 0.125
+		startPoint.y = xy.y - r * 0.125
 		let color = getColor(p)
 		if color == nil { return }
+		let rect = CGRect(x: startPoint.x,y: startPoint.y ,width: r * scalex , height: r)
 		
 		color?.setFill()
-		context.fill(CGRect(x: xy.x,y: xy.y ,width: r * scalex , height: r))
+		context.fill(rect)
+		if count < 200 && p < 100  {
+			let textcolor = UIColor.white
+			textcolor.setStroke()
+			let text = String(p)
+			text.draw(in: rect, withAttributes: nil)
+		}
 	}
 	
 	func draw_number(_ context : CGContext, ulamindex : Int, p: UInt64) {

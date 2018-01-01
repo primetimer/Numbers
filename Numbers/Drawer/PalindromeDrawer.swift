@@ -42,11 +42,12 @@ class PalindromeView : DrawNrView {
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		CreateImages(rect)
+		CreateImages()
 	}
 	
-	private func CreateImages(_ rect : CGRect)  {
+	private func CreateImages()  {
 		//var images : [UIImage] = []
+		let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400)
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
 		guard let context = UIGraphicsGetCurrentContext() else { return }
 		context.setStrokeColor(UIColor.black.cgColor)

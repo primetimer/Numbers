@@ -10,6 +10,11 @@ import Foundation
 import BigInt
 import PrimeFactors
 
+extension BigUInt {
+	func isInt64() -> Bool {
+		return self<BigUInt(Int64.max) 
+	}
+}
 
 
 extension FactorCache {
@@ -83,9 +88,21 @@ extension FactorCache {
 }
 
 class AbundanceTester : NumTester {
+	
+	private let superabundant = [1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 10080, 15120, 25200, 27720, 55440, 110880, 166320, 277200, 332640, 554400, 665280, 720720, 1441440, 2162160, 3603600, 4324320, 7207200, 8648640, 10810800, 21621600]
+	
 	func getDesc(n: BigUInt) -> String? {
 		//let sigma0 = SumOfProperDivisors(n: n)
-		let desc = String(n) + " is excessive (abundant)"
+		let sigma = FactorCache.shared.Sigma(p: n)
+		if sigma == n * 2 {
+			return String(n) + " is perfect"
+		}
+		if n.isInt64() {
+			if superabundant.contains(Int(n)) {
+				return String(n) + " is superabundant"
+			}
+		}
+		let desc = String(n) + " is abundant (excessive)"
 		return desc
 	}
 	
@@ -99,6 +116,18 @@ class AbundanceTester : NumTester {
 		var latex = String(n) + "<" + "\\sigma^{*}(n) = \\sum_{k \\mid{n}, k<n} k = "
 		let sigma = FactorCache.shared.Sigma(p: BigUInt(n)) - BigUInt(n)
 		latex = latex + String(sigma)
+		
+		if sigma == n {
+			latex = String(n) + "= " + "\\sigma^{*}(n) = \\sum_{k \\mid{n}, k<n} k"
+			return latex
+		}
+		
+		if n.isInt64() {
+			if superabundant.contains(Int(n)) {
+				latex = latex + "\\\\"
+				latex = latex + "\\forall m<n : \\frac{\\sigma (m)}{m} < \\frac{\\sigma (n)}{n}"
+			}
+		}
 		return latex
 	}
 	func property() -> String {
@@ -108,7 +137,7 @@ class AbundanceTester : NumTester {
 		if n == 0 { return false }
 		let p = BigUInt(n)
 		let sigma = FactorCache.shared.Sigma(p: p)
-		if sigma > BigUInt(n) * BigUInt(2) {
+		if sigma >= BigUInt(n) * BigUInt(2) {
 			return true
 		}
 		return false
@@ -137,7 +166,6 @@ class NonTotientTester : NumTester {
 				}
 			}
 		}
-		
 		let r1 = BigUInt(n) - BigUInt(1)
 		let r2 = r1.squareRoot()
 		if (r2 * r2 != r1) { return false }

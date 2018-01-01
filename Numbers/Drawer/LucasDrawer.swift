@@ -109,6 +109,15 @@ class LucasView: DrawNrView {
 			}
 		}
 	}
+	
+	override var frame : CGRect {
+		set {
+			super.frame = newValue
+			self.setNeedsDisplay() }
+		get {
+			return super.frame
+		}
+	}
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		self.rx = rect.width

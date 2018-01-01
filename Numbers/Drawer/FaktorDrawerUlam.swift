@@ -30,7 +30,7 @@ class FaktorDrawerUlam : FaktorDrawer {
 		count = Int(pow(Double(param.nr),1.0 / 3.0 ))
 		count = max(count,100)
 			#else
-			count = Int(pow(Double(param.nr),1.0 / 2.0 ))
+			count = Int(pow(Double(param.nr),1.0 / 1.0 ))
 			count = max(count,100)
 			#endif
 		
@@ -49,8 +49,10 @@ class FaktorDrawerUlam : FaktorDrawer {
 		//}
 		
 		let divisors = FactorCache.shared.Divisors(p: BigUInt(param.nr))
-		let m = divisors.count
+		let m = divisors.count * (param.imagenr+1) / (param.imagemax+1)
 		ulam.colored = true
+		
+		
 		
 		for i in 0..<m {
 			let t = divisors[i]

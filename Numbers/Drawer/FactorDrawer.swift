@@ -17,7 +17,7 @@ enum FaktorDrawType : Int {
 	case tree   = 1
 	case polygon = 2
 	case ulam = 3
-	case lucky = 4
+	//case lucky = 4
 }
 
 #if os(OSX)
@@ -48,9 +48,11 @@ class FaktorDrawerParam {
 		}
 	}
 	
+	var imagenr : Int = 0		//Only for ulam
+	var imagemax : Int = 0		//Only for ulam
 	var withanimation = false
 	var radius : Double = 1.0
-	let pi : Double = 4.0 * atan(1.0) //3.14145
+	let pi = Double.pi
 	var deltahue = 0.0
 	var startTime: CFAbsoluteTime = 0.0
 	var maxrekurs : UInt64 = 5
@@ -175,8 +177,8 @@ class FaktorDrawerParam {
 			return FaktorDrawerPolygon(param: self, rect: rect)
 		case .ulam:
 			return FaktorDrawerUlam(param: self, rect: rect)
-		case .lucky:
-			return FaktorDrawerLuckyUlam(param: self, rect: rect)
+			//case .lucky:
+			//	return FaktorDrawerLuckyUlam(param: self, rect: rect)
 		}
 	}
 }
@@ -193,8 +195,7 @@ class FaktorDrawer : NSObject
 	}
 	
 	func CalcRekursLevel() -> Int{
-		param.maxrekurs = 0
-		
+		param.maxrekurs = 0		
 		var index = 0
 		var testpixel : UInt64 = 1
 		var maxpixel = (param.rect.maxX - param.rect.minX) * (param.rect.maxY - param.rect.minY)
@@ -473,19 +474,19 @@ class FaktorDrawerPolygon : FaktorDrawer {
 		let path = PBezierPath()
 		path.lineWidth = CGFloat(p)
 		for i in 0...d {
-		let xy = GetXY(i, teiler: d, xpos: xpos, ypos: ypos, r: r, angle: a)
-		let pt = CGPoint(x: xy[0], y: xy[1])
-		if i==0 {
-		path.move(to: pt)
-		}
-		else {
-		path.addLine(to: pt)
-		}
+			let xy = GetXY(i, teiler: d, xpos: xpos, ypos: ypos, r: r, angle: a)
+			let pt = CGPoint(x: xy[0], y: xy[1])
+			if i==0 {
+				path.move(to: pt)
+			}
+			else {
+				path.addLine(to: pt)
+			}
 		}
 		if d>2 {
-		path.fill()
+			path.fill()
 		} else {
-		path.stroke()
+			path.stroke()
 		}
 		path.addClip()
 		let rect = path.bounds

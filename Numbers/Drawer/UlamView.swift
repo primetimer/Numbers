@@ -18,6 +18,14 @@ class UlamView: DrawNrView {
 	fileprivate var _needRecalc : Bool = true
 	var ulamimageview : UlamImageView!
 	
+	override var frame : CGRect {
+		set {
+			super.frame = newValue
+			setNeedsDisplay()
+		}
+		get { return super.frame }
+	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		ulamimageview = UlamImageView(frame: self.frame)
@@ -28,6 +36,11 @@ class UlamView: DrawNrView {
 		super.init(coder: aDecoder)
 		ulamimageview = UlamImageView(frame: self.frame)
 		addSubview(ulamimageview)
+	}
+	
+	override func SetNumber(_ nextnr : UInt64) {
+		super.SetNumber(nextnr)
+		self.start = nextnr
 	}
 	
 	var start : UInt64 {
@@ -219,15 +232,6 @@ class UlamImageView : UIView {
 		
 		
 		queue.cancelAllOperations()
-		
-		/*
-		if canceldrawing {
-		canceldrawing = false
-		self.uispin.stopAnimating()
-		return
-		}
-		*/
-		
 		if tlimit>0.0 {
 			self.uispin.startAnimating()
 		}

@@ -457,9 +457,6 @@ class LucasTester : NumTester {
 		}
 		return c
 	}
-	
-	
-	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n <= 2 {

@@ -130,8 +130,8 @@ class DrawTableCell: BaseNrTableCell {
 				_uidraw = faktorview
 				numtester = FactorTester()
 			case .Lucky:
-				let faktorview = FaktorView()
-				faktorview.param.type = .lucky
+				let faktorview = LuckyView()
+				//faktorview.param.type = .lucky
 				_uidraw = faktorview
 				numtester = LuckyTester()
 			case .Triangular:
@@ -195,7 +195,7 @@ class DrawTableCell: BaseNrTableCell {
 				uidraw?.isHidden = true
 				return
 			}
-			if nr <= BigUInt(Int64.max) {
+			if nr.isInt64() {
 				uidraw?.SetNumber(UInt64(nr))
 			}
 			uilabel.text = numtester?.property()
@@ -229,7 +229,7 @@ class DrawTableCell: BaseNrTableCell {
 			draw.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 			self.accessoryType = .disclosureIndicator
 		}
-		_uidraw?.setNeedsDisplay()
+		//#_uidraw?.setNeedsDisplay()
 		
 	}
 }

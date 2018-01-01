@@ -27,6 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.window?.makeKeyAndVisible()
 		
 		#if false
+			let lucky = LuckyDrawHelper(count: 100)
+			//print("Start:",lucky.luck)
+			lucky.remove(level: 10)
+			for i in 0..<lucky.luck.count {
+				if lucky.luck[i] {
+					print(i)
+				}
+			}
+			print("0:",lucky.luck)
+			#endif
+			
+		#if false
 			let hcn = HCNumber()
 			#endif
 		#if false

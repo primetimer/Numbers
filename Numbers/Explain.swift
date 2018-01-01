@@ -137,6 +137,10 @@ class Explanation {
 				N73()
 			case 1729:
 				N1729()
+			case 5040:
+				N5040()
+			case 5041:
+				N5041()
 			default:
 				break
 			}
@@ -484,5 +488,15 @@ class Explanation {
 		desc = desc + "I remember once going to see him when he was ill at Putney. I had ridden in taxi cab number 1729 and remarked that the number seemed to me rather a dull one, and that I hoped it was not an unfavourable omen. 'No,' he replied, 'it is a very interesting number; it is the smallest number expressible as the sum of two cubes in two different ways."
 		//desc = desc + "1729 is the smallest number which can be represented in two different ways as the sum of two cubes. 1729 is called the Hardy-Ramanunjan number. "
 		latex = latex + "1729 = 1^3 + 12^3 = 9^3 + 10^3 \\\\"
+	}
+	private func N5040() {
+		nr = 5040
+		desc = desc + "5040 is Platons number"
+		latex = latex + "5040 = \\max \\{ n : \\sigma (n) \\geq e^{\\gamma}  n\\text{ } ln ln(n) \\} \\text{(RH)} \\\\"
+	}
+	private func N5041() {
+		nr = 5041
+		desc = desc + ""
+		latex = latex + "\\forall n \\geq 5041 : \\sigma (n) < e^{\\gamma} n \\text{ } ln ln(n) \\text{(RH)} \\\\"
 	}
 }

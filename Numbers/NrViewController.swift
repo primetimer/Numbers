@@ -28,6 +28,7 @@ class DescTableCell: BaseNrTableCell {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(uidesc)
+		uidesc.isUserInteractionEnabled = false
 		uidesc.font = UIFont(name: "Arial", size: 18.0)
 		uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
 		

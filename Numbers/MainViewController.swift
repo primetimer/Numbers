@@ -17,6 +17,7 @@ class NrTableCell: UITableViewCell {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(uinr)
+		uinr.isUserInteractionEnabled = false
 		uinr.font = UIFont(name: "Arial", size: 18.0)
 		//uinr.backgroundColor = .orange
 		uinr.frame = CGRect(x: 10.0, y: 0, width: self.frame.width-80.0, height: self.frame.height)

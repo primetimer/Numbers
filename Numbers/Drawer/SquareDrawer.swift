@@ -53,10 +53,12 @@ class PolygonalView : DrawNrView {
 		super.draw(rect)
 		//imageview.animationDuration = 0
 		//imageview.animationRepeatCount = 1
-		CreateImages(rect)
+		
+		CreateImages()
 	}
 	
-	private func CreateImages(_ rect : CGRect)  {
+	private func CreateImages()  {
+		let rect = CGRect(x: 0.0, y: 0.0, width: 400.0, height: 400.0)
 		//var images : [UIImage] = []
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
 		guard let context = UIGraphicsGetCurrentContext() else { return }

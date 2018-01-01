@@ -27,7 +27,7 @@ class TheUlamBase  {
 	
 	func Radius(_ count : Int) -> Double
 	{
-		return sqrt(Double(count))
+		return ceil(sqrt(Double(count)))
 	}
 	
 	func getPoint(_ n: Int) -> SpiralXY {
