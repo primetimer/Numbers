@@ -18,6 +18,8 @@ protocol NumTester {
 }
 
 class Tester : NumTester {
+	
+	
 	func property() -> String {
 		return ""
 	}
@@ -174,9 +176,14 @@ class TriangleTester : NumTester {
 	}
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a triangle number"
+		//let str = String(n) + " is a <a href=\"index.html\">triangle</a>number"
+		var str = ""
+		str = String(n) + " is a "
+		str = str + WikiLinks.shared.Link(key: "triangle")
+		str = str + " number"
 		return str
-	}	
+	}
+	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = Int(troot(x: Double(n)))
@@ -202,6 +209,7 @@ class PentagonalTester : NumTester {
 		return IsInt(x: tr)
 	}
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a pentagonal number"
 		return str
@@ -216,6 +224,7 @@ class PentagonalTester : NumTester {
 
 class Pow2Tester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		return String(n) + " is a power of 2"
 	}
 	
@@ -266,6 +275,7 @@ class HexagonalTester : NumTester {
 		return IsInt(x: tr)
 	}
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a hexagonal number"
 		return str
@@ -297,6 +307,7 @@ class SquareTester : NumTester {
 		return IsInt(x: r)
 	}
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a square"
 		return str
@@ -328,6 +339,7 @@ class CubeTester : NumTester {
 		return IsInt(x: r)
 	}
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a cube"
 		return str
@@ -342,7 +354,7 @@ class CubeTester : NumTester {
 
 class FibonacciTester : NumTester {
 	func property() -> String {
-		return "fibonacci"
+		return "Fibonacci"
 	}
 	
 	private func IsInt(x: Double) -> Bool {
@@ -377,6 +389,7 @@ class FibonacciTester : NumTester {
 		return BigUInt(round)
 	}
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n:n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a Fibonacci number"
 		return str
@@ -397,7 +410,7 @@ class FibonacciTester : NumTester {
 
 class LucasTester : NumTester {
 	func property() -> String {
-		return "lucas"
+		return "Lucas"
 	}
 	
 	private func IsInt(x: Double) -> Bool {
@@ -437,6 +450,7 @@ class LucasTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a Lucas number"
 		return str

@@ -39,6 +39,8 @@
 		54E43A561FD44A1100C25A42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A541FD44A1100C25A42 /* LaunchScreen.storyboard */; };
 		54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A601FD44A1100C25A42 /* NumbersTests.swift */; };
 		54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A6B1FD44B4100C25A42 /* Extensions.swift */; };
+		54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0B91FFA7B59006DECED /* NumerHTML.swift */; };
+		54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0BB1FFA99BF006DECED /* DescCell.swift */; };
 		54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */; };
 		54FD752A1FF58F0100AE24E8 /* FaktorDrawerLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */; };
 		54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD752B1FF6144300AE24E8 /* PiTester.swift */; };
@@ -100,6 +102,8 @@
 		54E43A601FD44A1100C25A42 /* NumbersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersTests.swift; sourceTree = "<group>"; };
 		54E43A621FD44A1100C25A42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54E43A6B1FD44B4100C25A42 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		54F5F0B91FFA7B59006DECED /* NumerHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumerHTML.swift; sourceTree = "<group>"; };
+		54F5F0BB1FFA99BF006DECED /* DescCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescCell.swift; sourceTree = "<group>"; };
 		54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyTester.swift; sourceTree = "<group>"; };
 		54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaktorDrawerLucky.swift; sourceTree = "<group>"; };
 		54FD752B1FF6144300AE24E8 /* PiTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiTester.swift; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 		54923FB51FF434C3006993F2 /* Tester */ = {
 			isa = PBXGroup;
 			children = (
+				54923FAD1FEF8724006993F2 /* TetrahedralTester.swift */,
 				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
 				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
 				54FD752B1FF6144300AE24E8 /* PiTester.swift */,
@@ -191,6 +196,7 @@
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
+				54F5F0B91FFA7B59006DECED /* NumerHTML.swift */,
 				54749B5E1FDD5C3F00F6B130 /* Podfile */,
 				54E43A4A1FD44A1100C25A42 /* Numbers */,
 				54E43A5F1FD44A1100C25A42 /* NumbersTests */,
@@ -212,7 +218,7 @@
 		54E43A4A1FD44A1100C25A42 /* Numbers */ = {
 			isa = PBXGroup;
 			children = (
-				54923FAD1FEF8724006993F2 /* TetrahedralTester.swift */,
+				54F5F0BB1FFA99BF006DECED /* DescCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
 				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
 				54923FB51FF434C3006993F2 /* Tester */,
@@ -463,9 +469,11 @@
 				543078261FDF07A20036516F /* AbundanceTester.swift in Sources */,
 				54FD752E1FF7926100AE24E8 /* HCNTester.swift in Sources */,
 				5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */,
+				54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
 				54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */,
 				54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */,
+				54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,

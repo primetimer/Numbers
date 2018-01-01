@@ -9,6 +9,14 @@
 import Foundation
 import BigInt
 
+extension String {
+	var lines: [String] {
+		var result: [String] = []
+		enumerateLines { line, _ in result.append(line) }
+		return result
+	}
+}
+
 class Explain {
 	
 	static let shared = Explain()
@@ -38,6 +46,22 @@ class Explanation {
 		get {
 			let url = "https://en.wikipedia.org/wiki/" + String(nr) //+ "_(number)"
 			return url
+		}
+	}
+	
+	var html : String {
+		get {
+			var htmldesc = ""
+			let start = " <html><body>"
+			let end = "</body></html>"
+			let lines = desc.lines
+			for s in lines {
+				htmldesc = htmldesc + s + "<br>"
+				//htmldesc = htmldesc + "<p>" + s + "</p>"
+			}
+			
+			htmldesc = start + htmldesc + end
+			return htmldesc
 		}
 	}
 	init(nr: BigUInt) {
@@ -168,8 +192,8 @@ class Explanation {
 		nr = 0		
 		desc = desc + "Zero (0) is the first natural number."
 		desc = desc + "Zero is the the additive neutral element."
-		desc = desc + "\nIf you add zero to any number n, the reuslt is n itself."
-		desc = desc + "\nIf you multiply any number by Zero, the result is zero."
+		desc = desc + "\nIf you add zero to any number n, the result is n itself."
+		desc = desc + "\nIf you multiply any number by Zero, the result is always zero."
 		
 		latex = latex + "\\forall n \\in \\mathbb{N} : n = n + 0 \\\\"
 		latex = latex + "\\forall n \\in \\mathbb{N} : 0 = n \\cdot{0} \\\\"

@@ -42,13 +42,14 @@ class PalindromicTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		var desc = WikiLinks.shared.getLink(tester: self, n: n)
 		let pbase = PalindromicBase(n: n)
 		if pbase.count == 0 { return nil }
-		var desc = String(n) + " is palindromic"
+		
 		if pbase.count == 1 && pbase[0] == 10 {
 			return desc
 		}
-		desc = desc + " in base "
+		desc = desc + " It is palindromic in base:"
 		for b in pbase {
 			desc = desc + String(b) + " "
 		}

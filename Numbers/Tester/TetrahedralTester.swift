@@ -35,9 +35,12 @@ class TetrahedralTest : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
+		/*
 		if !isSpecial(n: n) { return nil }
 		let str = String(n) + " is a tetrahedral number"
 		return str
+		*/
 	}
 	
 	func getLatex(n: BigUInt) -> String? {

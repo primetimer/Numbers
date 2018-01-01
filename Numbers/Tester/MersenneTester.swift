@@ -12,15 +12,16 @@ import PrimeFactors
 
 class MersenneTester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
+		let mdesc = WikiLinks.shared.Link(key: "Mersenne")
 		let p = BigUInt(n)
 		if PrimeCache.shared.IsPrime(p: p) {
-			return String(n) + " is a Mersenne prime"
+			return String(n) + " is a " + mdesc + " prime"
 		}
 		let (_,pow) = getPow(n: n+1)
 		if PrimeCache.shared.IsPrime(p: BigUInt(pow)) {
-			return String(n) + " is a composite Mersenne number"
+			return String(n) + " is a composite " + mdesc + " number"
 		}
-		return String(n) + " is a Mersenne number"
+		return String(n) + " is a "  + mdesc + "  number"
 	}
 	
 	private func getPow(n: BigUInt) -> (Bool,BigUInt) {
@@ -76,10 +77,11 @@ class ProthTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		let pdesc = WikiLinks.shared.Link(key: self.property())
 		if PrimeCache.shared.IsPrime(p: BigUInt(n)) {
-			return String(n) + " is a Proth prime"
+			return String(n) + " is a " + pdesc + " prime"
 		}
-		return String(n) + " is a Proth number"
+		return String(n) + " is a " + pdesc + " number"
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
@@ -121,7 +123,7 @@ class SierpinskiTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
-		let desc = String(n) + " is a Sierpinski number." + String(n) + "* 2^n+1 is never a prime number."
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
 	
@@ -166,7 +168,7 @@ class CatalanTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
-		var desc = String(n) + " is a Catalan number."
+		var desc = WikiLinks.shared.getLink(tester: self, n: n)
 		let nth = Nth(n: n)
 		if n > 1 {
 			var of = ""
@@ -188,7 +190,7 @@ class CatalanTester : NumTester {
 			default:
 				of = String(nth+2) + "-polygon"
 			}
-			desc = desc + " There are " + String(n) + " triangulations of a " + of
+			desc = desc + " There are " + String(n) + " triangulations of a " + of + "."
 		}
 		return desc
 	}

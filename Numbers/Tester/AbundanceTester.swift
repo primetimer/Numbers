@@ -92,17 +92,21 @@ class AbundanceTester : NumTester {
 	private let superabundant = [1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 10080, 15120, 25200, 27720, 55440, 110880, 166320, 277200, 332640, 554400, 665280, 720720, 1441440, 2162160, 3603600, 4324320, 7207200, 8648640, 10810800, 21621600]
 	
 	func getDesc(n: BigUInt) -> String? {
+		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		
 		//let sigma0 = SumOfProperDivisors(n: n)
 		let sigma = FactorCache.shared.Sigma(p: n)
-		if sigma == n * 2 {
-			return String(n) + " is perfect"
-		}
 		if n.isInt64() {
 			if superabundant.contains(Int(n)) {
-				return String(n) + " is superabundant"
+				desc = desc + " It is a " + WikiLinks.shared.Link(key: "superabundant") + " number."
 			}
 		}
-		let desc = String(n) + " is abundant (excessive)"
+		if sigma == n * 2 {
+			desc = desc + " It is a " + WikiLinks.shared.Link(key: "perfect") + " number."
+			//return String(n) + " is perfect"
+		}
+		
+		//let desc = String(n) + " is abundant (excessive)"
 		return desc
 	}
 	
@@ -131,7 +135,7 @@ class AbundanceTester : NumTester {
 		return latex
 	}
 	func property() -> String {
-		return "excessive"
+		return "abundant"
 	}
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
@@ -176,7 +180,8 @@ class NonTotientTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
-		return "non totient"
+		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
@@ -188,7 +193,7 @@ class NonTotientTester : NumTester {
 	}
 	
 	func property() -> String {
-		return "non totient"
+		return "nontotient"
 	}
 	
 	

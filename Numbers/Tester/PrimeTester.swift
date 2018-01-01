@@ -26,22 +26,24 @@ class PrimeTester : NumTester {
 		if !isSpecial(n: n) { return nil }
 		let nstr = String(n)
 		
+		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		
 		if n<2 { return nil }
-		if n==2 { return "2 is the one and only even prime" }
+		if n==2 { return desc + "2 is the one and only even prime" }
 		
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+2)) {
-			return nstr + " is a twin prime"
+			return desc + "It is a " + WikiLinks.shared.Link(key: "twin prime") + "."
 		}
 		if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
-			return nstr + " is a twin prime"
+			return desc + "It is a " + WikiLinks.shared.Link(key: "twin prime") + "."
 		}
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
-			return nstr + " is a cousin prime"
+			return desc + "It is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
 		}
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
-			return nstr + " is a sexy prime"
+			return desc + "It is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
 		}
-		return nstr + " is a prime"
+		return desc
 	}
 	
 	private func subset(type : Int) -> String {

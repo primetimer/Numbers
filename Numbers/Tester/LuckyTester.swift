@@ -118,7 +118,8 @@ class LuckyTester : NumTester {
 	
 	func getDesc(n: BigUInt) -> String? {
 		if isSpecial(n: n) {
-			return String(n) + " is a lucky number"
+			return WikiLinks.shared.getLink(tester: self, n: n)
+			//return String(n) + " is a lucky number"
 		}
 		return ""
 	}
@@ -128,6 +129,6 @@ class LuckyTester : NumTester {
 	}
 	
 	func property() -> String {
-		return "Lucky"
+		return "lucky"
 	}
 }

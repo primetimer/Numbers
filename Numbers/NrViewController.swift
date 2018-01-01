@@ -13,6 +13,7 @@ import PrimeFactors
 
 class BaseNrTableCell : UITableViewCell {
 	var nr : BigUInt = 0
+	var tableparent : UITableView? = nil
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .disclosureIndicator
@@ -23,24 +24,6 @@ class BaseNrTableCell : UITableViewCell {
 	}
 }
 
-class DescTableCell: BaseNrTableCell {
-	private (set) var uidesc = UITextView()
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		contentView.addSubview(uidesc)
-		uidesc.isUserInteractionEnabled = false
-		uidesc.font = UIFont(name: "Arial", size: 18.0)
-		uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
-		
-		uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-		uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
 
 class FormTableCell: BaseNrTableCell {
 	private (set) var uimath = MTMathUILabel()
@@ -95,6 +78,7 @@ class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 	}
 	func webViewDidFinishLoad(_ webView: UIWebView)
 	{
+		//print("Didload=",webView.frame)
 		/*
 		if let table = self.superview as? UITableView {
 			let idx = IndexPath(row: 0, section: 2)
@@ -138,13 +122,18 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
+	#if false
 	private var uidesctemp : UITextView? = nil
+	#else
+	private var uidesctemp : UIWebView? = nil
+	#endif
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
 	//private var uidrawtemp : FaktorView? = nil
 	//private var uidrawtemp : [UIView?] = [nil,nil,nil,nil,nil]
 	
-	private var desc : String = "A text"
+	//private var desc : String = "A text"
+	private var htmldesc = ""
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiurl : String = "wikipedia.de"
 	
@@ -152,7 +141,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private func GetExplanation() {
 		let exp = Explain.shared.GetExplanation(nr: currnr)
 		uisearch.text = String(currnr)
-		desc = exp.desc
+		htmldesc = exp.html
 		formula = exp.latex
 		wikiurl = exp.wikiurl
 	}
@@ -216,10 +205,10 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		switch indexPath.section {
 		case 0:
 			if let temp = uidesctemp {
-				let size = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude))
-				let frame = CGRect(origin: CGPoint.zero, size: size)
-				temp.frame = frame
-				return size.height //+ 20.0
+				temp.frame.size = CGSize(width : width, height: 1.0)
+				temp.frame.size = temp.sizeThatFits(.zero)
+				uidesctemp?.frame = temp.frame
+				return temp.frame.height //+ 20.0
 			}
 		case 1:
 			if let temp = uiformtemp {
@@ -288,12 +277,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		switch indexPath.section {
 		case 0:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
-				cell.uidesc.text = desc
 				uidesctemp = cell.uidesc
+				cell.tableparent = tableView
+				cell.SetHtmlDesc(html: self.htmldesc)
 				return cell
 			}
 		case 1:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: formcellId, for: indexPath) as? FormTableCell {
+				cell.tableparent = tableView
 				cell.uimath.latex = formula
 				uiformtemp = cell.uimath
 				return cell

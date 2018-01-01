@@ -29,9 +29,11 @@ class HCNTester : NumTester {
 	
 	func getDesc(n: BigUInt) -> String? {
 		if let hcn = findHCN(n: n) {
-			var desc = String(n) + " is highly composite. It has " + String(hcn.div)
-			desc = desc + " divisors. More than any smaller number"
-			return desc
+			 var desc = WikiLinks.shared.getLink(tester: self, n: n)
+			 desc = desc + " It has " + String(hcn.div)
+				desc = desc + " divisors. More than any smaller number"
+				return desc
+			
 		}
 		return nil
 	}
