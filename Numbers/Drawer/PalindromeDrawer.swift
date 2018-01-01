@@ -61,7 +61,9 @@ class PalindromeView : DrawNrView {
 			UIGraphicsEndImageContext()
 			UIGraphicsBeginImageContext(rect.size)
 			srcImage.draw(in: rect)
-			flippedImage.draw(in: rect, blendMode: .normal, alpha: 1.0)
+			//let fliprect = CGRect(x:rect.minX,y:rect.minY + rect.height / 2.0, width: rect.width,height: rect.height)
+			let fliprect = rect
+			flippedImage.draw(in: fliprect, blendMode: .normal, alpha: 0.5)
 			let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
 			UIGraphicsEndImageContext()
 			imageview.image = newImage
@@ -113,8 +115,8 @@ class PalindromeDrawer : NSObject
 		let base = ptester.PalindromicBase(n: BigUInt(self.nr))
 		if base.count == 0 { return }
 		self.context = context
-		let w = rx / 2
-		let h = ry
+		let w = rx // / 2
+		let h = ry // / 2
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.alignment = .right
 		
@@ -134,7 +136,7 @@ class PalindromeDrawer : NSObject
 								  NSAttributedStringKey.foregroundColor : UIColor.red]
 				let attrString = NSAttributedString(string: myText,attributes: attributes)
 				let size = attrString.size()
-				if size.width > w {
+				if size.width > w || size.height > dy {
 					let halfrect = CGRect(x:0 , y:y0 , width: w, height: dy)
 					let color = colorWithGradient(frame: halfrect, colors: [.red,.blue])
 					
