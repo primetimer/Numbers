@@ -29,8 +29,10 @@ class FormTableCell: BaseNrTableCell {
 	private (set) var uimath = MTMathUILabel()
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		uimath.fontSize = 18.0
 		contentView.addSubview(uimath)
 		uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
+		//uimath.fontSize = 15.0
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -372,13 +374,17 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		if currnr <= 0 { return }
 		currnr = currnr - 1
 		GetExplanation()
-			tv.reloadData()
+		tv.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 	}
 	@objc func fwdButtonAction() {
 		if currnr <= 0 { currnr = 0 }
 		currnr = currnr + 1
 		GetExplanation()
 		tv.reloadData()
+		let indexPath = IndexPath(row: 0, section: 0)
+		self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 	}
 	
 	override func viewDidLoad() {

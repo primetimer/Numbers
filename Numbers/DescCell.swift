@@ -39,26 +39,23 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	private var _html = ""
+	private var _loaded = false
 	func SetHtmlDesc(html : String) {
+		if html == _html { return }
+		_html = html
+		_loaded = false
 		uidesc.delegate = self
 		uidesc.loadHTMLString(html, baseURL: nil)
 	}
 	
 	func webViewDidFinishLoad(_ webView: UIWebView)
 	{
-		print("Didload=",webView.frame)
+		if _loaded { return }
+		_loaded = true
 		tableparent?.beginUpdates()
-		webView.frame.size = CGSize(width : self.width, height: 1.0)
 		webView.frame.size = webView.sizeThatFits(.zero)
 		tableparent?.endUpdates()
-		//webView?.frame = temp.frame
-		print("Didloaded=",webView.frame)
-		/*
-		if let table = self.superview as? UITableView {
-		let idx = IndexPath(row: 0, section: 2)
-		table.reloadRows(at: [idx], with: .automatic)
-		}
-		*/
 	}
 	
 	
