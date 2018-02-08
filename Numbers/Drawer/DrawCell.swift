@@ -117,9 +117,9 @@ class DrawTableCell: BaseNrTableCell {
 	var type : TableCellType {
 		set {
 			if newValue == _type { return }
-			if _uidraw != nil { return }
+			//if _uidraw != nil { return }
 			_type = newValue
-			//_uidraw?.removeFromSuperview()
+			_uidraw?.removeFromSuperview()
 			switch type {
 			case .Fibo:
 				_uidraw = FiboView()
@@ -176,6 +176,8 @@ class DrawTableCell: BaseNrTableCell {
 				isSpecial = test.isSpecial(n: nr)
 			}
 			contentView.addSubview(_uidraw!)
+			self.setNeedsDisplay()
+			uilabel.text = numtester?.property()
 			LayoutUI()
 		}
 		get {
@@ -198,7 +200,7 @@ class DrawTableCell: BaseNrTableCell {
 			if nr.isInt64() {
 				uidraw?.SetNumber(UInt64(nr))
 			}
-			uilabel.text = numtester?.property()
+			
 			uidraw?.isHidden = false
 			_uidraw?.setNeedsDisplay()
 		}

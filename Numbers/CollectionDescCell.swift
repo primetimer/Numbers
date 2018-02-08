@@ -9,12 +9,11 @@
 import Foundation
 import UIKit
 
-class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
-	//private (set) var uidesc = UITextView()
+class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 	private (set) var uidesc = UIWebView()
 	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
+	override init(frame: CGRect){
+		super.init(frame: frame)
 		contentView.addSubview(uidesc)
 		#if false
 			uidesc.isUserInteractionEnabled = false
@@ -26,6 +25,7 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 			uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 			uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 		#else
+			uidesc.isUserInteractionEnabled = false
 			uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
 			
 			uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
@@ -53,9 +53,8 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 	{
 		if _loaded { return }
 		_loaded = true
-		tableparent?.beginUpdates()
-		//webView.frame.size = webView.sizeThatFits(.zero)
-		tableparent?.endUpdates()
+		//tableparent?.beginUpdates()
+		//tableparent?.endUpdates()
 	}
 	
 	

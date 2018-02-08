@@ -11,36 +11,10 @@ import iosMath
 import BigInt
 import PrimeFactors
 
-class NrTableCell: UITableViewCell {
-	
-	private (set) var uinr = UITextView()
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		contentView.addSubview(uinr)
-		uinr.isUserInteractionEnabled = false
-		uinr.font = UIFont(name: "Arial", size: 18.0)
-		//uinr.backgroundColor = .orange
-		uinr.frame = CGRect(x: 10.0, y: 0, width: self.frame.width-80.0, height: self.frame.height)
-		uinr.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-		//uinr.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		uinr.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		uinr.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-		//self.accessoryType = UITableViewCellAccessoryType.detailDisclosureButton
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	
-}
-
 class NrTableViewHeader: UITableViewHeaderFooterView {
 	
 	override init(reuseIdentifier: String?) {
 		super.init(reuseIdentifier: reuseIdentifier)
-		//contentView.backgroundColor = .red
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -49,15 +23,18 @@ class NrTableViewHeader: UITableViewHeaderFooterView {
 }
 
 
-class MainViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, UIScrollViewDelegate  {
+class MainViewController: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UISearchBarDelegate, UIScrollViewDelegate  {
 	
-	private let headerId = "nrheaderId"
-	private let nrcellId = "nrcellId"
+	//private let headerId = "nrheaderId"
+	private let nrcellcollectionId = "nrcellcollectionId"
+	//private let drawcellId = "drawcellId"
 	
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
-	private var uinrtemp : UITextView? = nil
+	//private var uinrtemp : UITextView? = nil
+	private var uidesctemp : UIWebView? = nil
+	
 	
 	private var nrstr : String = "nr"
 	private var _startnr : Int = 0
@@ -72,25 +49,22 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 	private let pagesize : Int = 200
 	
 	
-	//Not called since no detail button
-	func tableView(_ tableView: UITableView,
-				   accessoryButtonTappedForRowWith indexPath: IndexPath) {
-
+	func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+		return true
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let subvc = NrViewController()
 		subvc.currnr = BigUInt(startnr  + indexPath.row)
 		self.navigationController?.pushViewController(subvc, animated: true)
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let subvc = NrViewController()
-		subvc.currnr = BigUInt(startnr  + indexPath.row)
-		self.navigationController?.pushViewController(subvc, animated: true)
-	}
-	
+	/*
 	private func scrollToRow(row : Int, at: UITableViewScrollPosition) {
-		let indexPath = IndexPath(row: row, section: 0)
+		let indexPath = IndexPath(row: 0, section: row)
 		self.tv.scrollToRow(at: indexPath, at: at, animated: false)
 	}
+	*/
 	
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		if decelerate == false {
@@ -104,9 +78,11 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 	
 	private func Repositioning()
 	{
+		return
+		/*
 		guard let rows = self.tv.indexPathsForVisibleRows else { return }
-		let firstrow = rows[0].row
-		let lastrow = rows[rows.count-1].row
+		let firstrow = rows[0].section
+		let lastrow = rows[rows.count-1].section
 		if lastrow >= lastnr - startnr - pagesize / 2 {
 			//self.lastnr += pagesize
 			self.startnr += pagesize
@@ -115,108 +91,105 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 			scrollToRow(row: newrow, at: .bottom)
 		}
 		if firstrow <= pagesize / 2 && startnr > 0 {
-			//self.lastnr -= pagesize
 			let difsize = min(startnr,pagesize)
 			self.startnr -= difsize
 			let newrow = firstrow + difsize
 			print(firstrow,lastrow,newrow)
 			scrollToRow(row: newrow, at: .top)
 		}
+		*/
+	}
+	
+	func collectionView(_ tableView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return lastnr - startnr
+		 //return TableCellType.allValues.count
+	}
+	
+	func numberOfSections(in tableView: UICollectionView) -> Int {
+		return 1
+		
+	}
+	
+	func collectionView(_ tableView: UICollectionView, titleForHeaderInSection section: Int) -> String? {
+		return String(section+startnr)
 	}
 	
 	/*
-	func tableView(_ tableView: UITableView,
-				   willDisplay cell: UITableViewCell,
-				   forRowAt indexPath: IndexPath)
-	{
-		// At the bottom...
-		let dif = lastnr - startnr
-		let topVisibleIndexPath = self.tv.indexPathsForVisibleRows![0]
-		if (indexPath.row == dif-1) {
-			startnr = startnr + dif
-			lastnr = lastnr + dif
-			let row = topVisibleIndexPath.row - dif
-			self.scrollToRow(row: row, at: .top)
-			DispatchQueue.main.async { [unowned self] in
-				self.tv.reloadData()
-			}
-		}
-		if (indexPath.row == 0 && startnr > 0) {
-			startnr = startnr - dif
-			lastnr = lastnr - dif
-			let row = topVisibleIndexPath.row + dif
-			self.scrollToRow(row: row, at: .top)
-			DispatchQueue.main.async { [unowned self] in
-				self.tv.reloadData()
-			}
-		}
-	}
-	*/
-	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return lastnr - startnr
-	}
-	
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
-	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return "List of numbers"
-	}
-	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+	func collectionView(_ tableView: UICollectionView, viewForHeaderInSection section: Int) -> UIView? {
 		let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerId) as! NrTableViewHeader
 		return header
 	}
-
+	*/
+	
 	//
 	// MARK :- Cell
 	//
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+	func collectionView(_ tableView: UICollectionView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return 40.0
 		let width = tableView.frame.size.width - 20
-		switch indexPath.section {
-		case 0:
-			if let temp = uinrtemp {
-				let size = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude))
-				let frame = CGRect(origin: CGPoint.zero, size: size)
-				temp.frame = frame
-				return size.height + 20.0
-			}
-		default:
-			break
+		
+		if let temp = uidesctemp {
+			let size = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude))
+			let frame = CGRect(origin: CGPoint.zero, size: size)
+			temp.frame = frame
+			return size.height + 20.0
 		}
 		return 150
 	}
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let section = indexPath.section
 		let row = indexPath.row
-		switch indexPath.section {
-		case 0:
-			if let cell = tableView.dequeueReusableCell(withIdentifier: nrcellId, for: indexPath) as? NrTableCell {
+		if section == 0 {
+			if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nrcellcollectionId, for: indexPath) as? DescCollectionCell {
+				uidesctemp = cell.uidesc
 				let nr = startnr + row
 				let spoken = SpokenNumber.shared.spoken(n: nr)
 				let strnr = nr.formatnumber()
-				let props = GetExplanation(nr: BigUInt(nr))
-				cell.uinr.text = strnr + "\n" + spoken + "\n" + props
-				
-				uinrtemp = cell.uinr
+				let html = GetExplanation(nr: BigUInt(nr))
+				cell.tableparent = collectionView
+				cell.SetHtmlDesc(html: html)
+				//cell.isUserInteractionEnabled = false
 				return cell
 			}
-		default:
-			break
 		}
-		return UITableViewCell()
+		/*
+		if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: drawcellId, for: indexPath) as? DrawTableCell {
+			let type = TableCellType.allValues[row - 1]
+			cell.type = type
+			//uidrawtemp[row] = cell.uidraw
+			cell.nr = BigUInt(startnr + section)
+			if let test = cell.numtester {
+				if test.isSpecial(n: cell.nr) {
+					cell.accessoryType = .checkmark
+				} else {
+					cell.accessoryType = .none
+				}
+			}
+			return cell
+		}
+		*/
+		
+		
+		return UICollectionViewCell()
 	}
-
-	lazy var tv: UITableView = {
-		let tv = UITableView(frame: .zero, style: .plain)
+	
+	lazy var tv: UICollectionView = {
+		let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+		layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
+		layout.itemSize = CGSize(width: 120, height: 120)
+		
+		let tv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.backgroundColor = .lightGray
 		tv.delegate = self
 		tv.dataSource = self
-		tv.register(NrTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
-		tv.register(NrTableCell.self, forCellReuseIdentifier: self.nrcellId)
+		tv.allowsSelection = true
+		//tv.register(NrTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
+		//tv.register(NrTableCell.self, forCellReuseIdentifier: self.nrcellId)
+		tv.register(DescCollectionCell.self, forCellWithReuseIdentifier: nrcellcollectionId)
+		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
+
 		return tv
 	}()
 	
@@ -260,7 +233,7 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		super.viewDidLoad()
 		
 		CreateToolBar()
-		print(iosMathVersionNumber)
+		//print(iosMathVersionNumber)
 		
 		uisearch.searchBarStyle = UISearchBarStyle.prominent
 		uisearch.placeholder = " Search..."
@@ -281,7 +254,7 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
 		doneToolbar.barStyle       = UIBarStyle.default
 		let flexSpace              = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-		let done: UIBarButtonItem  = UIBarButtonItem(title: "Search", style: UIBarButtonItemStyle.done, target: self, action: #selector(NrViewController.doneButtonAction))
+		let done: UIBarButtonItem  = UIBarButtonItem(title: "Search", style: UIBarButtonItemStyle.done, target: self, action: #selector(self.doneButtonAction)) //#suspicour NrViewController #remove
 		
 		var items = [UIBarButtonItem]()
 		items.append(flexSpace)
@@ -298,7 +271,7 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		guard let text = uisearch.text else { return }
 		guard let nr = Int(text) else { return }
 		startnr = nr
-		scrollToRow(row: 0, at: .top)
+		//scrollToRow(row: 0, at: .top)
 		tv.reloadData()
 		Repositioning()
 	}
@@ -312,18 +285,22 @@ class MainViewController: UIViewController , UITableViewDelegate, UITableViewDat
 		tv.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		tv.bottomAnchor.constraint(equalTo: myToolbar.topAnchor).isActive = true
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
 	
 	private func GetExplanation(nr : BigUInt) -> String {
 		let exp = Explain.shared.GetExplanation(nr: nr)
+		return exp.html
+		/*
 		var ans = ""
 		for p in exp.properties {
-			ans.appendnl(p)
+		ans.appendnl(p)
 		}
+		
 		return ans
+		*/
 	}
 }
 

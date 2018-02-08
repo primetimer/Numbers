@@ -11,6 +11,26 @@ import iosMath
 import BigInt
 import PrimeFactors
 
+class BaseNrCollectionCell : UICollectionViewCell {
+	var nr : BigUInt = 0
+	var tableparent : UICollectionView? = nil
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+	}
+	/*
+	override init(style:  UITableViewCellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		self.accessoryType = .disclosureIndicator
+	}
+	*/
+	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+
 class BaseNrTableCell : UITableViewCell {
 	var nr : BigUInt = 0
 	var tableparent : UITableView? = nil
@@ -401,8 +421,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		uisearch.keyboardType = .numberPad
 		uisearch.delegate = self
 		navigationItem.titleView = uisearch
-		
-	
 		self.view.addSubview(tv)
 			self.view.addSubview(uisearch)
 		setupAutoLayout()
