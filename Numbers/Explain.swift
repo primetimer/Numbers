@@ -35,12 +35,24 @@ class Explain {
 	}	
 }
 
-class Explanation {
+class Explanation : NSObject {
 	
-	internal (set) var nr : BigUInt
+	internal (set) var nr : BigUInt = BigUInt(0)
 	internal (set) var desc = ""
 	internal (set) var latex = ""
 	internal (set) var properties : [String] = []
+	var propertyString : String {
+		get {
+			var prop = ""
+			for p in properties {
+				if prop.count > 0 {
+					prop.append("\n")
+				}
+				prop = prop + p
+			}
+			return prop
+		}
+	}
 	
 	internal var wikiurl : String {
 		get {
@@ -65,6 +77,7 @@ class Explanation {
 		}
 	}
 	init(nr: BigUInt) {
+		super.init()
 		self.nr = nr
 		self.desc = ""
 		
@@ -182,7 +195,10 @@ class Explanation {
 			}
 		}
 		if Tester.shared.isSpecial(n: nr) {
-			properties.append(Tester.shared.properties(n: nr))
+			let props = Tester.shared.properties(n: nr)
+			for p in props {
+				properties.append(p)
+			}
 			desc = desc + "\n" + Tester.shared.getDesc(n: nr)!
 			latex = latex + Tester.shared.getLatex(n: nr)!
 		}
@@ -199,8 +215,7 @@ class Explanation {
 		latex = latex + "\\forall n \\in \\mathbb{N} : 0 = n \\cdot{0} \\\\"
 		latex = latex + "0 := \\{\\} \\\\"
 	}
-	
-	
+		
 	private func One() {
 		nr = 1
 		desc = "One (1) is the succesor of Zero."

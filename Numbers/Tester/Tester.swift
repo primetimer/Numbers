@@ -19,7 +19,6 @@ protocol NumTester {
 
 class Tester : NumTester {
 	
-	
 	func property() -> String {
 		return ""
 	}
@@ -47,7 +46,8 @@ class Tester : NumTester {
 			if t is DullTester {
 				continue
 			}
-			if t.isSpecial(n: n) {
+			
+			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				return false
 			}
 		}
@@ -55,10 +55,12 @@ class Tester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		
 		var str : String = ""
 		for t in testers {
-			if t.isSpecial(n: n) {
-				str = str + t.getDesc(n: n)! + "\n"
+			if TesterCache.shared.isSpecial(tester: t, n: n) {
+				let desc = TesterCache.shared.getDesc(tester: t, n: n)
+				str = str + desc! + "\n"
 			}
 		}
 		return str
@@ -67,8 +69,8 @@ class Tester : NumTester {
 	func getLatex(n: BigUInt) -> String? {
 		var latex : String = ""
 		for t in testers {
-			if t.isSpecial(n: n) {
-				if let ltest = t.getLatex(n: n) {
+			if TesterCache.shared.isSpecial(tester: t, n: n) {
+				if let ltest = TesterCache.shared.getLatex(tester: t,n: n) {
 					latex = latex + ltest + "\\\\"
 				}
 			}
@@ -76,22 +78,31 @@ class Tester : NumTester {
 		return latex
 	}
 	
-	func properties(n: BigUInt) -> String {
-		var prop : String = ""
+	func properties(n: BigUInt) -> [String] {
+		var ans : [String] = []
 		if n == 0 {
-			prop = "Neutral Element of addition"
+			ans.append("Neutral Element of addition")
 		}
 		if n == 1 {
-			prop = "Neutral Element of mulitplication"
+			ans.append("Neutral Element of multiplication")
 		}
-
-
+		
 		for t in testers {
-			if t.isSpecial(n: n) {
-				if prop.count > 0 { prop = prop + "\n" }
-				prop = prop + t.property()
+			if TesterCache.shared.isSpecial(tester: t, n: n) {
+				ans.append(t.property())
 			}
 		}
+		return ans
+	}
+	
+	func propertyString(n: BigUInt) -> String {
+		let props = properties(n: n)
+		var prop = ""
+		for p in props {
+			if prop.count > 0 { prop = prop + "\n" }
+			prop = prop + p
+		}
+
 		return prop
 	}
 }
@@ -113,8 +124,6 @@ class FactorTester : NumTester {
 	func property() -> String {
 		return "Factorization"
 	}
-	
-	
 }
 
 class DullTester : NumTester {
@@ -293,18 +302,11 @@ class SquareTester : NumTester {
 	func property() -> String {
 		return "square"
 	}
-	private func IsInt(x: Double) -> Bool {
-		if x == floor(x) { return true }
-		return false
-	}
-	private func root(x: Double) -> Double {
-		let root = sqrt(x)
-		return root
-	}
+	
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
-		let r = root(x: Double(n))
-		return IsInt(x: r)
+		let r = n.squareRoot()
+		return r*r == n
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
@@ -314,7 +316,7 @@ class SquareTester : NumTester {
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		let nth = String(Int(root(x: Double(n))))
+		let nth = String(n.squareRoot())
 		
 		let latex = String(n) + "=" + nth + "^2 = " + nth + "\\cdot{" + nth + "}"
 		return latex
@@ -325,18 +327,11 @@ class CubeTester : NumTester {
 	func property() -> String {
 		return "cube"
 	}
-	private func IsInt(x: Double) -> Bool {
-		if x == floor(x) { return true }
-		return false
-	}
-	private func root(x: Double) -> Double {
-		let root = pow(x,1.0/3.0)
-		return root
-	}
+	
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
-		let r = root(x: Double(n))
-		return IsInt(x: r)
+		let r = n.iroot3()
+		return r*r*r == n
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
@@ -346,7 +341,7 @@ class CubeTester : NumTester {
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		let nth = String(Int(root(x: Double(n))))
+		let nth = String(n.iroot3())
 		let latex = String(n) + "=" + nth + "^3 = " + nth + "\\cdot{" + nth + "}" + "\\cdot{" + nth + "}"
 		return latex
 	}
@@ -365,10 +360,12 @@ class FibonacciTester : NumTester {
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		if n == 1 { return true }
-		let n2 = Double(n) * Double(n)
-		let x1 = 5.0*n2 + 4.0
-		let x2 = 5.0*n2 - 4.0
-		if IsInt(x: sqrt(x1)) || IsInt(x: sqrt(x2)) {
+		let n2 = n*n //Double(n) * Double(n)
+		let x1 = 5*n2 + 4
+		let x2 = 5*n2 - 4
+		let r1 = x1.squareRoot()
+		let r2 = x2.squareRoot()
+		if r1*r1 == x1 || r2*r2 == x2 {
 			return true
 		}
 		return false

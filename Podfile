@@ -7,9 +7,11 @@ target 'Numbers' do
 
   # Pods for Numbers
   pod 'iosMath'
-	
+		pod 'FutureKit', '~> 3.5'
 	pod 'BigInt', '~> 3.0'
 	pod 'SipHash', '~>1.2'
+
+
   pod 'PrimeFactors', :git => 'https://github.com/primetimer/PrimeFactors'
 target 'NumbersTests' do
     inherit! :search_paths

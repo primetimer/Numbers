@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BigInt
 
 class SpokenNumber {
 	static let shared = SpokenNumber()
@@ -19,27 +20,27 @@ class SpokenNumber {
 	"eighteen", "nineteen"]
 	
 	let tens = [ "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" ]
-	let bigger = [ "", "thousand", "million", "billion" , "trillion", "quadrillion", "quintilion"]
+	let bigger = [ "", "thousand", "million", "billion" , "trillion", "quadrillion", "quintilion","sextillion","septillion","octillion","Nonillion","Decillion","Undecillion",   "Duodecillion","Tredecillion","Quattuordecillion","Quindecillion","Sexdecillion","Septendecillion","Octodecillion","Novemdecillion","Vigintillion"]
 	let hundred = "hundred"
 	
-	func spoken(n: Int) -> String {
-		if n < 20 { return small[n] }
+	func spoken(n: BigUInt) -> String {
+		if n < 20 { return small[Int(n)] }
 		if n < 100 {
-			var str = tens[n / 10]
+			var str = tens[Int(n) / 10]
 			if n % 10 > 0 {
-				str = str + small[n % 10]
+				str = str + small[Int(n) % 10]
 			}
 			return str
 		}
 		if n < 1000 {
-			var ans = small[n / 100] + " " + hundred
+			var ans = small[Int(n) / 100] + " " + hundred
 			if n % 100 > 0 {
 				ans = ans + " and " + spoken(n: n % 100)
 			}
 			return ans
 		}
 		
-		var (divisor,pot) = (1,0)
+		var (divisor,pot) = (BigUInt(1),0)
 		while n / (1000*divisor) > 0 {
 			divisor = divisor * 1000
 			pot += 3

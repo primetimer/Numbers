@@ -23,7 +23,7 @@ class NrTableViewHeader: UITableViewHeaderFooterView {
 }
 
 
-class MainViewController: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UISearchBarDelegate, UIScrollViewDelegate  {
+class MainViewController: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UIScrollViewDelegate  {
 	
 	//private let headerId = "nrheaderId"
 	private let nrcellcollectionId = "nrcellcollectionId"
@@ -37,25 +37,27 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	
 	
 	private var nrstr : String = "nr"
-	private var _startnr : Int = 0
-	private var startnr : Int {
+	private var _startnr : BigUInt = 0
+	private var startnr : BigUInt {
 		get { return _startnr }
 		set { _startnr = max(0,newValue) }
 	}
 	
-	private var lastnr : Int {
-		get { return startnr + 400 }
+	private var lastnr : BigUInt {
+		get { return startnr + 20 }
 	}
-	private let pagesize : Int = 200
 	
+	private let pagesize : Int = 10
 	
+	/*
 	func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
 		return true
 	}
+	*/
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let subvc = NrViewController()
-		subvc.currnr = BigUInt(startnr  + indexPath.row)
+		subvc.currnr = startnr  + BigUInt(indexPath.row)
 		self.navigationController?.pushViewController(subvc, animated: true)
 	}
 	
@@ -101,7 +103,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	}
 	
 	func collectionView(_ tableView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return lastnr - startnr
+		return Int(lastnr - startnr)
 		 //return TableCellType.allValues.count
 	}
 	
@@ -111,7 +113,27 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	}
 	
 	func collectionView(_ tableView: UICollectionView, titleForHeaderInSection section: Int) -> String? {
-		return String(section+startnr)
+		return String(BigUInt(section)+startnr)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+
+		let l = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		return l.itemSize
+		/*
+		let row = indexPath.row
+		let nr = startnr + BigUInt(row)
+		let exp = Explain.shared.GetExplanation(nr: nr)
+		let props = exp.properties
+		if props.count > 3 {
+			print("props:", String(nr),props.count)
+		}
+		
+		let faktor : CGFloat = 1.0 //(nr % 5 ) == 0 ? CGFloat(1.0) : CGFloat(0.5) //CGFloat(props.count) / 10.0 + 0.5
+		let size = CGSize(width: l.itemSize.width * faktor, height: l.itemSize.height * faktor)
+		return size
+		*/
 	}
 	
 	/*
@@ -124,6 +146,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	//
 	// MARK :- Cell
 	//
+	/*
 	func collectionView(_ tableView: UICollectionView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return 40.0
 		let width = tableView.frame.size.width - 20
@@ -136,6 +159,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 		}
 		return 150
 	}
+	*/
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let section = indexPath.section
@@ -143,13 +167,17 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 		if section == 0 {
 			if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nrcellcollectionId, for: indexPath) as? DescCollectionCell {
 				uidesctemp = cell.uidesc
-				let nr = startnr + row
+				let nr = startnr + BigUInt(row)
 				let spoken = SpokenNumber.shared.spoken(n: nr)
+				cell.nr = BigUInt(nr)
+				/*
 				let strnr = nr.formatnumber()
+				
 				let html = GetExplanation(nr: BigUInt(nr))
 				cell.tableparent = collectionView
 				cell.SetHtmlDesc(html: html)
 				//cell.isUserInteractionEnabled = false
+				*/
 				return cell
 			}
 		}
@@ -177,7 +205,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	lazy var tv: UICollectionView = {
 		let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 		layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
-		layout.itemSize = CGSize(width: 120, height: 120)
+		layout.itemSize = CGSize(width: 200, height: 200)
 		
 		let tv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		tv.translatesAutoresizingMaskIntoConstraints = false
@@ -269,7 +297,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	@objc func doneButtonAction() {
 		self.uisearch.resignFirstResponder()
 		guard let text = uisearch.text else { return }
-		guard let nr = Int(text) else { return }
+		guard let nr = BigUInt(text) else { return }
 		startnr = nr
 		//scrollToRow(row: 0, at: .top)
 		tv.reloadData()
