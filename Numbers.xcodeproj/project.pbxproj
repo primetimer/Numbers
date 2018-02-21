@@ -25,6 +25,7 @@
 		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
+		5486C560203D755600778A81 /* NumeralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C55F203D755600778A81 /* NumeralCell.swift */; };
 		548DE2EE1FEA3BC500646D91 /* FiboDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */; };
 		54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */; };
 		54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FAB1FEE8047006993F2 /* GradientText.swift */; };
@@ -85,6 +86,7 @@
 		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
+		5486C55F203D755600778A81 /* NumeralCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralCell.swift; sourceTree = "<group>"; };
 		548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiboDrawer.swift; sourceTree = "<group>"; };
 		54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromeDrawer.swift; sourceTree = "<group>"; };
 		54923FAB1FEE8047006993F2 /* GradientText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientText.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
+				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,
 				54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */,
 				543078291FE3C1180036516F /* SquareDrawer.swift */,
@@ -492,6 +495,7 @@
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
 				545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */,
+				5486C560203D755600778A81 /* NumeralCell.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,

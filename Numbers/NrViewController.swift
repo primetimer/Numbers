@@ -140,6 +140,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	//private let drawcellId = "drawcellId"
 	static let wikiheight : CGFloat = 600.0
 	private let drawcells = DrawingCells()
+	private let numeralcells = NumeralCells()
 	
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
@@ -149,6 +150,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	#else
 	private var uidesctemp : UIWebView? = nil
 	#endif
+	private var uinumeraltemp : UILabel? = nil
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
 	//private var uidrawtemp : FaktorView? = nil
@@ -169,14 +171,17 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section == 2 {
+		if section == 3 {
 			return TableCellType.allValues.count
+		}
+		if section == 1 {
+			return NumeralCellType.allValues.count
 		}
 		return 1
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 4
+		return 5
 	}
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -184,10 +189,12 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case 0:
 			return "Description"
 		case 1:
-			return "Formula"
+			return "Numerals"
 		case 2:
-			return "Drawing"
+			return "Formula"
 		case 3:
+			return "Drawing"
+		case 4:
 			return "Wikipedia"
 		default:
 			return nil
@@ -233,12 +240,22 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return temp.frame.height //+ 20.0
 			}
 		case 1:
+			let row = indexPath.row
+			let tablerow = numeralcells.cells[row]
+			let label = tablerow.uilabel
+			let width = label.width
+			label.sizeToFit()
+			let height = label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
+			return height + 20.0
+			
+			
+		case 2:
 			if let temp = uiformtemp {
 				temp.sizeToFit()
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
 				return height + 20.0
 			}
-		case 2:
+		case 3:
 			let row = indexPath.row
 			let tablerow = drawcells.cells[row]
 			tablerow.isHidden = tablerow.isSpecial ? false : true
@@ -249,7 +266,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				let height = temp.bottom
 				return height
 			}
-		case 3:
+		case 4:
 			if uiwebtemp != nil {
 				return NrViewController.wikiheight
 			}
@@ -305,13 +322,20 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return cell
 			}
 		case 1:
+			let row = indexPath.row
+			let cell = numeralcells.cells[row]
+			cell.nr = currnr
+			cell.selectionStyle = .none
+			return cell
+			
+		case 2:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: formcellId, for: indexPath) as? FormTableCell {
 				cell.tableparent = tableView
 				cell.uimath.latex = formula
 				uiformtemp = cell.uimath
 				return cell
 			}
-		case 2:
+		case 3:
 			let row = indexPath.row
 			let cell = drawcells.cells[row]
 			cell.nr = currnr
@@ -326,7 +350,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return cell
 			}
 			*/
-		case 3:
+		case 4:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
 				cell.SetWikiUrl(wiki: self.wikiurl)
