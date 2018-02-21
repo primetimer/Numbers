@@ -31,15 +31,7 @@ class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 						self.SetHtmlDesc(html: exp.html)
 					})
 				}
-				
-				let mayafont = UIFont(name: "Mayan", size: 20)
-				let deffont = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-				uinr.font = deffont
-				//uinr.text = nr.Abjad()
 				uinr.text = nr.Phonician()
-				
-				//uinr.text = nr.Vingesimal()
-				//uinr.text = nr.Hebraian() //nr.Egytian() // nr.Chinese() // nr.Greek() // nr.Arabian() //  nr.Duodezimal() // nr.Keilschrift()
 			}
 		}
 	}

@@ -27,7 +27,7 @@ class LuckyView : DrawNrView {
 		super.draw(rect)
 		
 		DispatchQueue.global().async {
-			var images = self.CreateImages()
+			let images = self.CreateImages()
 			
 			DispatchQueue.main.async(execute: {
 				self.imageview.animationImages = images

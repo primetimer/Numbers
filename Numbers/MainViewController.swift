@@ -168,16 +168,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 			if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nrcellcollectionId, for: indexPath) as? DescCollectionCell {
 				uidesctemp = cell.uidesc
 				let nr = startnr + BigUInt(row)
-				let spoken = SpokenNumber.shared.spoken(n: nr)
 				cell.nr = BigUInt(nr)
-				/*
-				let strnr = nr.formatnumber()
-				
-				let html = GetExplanation(nr: BigUInt(nr))
-				cell.tableparent = collectionView
-				cell.SetHtmlDesc(html: html)
-				//cell.isUserInteractionEnabled = false
-				*/
 				return cell
 			}
 		}

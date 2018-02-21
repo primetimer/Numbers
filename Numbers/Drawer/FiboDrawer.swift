@@ -91,7 +91,7 @@ class FiboDrawer : NSObject
 		if nth <= 2 { return 1 }
 		var (a,b) = (1,1)
 		var c = 0
-		for i in 3...nth {
+		for _ in 3...nth {
 			c = a + b
 			a = b
 			b = c

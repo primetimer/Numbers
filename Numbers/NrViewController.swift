@@ -34,6 +34,22 @@ class BaseNrCollectionCell : UICollectionViewCell {
 class BaseNrTableCell : UITableViewCell {
 	var nr : BigUInt = 0
 	var tableparent : UITableView? = nil
+	private var _expanded : Bool = false
+	
+	var expanded : Bool {
+		set {
+			if newValue == _expanded {return }
+			_expanded = newValue
+			LayoutUI()
+		}
+		get {
+			return _expanded
+		}
+	}
+	
+	internal func LayoutUI() {
+		
+	}
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .disclosureIndicator
@@ -129,7 +145,13 @@ class CustomTableViewFooter: UITableViewHeaderFooterView {
 }
 */
 
-
+enum NrViewSection : Int {
+	case Description = 0
+	case Numerals = 1
+	case Formula = 2
+	case Draw = 3
+	case Wiki = 4
+}
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate  {
 	private let headerId = "headerId"
@@ -137,6 +159,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
+	
 	//private let drawcellId = "drawcellId"
 	static let wikiheight : CGFloat = 600.0
 	private let drawcells = DrawingCells()
@@ -171,13 +194,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section == 3 {
+		switch section {
+		case NrViewSection.Draw.rawValue:
 			return TableCellType.allValues.count
-		}
-		if section == 1 {
+		case NrViewSection.Numerals.rawValue:
 			return NumeralCellType.allValues.count
+		default:
+			return 1
 		}
-		return 1
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
@@ -186,15 +210,15 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
-		case 0:
+		case NrViewSection.Description.rawValue:
 			return "Description"
-		case 1:
+		case NrViewSection.Numerals.rawValue:
 			return "Numerals"
-		case 2:
+		case NrViewSection.Formula.rawValue:
 			return "Formula"
-		case 3:
+		case NrViewSection.Draw.rawValue:
 			return "Drawing"
-		case 4:
+		case NrViewSection.Wiki.rawValue:
 			return "Wikipedia"
 		default:
 			return nil
@@ -232,16 +256,19 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let width = tableView.frame.size.width // - 20
 		switch indexPath.section {
-		case 0:
+		case NrViewSection.Description.rawValue:
 			if let temp = uidesctemp {
 				temp.frame.size = CGSize(width : width, height: 1.0)
 				temp.frame.size = temp.sizeThatFits(.zero)
 				uidesctemp?.frame = temp.frame
 				return temp.frame.height //+ 20.0
 			}
-		case 1:
+		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
 			let tablerow = numeralcells.cells[row]
+			if tablerow.isHidden {
+				return 0.0
+			}
 			let label = tablerow.uilabel
 			let width = label.width
 			label.sizeToFit()
@@ -249,13 +276,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return height + 20.0
 			
 			
-		case 2:
+		case NrViewSection.Formula.rawValue:
 			if let temp = uiformtemp {
 				temp.sizeToFit()
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
 				return height + 20.0
 			}
-		case 3:
+		case NrViewSection.Draw.rawValue:
 			let row = indexPath.row
 			let tablerow = drawcells.cells[row]
 			tablerow.isHidden = tablerow.isSpecial ? false : true
@@ -266,7 +293,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				let height = temp.bottom
 				return height
 			}
-		case 4:
+		case NrViewSection.Wiki.rawValue:
 			if uiwebtemp != nil {
 				return NrViewController.wikiheight
 			}
@@ -289,8 +316,19 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return indexPath
 	}
 	
+	private var expandednumerals = false
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
+		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
+		switch indexPath.section {
+		case NrViewSection.Numerals.rawValue:
+			expandednumerals = !expandednumerals
+			tableView.beginUpdates()
+			for c in numeralcells.cells {
+				c.expanded = expandednumerals
+			}
+			tableView.endUpdates()
+
+		case NrViewSection.Draw.rawValue:
 			if cell.expanded {
 				tableView.beginUpdates()
 				cell.expanded = false
@@ -302,62 +340,55 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			tableView.beginUpdates()
 			cell.expanded = true
 			tableView.endUpdates()
+		default:
+			break
 		}
 	}
+	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
-			tableView.beginUpdates()
-			cell.expanded = false
-			tableView.endUpdates()
-		}
+		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
+		tableView.beginUpdates()
+		cell.expanded = false
+		tableView.endUpdates()
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch indexPath.section {
-		case 0:
+		case NrViewSection.Description.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
 				uidesctemp = cell.uidesc
 				cell.tableparent = tableView
 				cell.SetHtmlDesc(html: self.htmldesc)
 				return cell
 			}
-		case 1:
+		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
 			let cell = numeralcells.cells[row]
 			cell.nr = currnr
 			cell.selectionStyle = .none
 			return cell
 			
-		case 2:
+		case NrViewSection.Formula.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: formcellId, for: indexPath) as? FormTableCell {
 				cell.tableparent = tableView
 				cell.uimath.latex = formula
 				uiformtemp = cell.uimath
 				return cell
 			}
-		case 3:
+		case NrViewSection.Draw.rawValue:
 			let row = indexPath.row
 			let cell = drawcells.cells[row]
 			cell.nr = currnr
 			cell.selectionStyle = .none
 			return cell
-			/*
-			if let cell = tableView.dequeueReusableCell(withIdentifier: drawcellId, for: indexPath) as? DrawTableCell {
-				let row = indexPath.row
-				cell.type = row
-				uidrawtemp[row] = cell.uidraw
-				cell.nr = currnr
-				return cell
-			}
-			*/
-		case 4:
+		case NrViewSection.Wiki.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
 				cell.SetWikiUrl(wiki: self.wikiurl)
 				return cell
 			}
 		default:
-			break
+			assert(false)
 		}
 		return UITableViewCell()
 	}

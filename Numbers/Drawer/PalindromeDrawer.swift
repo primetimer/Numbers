@@ -115,8 +115,7 @@ class PalindromeDrawer : NSObject
 		let base = ptester.PalindromicBase(n: BigUInt(self.nr))
 		if base.count == 0 { return }
 		self.context = context
-		let w = rx // / 2
-		let h = ry // / 2
+		let w = rx 
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.alignment = .right
 		

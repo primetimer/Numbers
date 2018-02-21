@@ -383,7 +383,11 @@ class FibonacciTester : NumTester {
 		let phi = (1.0 + sqrt(5)) / 2.0
 		let nbyphi = Double(n) / phi
 		let round = Darwin.round(nbyphi)
-		return BigUInt(round)
+		let previ = BigUInt(round)
+		if !isSpecial(n: previ) {
+			return 0
+		}
+		return previ
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n:n)
@@ -396,10 +400,13 @@ class FibonacciTester : NumTester {
 		if n == 1 {
 			return nil
 		}
-		let prevf = prev(n: n)
-		let secf = n - prevf
+		let prev1 = prev(n: n)
+		if prev1 == 0 {
+			return ""
+		}
+		let prev2 = n - prev1
 		let nth = Nth(n:n)
-		var latex = String(n) + "=" + String(secf) + "+" + String(prevf) + " = "
+		var latex = String(n) + "=" + String(prev2) + "+" + String(prev1) + " = "
 		latex = latex + "f_{" + String(nth-2) + "} + f_{" + String(nth-1) + "}"
 		return latex
 	}

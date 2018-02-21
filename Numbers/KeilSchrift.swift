@@ -153,8 +153,7 @@ extension BigUInt {
 		let onetonine = ["\u{0627}","\u{0628}","\u{062C}","\u{062F}","\u{0647}","\u{0648}","\u{0632}","\u{062D}","\u{0637}"]
 		let tens = ["\u{0649}","\u{0643}","\u{0644}","\u{0645}","\u{0646}","\u{0633}","\u{0639}","\u{0641}","\u{0635}"]
 		let hundreds = ["\u{0642}","\u{0631}","\u{0634}","\u{062A}","\u{062B}","\u{062E}","\u{0630}","\u{0636}","\u{0638}"]
-		let thousand = "\u{063A}"
-		var index = 0
+		//let thousand = "\u{063A}"
 		var (stellen,digit,ans) = (self,Int(self % 10),"")
 		if self == 0 { return "" }
 		
@@ -209,7 +208,6 @@ extension BigUInt {
 		let ten = "\u{10917}"
 		let twenty = "\u{10918}"
 		
-		
 		if self >= 100 && self < 200 && withprefix == false {
 			let mod100 = self % 100
 			return hundredsign + mod100.PhonicianUpto9999(hundredsign: "")
@@ -223,7 +221,7 @@ extension BigUInt {
 			let mod10 = self % 10
 			let ans = mod10.PhonicianUpto9()
 			
-			var div10 = self / 10
+			let div10 = self / 10
 			switch Int(div10) {
 			case 1:
 				return ten + ans
@@ -275,8 +273,8 @@ extension BigUInt {
 		
 	}
 	
-	func Egytian() -> String {
-		let zero = "𓂜"
+	func Egyptian() -> String {
+		let zero = "𓄤" // "𓂜"
 		let ones = ["𓐄","𓐅","𓐆","𓐇","𓐈","𓐉","𓐊","𓐋","𓐌"]
 		let tens = ["𓎆","𓎇","𓎈","𓎉","𓎊","𓎋","𓎌","𓎍","𓎎"]
 		let hundreds = ["𓍢","𓍣","𓍤","𓍥","𓍦","𓍧","𓍨","𓍩","𓍪"]

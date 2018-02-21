@@ -36,8 +36,9 @@ class NumeralCells {
 
 enum NumeralCellType : Int {
 	case None = -1
-	case Spoken = 0
-	case Latin = 1
+	case FormatUS = 0
+	case Spoken = 1
+	case Latin
 	case Roman
 	case Indian
 	case Abjad
@@ -50,12 +51,33 @@ enum NumeralCellType : Int {
 	case Chinese
 	case Maya
 	
-	static let allValues : [NumeralCellType] = [.Spoken, .Roman,.Indian,.Abjad,.Duodezimal,.Egyptian,.Phonician,.Greek,.Hebraian,.Babylon,.Chinese,.Maya]
+	static let allValues : [NumeralCellType] = [FormatUS, .Spoken, .Roman,.Indian,.Abjad,.Duodezimal,.Egyptian,.Phonician,.Greek,.Hebraian,.Babylon,.Chinese,.Maya]
+}
+
+extension BigUInt {
+	func formatUS() -> String {
+		var stellen = self
+		var ans = ""
+		var index = 0
+		if self == 0 { return "0" }
+		while stellen > 0 {
+			let digit = Int(stellen % 10)
+			if index % 3 == 0 && index > 0 {
+				ans = "," + ans
+			}
+			ans = String(digit) + ans
+			index = index + 1
+			stellen = stellen / 10
+		}
+		return ans
+	}
 }
 
 extension BigUInt {
 	func getNumeral(type : NumeralCellType) -> String {
 		switch type {
+		case .FormatUS:
+			return self.formatUS()
 		case .Spoken:
 			return SpokenNumber.shared.spoken(n: self)
 		case .Latin:
@@ -75,7 +97,7 @@ extension BigUInt {
 		case .Duodezimal:
 			return self.Duodezimal()
 		case .Egyptian:
-			return self.Egytian()
+			return self.Egyptian()
 		case .Phonician:
 			return self.Phonician()
 		case .Greek:
@@ -100,19 +122,9 @@ class NumeralCell: BaseNrTableCell {
 	
 	private (set) var uilabel = UILabel()
 	private var _type : NumeralCellType = .None
-	private var _expanded : Bool = false
 	private (set) var isSpecial : Bool = false
 	private (set) var numtester : NumTester? = nil
-	var expanded : Bool {
-		set {
-			if newValue == _expanded {return }
-			_expanded = newValue
-			LayoutUI()
-		}
-		get {
-			return _expanded
-		}
-	}
+	
 	var type : NumeralCellType {
 		set {
 			if newValue == _type { return }
@@ -122,6 +134,18 @@ class NumeralCell: BaseNrTableCell {
 		}
 		get {
 			return _type
+		}
+	}
+	
+	override var expanded: Bool {
+		get { return super.expanded }
+		set {
+			super.expanded = newValue
+			if !expanded && type != .FormatUS {
+				self.isHidden = true
+			} else {
+				self.isHidden = false
+			}
 		}
 	}
 	override var nr : BigUInt {
@@ -147,15 +171,21 @@ class NumeralCell: BaseNrTableCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private func LayoutUI() {
+	override func LayoutUI() {
 		uilabel.translatesAutoresizingMaskIntoConstraints = false
 		//uilabel.frame = CGRect(x: height * 3 / 2, y: 0 , width : self.contentView.width, height: 40.0)
 		uilabel.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 40.0).isActive = true
 		uilabel.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: -40.0).isActive = true
+		uilabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8.0).isActive = true
+		uilabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -8.0).isActive = true
 		//uilabel.heightAnchor.constraint(equalTo: contentView).he
 		//uilabel.leftAnchor.constraint(equalTo:contentView.leftAnchor).isActive = true
 		//uilabel.rightAnchor.constraint(equalTo:contentView.rightAnchor).isActive = true
-		self.accessoryType = .disclosureIndicator
+		if type == .FormatUS {
+			self.accessoryType = .disclosureIndicator
+		} else {
+			self.accessoryType = .none
+		}
 	}
 }
 

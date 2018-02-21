@@ -98,19 +98,10 @@ class DrawTableCell: BaseNrTableCell {
 	private var uilabel = UILabel()
 	private var _uidraw : DrawNrView? = nil
 	private var _type : TableCellType = .None
-	private var _expanded : Bool = false
+	
 	private (set) var isSpecial : Bool = false
 	private (set) var numtester : NumTester? = nil
-	var expanded : Bool {
-		set {
-			if newValue == _expanded {return }
-			_expanded = newValue
-			LayoutUI()
-		}
-		get {
-			return _expanded
-		}
-	}
+	
 	var uidraw : DrawNrView? {
 		get { return _uidraw }
 	}
@@ -213,7 +204,7 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private let smalldrawwidth : CGFloat = 40.0
-	private func LayoutUI() {
+	override func LayoutUI() {
 		guard let draw = _uidraw else { return }
 		if expanded {
 			draw.frame = CGRect(x: 0.0, y: smalldrawwidth, width: self.frame.width, height: self.frame.width)
@@ -231,8 +222,7 @@ class DrawTableCell: BaseNrTableCell {
 			draw.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 			self.accessoryType = .disclosureIndicator
 		}
-		//#_uidraw?.setNeedsDisplay()
-		
+		//#_uidraw?.setNeedsDisplay()		
 	}
 }
 

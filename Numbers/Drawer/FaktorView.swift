@@ -35,7 +35,7 @@ class FaktorView: DrawNrView {
 				var images = self.CreateImages()
 				if let last = images.last {
 					let stillcount = images.count
-					for i in 0...stillcount {
+					for _ in 0...stillcount {
 						images.append(last)
 					}
 				}
