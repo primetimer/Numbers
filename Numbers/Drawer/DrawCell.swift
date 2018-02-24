@@ -121,9 +121,9 @@ class DrawTableCell: BaseNrTableCell {
 				_uidraw = faktorview
 				numtester = FactorTester()
 			case .Lucky:
-				let faktorview = LuckyView()
+				let luckyview = LuckyView()
 				//faktorview.param.type = .lucky
-				_uidraw = faktorview
+				_uidraw = luckyview
 				numtester = LuckyTester()
 			case .Triangular:
 				_uidraw = PolygonalView(poly: 3)
