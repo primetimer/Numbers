@@ -302,7 +302,7 @@ class NumeralCell: BaseNrTableCell {
 				let fonthigher = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
 				uilabel.font = fonthigher
 			default:
-				let deffont = UIFont.systemFont(ofSize: 12.0 ) //UIFont.labelFontSize)
+				let deffont = UIFont.systemFont(ofSize: 14.0 ) //UIFont.labelFontSize)
 				uilabel.font = deffont
 			}
 			uilabel.text = nr.getNumeral(type: type)

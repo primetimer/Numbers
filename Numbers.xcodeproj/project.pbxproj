@@ -23,6 +23,7 @@
 		545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE0C1FE664570035B9EA /* FactorCache.swift */; };
 		546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546AB3541FDD5FEA007887E8 /* PrimeTester.swift */; };
 		546DD98D2041E3C6009A1A16 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 546DD98C2041E23C009A1A16 /* symbola.ttf */; };
+		546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */; };
 		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
@@ -88,6 +89,7 @@
 		545ECE0C1FE664570035B9EA /* FactorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorCache.swift; sourceTree = "<group>"; };
 		546AB3541FDD5FEA007887E8 /* PrimeTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTester.swift; sourceTree = "<group>"; };
 		546DD98C2041E23C009A1A16 /* symbola.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = symbola.ttf; sourceTree = "<group>"; };
+		546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
+				546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */,
 				54C35751203C924C0044803F /* mayan.ttf */,
 				546DD98C2041E23C009A1A16 /* symbola.ttf */,
 				5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */,
@@ -512,6 +515,7 @@
 				5486C560203D755600778A81 /* NumeralCell.swift in Sources */,
 				5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
+				546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
 				54F7E0FE2039D97A00B4EAEF /* TesterCache.swift in Sources */,

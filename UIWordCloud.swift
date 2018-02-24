@@ -121,7 +121,7 @@ public class UIWordCloudView: UIView {
 		for iteration in 1...1000  {
 			let x0 = CGFloat(arc4random_uniform(UInt32(frame.width)))
 			let y0 = CGFloat(arc4random_uniform(UInt32(frame.height)))
-			var maxframe = CGRect(x:0,y: 0, width : frame.width , height : frame.height)
+			var maxframe = CGRect(x:0,y: 0, width : frame.width * 0.7 , height : frame.height * 0.7)
 			let s = vertical ? svert : str
 			let size = GetStrSize(s: s, font: font, fontsize: fontsize,frame : maxframe)
 			
@@ -169,7 +169,21 @@ public class UIWordCloudView: UIView {
 		return ans
 	}
 	
-	private var workItem : DispatchWorkItem? = nil
+	private var indicator = ViewControllerUtils()
+	private var _workItem : DispatchWorkItem? = nil
+	private var workItem : DispatchWorkItem? {
+		get { return _workItem }
+		set {
+			_workItem?.cancel()
+			_workItem = newValue
+			if newValue == nil {
+				indicator.hideActivityIndicator(uiView: self)
+			} else {
+				indicator.showActivityIndicator(uiView: self)
+			}
+		}
+	}
+	
 	func Compute(frame : CGRect) {
 		
 		let frame = self.frame
@@ -177,6 +191,7 @@ public class UIWordCloudView: UIView {
 			workItem?.cancel()
 			//print("Cancelled")
 		}
+
 		workItem = DispatchWorkItem {
 			//print("Computing")
 			self.textarr.shuffle()
@@ -202,10 +217,13 @@ public class UIWordCloudView: UIView {
 						self.workItem = nil
 						//print("Displayed")
 					})
+				
 			}
 			else {
 				print("Cancelled without display")
 			}
+			
+
 		}
 		
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
