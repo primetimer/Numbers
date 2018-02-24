@@ -198,7 +198,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Draw.rawValue:
 			return TableCellType.allValues.count
 		case NrViewSection.Numerals.rawValue:
-			return NumeralCellType.allValues.count
+			return NumeralCellType.allValues.count+1
 		default:
 			return 1
 		}
@@ -264,17 +264,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return temp.frame.height //+ 20.0
 			}
 		case NrViewSection.Numerals.rawValue:
+			
 			let row = indexPath.row
-			let tablerow = numeralcells.cells[row]
-			if tablerow.isHidden {
+			if numeralcells.getCell(row: row).isHidden {
 				return 0.0
 			}
-			let label = tablerow.uilabel
-			let width = label.width
-			label.sizeToFit()
-			let height = label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
-			return height + 20.0
-			
+			let h = numeralcells.getRowHeight(row: row)
+			return h
 			
 		case NrViewSection.Formula.rawValue:
 			if let temp = uiformtemp {
@@ -316,16 +312,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return indexPath
 	}
 	
-	private var expandednumerals = false
+	//private var expandednumerals = false
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
 		case NrViewSection.Numerals.rawValue:
-			expandednumerals = !expandednumerals
+			numeralcells.expanded = !numeralcells.expanded
 			tableView.beginUpdates()
-			for c in numeralcells.cells {
-				c.expanded = expandednumerals
-			}
 			tableView.endUpdates()
 
 		case NrViewSection.Draw.rawValue:
@@ -352,6 +345,18 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tableView.endUpdates()
 	}
 	
+	/*
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		
+		if let art = cell as? NumeralArtCell {
+				let nr = startnr + BigUInt(row)
+				cell.nr = BigUInt(nr)
+				return cell
+			}
+		}
+		cell.setNeedsDisplay()
+	}
+	*/
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch indexPath.section {
 		case NrViewSection.Description.rawValue:
@@ -363,8 +368,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			}
 		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
-			let cell = numeralcells.cells[row]
-			cell.nr = currnr
+			numeralcells.nr = currnr
+			let cell = numeralcells.getCell(row: row)
 			cell.selectionStyle = .none
 			return cell
 			
@@ -466,8 +471,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		super.viewDidLoad()
 		
 		CreateToolBar()
-		print(iosMathVersionNumber)
-		
 		uisearch.searchBarStyle = UISearchBarStyle.prominent
 		uisearch.placeholder = " Search..."
 		uisearch.sizeToFit()
@@ -505,6 +508,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		currnr = nr
 		GetExplanation()
 		tv.reloadData()
+		tv.beginUpdates()
+		tv.endUpdates()
 	}
 	
 	func setupAutoLayout() {

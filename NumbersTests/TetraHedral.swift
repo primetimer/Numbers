@@ -32,9 +32,6 @@ class TetraHedral : XCTestCase {
 				let tn = n * (n+1) * (n+2) / 6
 				let nr = BigUInt(tn)
 				let isspecial = t.isSpecial(n: nr)
-				if isspecial == false {
-					print("Error:", n)
-				}
 				XCTAssert(isspecial == true)
 				
 				if lasttn > 0 {

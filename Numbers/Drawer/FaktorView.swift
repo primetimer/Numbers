@@ -63,7 +63,6 @@ class FaktorView: DrawNrView {
 		var images : [UIImage] = []
 		let drawer = param.CreateDrawer(rect)
 		let maxrekurs = drawer.CalcRekursLevel()
-		print("Drawing:",String(self.nr))
 		
 		do {
 			for k in 0...maxrekurs {

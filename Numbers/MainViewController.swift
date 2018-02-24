@@ -33,7 +33,8 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
 	//private var uinrtemp : UITextView? = nil
-	private var uidesctemp : UIWebView? = nil
+	//private var uidesctemp : UIWebView? = nil
+	private var uiwordletemp : UIWordCloudView? = nil
 	
 	
 	private var nrstr : String = "nr"
@@ -166,7 +167,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 		let row = indexPath.row
 		if section == 0 {
 			if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nrcellcollectionId, for: indexPath) as? DescCollectionCell {
-				uidesctemp = cell.uidesc
+				uiwordletemp = cell.uidesc
 				let nr = startnr + BigUInt(row)
 				cell.nr = BigUInt(nr)
 				return cell
@@ -196,7 +197,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	lazy var tv: UICollectionView = {
 		let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 		layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20)
-		layout.itemSize = CGSize(width: 200, height: 200)
+		layout.itemSize = CGSize(width: 300, height: 300)
 		
 		let tv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		tv.translatesAutoresizingMaskIntoConstraints = false

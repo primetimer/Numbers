@@ -12,7 +12,8 @@ import BigInt
 import FutureKit
 
 class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
-	private (set) var uidesc = UIWebView()
+	private (set) var uidesc = UIWordCloudView()
+	//private (set) var uidesc = UIWebView()
 	private (set) var uinr = UILabel()
 	
 	override var nr : BigUInt {
@@ -22,15 +23,29 @@ class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 				super.nr = newValue
 				self.SetHtmlDesc(html: "")
 				DispatchQueue.global(qos: .background).async {
-					print("Explanation call", String(self.nr))
 					let exp = Explain.shared.GetExplanation(nr: self.nr)
-					print("Explanation called", String(self.nr))
-					
 					DispatchQueue.main.async(execute: {
-						print("Explanation ready", String(self.nr))
 						self.SetHtmlDesc(html: exp.html)
 					})
 				}
+				
+				uidesc.Clear()
+				for type in NumeralCellType.allValues {
+					let s = nr.getNumeral(type: type)
+					var font : String? = nil
+					switch type {
+					case .Maya:
+						font =  "mayan"
+					case .Rod:
+						font = "symbola"
+					default:
+						break
+					}
+					uidesc.AppendString(s: s,font: font)
+				}
+				
+				//uidesc.AppendString(s: String(nr))
+				uidesc.setNeedsDisplay()
 				uinr.text = nr.Phonician()
 			}
 		}
@@ -45,10 +60,8 @@ class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 
 		contentView.addSubview(uidesc)
 		contentView.addSubview(uinr)
-		
-		print(contentView.frame)
+
 		let margins = contentView.layoutMarginsGuide
-		print(margins)
 
 		//uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
 		let viewsDict = ["nr" : uinr, "web" : uidesc , "content" : contentView]
@@ -101,8 +114,10 @@ class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 		if html == _html { return }
 		_html = html
 		_loaded = false
+		#if false
 		uidesc.delegate = self
 		uidesc.loadHTMLString(html, baseURL: nil)
+		#endif
 	}
 	
 	func webViewDidFinishLoad(_ webView: UIWebView)

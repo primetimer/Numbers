@@ -11,33 +11,33 @@ import BigInt
 
 extension BigUInt {
 	func Duodezimal() -> String {
+		//let superscript = '⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ᵃ ᵇ ᶜ ᵈ ᵉ ᶠ ᵍ ʰ ⁱ ʲ ᵏ ˡ ᵐ ⁿ ᵒ ᵖ ʳ ˢ ᵗ ᵘ ᵛ ʷ ˣ ʸ ᶻ ᴬ ᴮ ᴰ ᴱ ᴳ ᴴ ᴵ ᴶ ᴷ ᴸ ᴹ ᴺ ᴼ ᴾ ᴿ ᵀ ᵁ ⱽ ᵂ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ᵅ ᵝ ᵞ ᵟ ᵋ ᶿ ᶥ ᶲ ᵠ ᵡ ᵦ ᵧ ᵨ ᵩ ᵪ'
+		
 		var ans = ""
 		var stellen = self
+		if self == 0 { return "0" }
 		while stellen > 0 {
 			let digit = Int(stellen % 12)
 			ans = Digit12(digit: digit) + ans
 			stellen = stellen / 12
 		}
+		if ans.count > 1 {
+			ans = ans + "ᵈᶻ" //"\u{01F3}"  // "₁₂"
+		}
 		return ans
 	}
 	
 	private func Digit12(digit: Int) -> String {
-		switch digit {
-		case 10:
-			return "ᘔ"
-		case 11:
-			return "Ɛ"
-		default:
-			return String(digit)
-		}
+		let mathdigits = [ "\u{1D7E2}","\u{1D7E3}","\u{1D7E4}","\u{1D7E5}","\u{1D7E6}","\u{1D7E7}","\u{1D7E8}","\u{1D7E9}","\u{1D7EA}","\u{1D7EB}","ᘔ", "Ɛ"]
+		return mathdigits[digit]
 	}
 }
 
 extension BigUInt {
 	
 	func IndianArabian() -> String {
-		
 		let arabian = ["\u{0660}","\u{0661}","\u{0662}","\u{0663}","\u{0664}","\u{0665}","\u{0666}","\u{0667}","\u{0668}","\u{0669}"]
+		if self == 0 { return arabian[0] }
 		var ans = ""
 		var stellen = self
 		while stellen > 0 {
@@ -53,8 +53,7 @@ extension BigUInt {
 	
 	private func GreekUpto10000() ->String {
 		let greek = ["α","β","γ","δ","ε","ϛ","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ϟ","ρ","σ","τ","υ","φ","χ","ψ","ω","ϡ","͵α", "͵β","͵γ","͵δ","͵ε","͵ϛ","͵ζ","͵η","͵θ"]
-		// Maybe use "ϙ" instead of "ϟ"
-		
+		// Maybe use "ϙ" instead of "ϟ"		
 		var index = 0
 		var stellen = self
 		var ans = ""
@@ -148,7 +147,7 @@ extension BigUInt {
 		
 	}
 	
-	private func OldArabiakUpto999() ->String {
+	private func AbjadUpto999() ->String {
 		//https://en.wikipedia.org/wiki/Abjad_numerals
 		let onetonine = ["\u{0627}","\u{0628}","\u{062C}","\u{062F}","\u{0647}","\u{0648}","\u{0632}","\u{062D}","\u{0637}"]
 		let tens = ["\u{0649}","\u{0643}","\u{0644}","\u{0645}","\u{0646}","\u{0633}","\u{0639}","\u{0641}","\u{0635}"]
@@ -168,6 +167,27 @@ extension BigUInt {
 		return ans
 	}
 	
+	/* Not in ios fonts : Use symbola */
+	func Rod() -> String {
+		let digits = [
+			["\u{3007}","𝍠","𝍡","𝍢","𝍣","𝍤","𝍥","𝍦","𝍧","𝍨"],
+		  	["\u{3007}","𝍩","𝍪","𝍫","𝍬","𝍭","𝍮","𝍯","𝍰","𝍱"]
+		]
+		
+		//???\u{1D360}","\u{1D361}","\u{1D362}","\u{1D363}","\u{1D364}","\u{1D365}","\u{1D366}","\u{1D367}","\u{1D368}","\u{1D369}"]
+		if self == 0 { return digits[0][0] }
+		var stellen = self
+		var ans = ""
+		var index = 0
+		while stellen > 0 {
+			let digit = Int(stellen % 10)
+			ans = digits[index][digit] + ans
+			stellen = stellen / 10
+			index = 1 - index
+		}
+		return ans
+	}
+	
 	func Abjad() -> String {
 		var powindex = 0
 		var stellen = self
@@ -184,7 +204,7 @@ extension BigUInt {
 			if mod1000 == 1 && stellen < 1000 && powindex > 0 {
 				ans = ans + tpow
 			} else if mod1000 > 0 {
-				ans = ans + tpow + mod1000.OldArabiakUpto999() //+ tpow + ans
+				ans = ans + tpow + mod1000.AbjadUpto999() //+ tpow + ans
 			}
 			stellen = stellen / 1000
 			powindex = powindex + 1
