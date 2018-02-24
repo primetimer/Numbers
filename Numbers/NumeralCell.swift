@@ -298,6 +298,9 @@ class NumeralCell: BaseNrTableCell {
 			case .Rod:
 				let font = UIFont(name: "symbola", size: 20)
 				uilabel.font = font
+			case .Egyptian:
+				let fonthigher = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
+				uilabel.font = fonthigher
 			default:
 				let deffont = UIFont.systemFont(ofSize: 12.0 ) //UIFont.labelFontSize)
 				uilabel.font = deffont

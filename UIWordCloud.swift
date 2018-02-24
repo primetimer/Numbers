@@ -169,33 +169,46 @@ public class UIWordCloudView: UIView {
 		return ans
 	}
 	
-	private var isincomputing = false
+	private var workItem : DispatchWorkItem? = nil
 	func Compute(frame : CGRect) {
-		if isincomputing == true {
-			print("Rekurs")
-			return
-		}
-		isincomputing = true
+		
 		let frame = self.frame
-		DispatchQueue.global(qos: .userInitiated).async {
-
+		if workItem != nil {
+			workItem?.cancel()
+			//print("Cancelled")
+		}
+		workItem = DispatchWorkItem {
+			//print("Computing")
 			self.textarr.shuffle()
 			self.params = []
+			var iscancel = false
 			for t in self.textarr {
 				let tsplit = t.s //self.InsertNL(s: t.s)
 				if let p = self.GetParam(str: tsplit, font: t.font,frame : frame) {
 					self.params.append(p)
 				}
+				iscancel = self.workItem?.isCancelled ?? true
+				if iscancel {
+					print("Calculation break")
+					break
+				}
 			}
-			
-			self.isincomputing = false
-			DispatchQueue.main.async(execute: {
-				self.needcomputing = false
-				self.setNeedsDisplay()
-
-			})
-			
+			if !iscancel {
+					//print("Computing end")
+					DispatchQueue.main.async(execute: {
+						//print("Displaying")
+						self.needcomputing = false
+						self.setNeedsDisplay()
+						self.workItem = nil
+						//print("Displayed")
+					})
+			}
+			else {
+				print("Cancelled without display")
+			}
 		}
+		
+		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
 	
 	private var isindraw = 0
