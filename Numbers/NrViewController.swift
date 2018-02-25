@@ -430,7 +430,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		myToolbar = UIToolbar(frame: frame)
 		
 		// set the position of the toolbar
-		myToolbar.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height-20.0)
+		//myToolbar.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height-20.0)
 		
 		// set the color of the toolbar
 		myToolbar.barStyle = .blackTranslucent

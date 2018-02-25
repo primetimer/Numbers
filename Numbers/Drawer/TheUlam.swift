@@ -27,7 +27,7 @@ class TheUlamBase  {
 	
 	func Radius(_ count : Int) -> Double
 	{
-		return ceil(sqrt(Double(count)))
+		return ceil(sqrt(Double(count)))+1
 	}
 	
 	func getPoint(_ n: Int) -> SpiralXY {
@@ -129,122 +129,8 @@ class TheUlamHexagon : TheUlamBase {
 	
 }
 
-
-
 class TheUlamRect : TheUlamBase {
 	static let sharedInstance = TheUlamRect()
-	/*
-	private override init() {
-	
-	super.init()
-	var x = 0
-	var y = 0
-	//var n = 0
-	//var p = (x: Float(x), y: Float(y))
-	//pt.append(p)
-	
-	
-	for n in 1...count-1
-	{
-	
-	let w2 = sqrt(Double(n))
-	let w = ( w2 + 1.0 ) / 2.0
-	let m : Int = Int(floor(w))
-	let k : Int = n - 4 * m * ( m - 1 )
-	
-	if k <= 2 * m {
-	x = m
-	y = k - m
-	} else if  k <= 4*m  {
-	x = 3 * m - k
-	y = m
-	} else if k <= 6*m {
-	x = -m
-	y = 5 * m - k
-	} else if k <= 8*m {
-	x = k - 7 * m
-	y = -m
-	}
-	
-	/*
-	Index to position
-	-----------------
-	n -> (x,y)
-	
-	0 -> (0,0)
-	
-	for n > 0,
-	
-	sqrt(n)+1
-	m = floor( --------- )
-	2
-	
-	k = n - 4m(m-1)
-	
-	1 <= k <= 2m -> (x,y) = (m,k-m)
-	
-	2m <= k <= 4m -> (x,y) = (3m-k,m)
-	
-	4m <= k <= 6m -> (x,y) = (-m,5m-k)
-	
-	6m <= k <= 8m -> (x,y) = (k-7m,-m)
-	
-	
-	Position to index
-	-----------------
-	(x,y) -> n
-	
-	m = max(|x|,|y|)
-	
-	x = m  -> n = 4m(m-1) +  m + y    except if y = -m
-	
-	y = m  -> n = 4m(m-1) + 3m - x
-	
-	x = -m -> n = 4m(m-1) + 5m - y
-	
-	y = -m -> n = 4m(m-1) + 7m + x
-	*/
-	
-	let p = (x: Float(2*x), y: Float(2*y))
-	pt.append(p)
-	}
-	return
-	
-	#if false
-	for ii in 0...count-1 {
-	let i = 2*ii + 1
-	for _ in 1...i {
-	x = x + 1
-	n = n + 1
-	let p = (x: Float(x), y: Float(y))
-	pt.append(p)
-	}
-	for _ in 1...i {
-	y = y - 1
-	n = n + 1
-	let p = (x: Float(x), y: Float(y))
-	pt.append(p)
-	}
-	for _ in 1...i+1 {
-	x = x - 1
-	n = n + 1
-	let p = (x: Float(x), y: Float(y))
-	pt.append(p)
-	}
-	for _ in 1...i+1 {
-	y = y + 1
-	n = n + 1
-	let p = (x: Float(x), y: Float(y))
-	pt.append(p)
-	}
-	
-	if (n > count) {
-	break
-	}
-	}
-	#endif
-	}
-	*/
 	override func getPoint(_ n : Int) -> SpiralXY
 	{
 		let w2 = sqrt(Double(n))
@@ -268,7 +154,6 @@ class TheUlamRect : TheUlamBase {
 			y = -m
 		}
 		let p = (x: Float(2*x), y: Float(2*y))
-		
 		return p
 	}
 }

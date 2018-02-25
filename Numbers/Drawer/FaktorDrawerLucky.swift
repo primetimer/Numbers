@@ -59,14 +59,12 @@ class LuckyView : DrawNrView {
 			drawer.pstart = 1
 			//ulam.setZoom(param.ulamzoom)
 			drawer.SetWidth(rect)
-			
 			drawer.bdrawspiral = true
 			drawer.draw_spiral(context!)
 			
 			for i in 1...Int(self.nr) {
 				drawer.draw_number(context!, ulamindex : i-1, p: UInt64(i))
 			}
-			
 			
 			let newimage  = UIGraphicsGetImageFromCurrentImageContext()
 			images.append(newimage!)

@@ -165,8 +165,8 @@ class UlamDrawer:  NSObject {
 			return CGPoint(x: CGFloat(x*scalex), y: CGFloat(y*scaley))
 		}
 		
-		let x = (xp+CGFloat(rm)) * size / CGFloat(2.0*rm)
-		let y = (yp+CGFloat(rm)) * size / CGFloat(2.0*rm)
+		let x = (xp+1.0*CGFloat(rm)) * size / CGFloat(2.0*rm)
+		let y = (yp+1.0*CGFloat(rm)) * size / CGFloat(2.0*rm)
 		return CGPoint(x: CGFloat(x*scalex), y: CGFloat(y*scaley))
 	}
 	
@@ -220,7 +220,6 @@ class UlamDrawer:  NSObject {
 		
 		if count > 0 {
 			for j in 1...count  {
-				
 				let screenpt = getScreenXY(Float(j))
 				let screenprev = getScreenXY(Float(j-1))
 				context.move(to: CGPoint(x: screenprev.x, y: screenprev.y))
