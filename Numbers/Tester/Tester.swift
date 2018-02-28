@@ -54,6 +54,11 @@ class Tester : NumTester {
 		return true
 	}
 	
+	func isRealDull(n: BigUInt) -> Bool {
+		if n == 39 { return false }
+		return isDull(n:n)
+	}
+	
 	func getDesc(n: BigUInt) -> String? {
 		
 		var str : String = ""
@@ -327,7 +332,6 @@ class CubeTester : NumTester {
 	func property() -> String {
 		return "cube"
 	}
-	
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
 		let r = n.iroot3()

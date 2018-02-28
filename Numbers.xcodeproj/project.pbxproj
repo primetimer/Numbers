@@ -209,6 +209,7 @@
 		54923FB51FF434C3006993F2 /* Tester */ = {
 			isa = PBXGroup;
 			children = (
+				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
 				54923FAD1FEF8724006993F2 /* TetrahedralTester.swift */,
 				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
 				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
@@ -262,7 +263,6 @@
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
 				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
-				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
 				54923FB51FF434C3006993F2 /* Tester */,
 				543078231FDEC08B0036516F /* SpokenNumber.swift */,
 				54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */,

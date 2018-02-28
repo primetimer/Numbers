@@ -452,7 +452,9 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	@objc func backButtonAction() {
 		if currnr <= 0 { return }
-		currnr = currnr - 1
+		repeat {
+			currnr = currnr - 1
+		} while Tester.shared.isDull(n: currnr)
 		GetExplanation()
 		tv.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)
@@ -460,7 +462,9 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	@objc func fwdButtonAction() {
 		if currnr <= 0 { currnr = 0 }
-		currnr = currnr + 1
+		repeat {
+			currnr = currnr + 1
+		} while Tester.shared.isRealDull(n: currnr)
 		GetExplanation()
 		tv.reloadData()
 		let indexPath = IndexPath(row: 0, section: 0)

@@ -509,7 +509,7 @@ class Explanation : NSObject {
 	private func N42() {
 		nr = 42
 		desc = desc + "The number 42 is, in The Hitchhiker's Guide to the Galaxy by Douglas Adams, the 'Answer to the Ultimate Question of Life, the Universe, and Everything'."
-		desc = desc + " Detailed analysis oh the used algorithm show's that this is not right, due to an rounding error. The correct answer is 41."
+		desc = desc + " Detailed analysis oh the used algorithm show's that this is not right, due to an rounding error. The correct answer is 41, but the question is more complicated"
 		latex = latex + "41 = 2+3+5+7+11+13 \\\\"
 		latex = latex + "\\forall n<41-1 : n^2+n+41 \\in \\mathbb{P}  \\\\"
 	}
