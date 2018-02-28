@@ -12,7 +12,7 @@ import BigInt
 import FutureKit
 
 class NumeralArtCell: BaseNrTableCell {
-	private (set) var uiart = UIWordCloudView()
+	private (set) var uiart = UIWordCloudViewDeep()
 	override var nr : BigUInt {
 		get { return super.nr }
 		set {

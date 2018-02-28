@@ -12,7 +12,7 @@ import BigInt
 import FutureKit
 
 class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
-	private (set) var uidesc = UIWordCloudView()
+	private (set) var uidesc = UIWordCloudViewDeep()
 	//private (set) var uidesc = UIWebView()
 	private (set) var uinr = UILabel()
 	

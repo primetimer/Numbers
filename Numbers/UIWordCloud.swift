@@ -7,9 +7,86 @@
 //
 
 import UIKit
+import Photos
+
+public class UIWordCloudViewDeep : UIWordCloudView {
+	
+	//var deepPressGestureRecognizer : DeepPressGestureRecognizer!
+	var longPressGestureRecognizer : UILongPressGestureRecognizer!
+	override public init(frame: CGRect) {
+		super.init(frame: frame)
+		//deepPressGestureRecognizer = DeepPressGestureRecognizer(target: self,action: #selector(DeepPress),threshold: 0.75)
+		longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(DeepPress))
+		self.addGestureRecognizer(longPressGestureRecognizer)
+		self.isUserInteractionEnabled = true
+	}
+	
+	required public init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	func imageWithView(inView: UIView) -> UIImage? {
+		let size = CGSize(width: 800, height: 800)
+		UIGraphicsBeginImageContextWithOptions(size, inView.isOpaque, 0.0)
+		defer { UIGraphicsEndImageContext() }
+		if let context = UIGraphicsGetCurrentContext() {
+			inView.layer.render(in: context)
+			let image = UIGraphicsGetImageFromCurrentImageContext()
+			return image
+		}
+		return nil
+	}
+	
+	func Authorize() {
+		// Get the current authorization state.
+		let status = PHPhotoLibrary.authorizationStatus()
+		if (status == PHAuthorizationStatus.authorized) {
+			SaveImage() // Access has been granted.
+		}
+		else if (status == PHAuthorizationStatus.denied) {
+			return // Access has been denied.
+		}
+		else if (status == PHAuthorizationStatus.notDetermined) {
+			// Access has not been determined.
+			PHPhotoLibrary.requestAuthorization({ (newStatus) in
+				if (newStatus == PHAuthorizationStatus.authorized) {
+					self.SaveImage()
+				}
+				else {
+					return
+				}
+			})
+		}
+		else if (status == PHAuthorizationStatus.restricted) {
+			// Restricted access - normally won't happen.
+			return
+		}
+		return
+	}
+	
+	@objc func DeepPress() {
+		Authorize()
+	}
+	
+	private func SaveImage() {
+		guard let image = imageWithView(inView: self) else {
+			print("No Image?")
+			return
+		}
+		UIImageWriteToSavedPhotosAlbum(image, self,nil,nil)
+		print("Saved")
+		var alert = UIAlertView(title: "Numbers",
+					message: "Your image has been saved to Photo Library!",
+					delegate: nil,
+					cancelButtonTitle: "Ok")
+		alert.show()
+	}
+	
+	
+	
+}
 
 public class UIWordCloudView: UIView {
-	
 	override public init(frame: CGRect) {
 		super.init(frame: frame)
 		self.clearsContextBeforeDrawing = true
@@ -185,7 +262,6 @@ public class UIWordCloudView: UIView {
 	}
 	
 	func Compute(frame : CGRect) {
-		
 		let frame = self.frame
 		if workItem != nil {
 			workItem?.cancel()
@@ -207,6 +283,12 @@ public class UIWordCloudView: UIView {
 					print("Calculation break")
 					break
 				}
+				//Draw in progress
+				DispatchQueue.main.async(execute: {
+					print("Displaying", t.s)
+					self.needcomputing = false
+					self.setNeedsDisplay()
+				})
 			}
 			if !iscancel {
 					//print("Computing end")
@@ -222,18 +304,15 @@ public class UIWordCloudView: UIView {
 			else {
 				print("Cancelled without display")
 			}
-			
-
 		}
-		
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
 	
-	private var isindraw = 0
+	//private var isindraw = 0
 	private func PerformDraw() {
 		let dhue : CGFloat = textarr.count == 0 ? 0.0 : 1.0 / CGFloat(textarr.count)
 		var hue : CGFloat = 0.0
-		isindraw = isindraw + 1
+		//isindraw = isindraw + 1
 		for p in params {
 			let color = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
 			let attrString = getAttrString(s: p.str, fontname: p.font, fontsize: p.fontsize, color: color)
@@ -241,7 +320,7 @@ public class UIWordCloudView: UIView {
 			attrString.draw(with: p.rect, options: drawingOptions, context: nil)
 			hue = hue + dhue
 		}
-		isindraw = 0
+		//isindraw = 0
 	}
 	public override func draw(_ rect: CGRect) {
 		//textarr = [("1aaaa a aaaaaa aaabbb bbbbbbbbbbb bbbcccccccccccc ccccccdddd1",nil)]

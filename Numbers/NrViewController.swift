@@ -494,14 +494,11 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		doneToolbar.barStyle       = UIBarStyle.default
 		let flexSpace              = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
 		let done: UIBarButtonItem  = UIBarButtonItem(title: "Search", style: UIBarButtonItemStyle.done, target: self, action: #selector(NrViewController.doneButtonAction))
-		
 		var items = [UIBarButtonItem]()
 		items.append(flexSpace)
 		items.append(done)
-		
 		doneToolbar.items = items
 		doneToolbar.sizeToFit()
-		
 		self.uisearch.inputAccessoryView = doneToolbar
 	}
 	
@@ -517,7 +514,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func setupAutoLayout() {
-		
 		uisearch.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 		uisearch.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 		uisearch.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

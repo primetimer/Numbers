@@ -45,6 +45,7 @@
 		54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FB31FF25700006993F2 /* CatalanDrawer.swift */; };
 		54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6140C2028F48C00408813 /* CollectionDescCell.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
+		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
 		54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */; };
 		54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4D1FD44A1100C25A42 /* NrViewController.swift */; };
 		54E43A511FD44A1100C25A42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A4F1FD44A1100C25A42 /* Main.storyboard */; };
@@ -118,6 +119,7 @@
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
+		54DBF80A2047225200F07FD7 /* DeepPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepPress.swift; sourceTree = "<group>"; };
 		54E43A481FD44A1100C25A42 /* Numbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Numbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54E43A4D1FD44A1100C25A42 /* NrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NrViewController.swift; sourceTree = "<group>"; };
@@ -230,11 +232,11 @@
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
+				54DBF80A2047225200F07FD7 /* DeepPress.swift */,
 				546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */,
 				54C35751203C924C0044803F /* mayan.ttf */,
 				546DD98C2041E23C009A1A16 /* symbola.ttf */,
 				5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */,
-				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
 				54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */,
 				54F5F0B91FFA7B59006DECED /* NumerHTML.swift */,
 				54749B5E1FDD5C3F00F6B130 /* Podfile */,
@@ -261,6 +263,7 @@
 				54F5F0BB1FFA99BF006DECED /* DescCell.swift */,
 				54A6140C2028F48C00408813 /* CollectionDescCell.swift */,
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
+				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
 				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
 				54923FB51FF434C3006993F2 /* Tester */,
@@ -531,6 +534,7 @@
 				5486C560203D755600778A81 /* NumeralCell.swift in Sources */,
 				5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
+				54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */,
 				546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
