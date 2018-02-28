@@ -13,19 +13,19 @@ import PrimeFactors
 class LuckyArr {
 	static public var shared = LuckyArr()
 	private (set) var luckyarr : BitArray!
-	let QMAX = 40000
+	let QMAX = 200000
 	private (set) var last = 0
-	
-	fileprivate let queue = OperationQueue()
+	private (set) var completed = false
 
 	private init() {
-		luckyarr = BitArray(count:UInt64(QMAX*100), initval : false)
-		let blockOperation = BlockOperation()
-		blockOperation.addExecutionBlock {
+		luckyarr = BitArray(count:UInt64(QMAX), initval : false)
+		let dwi = DispatchWorkItem {
 			self.sieving()
+			self.completed = true
 		}
-		queue.addOperation(blockOperation)
+		DispatchQueue.global(qos: .background).async(execute: dwi)
 	}
+	
 	private func emit_result(_ n: Int) {
 		luckyarr[n] = true
 		last = n
@@ -45,7 +45,7 @@ class LuckyArr {
 		emit_result(seq[2])
 		count[2] = 0;
 		var idx = 3;
-		while idx < QMAX {
+		while n < QMAX {
 			var pos = 2;
 			while true {
 				if(pos >= idx || seq[pos] > idx){

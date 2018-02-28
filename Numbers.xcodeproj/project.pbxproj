@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADC20432D80001F51B6 /* TestLucky.swift */; };
+		54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */; };
+		54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */; };
+		54062AE32045F837001F51B6 /* TestSumOfCubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE22045F837001F51B6 /* TestSumOfCubes.swift */; };
+		54062AE52045F858001F51B6 /* SumOfCubesTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE42045F858001F51B6 /* SumOfCubesTester.swift */; };
 		5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430781D1FDE6C0A0036516F /* MainViewController.swift */; };
 		543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078231FDEC08B0036516F /* SpokenNumber.swift */; };
 		543078261FDF07A20036516F /* AbundanceTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078251FDF07A20036516F /* AbundanceTester.swift */; };
@@ -73,6 +78,11 @@
 /* Begin PBXFileReference section */
 		0152CA84599AE3E7BE79E272 /* Pods_NumbersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NumbersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A04DC416C676164E1126677 /* Pods-Numbers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Numbers.release.xcconfig"; path = "Pods/Target Support Files/Pods-Numbers/Pods-Numbers.release.xcconfig"; sourceTree = "<group>"; };
+		54062ADC20432D80001F51B6 /* TestLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLucky.swift; sourceTree = "<group>"; };
+		54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfSquareTester.swift; sourceTree = "<group>"; };
+		54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfSquares.swift; sourceTree = "<group>"; };
+		54062AE22045F837001F51B6 /* TestSumOfCubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfCubes.swift; sourceTree = "<group>"; };
+		54062AE42045F858001F51B6 /* SumOfCubesTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfCubesTester.swift; sourceTree = "<group>"; };
 		5430781D1FDE6C0A0036516F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		543078231FDEC08B0036516F /* SpokenNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
 		543078251FDF07A20036516F /* AbundanceTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbundanceTester.swift; sourceTree = "<group>"; };
@@ -208,6 +218,8 @@
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				543078251FDF07A20036516F /* AbundanceTester.swift */,
+				54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */,
+				54062AE42045F858001F51B6 /* SumOfCubesTester.swift */,
 				54923FB61FF43979006993F2 /* UninterestingTester.swift */,
 				54F7E0FD2039D97A00B4EAEF /* TesterCache.swift */,
 			);
@@ -272,6 +284,9 @@
 			children = (
 				54E43A601FD44A1100C25A42 /* NumbersTests.swift */,
 				54F7E0FF203A098600B4EAEF /* TetraHedral.swift */,
+				54062ADC20432D80001F51B6 /* TestLucky.swift */,
+				54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */,
+				54062AE22045F837001F51B6 /* TestSumOfCubes.swift */,
 				54E43A621FD44A1100C25A42 /* Info.plist */,
 			);
 			path = NumbersTests;
@@ -509,6 +524,7 @@
 				54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
+				54062AE52045F858001F51B6 /* SumOfCubesTester.swift in Sources */,
 				5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
 				545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */,
@@ -535,6 +551,7 @@
 				54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */,
 				545ECE071FE63E480035B9EA /* UlamView.swift in Sources */,
 				54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */,
+				54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
 				54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */,
@@ -547,8 +564,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54062AE32045F837001F51B6 /* TestSumOfCubes.swift in Sources */,
 				54F7E100203A098600B4EAEF /* TetraHedral.swift in Sources */,
 				54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */,
+				54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */,
+				54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

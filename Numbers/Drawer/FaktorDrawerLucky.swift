@@ -12,6 +12,7 @@ import BigInt
 import PrimeFactors
 
 class LuckyView : DrawNrView {
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 	}
@@ -19,74 +20,107 @@ class LuckyView : DrawNrView {
 		super.init(coder: aDecoder)
 	}
 	
+	let maxnr : UInt64 = (120*120)
 	override func SetNumber(_ nextnr : UInt64) {
-		super.SetNumber(nextnr)
+		if nextnr > maxnr {
+			super.SetNumber(maxnr)
+		} else {
+			super.SetNumber(nextnr)
+		}
 	}
 	
+	private var imagearr : [UIImage] = []
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		
+		
 		DispatchQueue.global().async {
-			let images = self.CreateImages()
+			let drawer = LuckyDrawer(nr: self.nr)
+			self.imagearr = drawer.CreateImages()
 			
 			DispatchQueue.main.async(execute: {
-				self.imageview.animationImages = images
-				self.imageview.image = images.last
+				self.imageview.animationImages = self.imagearr
+				self.imageview.image = self.imagearr.last
 				self.imageview.animationDuration = 5.0
 				self.imageview.animationRepeatCount = 5
 				self.imageview.startAnimating()
 			})
 		}
 	}
-	
-	private func CreateImages()  -> [UIImage] {
-		let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400.0)
-		var images : [UIImage] = []
-		
-		for imagenr in 0...10 {
-			let lucky = LuckyDrawHelper(count: Int(self.nr))
-			lucky.remove(level: imagenr)
-			if imagenr == 10 {
-				lucky.correct()
-			}
-			
-			UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-			let context = UIGraphicsGetCurrentContext()
-			context!.setStrokeColor(UIColor.red.cgColor)
-			context!.setLineWidth(1.0);
-			context!.beginPath()
-			let drawer = LuckyDrawer(pointcount: Int(self.nr), utype: .square, lucky: lucky)
-			drawer.pstart = 1
-			//ulam.setZoom(param.ulamzoom)
-			drawer.SetWidth(rect)
-			drawer.bdrawspiral = true
-			drawer.draw_spiral(context!)
-			
-			for i in 1...Int(self.nr) {
-				drawer.draw_number(context!, ulamindex : i-1, p: UInt64(i))
-			}
-			
-			let newimage  = UIGraphicsGetImageFromCurrentImageContext()
-			images.append(newimage!)
-			UIGraphicsEndImageContext()
-		}
-		return images
-	}
 }
 
 
-class LuckyDrawHelper {
+class LuckyDrawer : UlamDrawer {
+	private let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400.0)
+	private var imagearr : [UIImage] = []
 	private (set) var luck : [Bool] = []
-	init(count : Int) {
+	private var determined : Int = 1
+	private var picturemod : Int = 1
+	private let maxpictures = 200		//round abtout
+	private var picturecounter = 0
+	
+	init(nr : UInt64) {
+		super.init(pointcount: Int(nr), utype: .square)
 		luck = Array(repeating: true, count: count+1)
+		self.picturecounter = 0
+		self.picturemod = Int(nr) / maxpictures + 1
 	}
 	
+	func CreateImages() -> [UIImage] {
+		let maxlevel = 10
+		for level in 0...maxlevel {
+			self.removeLevel(level: level)
+			if level == maxlevel {
+				self.correct()
+			}
+		}
+		return imagearr
+	}
+	
+	private func removeLevel(level : Int) {
+		if level == 0 { return }
+		guard let which = findLucky(which: level)  else { return }
+		self.determined = which
+		
+		var prev = 1
+		while true {
+			guard let next = getNext(from: prev,step: which) else { return }
+			luck[next] = false
+			prev = next
+			if let image = CreateImage() {
+				imagearr.append(image)
+			}
+		}
+	}
+	
+	private func CreateImage(force : Bool = false) -> UIImage? {
+		picturecounter = picturecounter + 1
+		if force == false && picturecounter % picturemod != 0 { return nil }
+		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+		let context = UIGraphicsGetCurrentContext()
+		context!.setStrokeColor(UIColor.red.cgColor)
+		context!.setLineWidth(1.0);
+		context!.beginPath()
+		
+		super.pstart = 1
+		super.SetWidth(rect)
+		super.bdrawspiral = true
+		super.draw_spiral(context!)
+		
+		for i in 1...Int(self.count) {
+			super.draw_number(context!, ulamindex : i-1, p: UInt64(i))
+		}
+		let image  = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		return image
+	}
+	
+	//Helping routines
 	private func findLucky(which : Int) -> Int? {
 		if which <= 1 { return 2 }
 		var count = 1
 		for l in 1...luck.count-1 {
 			if luck[l] == true {
-				
 				if count == which {
 					return l
 				}
@@ -95,7 +129,6 @@ class LuckyDrawHelper {
 		}
 		return nil
 	}
-	
 	private func getNext(from : Int, step: Int)  -> Int? {
 		var count = 0
 		for i in from ... luck.count-1 {
@@ -108,50 +141,31 @@ class LuckyDrawHelper {
 		}
 		return nil
 	}
-	func remove(which : Int) {
-		var prev = 1
-		while true {
-			if let next = getNext(from: prev,step: which) {
-				luck[next] = false
-				prev = next
-			} else {
-				return
-			}
-		}
-	}
 	
-	func remove(level : Int)
-	{
-		if level == 0 { return }
-		for k in 1...level {
-			guard let l = findLucky(which: k)  else { return }
-			remove(which: l)
-		}
-	}
-	
-	func correct() {
+	private func correct() {
 		let test = LuckyTester()
 		for i in 2..<luck.count {
 			if test.isSpecial(n: BigUInt(i)) {
 				luck[i] = true
+				determined = i
+				if let image = CreateImage() {
+					imagearr.append(image)
+				}
 			} else {
 				luck[i] = false
 			}
 		}
+		// Final Picture {
+		if let image = CreateImage(force : true) {
+			imagearr.append(image)
+		}
 	}
-}
-class LuckyDrawer : UlamDrawer {
 	
-	init(pointcount: Int, utype: UlamType, lucky: LuckyDrawHelper)
-	{
-		super.init(pointcount: pointcount, utype: utype)
-		self.lucky = lucky
-	}
-	private var lucky : LuckyDrawHelper!
-	
-	override func getColor(_ p : UInt64) -> UIColor?
-	{
-		if lucky.luck[Int(p)] {
+	override func getColor(_ p : UInt64) -> UIColor? {
+		if self.luck[Int(p)] && p <= self.determined {
+			return .blue
+		}
+		if luck[Int(p)] {
 			return .red
 		} else {
 			return .cyan
@@ -159,45 +173,3 @@ class LuckyDrawer : UlamDrawer {
 	}
 }
 
-/*
-class FaktorDrawerLuckyUlam : FaktorDrawer {
-	
-	private var ulam : UlamDrawer!
-	
-	override func Radius(_ rekurs : Int) -> Double {
-		return super.Radius(rekurs) / 2.0
-	}
-	
-	
-	override func drawFaktor(_ rect: CGRect, context: CGContext) {
-		
-		var count = Int(min(param.nr,1000))
-		let lucky = LuckyDrawHelper(count: count)
-		lucky.remove(level: param.imagenr)
-		
-		ulam = LuckyDrawer(pointcount: Int(count*2), utype: .square,lucky: lucky)
-		ulam.pstart = 1
-		ulam.colored = false
-		ulam.setZoom(param.ulamzoom)
-		
-		ulam.SetWidth(rect)
-		context.setStrokeColor(PColor.red.cgColor)
-		context.setLineWidth(1.0);
-		context.beginPath()
-		
-		//if r > 80 {
-		ulam.draw_spiral(context)
-		//}
-		
-		let m = Int(count)
-		ulam.colored = true
-		
-		for i in 1...m {
-			ulam.draw_number(context, ulamindex : i-1, p: UInt64(i))
-			/*if !lucky.luck[i] {
-			ulam.draw_number(context, ulamindex : i-1, p: UInt64(i))
-			}*/
-		}
-	}
-}
-*/

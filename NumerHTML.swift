@@ -40,6 +40,8 @@ class WikiLinks {
 		AddWiki("Catalan","https://en.wikipedia.org/wiki/Catalan_number")
 		AddWiki("Proth","https://en.wikipedia.org/wiki/Proth_number")
 		AddWiki("power of two","https://en.wikipedia.org/wiki/Power_of_two")
+		AddWiki("sum of two squares","https://en.wikipedia.org/wiki/Fermat%27s_theorem_on_sums_of_two_squares")
+		AddWiki("sum of two cubes","https://en.wikipedia.org/wiki/Sums_of_powers")
 	}
 	
 	func Link(key :String) -> String {
