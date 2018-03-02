@@ -10,8 +10,11 @@ import Foundation
 import UIKit
 
 class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
-	//private (set) var uidesc = UITextView()
 	private (set) var uidesc = UIWebView()
+	private var parentvc : UIViewController? = nil
+	func setParentVC(vc : UIViewController) {
+		self.parentvc = vc
+	}
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -62,15 +65,11 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 	func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
 		switch navigationType {
 		case .linkClicked:
-			// Open links in Safari
+			// Open links
 			guard let url = request.url else { return true }
-			
-			if #available(iOS 10.0, *) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			} else {
-				// openURL(_:) is deprecated in iOS 10+.
-				UIApplication.shared.openURL(url)
-			}
+			let subvc = WikiVC()
+			subvc.SetWikiUrl(wiki: url.absoluteString)
+			parentvc?.navigationController?.pushViewController(subvc, animated: true)
 			return false
 		default:
 			// Handle other navigation types...

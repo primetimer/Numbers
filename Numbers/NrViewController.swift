@@ -306,15 +306,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	*/
 	
 	func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-		print("Tap")
-		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
-		switch indexPath.section {
-		case NrViewSection.Numerals.rawValue:
-			numeralcells.Expand(row: indexPath.row)
-			tableView.beginUpdates()
-			tableView.endUpdates()
-		default:
-			break
+		guard let cell = tableView.cellForRow(at: indexPath) else  { return }
+		if let ncell = cell as? NumeralCell {
+			let subvc = WikiVC()
+			let type = ncell.type
+			let wiki = type.asWiki()
+			self.navigationController?.pushViewController(subvc, animated: true)
+			subvc.SetWikiUrl(wiki: wiki)
 		}
 	}
 	
@@ -335,6 +333,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Description.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
 				uidesctemp = cell.uidesc
+				cell.setParentVC(vc: self)
 				cell.tableparent = tableView
 				cell.SetHtmlDesc(html: self.htmldesc)
 				return cell
