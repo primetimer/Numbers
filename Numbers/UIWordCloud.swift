@@ -109,24 +109,9 @@ public class UIWordCloudView: UIImageView {
 	func Clear() {
 		textarr = []
 	}
-
-	/*
-	override public func layoutSubviews() {
-		self.needcomputing = true
-	}
-	*/
 	
 	private var contentchanged : Bool = false
-	/*
-	override public var bounds: CGRect {
-		didSet {
-			print("Setted",bounds)
-			DrawCloud()
-			
-		}
-	}
-	*/
-	
+
 	struct DrawCloudParam {
 		var str : String
 		var font : String?
@@ -139,7 +124,6 @@ public class UIWordCloudView: UIImageView {
 			self.rect = rect
 		}
 	}
-	//private var params : [DrawCloudParam] = []
 	
 	var paragraph : NSMutableParagraphStyle {
 		get {
@@ -175,8 +159,6 @@ public class UIWordCloudView: UIImageView {
 		let brect = CGSize(width: frame.width / 2,height: CGFloat.greatestFiniteMagnitude)
 		let rect = attrString.boundingRect(with: brect, options: drawingOptions, context: nil)
 		return rect.size
-		//let size = attrString.size()
-		//return size
 	}
 	
 	private func CheckIntersect(rect : CGRect,params : [DrawCloudParam] ) -> Bool {
@@ -209,7 +191,7 @@ public class UIWordCloudView: UIImageView {
 		for iteration in 1...1000  {
 			let x0 = CGFloat(arc4random_uniform(UInt32(frame.width)))
 			let y0 = CGFloat(arc4random_uniform(UInt32(frame.height)))
-			var maxframe = CGRect(x:0,y: 0, width : frame.width * 1.0 , height : frame.height * 1.0)
+			let maxframe = CGRect(x:0,y: 0, width : frame.width * 1.0 , height : frame.height * 1.0)
 			let s = vertical ? svert : str
 			let size = GetStrSize(s: s, font: font, fontsize: fontsize,frame : maxframe)
 
@@ -249,20 +231,6 @@ public class UIWordCloudView: UIImageView {
 	
 	private var indicator = ViewControllerUtils()
 	private var workItem : DispatchWorkItem? = nil
-	/*
-	private var workItem : DispatchWorkItem? {
-		get { return _workItem }
-		set {
-			_workItem = newValue
-			if _workItem != nil {
-				indicator.showActivityIndicator(uiView: self)
-			}
-			else {
-				indicator.hideActivityIndicator(uiView: self)
-			}
-		}
-	}
-	*/
 	
 	private func Compute(frame : CGRect) {
 		if contentchanged && workItem != nil {
