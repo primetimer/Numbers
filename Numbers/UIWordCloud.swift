@@ -89,6 +89,7 @@ public class UIWordCloudViewDeep : UIWordCloudView {
 */
 
 public class UIWordCloudView: UIImageView {
+	private var _verbose : Bool = false
 	
 	init() {
 		super.init(frame: CGRect.zero)
@@ -235,12 +236,12 @@ public class UIWordCloudView: UIImageView {
 	private func Compute(frame : CGRect) {
 		if contentchanged && workItem != nil {
 			workItem?.cancel()
-			print("Cancelled")
+			if _verbose { print("Cancelled") }
 		}
 		self.contentchanged = false
 
 		self.workItem = DispatchWorkItem {
-			print("Computing:" , frame)
+			if self._verbose { print("Computing:" , frame) }
 			let worker = self.workItem
 			self.textarr.shuffle()
 			var params : [DrawCloudParam] = []
@@ -253,28 +254,27 @@ public class UIWordCloudView: UIImageView {
 				}
 				iscancel = worker?.isCancelled ?? true
 				if iscancel {
-					print("Calculation break")
+					if self._verbose { print("Calculation break") }
 					break
 				}
 				//Draw in progress
 				DispatchQueue.main.async(execute: {
-					print("DisplayingInProgress", t.s)
+					if self._verbose { print("DisplayingInProgress", t.s) }
 					self.PerformDraw(rect: frame, params: params)
-					print("DisplayedInProgres",t.s)
+					if self._verbose { print("DisplayedInProgres",t.s) }
 				})
 			}
 			if !iscancel {
-					//print("Computing end")
+				if self._verbose { print("Computing end") }
 					DispatchQueue.main.async(execute: {
-						print("Displaying")
+						if self._verbose { print("Displaying") }
 						self.workItem = nil
-						//self.needcomputing = false
 						self.PerformDraw(rect: frame, params: params)
-						print("Displayed")
+						if self._verbose { print("Displayed") }
 					})
 			}
 			else {
-				print("Cancelled without display")
+				if self._verbose { print("Cancelled without display") }
 			}
 		}
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)

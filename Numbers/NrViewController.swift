@@ -83,45 +83,6 @@ class CustomTableViewHeader: UITableViewHeaderFooterView {
 	}
 }
 
-class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
-	private (set) var uiweb = UIWebView()
-	private var wikiurl : String = ""
-	func SetWikiUrl(wiki : String) {
-		if wiki == wikiurl {
-			return
-		}
-		wikiurl = wiki
-		if let url = URL(string: wiki) {
-			let request = URLRequest(url: url)
-			uiweb.loadRequest(request)
-			uiweb.delegate = self
-		}
-	}
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		contentView.addSubview(uiweb)
-		//uidesc.font = UIFont(name: "Arial", size: 18.0)
-		uiweb.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: NrViewController.wikiheight)
-		uiweb.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-		uiweb.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		uiweb.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		uiweb.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	func webViewDidFinishLoad(_ webView: UIWebView)
-	{
-		//print("Didload=",webView.frame)
-		/*
-		if let table = self.superview as? UITableView {
-			let idx = IndexPath(row: 0, section: 2)
-			table.reloadRows(at: [idx], with: .automatic)
-		}
-		*/
-	}
-}
 
 //
 // MARK :- FOOTER
@@ -195,7 +156,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Draw.rawValue:
 			return TableCellType.allValues.count
 		case NrViewSection.Numerals.rawValue:
-			return NumeralCellType.allValues.count+1
+			return NumeralCellType.allValues.count*2 - 1
 		default:
 			return 1
 		}
@@ -314,7 +275,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
 		case NrViewSection.Numerals.rawValue:
-			numeralcells.expanded = !numeralcells.expanded
+			numeralcells.Expand(row: indexPath.row)
 			tableView.beginUpdates()
 			tableView.endUpdates()
 
@@ -335,11 +296,26 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 	}
 	
+	/*
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		tableView.beginUpdates()
 		cell.expanded = false
 		tableView.endUpdates()
+	}
+	*/
+	
+	func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+		print("Tap")
+		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
+		switch indexPath.section {
+		case NrViewSection.Numerals.rawValue:
+			numeralcells.Expand(row: indexPath.row)
+			tableView.beginUpdates()
+			tableView.endUpdates()
+		default:
+			break
+		}
 	}
 	
 	/*
@@ -367,7 +343,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			let row = indexPath.row
 			numeralcells.nr = currnr
 			let cell = numeralcells.getCell(row: row)
-			cell.selectionStyle = .none
 			return cell
 			
 		case NrViewSection.Formula.rawValue:

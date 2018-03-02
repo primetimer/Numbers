@@ -46,6 +46,7 @@
 		54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6140C2028F48C00408813 /* CollectionDescCell.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
+		54DBF80D20497DBC00F07FD7 /* WikiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80C20497DBC00F07FD7 /* WikiCell.swift */; };
 		54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */; };
 		54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4D1FD44A1100C25A42 /* NrViewController.swift */; };
 		54E43A511FD44A1100C25A42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A4F1FD44A1100C25A42 /* Main.storyboard */; };
@@ -120,6 +121,7 @@
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
 		54DBF80A2047225200F07FD7 /* DeepPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepPress.swift; sourceTree = "<group>"; };
+		54DBF80C20497DBC00F07FD7 /* WikiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiCell.swift; sourceTree = "<group>"; };
 		54E43A481FD44A1100C25A42 /* Numbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Numbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54E43A4D1FD44A1100C25A42 /* NrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NrViewController.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
 				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
 				5486C55F203D755600778A81 /* NumeralCell.swift */,
+				54DBF80C20497DBC00F07FD7 /* WikiCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
 				54923FB51FF434C3006993F2 /* Tester */,
 				543078231FDEC08B0036516F /* SpokenNumber.swift */,
@@ -544,6 +547,7 @@
 				5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */,
 				54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */,
 				54FD752A1FF58F0100AE24E8 /* FaktorDrawerLucky.swift in Sources */,
+				54DBF80D20497DBC00F07FD7 /* WikiCell.swift in Sources */,
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */,

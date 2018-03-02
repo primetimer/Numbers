@@ -10,57 +10,110 @@ import Foundation
 import UIKit
 import BigInt
 
-class NumeralCells {
+enum NumeralCellType : Int {
+	case None = -1, FormatUS = 0, Spoken, Latin, Roman
+	case Indian, Abjad, Egyptian, Phonician, Greek, Hebraian
+	case Babylon, Chinese, Maya, Scientific, Duodezimal, Rod
 	
+	static let allValues : [NumeralCellType] = [FormatUS, .Spoken, .Roman,.Indian,.Abjad,.Egyptian,.Greek,.Hebraian,.Babylon,.Chinese,.Scientific,.Maya,.Rod]
+	
+	static private let str = [ "hindu-arabian", "short scale", "arabian (west) ", "roman", "arabian (east)", "arabian (abjad)", "egyptian", "phoenician", "greek", "hebrew", "babylonian", "chinese", "maya", "scientific", "dozenal", "rod" ]
+	
+	static private let wikis = ["https://en.wikipedia.org/wiki/Hindu–Arabic_numeral_system",
+							   "https://en.wikipedia.org/wiki/Long_and_short_scales",
+							   "https://en.wikipedia.org/wiki/Hindu–Arabic_numeral_system",	//Latin unformatted
+							   "https://en.wikipedia.org/wiki/Roman_numerals",
+							   "https://en.wikipedia.org/wiki/Eastern_Arabic_numerals",
+							   "https://en.wikipedia.org/wiki/Abjad_numerals",
+							   "https://en.wikipedia.org/wiki/Egyptian_numerals",
+							   "",
+							   "https://en.wikipedia.org/wiki/Greek_numerals",
+							   "https://en.wikipedia.org/wiki/Hebrew_numerals",
+							   "https://en.wikipedia.org/wiki/Babylonian_numerals",
+							   "https://en.wikipedia.org/wiki/Chinese_numerals",
+							    "https://en.wikipedia.org/wiki/Maya_numerals",
+							   "https://en.wikipedia.org/wiki/Scientific_notation",
+							   "https://en.wikipedia.org/wiki/Duodecimal",
+							   "https://en.wikipedia.org/wiki/Counting_rods"]
+	
+	func asString() -> String {
+		if self.rawValue >= 0 {
+			return NumeralCellType.str[self.rawValue]
+		}
+		return ""
+	}
+	
+	func asWiki() -> String {
+		if self.rawValue >= 0 {
+			return NumeralCellType.wikis[self.rawValue]
+		}
+		return "https://en.wikipedia.org/wiki/Numeral_system"
+		
+	}
+	
+}
+
+class NumeralCells {
+	static let wikiheight : CGFloat = 600.0
 	private var startcell = NumeralCell()
 	private var artcell = NumeralArtCell()
-	private var cells : [NumeralCell] = []
+	private var ncells : [NumeralCell] = []
+	private var wikicells : [WikiTableCell] = []
+	//private var wikirow = -1
 	
-	private var _expanded : Bool = false
-	var expanded : Bool {
-		get {
-			return _expanded
-		}
-		set {
-			_expanded = newValue
-			
-			//artcell.uiart.DrawCloud()
-			artcell.expanded = _expanded
-			for cell in cells {
-				cell.expanded = _expanded
+	private var expanded : Bool = false {
+		didSet {
+			artcell.expanded = expanded
+			if !expanded {
+				for cell in ncells { cell.expanded = false; cell.isHidden = true }
+				for cell in wikicells { cell.expanded = false; cell.isHidden = true }
+			} else {
+				for cell in ncells { cell.expanded = false; cell.isHidden = false }
 			}
-			//artcell.uiart.image = nil
-			//artcell.uiart.needcomputing = true
-			//artcell.uiart.setNeedsDisplay()
+		}
+	}
+	
+	func Expand(row : Int) {
+		let cell = getCell(row: row)
+		if let cell = cell as? NumeralArtCell {
+			expanded = !expanded
+			for cell in ncells { cell.expanded = false; cell.isHidden = !expanded }
+			for cell in wikicells { cell.expanded = false;  cell.isHidden = true }
+		}
+		if let cell = cell as? NumeralCell {
+			guard let wikicell = getCell(row: row+1) as? WikiTableCell else { return }
+			let wascellexpanded = cell.expanded
+			for cell in ncells { cell.expanded = false; cell.isHidden = false }
+			for cell in wikicells { cell.isHidden = true }
+			if !wascellexpanded {
+				cell.expanded = true
+				wikicell.isHidden = false
+			}
 		}
 	}
 	
 	func getCell(row : Int) -> UITableViewCell {
 		if row == 0 { return artcell }
-		//if row == 0 { return startcell }
-		if row-1 < cells.count {
-			return cells[row-1]
+		if row % 2 == 1 {
+			return ncells[row / 2 + 1]
 		}
-		return UITableViewCell()
+		return wikicells[row / 2 ]
 	}
 	func getRowHeight(row: Int) -> CGFloat {
 		var height = CGFloat(20)
-		if let cell = getCell(row: row) as? NumeralArtCell {
+		let cell = getCell(row: row)
+		if cell is NumeralArtCell {
 			if expanded { return cell.contentView.width }
 			return 100.0
 		}
-		/*
-		if row == 0 {
-			let label = startcell.uilabel
-			let width = label.width
-			label.sizeToFit()
-			height = max(height,label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height)
-			return height + 10.0
+		if cell is WikiTableCell {
+			if cell.isHidden { return 0 }
+			return NumeralCells.wikiheight
+
 		}
-		*/
-		
-		if let cell = getCell(row: row) as? NumeralCell {
-			if !cell.expanded { return 0.0 }
+		if let cell = cell as? NumeralCell {
+			if cell.isHidden { return 0 }
+			//if !cell.expanded { return 0.0 }
 			let label = cell.uilabel
 			let width = label.width
 			label.sizeToFit()
@@ -76,7 +129,13 @@ class NumeralCells {
 			//if type != .FormatUS {
 			let cell = NumeralCell()
 			cell.type = type
-			cells.append(cell)
+			cell.isHidden = true
+			ncells.append(cell)
+			let wiki = WikiTableCell()
+			wiki.isHidden = true
+			wiki.accessoryType = .none
+			wikicells.append(wiki)
+			wiki.SetWikiUrl(wiki: type.asWiki())
 			//}
 		}
 	}
@@ -91,7 +150,7 @@ class NumeralCells {
 			_nr = newValue
 			startcell.nr = _nr
 			artcell.nr = newValue
-			for c in cells {
+			for c in ncells {
 				c.nr = _nr
 			}
 		}
@@ -99,68 +158,7 @@ class NumeralCells {
 	}
 }
 
-enum NumeralCellType : Int {
-	case None = -1
-	case FormatUS = 0
-	case Spoken = 1
-	case Latin
-	case Roman
-	case Indian
-	case Abjad
-	
-	case Egyptian
-	case Phonician
-	case Greek
-	case Hebraian
-	case Babylon
-	case Chinese
-	case Maya
-	case Scientific
-	case Duodezimal
-	case Rod
-	
-	
-	static let allValues : [NumeralCellType] = [FormatUS, .Spoken, .Roman,.Indian,.Abjad,.Egyptian,.Phonician,.Greek,.Hebraian,.Babylon,.Chinese,.Scientific,.Maya,.Rod]
-	
-	func asString() -> String {
-		switch self {
-		case .None:
-			return ""
-		case .Scientific:
-			return "scientific"
-		case .FormatUS:
-			return "hindu-arabian"
-		case .Spoken:
-			return "short scale"
-		case .Latin:
-		    return "hindu-arabian"
-		case .Roman:
-			return "roman"
-		case .Indian:
-			return "arabian (east)"
-		case .Abjad:
-			return "arabian (abjad)"
-		case .Duodezimal:
-			return "dozenal"
-		case .Egyptian:
-			return "egyptian"
-		case .Phonician:
-			return "phoenician"
-		case .Greek:
-			return "greek"
-		case .Hebraian:
-			return "hebrew"
-		case .Babylon:
-			return "babylon"
-		case .Chinese:
-			return "chinese"
-		case .Maya:
-			return "maya"
-		case .Rod:
-			return "counting rods"
-		}
-	}
-}
+
 
 extension BigUInt {
 	func formatUS() -> String {
@@ -254,6 +252,7 @@ class NumeralCell: BaseNrTableCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		self.accessoryType = .detailButton // .disclosureIndicator
 		uilabel.lineBreakMode = .byWordWrapping
 		uilabel.numberOfLines = 0
 		contentView.addSubview(uinumeraltype)
@@ -304,7 +303,7 @@ class NumeralCell: BaseNrTableCell {
 				let fonthigher = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
 				uilabel.font = fonthigher
 			default:
-				let deffont = UIFont.systemFont(ofSize: 14.0 ) //UIFont.labelFontSize)
+				let deffont = UIFont.systemFont(ofSize: 20.0 ) //UIFont.labelFontSize)
 				uilabel.font = deffont
 			}
 			uilabel.text = nr.getNumeral(type: type)
@@ -322,24 +321,20 @@ class NumeralCell: BaseNrTableCell {
 	override func LayoutUI() {
 		uilabel.translatesAutoresizingMaskIntoConstraints = false
 		uinumeraltype.translatesAutoresizingMaskIntoConstraints = false
-		uilabel.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 40.0).isActive = true
+		uilabel.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 10.0).isActive = true
 		uilabel.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: -40.0).isActive = true
-		//uilabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40.0).isActive = true
-		//uilabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 40.0).isActive = true
 		uilabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8.0).isActive = true
 		uilabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -0.0).isActive = true
 		
 		do {
-			let w = contentView.width - uinumeraltype.contentSize.width - 10.0
-			uinumeraltype.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: w).isActive = true
-			uinumeraltype.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: -10.0).isActive = true
+			//let w = contentView.width - uinumeraltype.contentSize.width - 0.0
+			uinumeraltype.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 0).isActive = true
+			uinumeraltype.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: 0.0).isActive = true
 			uinumeraltype.font = UIFont.systemFont(ofSize: 8.0 ) //UIFont.labelFontSize)
 			let h = uinumeraltype.contentSize.height;
 			uinumeraltype.heightAnchor.constraint(equalToConstant: h).isActive = true
 			uinumeraltype.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -1.0).isActive = true
 		}
-		
-			self.accessoryType = .none
 	}
 }
 

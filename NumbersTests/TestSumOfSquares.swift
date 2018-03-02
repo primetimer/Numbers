@@ -36,28 +36,28 @@ class TestSumOfSquares : XCTestCase {
 		do {
 			let n0 : BigUInt = 13
 			let (a,b) = t.Express(n: n0)!
-			let n = Int(a*a+b*b)
+			//let n = Int(a*a+b*b)
 			print(a,b,a*a,b*b,a*a+b*b)
 			XCTAssert(a*a+b*b == n0)
 		}
 		do {
 			let n0 : BigUInt = 17
 			let (a,b) = t.Express(n: n0)!
-			let n = Int(a*a+b*b)
+			//let n = Int(a*a+b*b)
 			print(a,b,a*a,b*b,a*a+b*b)
 			XCTAssert(a*a+b*b == n0)
 		}
 		do {
 			let n0 : BigUInt = 29
 			let (a,b) = t.Express(n: n0)!
-			let n = Int(a*a+b*b)
+			//let n = Int(a*a+b*b)
 			print(a,b,a*a,b*b,a*a+b*b)
 			XCTAssert(a*a+b*b == n0)
 		}
 		do {
 			let n0 : BigUInt = 17*29
 			let (a,b) = t.Express(n: n0)!
-			let n = Int(a*a+b*b)
+			//let n = Int(a*a+b*b)
 			print(a,b,a*a,b*b,a*a+b*b, n0)
 			XCTAssert(a*a+b*b == n0)
 		}
@@ -66,7 +66,7 @@ class TestSumOfSquares : XCTestCase {
 			m = m + 4
 			if m.isPrime() {
 				let (a,b) = t.Express(n: m)!
-				let n = Int(a*a+b*b)
+				//let n = Int(a*a+b*b)
 				print(a,b,a*a,b*b,a*a+b*b)
 				XCTAssert(a*a+b*b == m)
 			}
@@ -82,7 +82,7 @@ class TestSumOfSquares : XCTestCase {
 		for _ in 1...100 {
 			let p = BigUInt(arc4random())
 			if let(a,b) = t.Express(n: p) {
-				let n = Int(a*a+b*b)
+				//let n = Int(a*a+b*b)
 				print(a,b,a*a,b*b,a*a+b*b)
 				XCTAssert(a*a+b*b == p)
 			}

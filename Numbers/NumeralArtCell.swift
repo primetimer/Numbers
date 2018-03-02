@@ -42,6 +42,7 @@ class NumeralArtCell: BaseNrTableCell {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		uiart.translatesAutoresizingMaskIntoConstraints = false
+		self.selectionStyle = .none
 		//uiart.contentMode = .center
 		contentView.addSubview(uiart)
 		LayoutUI()
