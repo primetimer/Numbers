@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 
+/*
 public class UIWordCloudViewDeep : UIWordCloudView {
 	
 	//var deepPressGestureRecognizer : DeepPressGestureRecognizer!
@@ -85,10 +86,12 @@ public class UIWordCloudViewDeep : UIWordCloudView {
 	
 	
 }
+*/
 
-public class UIWordCloudView: UIView {
-	override public init(frame: CGRect) {
-		super.init(frame: frame)
+public class UIWordCloudView: UIImageView {
+	
+	init() {
+		super.init(frame: CGRect.zero)
 		self.clearsContextBeforeDrawing = true
 		self.backgroundColor = UIColor.black
 	}
@@ -98,23 +101,31 @@ public class UIWordCloudView: UIView {
 	}
 	
 	private var textarr : [(s: String,font : String?)] = []
-	var needcomputing = true
 	func AppendString(s: String,font : String? = nil) {
+		//textarr.append((String(textarr.count),nil))
 		textarr.append((s,font))
-		needcomputing = true
+		contentchanged = true
 	}
 	func Clear() {
 		textarr = []
 	}
+
+	/*
+	override public func layoutSubviews() {
+		self.needcomputing = true
+	}
+	*/
 	
-	override public var frame: CGRect {
-		get { return super.frame }
-		set {
-			super.frame = newValue
-			needcomputing = true
-			setNeedsDisplay()
+	private var contentchanged : Bool = false
+	/*
+	override public var bounds: CGRect {
+		didSet {
+			print("Setted",bounds)
+			DrawCloud()
+			
 		}
 	}
+	*/
 	
 	struct DrawCloudParam {
 		var str : String
@@ -128,7 +139,7 @@ public class UIWordCloudView: UIView {
 			self.rect = rect
 		}
 	}
-	private var params : [DrawCloudParam] = []
+	//private var params : [DrawCloudParam] = []
 	
 	var paragraph : NSMutableParagraphStyle {
 		get {
@@ -168,7 +179,7 @@ public class UIWordCloudView: UIView {
 		//return size
 	}
 	
-	private func CheckIntersect(rect : CGRect) -> Bool {
+	private func CheckIntersect(rect : CGRect,params : [DrawCloudParam] ) -> Bool {
 		for p in params {
 			if p.rect.intersects(rect) {
 				return false
@@ -190,7 +201,7 @@ public class UIWordCloudView: UIView {
 		return ans
 	}
 	
-	private func GetParam(str: String,font:String?,frame : CGRect) -> DrawCloudParam? {		
+	private func GetParam(str: String,font:String?,frame : CGRect, params : [DrawCloudParam]) -> DrawCloudParam? {
 		var fontsize : CGFloat = 100.0
 		let svert = VerticalText(s: str)
 		var vertical = false
@@ -198,20 +209,10 @@ public class UIWordCloudView: UIView {
 		for iteration in 1...1000  {
 			let x0 = CGFloat(arc4random_uniform(UInt32(frame.width)))
 			let y0 = CGFloat(arc4random_uniform(UInt32(frame.height)))
-			var maxframe = CGRect(x:0,y: 0, width : frame.width * 0.7 , height : frame.height * 0.7)
+			var maxframe = CGRect(x:0,y: 0, width : frame.width * 1.0 , height : frame.height * 1.0)
 			let s = vertical ? svert : str
 			let size = GetStrSize(s: s, font: font, fontsize: fontsize,frame : maxframe)
-			
-			/*
-			if size.width > frame.width {
-				fontsize = fontsize * frame.width / size.width * 0.8
-				continue
-			}
-			if size.height > frame.height {
-				fontsize = fontsize * frame.height / size.height * 0.8
-				continue
-			}
-			*/
+
 			let x = x0 - size.width / 2
 			let y = y0 - size.height / 2
 			let rect = CGRect(x: x, y: y, width: size.width,height:size.height)
@@ -220,7 +221,7 @@ public class UIWordCloudView: UIView {
 			
 			let isvalid = x > 0 && y > 0 && x1 < frame.width && y1 < frame.height
 			
-			if isvalid && CheckIntersect(rect: rect) {
+			if isvalid && CheckIntersect(rect: rect, params: params) {
 				let ans = DrawCloudParam(str: s, font: font, fontsize: fontsize, rect: rect)
 				return ans
 			}
@@ -247,59 +248,62 @@ public class UIWordCloudView: UIView {
 	}
 	
 	private var indicator = ViewControllerUtils()
-	private var _workItem : DispatchWorkItem? = nil
+	private var workItem : DispatchWorkItem? = nil
+	/*
 	private var workItem : DispatchWorkItem? {
 		get { return _workItem }
 		set {
-			_workItem?.cancel()
 			_workItem = newValue
-			if newValue == nil {
-				indicator.hideActivityIndicator(uiView: self)
-			} else {
+			if _workItem != nil {
 				indicator.showActivityIndicator(uiView: self)
+			}
+			else {
+				indicator.hideActivityIndicator(uiView: self)
 			}
 		}
 	}
+	*/
 	
-	func Compute(frame : CGRect) {
-		let frame = self.frame
-		if workItem != nil {
+	private func Compute(frame : CGRect) {
+		if contentchanged && workItem != nil {
 			workItem?.cancel()
-			//print("Cancelled")
+			print("Cancelled")
 		}
+		self.contentchanged = false
 
-		workItem = DispatchWorkItem {
-			//print("Computing")
+		self.workItem = DispatchWorkItem {
+			print("Computing:" , frame)
+			let worker = self.workItem
 			self.textarr.shuffle()
-			self.params = []
+			var params : [DrawCloudParam] = []
 			var iscancel = false
+			
 			for t in self.textarr {
-				let tsplit = t.s //self.InsertNL(s: t.s)
-				if let p = self.GetParam(str: tsplit, font: t.font,frame : frame) {
-					self.params.append(p)
+				let tsplit = t.s
+				if let p = self.GetParam(str: tsplit, font: t.font,frame : frame, params: params) {
+					params.append(p)
 				}
-				iscancel = self.workItem?.isCancelled ?? true
+				iscancel = worker?.isCancelled ?? true
 				if iscancel {
 					print("Calculation break")
 					break
 				}
 				//Draw in progress
 				DispatchQueue.main.async(execute: {
-					print("Displaying", t.s)
-					self.needcomputing = false
-					self.setNeedsDisplay()
+					print("DisplayingInProgress", t.s)
+					self.PerformDraw(rect: frame, params: params)
+					print("DisplayedInProgres",t.s)
 				})
 			}
 			if !iscancel {
 					//print("Computing end")
 					DispatchQueue.main.async(execute: {
-						//print("Displaying")
-						self.needcomputing = false
-						self.setNeedsDisplay()
+						print("Displaying")
 						self.workItem = nil
-						//print("Displayed")
+						//self.needcomputing = false
+						self.PerformDraw(rect: frame, params: params)
+						print("Displayed")
 					})
-				
 			}
 			else {
 				print("Cancelled without display")
@@ -307,12 +311,13 @@ public class UIWordCloudView: UIView {
 		}
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
-	
-	//private var isindraw = 0
-	private func PerformDraw() {
+	private func PerformDraw(rect : CGRect, params : [DrawCloudParam] ) {
+		let size = rect.size //CGSize(width: 800, height: 800)
+		UIGraphicsBeginImageContext(size)
+		defer { UIGraphicsEndImageContext() }
+		
 		let dhue : CGFloat = textarr.count == 0 ? 0.0 : 1.0 / CGFloat(textarr.count)
 		var hue : CGFloat = 0.0
-		//isindraw = isindraw + 1
 		for p in params {
 			let color = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
 			let attrString = getAttrString(s: p.str, fontname: p.font, fontsize: p.fontsize, color: color)
@@ -320,21 +325,39 @@ public class UIWordCloudView: UIView {
 			attrString.draw(with: p.rect, options: drawingOptions, context: nil)
 			hue = hue + dhue
 		}
-		//isindraw = 0
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		self.image = image
 	}
-	public override func draw(_ rect: CGRect) {
-		//textarr = [("1aaaa a aaaaaa aaabbb bbbbbbbbbbb bbbcccccccccccc ccccccdddd1",nil)]
-		if needcomputing {
-			Compute(frame: self.frame)
-			if let s = textarr.first {
-				let infin = "\u{221E}"
-				let attrString = getAttrString(s: s.s, fontname: nil, fontsize: 20.0, color: UIColor.darkGray)
-				let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-				attrString.draw(with: rect, options: drawingOptions, context: nil)
-			}
-		} else {
-			PerformDraw()
-		}
+	
+	/*
+	private func InitialImage(rect : CGRect) {
+		let size = rect.size //CGSize(width: 800, height: 800)
+		UIGraphicsBeginImageContext(size)
+		defer { UIGraphicsEndImageContext() }
 		
+		//Initial Image
+		if let s = textarr.first {
+			let infin = "\u{221E}"
+			let attrString = getAttrString(s: s.s, fontname: nil, fontsize: 20.0, color: UIColor.darkGray)
+			let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+			attrString.draw(with: self.frame, options: drawingOptions, context: nil)
+		}
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		self.image = image
+	}
+	*/
+	
+	private var lastsize = CGSize.zero
+	public func DrawCloud(force : Bool = false) {
+		if self.frame.size == CGSize.zero { return }
+		if force { contentchanged = true }
+		if frame.size.height != lastsize.height {
+			contentchanged = true;
+			lastsize = self.frame.size
+		}
+		if contentchanged {
+			//	InitialImage(rect: self.frame)
+			Compute(frame: self.frame)
+		}
 	}
 }

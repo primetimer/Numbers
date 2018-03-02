@@ -23,12 +23,15 @@ class NumeralCells {
 		}
 		set {
 			_expanded = newValue
-			artcell.uiart.needcomputing = true
-			artcell.uiart.setNeedsDisplay()
+			
+			//artcell.uiart.DrawCloud()
 			artcell.expanded = _expanded
 			for cell in cells {
 				cell.expanded = _expanded
 			}
+			//artcell.uiart.image = nil
+			//artcell.uiart.needcomputing = true
+			//artcell.uiart.setNeedsDisplay()
 		}
 	}
 	
@@ -184,7 +187,7 @@ extension Double {
 	}
 	var scientificStyle: String {
 		Number.formatter.numberStyle = .scientific
-		Number.formatter.positiveFormat = "0.###E+0"
+		Number.formatter.positiveFormat = "0.000E0"
 		Number.formatter.exponentSymbol = "e"
 		let number = NSNumber(value: self)
 		return Number.formatter.string(from :number) ?? description
@@ -193,7 +196,7 @@ extension Double {
 
 extension BigUInt {
 	func scientific() -> String {
-		let dot = "\u{22C5}"
+		//let dot = "\u{22C5}"
 		let s = String(self)
 		guard let d = Double(s) else { return "\u{221E}" }
 		//if d.isZero { return "0" }
@@ -246,7 +249,6 @@ extension BigUInt {
 		}
 	}
 }
-
 
 class NumeralCell: BaseNrTableCell {
 	

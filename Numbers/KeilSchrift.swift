@@ -412,62 +412,46 @@ extension BigUInt {
 
 extension BigUInt {
 	func Roman() -> String {
+		let ones = ["","Ⅰ","Ⅱ", "Ⅲ","Ⅳ","Ⅴ","Ⅵ","Ⅶ","Ⅷ","Ⅸ","Ⅹ","Ⅺ","Ⅻ"]
+		if self <= 12 { return ones[Int(self)] }
 		
-		let romanValues = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
-		let romanValues1000 = ["M̅", "C̅M̅", "D̅", "C̅D̅", "C̅", "X̅C̅", "L̅", "X̅L̅", "X̅", "I̅X̅", "V̅", "I̅V̅", "I̅̅"] 
-		let arabicValues = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
-		
-		var romanValue = ""
-		
-		//This Block is a little bit of fantasy. Romans had no need for bigger numbers !?
-		if self >= BigUInt(1000000) {
-			let mod100000 = self % BigUInt(1000000)
-			romanValue = mod100000.Roman()
-			let div1000000 = self / BigUInt(1000000)
-			romanValue = "[" + div1000000.Roman() + "] " + romanValue
-			return romanValue
+		let tens = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC","C"]
+		let hundreds = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM","M"]
+		if self <= 1000 {
+			let h = Int(self) / 100
+			let t = (Int(self) % 100) / 10
+			let o = Int(self) % 10
+			return hundreds[h] + tens[t] + ones[o]
 		}
-		
-		//This is the Usage with overlining
-		var startingValue = self / 1000
-		if self >= 4000 {
-			for (index, romanChar) in romanValues1000.enumerated() {
-				let arabicValue = arabicValues[index]
-				let div = startingValue / BigUInt(arabicValue)
-				
-				if (div > 0) {
-					for _ in 0..<div {
-						romanValue = romanValue + romanChar
-					}
-					
-					startingValue -= BigUInt(arabicValue) * div
-				}
+		if self < 5000 {
+			var temp = self
+			var ans = ""
+			while temp >= 1000 {
+				ans = ans + "M"
+				temp = temp - 1000
 			}
+			ans = ans + temp.Roman()
+			return ans
 		}
 		
-		//Fundamental Roman Numbers
-		if self >= 4000 {
-			startingValue = self % 1000
-		} else {
-			startingValue = self
-		}
-		for (index, romanChar) in romanValues.enumerated() {
-			let arabicValue = arabicValues[index]
-			let div = startingValue / BigUInt(arabicValue)
-			
-			if (div > 0)
-			{
-				for _ in 0..<div {
-					romanValue = romanValue + romanChar
-				}
-				
-				startingValue -= BigUInt(arabicValue) * div
+		let high = (self % 10000000) / 1000
+		let low = self % 1000
+	
+		var ans = low.Roman()
+
+		if high > 0 {
+			let temp = high.Roman()
+			var highstr = ""
+			for c in temp {
+				highstr = highstr + String(c) + "\u{0305}"
 			}
+			ans = highstr + "\u{200B}" + ans
 		}
 		
-		
-		
-		return romanValue
+		if self >= 5000000 {
+			return "ↈ"
+		}
+		return ans
 	}
 }
 

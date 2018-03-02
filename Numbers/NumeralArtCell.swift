@@ -12,11 +12,21 @@ import BigInt
 import FutureKit
 
 class NumeralArtCell: BaseNrTableCell {
-	private (set) var uiart = UIWordCloudViewDeep()
+	private (set) var uiart = UIWordCloudView()
+	/*
+	var uiart : UIWordCloudView {
+		if _uiart != nil { return _uiart! }
+		_uiart = UIWordCloudView(frame: self.frame)
+		return _uiart!
+	}
+	*/
+	override func setNeedsLayout() {
+		uiart.DrawCloud()
+	}
 	override var nr : BigUInt {
 		get { return super.nr }
 		set {
-			if nr != newValue || nr == 0 {
+			if nr != newValue  {
 				super.nr = newValue
 				uiart.Clear()
 				for type in NumeralCellType.allValues {
@@ -24,7 +34,7 @@ class NumeralArtCell: BaseNrTableCell {
 					let font = type == .Maya ? "mayan" : nil
 					uiart.AppendString(s: s,font: font)
 				}
-				uiart.setNeedsDisplay()
+				uiart.DrawCloud()
 			}
 		}
 	}
@@ -32,6 +42,7 @@ class NumeralArtCell: BaseNrTableCell {
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		uiart.translatesAutoresizingMaskIntoConstraints = false
+		//uiart.contentMode = .center
 		contentView.addSubview(uiart)
 		LayoutUI()
 	}
