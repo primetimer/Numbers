@@ -61,17 +61,26 @@ class Explanation : NSObject {
 		}
 	}
 	
+	private func getP(_ s : String, fontpx : Int = 20 ) -> String {
+		var ans = "<p style=\"font-size:" + String(fontpx) + "px\" style=\"line-height:0.5em;\" >"
+		ans = ans + s + "</p>"
+		return ans
+	}
+	
 	var html : String {
 		get {
-			var htmldesc = ""
-			let start = " <html><body>"
+			let start = "<html><body>"
 			let end = "</body></html>"
-			let lines = desc.lines
-			for s in lines {
-				htmldesc = htmldesc + s + "<br>"
-				//htmldesc = htmldesc + "<p>" + s + "</p>"
+			let nrstr = nr.formatUS()
+			var htmldesc = getP(nrstr, fontpx: 30)
+			let spoken = SpokenNumber.shared.spoken(n: nr).capitalized
+			if spoken.count < 20 {
+				htmldesc = getP(nrstr + " (" + spoken + ")", fontpx: 30)
 			}
-			
+			for s in desc.lines {
+				let text = getP(s)
+				htmldesc = htmldesc + text
+			}
 			htmldesc = start + htmldesc + end
 			return htmldesc
 		}
@@ -182,9 +191,12 @@ class Explanation : NSObject {
 				break
 			}
 		}
+		
+		/*
 		if desc == "" {
 			desc = String(nr)
 		}
+		*/
 		
 		switch(nr) {
 		case 0,1,2,3,4,5,7,8,9,11:
@@ -225,7 +237,7 @@ class Explanation : NSObject {
 	}
 	
 	private func Two() {
-		nr = 2		
+		nr = 2
 		//latex = latex + "2 = 1 + 1 \\\\"
 		latex = latex + "n>0, n+n = n\\cdot{n}  \\Rightarrow n = 2"
 		latex = latex + "\\\\ \\sum_{k=0}^\\infty 1/2^k = 2 \\\\"
@@ -233,6 +245,7 @@ class Explanation : NSObject {
 	
 	private func Three() {
 		nr = 3
+		
 		//desc = desc + "Three (3) is the first odd prime number."
 		//latex = latex + "3 = 1 + 2\\\\"
 		//latex = latex + "F_0 = 2^{2^{0}} + 1 = 3 \\\\"
@@ -273,6 +286,7 @@ class Explanation : NSObject {
 	
 	private func Eight () {
 		nr = 8
+		desc = ""
 		//desc = desc + "Eight (8) is a cube number. Eight is the only Fibonacci Number, which is a cube."
 		
 		//latex = latex + "8 = 2^3 \\\\"
@@ -387,14 +401,14 @@ class Explanation : NSObject {
 		desc = desc + "Twentythree (23) ist a prime number. It is the smallest prime, which ist not a twin prime"
 		latex = latex + "23 = min \\{ p>2\\in\\mathbb{P} | p \\notin \\mathbb{P_2} \\} \\\\"
 		//latex = latex + "\\mathbb{P}_2=\\{ p \\in \\mathbb{P} : p-2\\notin \\mathbb{P} \\land p+2 \\notin \\mathbb{P} \\}"
-		latex = latex + "\\mathbb{P}_2=\\{ p \\in \\mathbb{P} | \\forall q \\in \\mathbb{P} :  p-q \\neq 2\\}"
+		latex = latex + "\\mathbb{P}_2=\\{ p \\in \\mathbb{P} | \\forall q \\in \\mathbb{P} :  p-q \\neq 2\\} \\\\"
 	}
 	private func N24() {
 		nr = 24
 		desc = desc + "Twentyfour (24) ist a highly composite number, having more divisors than any smaller number"
 		latex = latex + "24 = 4! = 1\\cdot{2} \\cdot{3} \\cdot{4} \\\\"
 		latex = latex + "24 = 2^3 \\cdot{3} \\\\"
-		latex = latex + "2|24,3|24,4|24,6|24,8|24,12|24"
+		latex = latex + "2|24,3|24,4|24,6|24,8|24,12|24 \\\\"
 	}
 	private func N25() {
 		nr = 25

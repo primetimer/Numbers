@@ -76,7 +76,7 @@ class FormTableCell: BaseNrTableCell {
 class CustomTableViewHeader: UITableViewHeaderFooterView {
 	override init(reuseIdentifier: String?) {
 		super.init(reuseIdentifier: reuseIdentifier)
-		contentView.backgroundColor = .orange
+		//contentView.backgroundColor = .orange
 	}
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
@@ -104,8 +104,8 @@ class CustomTableViewFooter: UITableViewHeaderFooterView {
 */
 
 enum NrViewSection : Int {
-	case Description = 0
-	case Numerals = 1
+	case Description = 1
+	case Numerals = 0
 	case Formula = 2
 	case Draw = 3
 	case Wiki = 4
@@ -166,10 +166,18 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return 5
 	}
 	
+	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		guard let header = view as? UITableViewHeaderFooterView else { return }
+		//header.textLabel?.textColor = UIColor.red
+		header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+		header.textLabel?.frame = header.frame
+		header.textLabel?.textAlignment = .center
+	}
+	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case NrViewSection.Description.rawValue:
-			return "Description"
+			return "Summary"
 		case NrViewSection.Numerals.rawValue:
 			return "Numerals"
 		case NrViewSection.Formula.rawValue:
@@ -182,11 +190,10 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return nil
 		}
 	}
-	/*
+
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 150
+		return 40.0
 	}
-	*/
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerId) as! CustomTableViewHeader

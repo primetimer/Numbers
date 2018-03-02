@@ -98,11 +98,11 @@ class AbundanceTester : NumTester {
 		let sigma = FactorCache.shared.Sigma(p: n)
 		if n.isInt64() {
 			if superabundant.contains(Int(n)) {
-				desc = desc + " It is a " + WikiLinks.shared.Link(key: "superabundant") + " number."
+				desc = desc + " It is also a " + WikiLinks.shared.Link(key: "superabundant") + " number."
 			}
 		}
 		if sigma == n * 2 {
-			desc = desc + " It is a " + WikiLinks.shared.Link(key: "perfect") + " number."
+			desc = desc + " It is also a " + WikiLinks.shared.Link(key: "perfect") + " number."
 			//return String(n) + " is perfect"
 		}
 		

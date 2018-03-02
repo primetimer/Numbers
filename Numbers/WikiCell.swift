@@ -40,7 +40,6 @@ class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 	}
 	func webViewDidFinishLoad(_ webView: UIWebView)
 	{
-		print("Didload=",webView.frame)
 		let scrollPoint = CGPoint(x: 0, y: 48.0)
 		uiweb.scrollView.setContentOffset(scrollPoint, animated: true)//Set false if you doesn't want animation
 

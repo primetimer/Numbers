@@ -59,6 +59,16 @@ extension String {
 	}
 }
 
+extension String {
+	func capitalizingFirstLetter() -> String {
+		return prefix(1).uppercased() + dropFirst()
+	}
+	
+	mutating func capitalizeFirstLetter() {
+		self = self.capitalizingFirstLetter()
+	}
+}
+
 extension UIViewController {
 	internal var navh : CGFloat {
 		get {

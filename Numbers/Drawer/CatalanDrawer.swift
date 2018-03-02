@@ -203,17 +203,7 @@ class CatalanView: DrawNrView {
 
 	//private var path : [UIBezierPath] = []
 	private var shapeLayer: [CAShapeLayer] = []
-	
-	/*
-	private func addToPath(_ pt0 : CGPoint, _ pt1: CGPoint, index : Int) {
-		path[index].move(to: pt0)
-		path[index].addLine(to:  pt1)
-		path[index].addLine(to: CGPoint(x: pt1.x+1,y:pt1.y+1))
-		path[index].addLine(to: CGPoint(x: pt1.x+1, y:pt1.y-1))
-		path[index].addLine(to:  pt1)
-	}
-	*/
-	
+		
 	private func addToPath(_ pt0 : CGPoint, _ pt1: CGPoint, path: UIBezierPath) {
 		path.move(to: pt0)
 		path.addLine(to:  pt1)
