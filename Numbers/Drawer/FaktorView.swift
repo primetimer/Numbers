@@ -43,8 +43,8 @@ class FaktorView: DrawNrView {
 				DispatchQueue.main.async(execute: {
 					self.imageview.animationImages = images
 					self.imageview.image = images.last
-					self.imageview.animationDuration = TimeInterval(self.param.maxrekurs)
-					self.imageview.animationRepeatCount = 4
+					self.imageview.animationDuration = 5.0 //TimeInterval(self.param.maxrekurs)
+					self.imageview.animationRepeatCount = 0
 					//self.imageview.isUserInteractionEnabled = true
 					self.imageview.startAnimating()
 				})
@@ -53,7 +53,7 @@ class FaktorView: DrawNrView {
 			let images = CreateImages()
 			imageview.image = images.last
 			imageview.animationDuration = 0
-			imageview.animationRepeatCount = 1
+			imageview.animationRepeatCount = 0
 			//imageview.isUserInteractionEnabled = true
 		}
 	}

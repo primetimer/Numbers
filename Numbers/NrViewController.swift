@@ -192,7 +192,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 40.0
+		return 20.0
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -340,6 +340,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Description.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
 				uidesctemp = cell.uidesc
+				cell.nr = self.currnr
 				cell.setParentVC(vc: self)
 				cell.tableparent = tableView
 				cell.SetHtmlDesc(html: self.htmldesc)

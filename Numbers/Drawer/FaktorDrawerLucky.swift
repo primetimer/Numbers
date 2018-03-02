@@ -42,7 +42,7 @@ class LuckyView : DrawNrView {
 				self.imageview.animationImages = self.imagearr
 				self.imageview.image = self.imagearr.last
 				self.imageview.animationDuration = 5.0
-				self.imageview.animationRepeatCount = 5
+				self.imageview.animationRepeatCount = 0
 				self.imageview.startAnimating()
 			})
 		}

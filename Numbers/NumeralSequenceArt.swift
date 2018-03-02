@@ -11,24 +11,55 @@ import UIKit
 import BigInt
 import FutureKit
 
-class NumeralArtCell: BaseNrTableCell {
+class NumeralSequenceArtCell: BaseNrTableCell {
 	private (set) var uiart = UIWordCloudView()
 	override func setNeedsLayout() {
 		uiart.DrawCloud()
 	}
-	override var nr : BigUInt {
-		get { return super.nr }
-		set {
-			if nr != newValue  {
-				super.nr = newValue
-				uiart.Clear()
-				for type in NumeralCellType.allValues {
-					let s = nr.getNumeral(type: type)
-					let font = type == .Maya ? "mayan" : nil
-					uiart.AppendString(s: s,font: font)
-				}
-				uiart.DrawCloud()
+	private var refresh = true
+	var tester : NumTester? = nil {
+		didSet {
+			if oldValue == nil {
+				refresh = true
 			}
+			if tester == nil {
+				return
+			}
+			if tester?.property() == oldValue?.property() {
+				refresh = true
+			}
+		}
+	}
+	
+	override var nr : BigUInt {
+		
+		didSet {
+			if nr != oldValue {
+				refresh = true
+			}
+			if !refresh { return }
+			refresh = false
+			uiart.Clear()
+			var hit = 0
+			for i in 0...200 {
+				let seq = nr + BigUInt(i)
+				if tester?.isSpecial(n: seq) ?? false {
+					uiart.AppendString(s: String(seq))
+					hit = hit + 1
+					if hit > 10 { break }
+				}
+			}
+			if hit == 1 {
+				for i in 0...200 {
+					let seq = BigUInt(i)
+					if tester?.isSpecial(n: seq) ?? false {
+						uiart.AppendString(s: String(seq))
+						hit = hit + 1
+						if hit > 10 { break }
+					}
+				}
+			}
+			uiart.DrawCloud()
 		}
 	}
 	

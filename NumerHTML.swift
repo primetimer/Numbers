@@ -42,6 +42,7 @@ class WikiLinks {
 		AddWiki("power of two","https://en.wikipedia.org/wiki/Power_of_two")
 		AddWiki("sum of two squares","https://en.wikipedia.org/wiki/Fermat%27s_theorem_on_sums_of_two_squares")
 		AddWiki("sum of two cubes","https://en.wikipedia.org/wiki/Sums_of_powers")
+		AddWiki("dull","https://en.wikipedia.org/wiki/Interesting_number_paradox")
 	}
 	
 	func Link(key :String) -> String {
@@ -66,6 +67,25 @@ class WikiLinks {
 		desc = desc + link
 		desc = desc + " number."
 		return desc
+	}
+	
+	func getTester(link : String) -> NumTester? {
+		var property = ""
+		for s in dict {
+			if s.value.contains(link) {
+				property = s.key
+				break
+			}
+		}
+		if property == nil {
+			return nil
+		}
+		for t in Tester.testers {
+			if t.property() == property {
+				return t
+			}
+		}
+		return nil
 	}
 	
 }

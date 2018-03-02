@@ -67,8 +67,9 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 		case .linkClicked:
 			// Open links
 			guard let url = request.url else { return true }
-			let subvc = WikiVC()
-			subvc.SetWikiUrl(wiki: url.absoluteString)
+			//let subvc = WikiVC()
+			let subvc = WikiTVC()
+			subvc.SetWikiURL(url: url.absoluteString, nr: self.nr)
 			parentvc?.navigationController?.pushViewController(subvc, animated: true)
 			return false
 		default:

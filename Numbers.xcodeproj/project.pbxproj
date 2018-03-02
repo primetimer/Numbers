@@ -44,6 +44,8 @@
 		54923FB21FF0F137006993F2 /* MersenneTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FB11FF0F137006993F2 /* MersenneTester.swift */; };
 		54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FB31FF25700006993F2 /* CatalanDrawer.swift */; };
 		54924C7D2049B4250038716B /* WikiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7C2049B4250038716B /* WikiVC.swift */; };
+		54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7E2049F5F10038716B /* WikiTVC.swift */; };
+		54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C80204A038D0038716B /* NumeralSequenceArt.swift */; };
 		54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6140C2028F48C00408813 /* CollectionDescCell.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
@@ -119,6 +121,8 @@
 		54923FB31FF25700006993F2 /* CatalanDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalanDrawer.swift; sourceTree = "<group>"; };
 		54923FB61FF43979006993F2 /* UninterestingTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UninterestingTester.swift; sourceTree = "<group>"; };
 		54924C7C2049B4250038716B /* WikiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiVC.swift; sourceTree = "<group>"; };
+		54924C7E2049F5F10038716B /* WikiTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiTVC.swift; sourceTree = "<group>"; };
+		54924C80204A038D0038716B /* NumeralSequenceArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralSequenceArt.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -267,6 +271,7 @@
 				54F5F0BB1FFA99BF006DECED /* DescCell.swift */,
 				54A6140C2028F48C00408813 /* CollectionDescCell.swift */,
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
+				54924C80204A038D0038716B /* NumeralSequenceArt.swift */,
 				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
 				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				54DBF80C20497DBC00F07FD7 /* WikiCell.swift */,
@@ -276,8 +281,9 @@
 				54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */,
 				547565591FD99F9F00A09CA7 /* Explain.swift */,
 				54E43A4D1FD44A1100C25A42 /* NrViewController.swift */,
-				5430781D1FDE6C0A0036516F /* MainViewController.swift */,
+				54924C7E2049F5F10038716B /* WikiTVC.swift */,
 				54924C7C2049B4250038716B /* WikiVC.swift */,
+				5430781D1FDE6C0A0036516F /* MainViewController.swift */,
 				54E43A6B1FD44B4100C25A42 /* Extensions.swift */,
 				54E43A4F1FD44A1100C25A42 /* Main.storyboard */,
 				54E43A521FD44A1100C25A42 /* Assets.xcassets */,
@@ -530,6 +536,7 @@
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
 				54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */,
 				54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */,
+				54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */,
 				54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
@@ -565,6 +572,7 @@
 				54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */,
 				54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
+				54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
 				54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */,
 				543078281FDF377A0036516F /* PalindromicTester.swift in Sources */,

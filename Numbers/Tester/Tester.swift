@@ -24,7 +24,7 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	private var testers : [NumTester] = [PrimeTester(), AbundanceTester(),
+	static var testers : [NumTester] = [PrimeTester(), AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
@@ -42,7 +42,7 @@ class Tester : NumTester {
 	
 	func isDull(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
-		for t in testers {
+		for t in Tester.testers {
 			if t is DullTester {
 				continue
 			}
@@ -62,7 +62,7 @@ class Tester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		
 		var str : String = ""
-		for t in testers {
+		for t in Tester.testers {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				let desc = TesterCache.shared.getDesc(tester: t, n: n)
 				str = str + desc! + "\n"
@@ -73,7 +73,7 @@ class Tester : NumTester {
 	
 	func getLatex(n: BigUInt) -> String? {
 		var latex : String = ""
-		for t in testers {
+		for t in Tester.testers {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				if let ltest = TesterCache.shared.getLatex(tester: t,n: n) {
 					latex = latex + ltest + "\\\\"
@@ -92,7 +92,7 @@ class Tester : NumTester {
 			ans.append("Neutral Element of multiplication")
 		}
 		
-		for t in testers {
+		for t in Tester.testers {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				ans.append(t.property())
 			}
@@ -140,15 +140,19 @@ class DullTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let dulllink = WikiLinks.shared.Link(key: "dull")
+		var ans = ""
 		switch n
 		{
 		case firstdull:
-			return "39 is the smallest dull number"
+			ans = "39 is the smallest " + dulllink + " number."
 		case seconddull:
-			return "46 is the first really boring number"
+			ans = "46 is the first really boring " + dulllink + " number."
 		default:
-		return String(n) + " is a dull number"
+			ans =  String(n) + " is a " + dulllink + " number."
 		}
+		return ans
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
