@@ -56,7 +56,7 @@ class Explanation : NSObject {
 	
 	internal var wikiurl : String {
 		get {
-			let url = "https://en.wikipedia.org/wiki/" + String(nr) //+ "_(number)"
+			let url = WikiLinks.shared.NumberLink(nr: self.nr)
 			return url
 		}
 	}
@@ -191,13 +191,6 @@ class Explanation : NSObject {
 				break
 			}
 		}
-		
-		/*
-		if desc == "" {
-			desc = String(nr)
-		}
-		*/
-		
 		switch(nr) {
 		case 0,1,2,3,4,5,7,8,9,11:
 			break

@@ -52,6 +52,21 @@ class WikiLinks {
 		return ""
 	}
 	
+	func ExtractLinkToNumber(url: String) -> BigUInt?
+	{
+		if let range1 = url.range(of: "/wiki/"), let range2 = url.range(of: "_(number)") {
+			let ans = url[range1.upperBound..<range2.lowerBound]
+			let nr = BigUInt(ans)
+			return nr
+		}
+		return nil
+	}
+	
+	func NumberLink(nr: BigUInt) -> String {
+		let ans = "https://en.wikipedia.org/wiki/" + String(nr) + "_(number)"
+		return ans
+	}
+	
 	private func AddWiki(_ key : String, _
 		linkval: String) {
 		var link = "<a href=\""

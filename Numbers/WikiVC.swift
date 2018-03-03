@@ -20,6 +20,7 @@ class WikiVC : UIViewController , UIWebViewDelegate {
 		uiweb.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 		uiweb.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		uiweb.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		uiweb.dataDetectorTypes = []
 	}
 	
 	func SetWikiUrl(wiki : String) {

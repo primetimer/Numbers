@@ -34,6 +34,7 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 			uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 			uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 			uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+			uidesc.dataDetectorTypes = []
 			//uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 			
 		#endif

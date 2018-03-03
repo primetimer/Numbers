@@ -104,7 +104,7 @@ class NumeralCells {
 		let cell = getCell(row: row)
 		if cell is NumeralArtCell {
 			if expanded { return cell.contentView.width }
-			return 100.0
+			return 150.0
 		}
 		if cell is WikiTableCell {
 			if cell.isHidden { return 0 }

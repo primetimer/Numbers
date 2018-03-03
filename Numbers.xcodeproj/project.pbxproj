@@ -46,6 +46,7 @@
 		54924C7D2049B4250038716B /* WikiVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7C2049B4250038716B /* WikiVC.swift */; };
 		54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7E2049F5F10038716B /* WikiTVC.swift */; };
 		54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C80204A038D0038716B /* NumeralSequenceArt.swift */; };
+		54924C83204A9D720038716B /* TestURLNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C82204A9D720038716B /* TestURLNumber.swift */; };
 		54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6140C2028F48C00408813 /* CollectionDescCell.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
@@ -123,6 +124,7 @@
 		54924C7C2049B4250038716B /* WikiVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiVC.swift; sourceTree = "<group>"; };
 		54924C7E2049F5F10038716B /* WikiTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiTVC.swift; sourceTree = "<group>"; };
 		54924C80204A038D0038716B /* NumeralSequenceArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralSequenceArt.swift; sourceTree = "<group>"; };
+		54924C82204A9D720038716B /* TestURLNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestURLNumber.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				54E43A601FD44A1100C25A42 /* NumbersTests.swift */,
 				54F7E0FF203A098600B4EAEF /* TetraHedral.swift */,
 				54062ADC20432D80001F51B6 /* TestLucky.swift */,
+				54924C82204A9D720038716B /* TestURLNumber.swift */,
 				54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */,
 				54062AE22045F837001F51B6 /* TestSumOfCubes.swift */,
 				54E43A621FD44A1100C25A42 /* Info.plist */,
@@ -584,6 +587,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54924C83204A9D720038716B /* TestURLNumber.swift in Sources */,
 				54062AE32045F837001F51B6 /* TestSumOfCubes.swift in Sources */,
 				54F7E100203A098600B4EAEF /* TetraHedral.swift in Sources */,
 				54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */,

@@ -111,7 +111,9 @@ enum NrViewSection : Int {
 	case Wiki = 4
 }
 
-class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate  {
+class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
+	
+	
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
@@ -143,6 +145,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var wikiurl : String = "wikipedia.de"
 	
 	var currnr : BigUInt = 2
+	func Jump(to: BigUInt) {
+		currnr = to
+		GetExplanation()
+		tv.reloadData()
+		//let indexPath = IndexPath(row: 0, section: 0)
+		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
+		tv.reloadData()
+	}
 	private func GetExplanation() {
 		let exp = Explain.shared.GetExplanation(nr: currnr)
 		uisearch.text = String(currnr)
@@ -368,6 +378,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Wiki.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
+				cell.jumper = self
 				cell.SetWikiUrl(wiki: self.wikiurl)
 				return cell
 			}
