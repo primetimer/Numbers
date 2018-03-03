@@ -10,6 +10,7 @@ import UIKit
 import iosMath
 import BigInt
 import PrimeFactors
+import YouTubePlayer
 
 enum TVCViewSection : Int {
 	case Art = 0
@@ -31,6 +32,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	private var uidesctemp : UIWebView? = nil
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
+	private var uitubetemp : YouTubePlayerView? = nil
 	
 	private var htmldesc = ""
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"

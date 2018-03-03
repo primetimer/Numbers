@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import BigInt
-import FutureKit
+//import FutureKit
 
 class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 	private (set) var uidesc =  UIWordCloudView()

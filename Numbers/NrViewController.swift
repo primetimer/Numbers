@@ -10,98 +10,7 @@ import UIKit
 import iosMath
 import BigInt
 import PrimeFactors
-
-class BaseNrCollectionCell : UICollectionViewCell {
-	var nr : BigUInt = 0
-	var tableparent : UICollectionView? = nil
-	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-	}
-	/*
-	override init(style:  UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		self.accessoryType = .disclosureIndicator
-	}
-	*/
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
-
-
-class BaseNrTableCell : UITableViewCell {
-	var nr : BigUInt = 0
-	var tableparent : UITableView? = nil
-	private var _expanded : Bool = false
-	
-	var expanded : Bool {
-		set {
-			if newValue == _expanded {return }
-			_expanded = newValue
-			LayoutUI()
-		}
-		get {
-			return _expanded
-		}
-	}
-	
-	internal func LayoutUI() {}
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		self.accessoryType = .disclosureIndicator
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
-
-
-class FormTableCell: BaseNrTableCell {
-	private (set) var uimath = MTMathUILabel()
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		uimath.fontSize = 18.0
-		contentView.addSubview(uimath)
-		uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
-		//uimath.fontSize = 15.0
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
-
-class CustomTableViewHeader: UITableViewHeaderFooterView {
-	override init(reuseIdentifier: String?) {
-		super.init(reuseIdentifier: reuseIdentifier)
-		//contentView.backgroundColor = .orange
-	}
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
-
-
-//
-// MARK :- FOOTER
-//
-
-/*
-class CustomTableViewFooter: UITableViewHeaderFooterView {
-	
-	override init(reuseIdentifier: String?) {
-		super.init(reuseIdentifier: reuseIdentifier)
-		
-		contentView.backgroundColor = .green
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-}
-*/
+import YouTubePlayer
 
 enum NrViewSection : Int {
 	case Description = 1
@@ -109,19 +18,21 @@ enum NrViewSection : Int {
 	case Formula = 2
 	case Draw = 3
 	case Wiki = 4
+	case NumberPhile = 5
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
-	
 	
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
+	private let tubecellId = "tubecellId"
 	
 	//private let drawcellId = "drawcellId"
-	static let wikiheight : CGFloat = 600.0
+	static let wikiheight : CGFloat = 300.0
+	static let numberphileheight : CGFloat = 200.0
 	private let drawcells = DrawingCells()
 	private let numeralcells = NumeralCells()
 	
@@ -136,10 +47,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var uinumeraltemp : UILabel? = nil
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
-	//private var uidrawtemp : FaktorView? = nil
-	//private var uidrawtemp : [UIView?] = [nil,nil,nil,nil,nil]
-	
-	//private var desc : String = "A text"
+	private var uitubetemp : YouTubePlayerView? = nil
 	private var htmldesc = ""
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiurl : String = "wikipedia.de"
@@ -173,7 +81,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 5
+		return NrViewSection.NumberPhile.rawValue+1
 	}
 	
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -196,6 +104,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return "Drawing"
 		case NrViewSection.Wiki.rawValue:
 			return "Wikipedia"
+		case NrViewSection.NumberPhile.rawValue:
+			return "Numberphile"
 		default:
 			return nil
 		}
@@ -268,6 +178,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			if uiwebtemp != nil {
 				return NrViewController.wikiheight
 			}
+		case NrViewSection.NumberPhile.rawValue:
+			return NrViewController.numberphileheight
 		default:
 			assert(false)
 		}
@@ -376,10 +288,19 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			cell.selectionStyle = .none
 			return cell
 		case NrViewSection.Wiki.rawValue:
+			
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
 				cell.jumper = self
 				cell.SetWikiUrl(wiki: self.wikiurl)
+				return cell
+			}
+		case NrViewSection.NumberPhile.rawValue:
+			if let cell = tableView.dequeueReusableCell(withIdentifier: tubecellId, for: indexPath) as? YoutTubeTableCell {
+				uitubetemp = cell.uitube
+				cell.jumper = self
+				cell.SetTubeNr(n: currnr)
+				//cell.SetTubeUrl(tube: "https://www.youtube.com/watch?v=YQw124CtvO0&t=28s" )
 				return cell
 			}
 		default:
@@ -399,6 +320,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
+		tv.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
 		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
 		return tv
 	}()

@@ -15,6 +15,7 @@ protocol NumberJump {
 }
 class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 	private (set) var uiweb = UIWebView()
+	
 	private var wikiurl : String = ""
 	var jumper : NumberJump? = nil
 	
