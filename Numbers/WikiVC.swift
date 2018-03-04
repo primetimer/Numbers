@@ -8,6 +8,41 @@
 
 import Foundation
 import UIKit
+import SafariServices
+
+#if false
+class WikiVC : SFSafariViewController {
+	
+	init(dummy : Int = 0) {
+		let adr = WikiLinks.shared.wikidefault
+		let url = URL(string: adr)!
+		let config = SFSafariViewController.Configuration()
+		config.entersReaderIfAvailable = false
+		config.barCollapsingEnabled = false
+		super.init(url: url, configuration: config)
+	}
+	
+	func SetWikiUrl(wiki : String) {
+		return
+		/*
+		if let url = URL(string: wiki) {
+			let request = URLRequest(url: url)
+			self.
+			uiweb.loadRequest(request)
+			uiweb.delegate = self
+		}
+		*/
+	}
+	
+	func safariViewControllerDidFinish(controller: SFSafariViewController)
+	{
+		controller.dismiss(animated: true, completion: nil)
+	}
+	
+}
+	#endif
+
+#if true
 
 class WikiVC : UIViewController , UIWebViewDelegate {
 	
@@ -56,3 +91,4 @@ class WikiVC : UIViewController , UIWebViewDelegate {
 		}
 	}
 }
+#endif

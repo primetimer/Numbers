@@ -35,6 +35,7 @@
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
 		547C4F07204B098400884B6C /* NumberPhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547C4F06204B098400884B6C /* NumberPhile.swift */; };
+		547C4F09204B492E00884B6C /* Supersingular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547C4F08204B492E00884B6C /* Supersingular.swift */; };
 		5486C560203D755600778A81 /* NumeralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C55F203D755600778A81 /* NumeralCell.swift */; };
 		5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */; };
 		5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C566203F2E0900778A81 /* UIWordCloud.swift */; };
@@ -115,6 +116,7 @@
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
 		547C4F06204B098400884B6C /* NumberPhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberPhile.swift; path = Numbers/NumberPhile.swift; sourceTree = "<group>"; };
+		547C4F08204B492E00884B6C /* Supersingular.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Supersingular.swift; sourceTree = "<group>"; };
 		5486C55F203D755600778A81 /* NumeralCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralCell.swift; sourceTree = "<group>"; };
 		5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStrokeAnimatedLabel.swift; sourceTree = "<group>"; };
 		5486C566203F2E0900778A81 /* UIWordCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWordCloud.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */,
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
+				547C4F08204B492E00884B6C /* Supersingular.swift */,
 				543078251FDF07A20036516F /* AbundanceTester.swift */,
 				54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */,
 				54062AE42045F858001F51B6 /* SumOfCubesTester.swift */,
@@ -575,6 +578,7 @@
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */,
+				547C4F09204B492E00884B6C /* Supersingular.swift in Sources */,
 				54923FB01FEF87B0006993F2 /* LucasDrawer.swift in Sources */,
 				547C4F07204B098400884B6C /* NumberPhile.swift in Sources */,
 				54923FAE1FEF8724006993F2 /* TetrahedralTester.swift in Sources */,

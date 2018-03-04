@@ -11,9 +11,11 @@ import BigInt
 
 class WikiLinks {
 	
+	let wikidefault = "https://en.wikipedia.org/wiki/List_of_numbers"
 	static var shared = WikiLinks()
 	private (set) var dict : [String:String] = [:]
-	private let wiki = "https://en.wikipedia.org/wiki/"
+	//private let wiki = "https://en.wikipedia.org/wiki/"
+	
 	private init() {
 		AddWiki("triangle","https://en.wikipedia.org/wiki/Triangular_number")
 		AddWiki("square","https://en.wikipedia.org/wiki/Square_number")
@@ -29,6 +31,7 @@ class WikiLinks {
 		AddWiki("twin prime","https://en.wikipedia.org/wiki/Twin_prime")
 		AddWiki("cousin prime","https://en.wikipedia.org/wiki/Cousin_prime")
 		AddWiki("sexy prime","https://en.wikipedia.org/wiki/Sexy_prime")
+		AddWiki("Sophie Germain prime","https://en.wikipedia.org/wiki/Sophie_Germain_prime")
 		AddWiki("palindromic","https://en.wikipedia.org/wiki/Palindromic_number")
 		AddWiki("nontotient","https://en.wikipedia.org/wiki/Nontotient")
 		AddWiki("Mersenne","https://en.wikipedia.org/wiki/Mersenne_prime")
@@ -43,11 +46,12 @@ class WikiLinks {
 		AddWiki("sum of two squares","https://en.wikipedia.org/wiki/Fermat%27s_theorem_on_sums_of_two_squares")
 		AddWiki("sum of two cubes","https://en.wikipedia.org/wiki/Sums_of_powers")
 		AddWiki("dull","https://en.wikipedia.org/wiki/Interesting_number_paradox")
+		AddWiki("supersingular","https://en.wikipedia.org/wiki/Supersingular_prime_(moonshine_theory)")
 	}
 	
-	func Link(key :String) -> String {
-		if let link = dict[key] {
-			return link
+	func Address(key :String) -> String {
+		if let adress = dict[key] {
+			return adress
 		}
 		return ""
 	}
@@ -67,12 +71,17 @@ class WikiLinks {
 		return ans
 	}
 	
-	private func AddWiki(_ key : String, _
-		linkval: String) {
+	private func AddWiki(_ key : String, _ linkval: String) {
+		dict[key] = linkval
+	}
+	
+	func Link(key: String) -> String {
+		let adress = Address(key: key)
+		if adress.isEmpty { return "" }
 		var link = "<a href=\""
-		link = link + linkval + "\">"
+		link = link + adress + "\">"
 		link = link + key + "</a>"
-		dict[key] = link
+		return link
 	}
 	
 	func getLink(tester : NumTester, n: BigUInt) -> String {
@@ -96,6 +105,11 @@ class WikiLinks {
 			return nil
 		}
 		for t in Tester.testers {
+			if t.property() == property {
+				return t
+			}
+		}
+		for t in Tester.xtesters {
 			if t.property() == property {
 				return t
 			}

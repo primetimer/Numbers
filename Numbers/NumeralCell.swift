@@ -65,9 +65,11 @@ class NumeralCells {
 		didSet {
 			artcell.expanded = expanded
 			if !expanded {
+				artcell.accessoryType = .disclosureIndicator
 				for cell in ncells { cell.expanded = false; cell.isHidden = true }
 				for cell in wikicells { cell.expanded = false; cell.isHidden = true }
 			} else {
+				artcell.accessoryType = .none
 				for cell in ncells { cell.expanded = false; cell.isHidden = false }
 			}
 		}
@@ -103,8 +105,8 @@ class NumeralCells {
 		var height = CGFloat(20)
 		let cell = getCell(row: row)
 		if cell is NumeralArtCell {
-			if expanded { return cell.contentView.width }
-			return 150.0
+			let h = expanded ? cell.contentView.width : 150.0
+			return h
 		}
 		if cell is WikiTableCell {
 			if cell.isHidden { return 0 }
@@ -255,8 +257,11 @@ class NumeralCell: BaseNrTableCell {
 		self.accessoryType = .detailButton // .disclosureIndicator
 		uilabel.lineBreakMode = .byWordWrapping
 		uilabel.numberOfLines = 0
+		uilabel.translatesAutoresizingMaskIntoConstraints = false
+		uinumeraltype.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(uinumeraltype)
 		contentView.addSubview(uilabel)
+		LayoutUI()
 	}
 	
 	private (set) var uilabel = UILabel()
@@ -274,7 +279,7 @@ class NumeralCell: BaseNrTableCell {
 			uinumeraltype.text = type.asString()
 			uinumeraltype.textAlignment = .right
 			
-			LayoutUI()
+			//LayoutUI()
 		}
 		get {
 			return _type
@@ -308,7 +313,7 @@ class NumeralCell: BaseNrTableCell {
 			}
 			uilabel.text = nr.getNumeral(type: type)
 			
-			LayoutUI()
+			//LayoutUI()
 		}
 		get {
 			return super.nr
@@ -318,22 +323,30 @@ class NumeralCell: BaseNrTableCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	override func LayoutUI() {
-		uilabel.translatesAutoresizingMaskIntoConstraints = false
-		uinumeraltype.translatesAutoresizingMaskIntoConstraints = false
+	override var isHidden: Bool {
+		didSet {
+			uilabel.isHidden = isHidden
+			uinumeraltype.isHidden = isHidden
+		}
+	}
+	private func LayoutUI() {
+
+		
 		uilabel.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 10.0).isActive = true
 		uilabel.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: -40.0).isActive = true
 		uilabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8.0).isActive = true
-		uilabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -0.0).isActive = true
+		//uilabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -0.0).isActive = true
 		
 		do {
 			//let w = contentView.width - uinumeraltype.contentSize.width - 0.0
 			uinumeraltype.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 0).isActive = true
-			uinumeraltype.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: 0.0).isActive = true
+			uinumeraltype.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: -40.0).isActive = true
 			uinumeraltype.font = UIFont.systemFont(ofSize: 8.0 ) //UIFont.labelFontSize)
-			let h = uinumeraltype.contentSize.height;
-			uinumeraltype.heightAnchor.constraint(equalToConstant: h).isActive = true
-			uinumeraltype.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -1.0).isActive = true
+			//let h = max(uinumeraltype.contentSize.height,0)
+			//uinumeraltype.heightAnchor.constraint(equalToConstant: h).isActive = true
+			uinumeraltype.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8.0).isActive = true
+
+			//uinumeraltype.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -1.0).isActive = true
 		}
 	}
 }

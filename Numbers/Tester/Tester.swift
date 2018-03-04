@@ -24,16 +24,17 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	static var testers : [NumTester] = [PrimeTester(), AbundanceTester(),
+	static let testers : [NumTester] = [PrimeTester(), AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
 										 Pow2Tester(),MersenneTester(), ProthTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
-										 PalindromicTester(),LucasTester(),
+										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),
 										 MathConstantTester()]
+	static let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),SOGPrimeTester()]
 	private init() {}
 	
 	func isSpecial(n: BigUInt) -> Bool {

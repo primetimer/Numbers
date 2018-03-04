@@ -11,6 +11,7 @@ import iosMath
 import BigInt
 import PrimeFactors
 import YouTubePlayer
+import SafariServices
 
 enum NrViewSection : Int {
 	case Description = 1
@@ -23,6 +24,8 @@ enum NrViewSection : Int {
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
 	
+	
+	
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
@@ -31,7 +34,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private let tubecellId = "tubecellId"
 	
 	//private let drawcellId = "drawcellId"
-	static let wikiheight : CGFloat = 300.0
+	static let wikiheight : CGFloat = 400.0
 	static let numberphileheight : CGFloat = 200.0
 	private let drawcells = DrawingCells()
 	private let numeralcells = NumeralCells()
@@ -50,7 +53,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var uitubetemp : YouTubePlayerView? = nil
 	private var htmldesc = ""
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
-	private var wikiurl : String = "wikipedia.de"
+	private var wikiadr : String = "wikipedia.de"
 	
 	var currnr : BigUInt = 2
 	func Jump(to: BigUInt) {
@@ -61,12 +64,17 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 		tv.reloadData()
 	}
+	func Jump(wikiurl: URL) {
+		let safari = SFSafariViewController(url: wikiurl)
+		self.present(safari, animated: true, completion: nil)
+	}
+	
 	private func GetExplanation() {
 		let exp = Explain.shared.GetExplanation(nr: currnr)
 		uisearch.text = String(currnr)
 		htmldesc = exp.html
 		formula = exp.latex
-		wikiurl = exp.wikiurl
+		wikiadr = exp.wikilink
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -112,7 +120,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 20.0
+		return 30.0
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -138,6 +146,9 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	//
 	// MARK :- Cell
 	//
+	
+
+	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let width = tableView.frame.size.width // - 20
 		switch indexPath.section {
@@ -149,7 +160,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				return temp.frame.height //+ 20.0
 			}
 		case NrViewSection.Numerals.rawValue:
-			
 			let row = indexPath.row
 			if numeralcells.getCell(row: row).isHidden {
 				return 0.0
@@ -220,43 +230,56 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			tableView.beginUpdates()
 			cell.expanded = true
 			tableView.endUpdates()
+		case NrViewSection.Wiki.rawValue:
+			guard (tableView.cellForRow(at: indexPath) as? WikiTableCell) != nil else  { return }
+				#if true
+					if let url = URL(string: self.wikiadr) {
+						let safari = SFSafariViewController(url: url)
+						self.present(safari, animated: true, completion: nil)
+					}
+					#else
+					let subvc = WikiVC()
+				subvc.SetWikiUrl(wiki: wikiurl)
+				self.navigationController?.pushViewController(subvc, animated: true)
+				#endif
 		default:
 			break
 		}
 	}
 	
-	/*
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		tableView.beginUpdates()
 		cell.expanded = false
 		tableView.endUpdates()
 	}
-	*/
 	
 	func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) else  { return }
 		if let ncell = cell as? NumeralCell {
+			
+			#if true
+				let type = ncell.type
+				let typeadr = type.asWiki()
+				if let typeurl = URL(string: typeadr) {
+					Jump(wikiurl: typeurl)
+				}
+			#else
 			let subvc = WikiVC()
 			let type = ncell.type
 			let wiki = type.asWiki()
 			self.navigationController?.pushViewController(subvc, animated: true)
 			subvc.SetWikiUrl(wiki: wiki)
+			#endif
 		}
 	}
 	
-	/*
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		
 		if let art = cell as? NumeralArtCell {
-				let nr = startnr + BigUInt(row)
-				cell.nr = BigUInt(nr)
-				return cell
-			}
+			art.layoutIfNeeded()
 		}
-		cell.setNeedsDisplay()
 	}
-	*/
+		var debugcell = UITableViewCell()
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch indexPath.section {
 		case NrViewSection.Description.rawValue:
@@ -272,6 +295,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			let row = indexPath.row
 			numeralcells.nr = currnr
 			let cell = numeralcells.getCell(row: row)
+			let dummy = 0
 			return cell
 			
 		case NrViewSection.Formula.rawValue:
@@ -287,12 +311,12 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			cell.nr = currnr
 			cell.selectionStyle = .none
 			return cell
-		case NrViewSection.Wiki.rawValue:
-			
+		case NrViewSection.Wiki.rawValue:			
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
+				cell.accessoryType = .disclosureIndicator
 				cell.jumper = self
-				cell.SetWikiUrl(wiki: self.wikiurl)
+				cell.SetWikiUrl(wiki: self.wikiadr)
 				return cell
 			}
 		case NrViewSection.NumberPhile.rawValue:
@@ -300,7 +324,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				uitubetemp = cell.uitube
 				cell.jumper = self
 				cell.SetTubeNr(n: currnr)
-				//cell.SetTubeUrl(tube: "https://www.youtube.com/watch?v=YQw124CtvO0&t=28s" )
 				return cell
 			}
 		default:

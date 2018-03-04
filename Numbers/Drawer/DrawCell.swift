@@ -105,6 +105,13 @@ class DrawTableCell: BaseNrTableCell {
 	var uidraw : DrawNrView? {
 		get { return _uidraw }
 	}
+	override var expanded: Bool {
+		didSet {
+			if expanded != oldValue {
+				LayoutUI()
+			}
+		}
+	}
 	var type : TableCellType {
 		set {
 			if newValue == _type { return }
@@ -204,7 +211,7 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private let smalldrawwidth : CGFloat = 40.0
-	override func LayoutUI() {
+	private func LayoutUI() {
 		guard let draw = _uidraw else { return }
 		if expanded {
 			draw.frame = CGRect(x: 0.0, y: smalldrawwidth, width: self.frame.width, height: self.frame.width)

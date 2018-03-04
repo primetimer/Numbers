@@ -10,6 +10,51 @@ import Foundation
 import BigInt
 import PrimeFactors
 
+class TwinPrimeTester : PrimeTester {
+	override func property() -> String {
+		return "twin prime"
+	}
+	override func isSpecial(n: BigUInt) -> Bool {
+		if !super.isSpecial(n: n) { return false }
+		if super.isSpecial(n: n-2) { return true }
+		if super.isSpecial(n: n+2) { return true }
+		return false
+	}
+}
+
+class CousinPrimeTester : PrimeTester {
+	override func property() -> String {
+		return "cousin prime"
+	}
+	override func isSpecial(n: BigUInt) -> Bool {
+		if !super.isSpecial(n: n) { return false }
+		if super.isSpecial(n: n+4) { return true }
+		return false
+	}
+}
+
+class SexyPrimeTester : PrimeTester {
+	override func property() -> String {
+		return "sexy prime"
+	}
+	override func isSpecial(n: BigUInt) -> Bool {
+		if !super.isSpecial(n: n) { return false }
+		if super.isSpecial(n: n+6) { return true }
+		return false
+	}
+}
+class SOGPrimeTester : PrimeTester {
+	override func property() -> String {
+		return "Sophie Germain prime"
+	}
+	override func isSpecial(n: BigUInt) -> Bool {
+		if !super.isSpecial(n: n) { return false }
+		if super.isSpecial(n: 2*n+1) { return true }
+		return false
+	}
+}
+
+
 class PrimeTester : NumTester {
 	
 	func property() -> String {
@@ -24,24 +69,24 @@ class PrimeTester : NumTester {
 	}
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		let nstr = String(n)
-		
 		var desc = WikiLinks.shared.getLink(tester: self, n: n)
 		
 		if n<2 { return nil }
 		if n==2 { return desc + "2 is the one and only even prime" }
 		
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+2)) {
-			return desc + "It is a " + WikiLinks.shared.Link(key: "twin prime") + "."
-		}
-		if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
-			return desc + "It is a " + WikiLinks.shared.Link(key: "twin prime") + "."
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "twin prime") + "."
+		} else if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "twin prime") + "."
 		}
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
-			return desc + "It is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
 		}
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
-			return desc + "It is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
+		}
+		if PrimeCache.shared.IsPrime(p: BigUInt(2*n+1)) {
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "Sophie Germain prime") + "."
 		}
 		return desc
 	}

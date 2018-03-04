@@ -54,7 +54,7 @@ class Explanation : NSObject {
 		}
 	}
 	
-	internal var wikiurl : String {
+	internal var wikilink : String {
 		get {
 			let url = WikiLinks.shared.NumberLink(nr: self.nr)
 			return url

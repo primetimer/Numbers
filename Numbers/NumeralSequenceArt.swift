@@ -32,7 +32,6 @@ class NumeralSequenceArtCell: BaseNrTableCell {
 	}
 	
 	override var nr : BigUInt {
-		
 		didSet {
 			if nr != oldValue {
 				refresh = true
@@ -72,7 +71,7 @@ class NumeralSequenceArtCell: BaseNrTableCell {
 		LayoutUI()
 	}
 	
-	override func LayoutUI() {
+	private func LayoutUI() {
 		//contentView.translatesAutoresizingMaskIntoConstraints = false
 		if expanded {
 			self.accessoryType = .none

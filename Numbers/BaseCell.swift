@@ -26,20 +26,10 @@ class BaseNrCollectionCell : UICollectionViewCell {
 class BaseNrTableCell : UITableViewCell {
 	var nr : BigUInt = 0
 	var tableparent : UITableView? = nil
-	private var _expanded : Bool = false
+	internal var expanded : Bool = false
 	
-	var expanded : Bool {
-		set {
-			if newValue == _expanded {return }
-			_expanded = newValue
-			LayoutUI()
-		}
-		get {
-			return _expanded
-		}
-	}
 	
-	internal func LayoutUI() {}
+	//internal func LayoutUI() {}
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .disclosureIndicator
@@ -53,10 +43,15 @@ class FormTableCell: BaseNrTableCell {
 	private (set) var uimath = MTMathUILabel()
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		self.accessoryType = .none
 		uimath.fontSize = 18.0
+		uimath.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(uimath)
-		uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
-		//uimath.fontSize = 15.0
+		uimath.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 10.0).isActive = true
+		uimath.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: 0.0).isActive = true
+		uimath.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 0.0).isActive = true
+		uimath.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0.0).isActive = true
+		//uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

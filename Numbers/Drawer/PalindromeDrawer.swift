@@ -10,19 +10,6 @@ import Foundation
 import UIKit
 import BigInt
 
-/*
-func drawMyText(myText:String,textColor:UIColor, FontName:String, FontSize:CGFloat, inRect:CGRect){
-
-let textFont = UIFont(name: FontName, size: FontSize)!
-let textFontAttributes = [
-NSFontAttributeName: textFont,
-NSForegroundColorAttributeName: textColor,
-] as [String : Any]
-
-myText.draw(in: inRect, withAttributes: textFontAttributes)
-}
-*/
-
 class PalindromeView : DrawNrView {
 	
 	init () {
