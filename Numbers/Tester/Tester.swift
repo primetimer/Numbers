@@ -24,7 +24,7 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	static let testers : [NumTester] = [PrimeTester(), AbundanceTester(),
+	static let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
@@ -32,7 +32,7 @@ class Tester : NumTester {
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
-										 DullTester(), LuckyTester(),
+										 DullTester(), LuckyTester(),SmithTester(),
 										 MathConstantTester()]
 	static let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),SOGPrimeTester()]
 	private init() {}

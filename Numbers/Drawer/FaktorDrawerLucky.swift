@@ -56,7 +56,7 @@ class LuckyDrawer : UlamDrawer {
 	private (set) var luck : [Bool] = []
 	private var determined : Int = 1
 	private var picturemod : Int = 1
-	private let maxpictures = 200		//round abtout
+	private let maxpictures = 100		//round abtout
 	private var picturecounter = 0
 	
 	init(nr : UInt64) {
@@ -97,21 +97,21 @@ class LuckyDrawer : UlamDrawer {
 		picturecounter = picturecounter + 1
 		if force == false && picturecounter % picturemod != 0 { return nil }
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-		let context = UIGraphicsGetCurrentContext()
-		context!.setStrokeColor(UIColor.red.cgColor)
-		context!.setLineWidth(1.0);
-		context!.beginPath()
+		defer { UIGraphicsEndImageContext() }
+		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		context.setStrokeColor(UIColor.red.cgColor)
+		context.setLineWidth(1.0);
+		context.beginPath()
 		
 		super.pstart = 1
 		super.SetWidth(rect)
 		super.bdrawspiral = true
-		super.draw_spiral(context!)
+		super.draw_spiral(context)
 		
 		for i in 1...Int(self.count) {
-			super.draw_number(context!, ulamindex : i-1, p: UInt64(i))
+			super.draw_number(context, ulamindex : i-1, p: UInt64(i))
 		}
 		let image  = UIGraphicsGetImageFromCurrentImageContext()
-		UIGraphicsEndImageContext()
 		return image
 	}
 	

@@ -61,6 +61,7 @@ class PolygonalView : DrawNrView {
 		let rect = CGRect(x: 0.0, y: 0.0, width: 400.0, height: 400.0)
 		//var images : [UIImage] = []
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+		defer { UIGraphicsEndImageContext() }
 		guard let context = UIGraphicsGetCurrentContext() else { return }
 		
 		context.setStrokeColor(UIColor.black.cgColor)
@@ -70,7 +71,7 @@ class PolygonalView : DrawNrView {
 		pentagon.DrawNumber(context : context)
 		let newimage  = UIGraphicsGetImageFromCurrentImageContext()
 		//images.append(newimage!)
-		UIGraphicsEndImageContext()
+
 	
 		//imageview.animationImages = images
 		imageview.image = newimage

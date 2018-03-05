@@ -17,7 +17,7 @@ enum NrViewSection : Int {
 	case Description = 1
 	case Numerals = 0
 	case Formula = 2
-	case Draw = 3
+	case DrawNumber = 3
 	case Wiki = 4
 	case NumberPhile = 5
 }
@@ -79,7 +79,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
-		case NrViewSection.Draw.rawValue:
+		case NrViewSection.DrawNumber.rawValue:
+			//return 5
 			return TableCellType.allValues.count
 		case NrViewSection.Numerals.rawValue:
 			return NumeralCellType.allValues.count*2 - 1
@@ -108,7 +109,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return "Numerals"
 		case NrViewSection.Formula.rawValue:
 			return "Formula"
-		case NrViewSection.Draw.rawValue:
+		case NrViewSection.DrawNumber.rawValue:
 			return "Drawing"
 		case NrViewSection.Wiki.rawValue:
 			return "Wikipedia"
@@ -173,7 +174,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
 				return height + 20.0
 			}
-		case NrViewSection.Draw.rawValue:
+		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
 			let tablerow = drawcells.cells[row]
 			tablerow.isHidden = tablerow.isSpecial ? false : true
@@ -218,7 +219,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			tableView.beginUpdates()
 			tableView.endUpdates()
 
-		case NrViewSection.Draw.rawValue:
+		case NrViewSection.DrawNumber.rawValue:
 			if cell.expanded {
 				tableView.beginUpdates()
 				cell.expanded = false
@@ -305,7 +306,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 				uiformtemp = cell.uimath
 				return cell
 			}
-		case NrViewSection.Draw.rawValue:
+		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
 			let cell = drawcells.cells[row]
 			cell.nr = currnr

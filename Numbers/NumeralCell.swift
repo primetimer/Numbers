@@ -227,7 +227,7 @@ extension BigUInt {
 		case .Indian:
 			return self.IndianArabian()
 		case .Maya:
-			return self.Vingesimal()
+			return self.Vigesimal()
 		case .None:
 			return ""
 		case .Abjad:

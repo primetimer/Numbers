@@ -47,6 +47,7 @@ class WikiLinks {
 		AddWiki("sum of two cubes","https://en.wikipedia.org/wiki/Sums_of_powers")
 		AddWiki("dull","https://en.wikipedia.org/wiki/Interesting_number_paradox")
 		AddWiki("supersingular","https://en.wikipedia.org/wiki/Supersingular_prime_(moonshine_theory)")
+		AddWiki("Smith","https://en.wikipedia.org/wiki/Smith_number")
 	}
 	
 	func Address(key :String) -> String {

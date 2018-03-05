@@ -50,6 +50,7 @@ class NumberphileLinks {
 		AddTube("5","https://youtu.be/LNS1fabDkeA")
 		AddTube("6","https://youtu.be/UkZqFtYtqaI")
 		AddTube("666","https://youtu.be/UkZqFtYtqaI")
+		AddTube("666","https://youtu.be/mlqAvhjxAjo")	//Smith number
 		
 		AddTube("82000","https://youtu.be/LNS1fabDkeA")
 		
@@ -172,6 +173,7 @@ class NumberphileLinks {
 		AddTube("twin prime","https://youtu.be/BH1GMGDYndo")
 		AddTube("cousin prime","https://youtu.be/BH1GMGDYndo")
 		AddTube("sexy prime","https://youtu.be/BH1GMGDYndo")
+		AddTube("Smith","https://youtu.be/mlqAvhjxAjo")
 			
 		AddTube("Fibonacci","https://youtu.be/DRjFV_DETKQ")
 		AddTube("perfect","https://youtu.be/T0xKHwQH-4I")

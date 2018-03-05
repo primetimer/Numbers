@@ -9,8 +9,20 @@
 import Foundation
 import BigInt
 
+extension BigUInt {
+	func asString(toBase : Int) -> String {
+		if toBase == 12 {
+			return self.Duodezimal()
+		}
+		if toBase == 20 {
+			return self.Vigesimal()
+		}
+		return String(self,radix:toBase)
+	}
+}
+
 class PalindromicTester : NumTester {
-	private let radix = [10,2,16]
+	private let radix = [10,2,16,12,20]
 	func isSpecial(n: BigUInt) -> Bool {
 		if n < 11 { return false }
 		let pbase = PalindromicBase(n: n)

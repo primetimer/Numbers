@@ -26,7 +26,7 @@ class FaktorDrawerUlam : FaktorDrawer {
 		if UInt64(count) > param.nr {
 			count = Int(param.nr)
 		}
-		#if false //Fruehre Version
+		#if true //Fruehre Version
 		count = Int(pow(Double(param.nr),1.0 / 3.0 ))
 		count = max(count,100)
 			#else

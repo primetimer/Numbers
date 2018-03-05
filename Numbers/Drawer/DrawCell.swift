@@ -47,7 +47,6 @@ class DrawNrView : UIView {
 class DrawingCells {
 	var cells : [DrawTableCell] = []
 	
-	
 	init() {
 		for i in 0..<TableCellType.allValues.count {
 			let cell = DrawTableCell()
@@ -84,7 +83,11 @@ enum TableCellType : Int {
 	case Catalan = 10
 	case Lucky = 11
 	
-	static let allValues : [TableCellType] = [Prime, Fibo,Triangular,Square,Pentagonal,Hexagonal, Palindromic,Abundant,Faktor,Lucas,Catalan,Lucky]
+	static let allValues : [TableCellType] = [Faktor,
+											  Palindromic,
+		Prime, Fibo,Triangular,Square,Pentagonal,Hexagonal, Abundant,Lucas,Catalan,
+		//Lucky
+	]
 }
 
 

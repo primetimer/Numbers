@@ -36,6 +36,7 @@ class PalindromeView : DrawNrView {
 		//var images : [UIImage] = []
 		let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400)
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+		defer { UIGraphicsEndImageContext() }
 		guard let context = UIGraphicsGetCurrentContext() else { return }
 		context.setStrokeColor(UIColor.black.cgColor)
 		context.setLineWidth(1.0);
@@ -45,14 +46,14 @@ class PalindromeView : DrawNrView {
 		if let srcImage  = UIGraphicsGetImageFromCurrentImageContext()
 		{
 			let flippedImage = UIImage(cgImage: srcImage.cgImage!, scale: srcImage.scale, orientation: UIImageOrientation.upMirrored)
-			UIGraphicsEndImageContext()
-			UIGraphicsBeginImageContext(rect.size)
+			//UIGraphicsEndImageContext()
+			//UIGraphicsBeginImageContext(rect.size)
 			srcImage.draw(in: rect)
 			//let fliprect = CGRect(x:rect.minX,y:rect.minY + rect.height / 2.0, width: rect.width,height: rect.height)
 			let fliprect = rect
 			flippedImage.draw(in: fliprect, blendMode: .normal, alpha: 0.5)
 			let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-			UIGraphicsEndImageContext()
+			//UIGraphicsEndImageContext()
 			imageview.image = newImage
 		}
 	}
@@ -110,7 +111,8 @@ class PalindromeDrawer : NSObject
 		var y0 : CGFloat = 0
 		for  b in base {
 
-			var myText = String(nr,radix : b)
+			var myText = BigUInt(nr).asString(toBase : b)
+			//### String(nr,radix : b)
 			if b == 2 { myText = myText + "₂" } // "₀ " //₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
 			if b == 16 { myText = myText + "₁₆" }
 			var fontSize : CGFloat = 12.0
