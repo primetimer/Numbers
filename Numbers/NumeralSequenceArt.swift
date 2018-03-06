@@ -33,32 +33,11 @@ class NumeralSequenceArtCell: BaseNrTableCell {
 	
 	override var nr : BigUInt {
 		didSet {
-			if nr != oldValue {
-				refresh = true
+			if nr == oldValue && refresh == false {
+				return
 			}
-			if !refresh { return }
 			refresh = false
-			uiart.Clear()
-			var hit = 0
-			for i in 0...200 {
-				let seq = nr + BigUInt(i)
-				if tester?.isSpecial(n: seq) ?? false {
-					uiart.AppendString(s: String(seq))
-					hit = hit + 1
-					if hit > 10 { break }
-				}
-			}
-			if hit == 1 {
-				for i in 0...200 {
-					let seq = BigUInt(i)
-					if tester?.isSpecial(n: seq) ?? false {
-						uiart.AppendString(s: String(seq))
-						hit = hit + 1
-						if hit > 10 { break }
-					}
-				}
-			}
-			uiart.DrawCloud()
+			CreateArt()
 		}
 	}
 	
@@ -86,6 +65,25 @@ class NumeralSequenceArtCell: BaseNrTableCell {
 	}
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+	
+	private func CreateArt()
+	{
+		let sequencecount = 10
+		uiart.Clear()
+		guard let tester = self.tester else { return }
+		let sequencer = NumberSequencer(tester: tester)
+		let sequence = sequencer.Neighbor(n: self.nr, count: sequencecount)
+		for n in sequence {
+			uiart.AppendString(s: String(n))
+		}
+		if sequence.count < sequencecount {
+			let first = sequencer.StartSequence(count: sequencecount)
+			for n in first {
+				uiart.AppendString(s: String(n))
+			}
+		}
+		uiart.DrawCloud()
 	}
 }
 

@@ -87,6 +87,50 @@ extension FactorCache {
 	}
 }
 
+class PerfectTester : NumTester {
+	
+	func property() -> String {
+		return "perfect"
+	}
+	func isSpecial(n: BigUInt) -> Bool {
+		let b = seq.contains(n)
+		return b
+	}
+	func getDesc(n: BigUInt) -> String? {
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
+	}
+	
+	private func getFaktors(n: BigUInt) -> Int? {
+		for (index,p) in mersenne.enumerated() {
+			let q = (p + 1) / 2
+			let t = p * q
+			if t == n { return index }
+			if t > n { return nil }
+		}
+		return nil
+	}
+	
+	func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		if let m = getFaktors(n: n) {
+			var latex = String(n)
+			latex = latex + "= 2^{" + String(m) + "}"
+			latex = latex + "(2^{" + String(m+1) + "} - 1) \\\\"
+			return latex
+		}
+		return nil
+	}
+	
+	
+	
+	private let seq : [BigUInt] = [	6, 28, 496, 8128, 33550336, 8589869056, 137438691328, BigUInt("2305843008139952128")!, BigUInt("2658455991569831744654692615953842176")!, BigUInt("191561942608236107294793378084303638130997321548169216")!]
+	
+	
+	private let mersenne : [BigUInt] = [3, 7, 31, 127, 8191, 131071, 524287, 2147483647, BigUInt("2305843009213693951")!, BigUInt("618970019642690137449562111")!, BigUInt("162259276829213363391578010288127")!, BigUInt("170141183460469231731687303715884105727")!]
+	
+}
+
 class AbundanceTester : NumTester {
 	
 	private let superabundant = [1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 10080, 15120, 25200, 27720, 55440, 110880, 166320, 277200, 332640, 554400, 665280, 720720, 1441440, 2162160, 3603600, 4324320, 7207200, 8648640, 10810800, 21621600]
@@ -101,10 +145,12 @@ class AbundanceTester : NumTester {
 				desc = desc + " It is also a " + WikiLinks.shared.Link(key: "superabundant") + " number."
 			}
 		}
+		#if false
 		if sigma == n * 2 {
 			desc = desc + " It is also a " + WikiLinks.shared.Link(key: "perfect") + " number."
 			//return String(n) + " is perfect"
 		}
+			#endif
 		
 		//let desc = String(n) + " is abundant (excessive)"
 		return desc

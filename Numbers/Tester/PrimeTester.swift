@@ -54,9 +54,47 @@ class SOGPrimeTester : PrimeTester {
 	}
 }
 
+class SafePrimeTester : PrimeTester {
+	override func property() -> String {
+		return "safe prime"
+	}
+	override func isSpecial(n: BigUInt) -> Bool {
+		if !super.isSpecial(n: n) { return false }
+		if super.isSpecial(n: (n-1)/2) { return true }
+		return false
+	}
+}
+
+class CarmichaelTester : NumTester{
+	func property() -> String {
+		return "Carmichael"
+	}
+	func isSpecial(n: BigUInt) -> Bool {
+		if n <= 2 { return false }
+		if n % 2 == 0 { return false }
+		if PrimeTester().isSpecial(n: n) { return false }
+		let factors = FactorCache.shared.FactorsWithPot(n: n)
+		for f in factors {
+			if f.e > 1 { return false }
+			if f.f % BigUInt(2) == 0 { return false }
+			if (n - BigUInt(1)) % (f.f - BigUInt(1)) != 0 {
+				return false
+			}
+		}
+		return true
+	}
+	func getDesc(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
+	}
+	func getLatex(n: BigUInt) -> String? {		
+		let latex = "\\forall b \\in \\mathbb{N} : b^{" + String(n) + "} \\equiv_{" + String(n) + "} b \\\\"
+		return latex
+	}
+}
 
 class PrimeTester : NumTester {
-	
 	func property() -> String {
 		return "prime"
 	}
@@ -85,8 +123,12 @@ class PrimeTester : NumTester {
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
 			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "cousin prime") + "."
 		}
+		
 		if PrimeCache.shared.IsPrime(p: BigUInt(2*n+1)) {
 			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "Sophie Germain prime") + "."
+		}
+		if PrimeCache.shared.IsPrime(p: BigUInt((n-1)/2)) {
+			desc = desc + "\nIt is a " + WikiLinks.shared.Link(key: "safe prime") + "."
 		}
 		return desc
 	}

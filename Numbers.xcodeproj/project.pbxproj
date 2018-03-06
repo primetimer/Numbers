@@ -57,6 +57,8 @@
 		54D906D7204D2B41009EED11 /* SemiPrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */; };
 		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
 		54DBF80D20497DBC00F07FD7 /* WikiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80C20497DBC00F07FD7 /* WikiCell.swift */; };
+		54E199EF204EB9520078874B /* OEIS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E199EE204EB9520078874B /* OEIS.swift */; };
+		54E199F1204F1B1C0078874B /* OEISTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E199F0204F1B1C0078874B /* OEISTableCell.swift */; };
 		54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */; };
 		54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A4D1FD44A1100C25A42 /* NrViewController.swift */; };
 		54E43A511FD44A1100C25A42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A4F1FD44A1100C25A42 /* Main.storyboard */; };
@@ -69,6 +71,7 @@
 		54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */; };
 		54F7E0FE2039D97A00B4EAEF /* TesterCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FD2039D97A00B4EAEF /* TesterCache.swift */; };
 		54F7E100203A098600B4EAEF /* TetraHedral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FF203A098600B4EAEF /* TetraHedral.swift */; };
+		54F8B6A8204E669100267020 /* NumberSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8B6A7204E669100267020 /* NumberSequencer.swift */; };
 		54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */; };
 		54FD752A1FF58F0100AE24E8 /* FaktorDrawerLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */; };
 		54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FD752B1FF6144300AE24E8 /* PiTester.swift */; };
@@ -142,6 +145,8 @@
 		54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiPrimeTester.swift; sourceTree = "<group>"; };
 		54DBF80A2047225200F07FD7 /* DeepPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepPress.swift; sourceTree = "<group>"; };
 		54DBF80C20497DBC00F07FD7 /* WikiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiCell.swift; sourceTree = "<group>"; };
+		54E199EE204EB9520078874B /* OEIS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEIS.swift; sourceTree = "<group>"; };
+		54E199F0204F1B1C0078874B /* OEISTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEISTableCell.swift; sourceTree = "<group>"; };
 		54E43A481FD44A1100C25A42 /* Numbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Numbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54E43A4D1FD44A1100C25A42 /* NrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NrViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +163,7 @@
 		54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeilSchrift.swift; path = Numbers/KeilSchrift.swift; sourceTree = "<group>"; };
 		54F7E0FD2039D97A00B4EAEF /* TesterCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesterCache.swift; sourceTree = "<group>"; };
 		54F7E0FF203A098600B4EAEF /* TetraHedral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraHedral.swift; sourceTree = "<group>"; };
+		54F8B6A7204E669100267020 /* NumberSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberSequencer.swift; sourceTree = "<group>"; };
 		54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyTester.swift; sourceTree = "<group>"; };
 		54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaktorDrawerLucky.swift; sourceTree = "<group>"; };
 		54FD752B1FF6144300AE24E8 /* PiTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiTester.swift; sourceTree = "<group>"; };
@@ -235,9 +241,9 @@
 			children = (
 				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
 				54923FAD1FEF8724006993F2 /* TetrahedralTester.swift */,
-				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
 				54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */,
 				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
+				54F8B6A7204E669100267020 /* NumberSequencer.swift */,
 				54FD752B1FF6144300AE24E8 /* PiTester.swift */,
 				54923FB11FF0F137006993F2 /* MersenneTester.swift */,
 				54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */,
@@ -264,6 +270,7 @@
 				5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */,
 				54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */,
 				54F5F0B91FFA7B59006DECED /* NumerHTML.swift */,
+				54E199EE204EB9520078874B /* OEIS.swift */,
 				547C4F06204B098400884B6C /* NumberPhile.swift */,
 				54749B5E1FDD5C3F00F6B130 /* Podfile */,
 				54E43A4A1FD44A1100C25A42 /* Numbers */,
@@ -291,8 +298,10 @@
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
 				54924C80204A038D0038716B /* NumeralSequenceArt.swift */,
 				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
+				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
 				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				54DBF80C20497DBC00F07FD7 /* WikiCell.swift */,
+				54E199F0204F1B1C0078874B /* OEISTableCell.swift */,
 				5416E949204AFBAB00CD8A06 /* TubeCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
 				54923FB51FF434C3006993F2 /* Tester */,
@@ -567,9 +576,11 @@
 				5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
 				545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */,
+				54F8B6A8204E669100267020 /* NumberSequencer.swift in Sources */,
 				5486C560203D755600778A81 /* NumeralCell.swift in Sources */,
 				5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
+				54E199EF204EB9520078874B /* OEIS.swift in Sources */,
 				54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */,
 				546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
@@ -603,6 +614,7 @@
 				54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */,
 				543078281FDF377A0036516F /* PalindromicTester.swift in Sources */,
 				5416E94C204B06A200CD8A06 /* BaseCell.swift in Sources */,
+				54E199F1204F1B1C0078874B /* OEISTableCell.swift in Sources */,
 				545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

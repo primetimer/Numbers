@@ -17,6 +17,8 @@ protocol NumTester {
 	func property() -> String	//Name of tested property
 }
 
+
+
 class Tester : NumTester {
 	
 	func property() -> String {
@@ -24,17 +26,18 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	static let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), AbundanceTester(),
+	static let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), CarmichaelTester(),AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
-										 Pow2Tester(),MersenneTester(), ProthTester(),
+										 Pow2Tester(),MersenneTester(), PerfectTester(),ProthTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
 										 MathConstantTester()]
-	static let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),SOGPrimeTester()]
+	static let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
+										 SOGPrimeTester(),SafePrimeTester()]
 	private init() {}
 	
 	func isSpecial(n: BigUInt) -> Bool {

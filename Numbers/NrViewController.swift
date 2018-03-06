@@ -31,6 +31,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
+	private let oeiscellId = "oeiscellId"
 	private let tubecellId = "tubecellId"
 	
 	//private let drawcellId = "drawcellId"
@@ -344,6 +345,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
+		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
 		tv.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
 		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
 		return tv

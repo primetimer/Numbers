@@ -15,7 +15,8 @@ import YouTubePlayer
 enum TVCViewSection : Int {
 	case Art = 0
 	case Wiki = 1
-	case Formula = 2
+	case OEIS = 2
+	case Formula = 3
 }
 
 class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
@@ -23,6 +24,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	private let footerId = "footerId"
 	private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
+	private let oeiscellId = "oeiscellId"
 	private let wikicellId = "wikicellId"
 
 	static let wikiheight : CGFloat = 600.0
@@ -31,7 +33,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	//Zwiwchenspeicher fuer Cell-Subviews
 	private var uidesctemp : UIWebView? = nil
 	private var uiformtemp : MTMathUILabel? = nil
-	private var uiwebtemp : UIWebView? = nil
+	//private var uiwebtemp : UIWebView? = nil
+	//private var uioeistemp : UIWebView? = nil
 	private var uitubetemp : YouTubePlayerView? = nil
 	
 	private var htmldesc = ""
@@ -39,7 +42,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	
 	private var currnr : BigUInt = 2
 	private var tester : NumTester? = nil
-	private var url : String = ""
+	private var wikiurl = ""
+	private var oeisurl = ""
 	private func GetExplanation() {
 		let exp = Explain.shared.GetExplanation(nr: currnr)
 		htmldesc = exp.html
@@ -47,8 +51,12 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	}
 	
 	func SetWikiURL(url : String, nr : BigUInt) {
-		self.url = url
+		self.wikiurl = url
+		self.oeisurl = OEIS.shared.oeisdefault
 		self.tester = WikiLinks.shared.getTester(link: url)
+		if self.tester != nil {
+			self.oeisurl = OEIS.shared.Address(tester!.property()) 
+		}
 		self.currnr = nr
 	}
 	
@@ -58,6 +66,10 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return 1
 		case TVCViewSection.Wiki.rawValue:
 			return 1
+		case TVCViewSection.Formula.rawValue:
+			return 1
+		case TVCViewSection.OEIS.rawValue:
+			return 1
 		default:
 			assert(false)
 			return 0
@@ -65,7 +77,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
+		return 3
 	}
 	
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -81,6 +93,10 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return nil
 		case TVCViewSection.Wiki.rawValue:
 			return "Wikipedia"
+		case TVCViewSection.Formula.rawValue:
+			return "Formula"
+		case TVCViewSection.OEIS.rawValue:
+			return "OEIS"
 		default:
 			assert(false)
 			return nil
@@ -109,6 +125,10 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return 150.0
 		case TVCViewSection.Wiki.rawValue:
 			return NrViewController.wikiheight
+		case TVCViewSection.OEIS.rawValue:
+			return NrViewController.wikiheight
+		case TVCViewSection.Formula.rawValue:
+			return 100.0
 		default:
 			assert(false)
 			return 100.0
@@ -138,10 +158,17 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return artcell
 		case TVCViewSection.Wiki.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
-				uiwebtemp = cell.uiweb
-				cell.SetWikiUrl(wiki: self.url)
+				//uiwebtemp = cell.uiweb
+				cell.SetWikiUrl(wiki: self.wikiurl)
 				return cell
 			}
+		case TVCViewSection.OEIS.rawValue:
+			if let cell = tableView.dequeueReusableCell(withIdentifier: oeiscellId, for: indexPath) as? OEISTableCell {
+				//uioeistemp = cell.uiweb
+				cell.SetOEISUrl(oeis: self.oeisurl)
+				return cell
+			}
+			
 		default:
 			assert(false)
 		}
@@ -157,6 +184,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 		tv.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
+		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
+		
 		return tv
 	}()
 	override func viewDidAppear(_ animated: Bool) {

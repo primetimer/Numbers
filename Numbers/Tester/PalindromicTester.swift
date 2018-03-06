@@ -73,6 +73,7 @@ class PalindromicTester : NumTester {
 		if pbase.count == 0 { return nil }
 		var latex = String(n)
 		for b in pbase {
+			var nstr = n.asString(toBase: b)
 			latex = latex + " = " + String(n,radix : b).uppercased() + "_{" + String(b) + "}"
 		}
 		return latex
