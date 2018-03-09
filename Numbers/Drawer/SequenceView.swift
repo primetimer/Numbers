@@ -9,7 +9,6 @@
 import UIKit
 import BigInt
 
-
 class SequenceView : DrawNrView {
 	private var _needRecalc : Bool = true
 	override var frame : CGRect {
@@ -126,20 +125,30 @@ class SequenceView : DrawNrView {
 	{
 		guard let tester = tester else { return 0 }
 		for k in since ..< count {
-			
 			if worker.isCancelled {
 				return k
 			}
-			let j = count - 1 - k
+			let j = k // count - 1 - k
 			let nr =  Int(start) + j * Direction - 1
 			if nr < 0 { break }
 			if !tester.isSpecial(n: BigUInt(nr)) { continue }
 			drawer.draw_number(context, ulamindex: j, p: UInt64(nr))
+			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return 0 }
+			DispatchQueue.main.async(execute: {
+				self.imageview.animationImages?.append(image)
+				self.imageview.image  = image
+				//self.imageview.startAnimating()
+			})
 		}
 		return 0
 	}
 	func CreateImages(_ rect : CGRect, drawer : UlamDrawer)  {
 		workItem?.cancel()
+		self.imageview.image = nil
+		self.imageview.animationImages = []
+		self.imageview.animationDuration = 2.0
+		self.imageview.animationRepeatCount = 0
+		
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
 			UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
@@ -148,7 +157,6 @@ class SequenceView : DrawNrView {
 			context.setLineWidth(1.0);
 			context.beginPath()
 			drawer.draw_spiral(context)
-			//drawer.draw_primes(context)
 			self.DrawNumbers(drawer: drawer, since: 0, context, worker: worker)
 			let image = UIGraphicsGetImageFromCurrentImageContext()
 			UIGraphicsEndImageContext()
@@ -156,6 +164,8 @@ class SequenceView : DrawNrView {
 				self.workItem = nil
 				DispatchQueue.main.async(execute: {
 					self.imageview.image  = image
+					self.imageview.startAnimating()
+					
 				})
 			}
 		}
