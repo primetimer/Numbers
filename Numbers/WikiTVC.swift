@@ -159,12 +159,14 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				//uiwebtemp = cell.uiweb
 				cell.SetWikiUrl(wiki: self.wikiurl)
+				cell.accessoryType = .none
 				return cell
 			}
 		case TVCViewSection.OEIS.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: oeiscellId, for: indexPath) as? OEISTableCell {
 				//uioeistemp = cell.uiweb
 				cell.SetOEISUrl(oeis: self.oeisurl)
+				cell.accessoryType = .none
 				return cell
 			}
 			

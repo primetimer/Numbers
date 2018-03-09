@@ -79,6 +79,13 @@ class NumberSequencer : NumberSequencerProt {
 	}
 	
 	func StartSequence(count: Int) -> [BigUInt] {
+		if let oeisseq = OEIS.shared.seq[tester.property()] {
+			var ans : [BigUInt] = []
+			for n in oeisseq {
+				ans.append(n)
+			}
+			return ans
+		}
 		let ans = Neighbor(n: BigUInt(0), count: count)
 		return ans
 	}

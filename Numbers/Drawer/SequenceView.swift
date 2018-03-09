@@ -15,8 +15,13 @@ protocol EmitImage {
 
 class SequenceView : DrawNrView, EmitImage {
 	func Emit(image: UIImage) {
-		imageview.image = image
-		imageview.animationImages?.append(image)
+		DispatchQueue.main.async(execute: {
+			self.imageview.image  = image
+			self.imageview.animationImages?.append(image)
+			self.imageview.startAnimating()
+		})
+		//imageview.image = image
+		//imageview.animationImages?.append(image)
 	}
 	
 	private var _needRecalc : Bool = true
