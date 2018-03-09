@@ -134,7 +134,7 @@ class SequenceDrawer {
 				return
 			}
 			let j = k // count - 1 - k
-			let nr =  Int(drawnr) + j * Direction - 1
+			let nr =  Int(drawnr) + j * Direction 
 			if nr < 0 { break }
 			if !tester.isSpecial(n: BigUInt(nr)) { continue }
 			drawer.draw_number(context, ulamindex: j, p: UInt64(nr))

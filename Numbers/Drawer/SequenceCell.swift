@@ -57,7 +57,8 @@ class SequenceCell: BaseNrTableCell {
 	private func UpdateUI() {
 		self.isHidden = !isSpecial
 		guard let tester = numtester else { return }
-		if nr < BigUInt(Int32.max) {
+		if nr < BigUInt(Int32.max) && self.imageView?.image == nil
+		{
 			let rect = CGRect(x: 0, y: 0, width: 100.0, height: 100.0)
 			let drawer = SequenceDrawer(rect: rect, tester: tester, nr: UInt64(nr))
 			drawer.bgcolor = UIColor.white
