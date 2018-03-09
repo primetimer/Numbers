@@ -53,14 +53,11 @@ class SequenceView : DrawNrView {
 			if (count != oldValue) { _needRecalc = true }
 		}
 	}
-	
-
 	var UlamColored : Bool = false {
 		didSet {
 			if (UlamColored != oldValue) { _needRecalc = true }
 		}
 	}
-	
 	var UlamSphere : Bool = false {
 		didSet {
 			if ( UlamSphere == oldValue){ _needRecalc = true }
@@ -148,7 +145,6 @@ class SequenceView : DrawNrView {
 
 class SequenceImageView : UIView {
 	
-	fileprivate var uispin : UIActivityIndicatorView!
 	fileprivate var ulamimage : UIImage? = nil
 	//private var blockOperation : NSOperation? = nil
 	fileprivate let queue = OperationQueue()
@@ -156,12 +152,7 @@ class SequenceImageView : UIView {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		uispin = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-		uispin.center = self.center
-		uispin.hidesWhenStopped = true
-		#if os(iOS)
-			addSubview(uispin)
-		#endif
+		
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -174,9 +165,6 @@ class SequenceImageView : UIView {
 	func CreateImage(_ rect : CGRect, drawer : UlamDrawer, k0 : Int = 0)  {
 		
 		queue.cancelAllOperations()
-		if tlimit>0.0 {
-			self.uispin.startAnimating()
-		}
 		var k = k0
 		var drawfinished = false
 		
@@ -209,8 +197,8 @@ class SequenceImageView : UIView {
 					//print("Restart")
 				}
 				else {
-					self.uispin.stopAnimating()
-					//print("Stop")
+			
+					print("Sequenceview stop Stop")
 				}
 			}
 		}
