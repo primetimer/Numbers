@@ -10,8 +10,6 @@ import Foundation
 import BigInt
 
 class HCNTester : NumTester {
-	
-	
 	private func findHCN(n: BigUInt) -> HCNumber.HCN? {
 		let hcn = HCNumber.shared.hcnarr
 		for h in hcn {

@@ -134,8 +134,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return 100.0
 		}
 	}
-	
-	//private var expandednumerals = false
+
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {

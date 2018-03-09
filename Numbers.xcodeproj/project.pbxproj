@@ -227,8 +227,8 @@
 		543078311FE4158C0036516F /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
-				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
 				54242CB22051098D00EC92FD /* SequenceCell.swift */,
+				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
 				5403D96920507665007F6B21 /* DrawCells.swift */,
 				5403D96B20507680007F6B21 /* DrawNrView.swift */,
 				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,

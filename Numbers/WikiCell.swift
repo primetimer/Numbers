@@ -13,7 +13,7 @@ import SafariServices
 
 protocol NumberJump {
 	func Jump(to: BigUInt)
-	func Jump(wikiurl : URL)
+	func WikiJump(wikiurl : URL)
 }
 
 class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
@@ -114,7 +114,7 @@ class WikiTableCell: BaseNrTableCell , UIWebViewDelegate {
 
 			}
 			else {
-				jumper?.Jump(wikiurl: url)
+				jumper?.WikiJump(wikiurl: url)
 			}
 							return false
 		

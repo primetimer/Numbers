@@ -32,17 +32,37 @@ class OEIS {
 				BigUInt("191561942608236107294793378084303638130997321548169216")!
 			]
 		)
-
+		Add(PentagonalTester().property(),"A000326",
+			[	0, 1, 5, 12, 22, 35, 51, 70, 92, 117, 145, 176, 210, 247, 287, 330, 376, 425, 477, 532, 590, 651, 715, 782, 852, 925, 1001, 1080, 1162, 1247, 1335, 1426, 1520, 1617, 1717, 1820, 1926, 2035, 2147, 2262, 2380, 2501, 2625, 2752, 2882, 3015, 3151
+			]
+		)
+		Add(HexagonalTester().property(),"A000384",
+			[	0, 1, 6, 15, 28, 45, 66, 91, 120, 153, 190, 231, 276, 325, 378, 435, 496, 561, 630, 703, 780, 861, 946, 1035, 1128, 1225, 1326, 1431, 1540, 1653, 1770, 1891, 2016, 2145, 2278, 2415, 2556, 2701, 2850, 3003, 3160, 3321, 3486, 3655, 3828, 4005, 4186, 4371, 4560
+			]
+		)
+		Add(AbundanceTester().property(),"A005101",
+			[	12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78, 80, 84, 88, 90, 96, 100, 102, 104, 108, 112, 114, 120, 126, 132, 138, 140, 144, 150, 156, 160, 162, 168, 174, 176, 180, 186, 192, 196, 198, 200, 204, 208, 210, 216, 220, 222, 224, 228, 234, 240, 246, 252, 258, 260, 264, 270
+			]
+		)
+		Add(CarmichaelTester().property(),"A002997",
+			[	561, 1105, 1729, 2465, 2821, 6601, 8911, 10585, 15841, 29341, 41041, 46657, 52633, 62745, 63973, 75361, 101101, 115921, 126217, 162401, 172081, 188461, 252601, 278545, 294409, 314821, 334153, 340561, 399001, 410041, 449065, 488881, 512461
+			]
+		)
+		Add("superabundant","A004394",
+			[	1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 10080, 15120, 25200, 27720, 55440, 110880, 166320, 277200, 332640, 554400, 665280, 720720, 1441440, 2162160, 3603600, 4324320, 7207200, 8648640, 10810800, 21621600]
+		)
+		Add(HCNTester().property(),"A002182",
+			[	1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 7560, 10080, 15120, 20160, 25200, 27720, 45360, 50400, 55440, 83160, 110880, 166320, 221760, 277200, 332640, 498960, 554400, 665280, 720720, 1081080, 1441440, 2162160]
+		)
+		Add(LuckyTester().property(),"A000959",
+			[
+			1, 3, 7, 9, 13, 15, 21, 25, 31, 33, 37, 43, 49, 51, 63, 67, 69, 73, 75, 79, 87, 93, 99, 105, 111, 115, 127, 129, 133, 135, 141, 151, 159, 163, 169, 171, 189, 193, 195, 201, 205, 211, 219, 223, 231, 235, 237, 241, 259, 261, 267, 273, 283, 285, 289, 297, 303]
+		)
+		Add(FibonacciTester().property(),"A000045",
+			[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155]
+		)
+		
 		#if false
-		AddWiki("perfect","https://en.wikipedia.org/wiki/Perfect_number")
-		AddWiki("pentagonal","https://en.wikipedia.org/wiki/Pentagonal_number")
-		AddWiki("hexagonal","https://en.wikipedia.org/wiki/Hexagonal_number")
-		AddWiki("abundant","https://en.wikipedia.org/wiki/Abundant_number")
-		AddWiki("Carmichael","https://en.wikipedia.org/wiki/Carmichael_number")
-		AddWiki("superabundant","https://en.wikipedia.org/wiki/Superabundant_number")
-		AddWiki("lucky","https://en.wikipedia.org/wiki/Lucky_number")
-		AddWiki("highly composite","https://en.wikipedia.org/wiki/Highly_composite_number")
-		AddWiki("prime","https://en.wikipedia.org/wiki/Prime_number")
 		AddWiki("twin prime","https://en.wikipedia.org/wiki/Twin_prime")
 		AddWiki("cousin prime","https://en.wikipedia.org/wiki/Cousin_prime")
 		AddWiki("sexy prime","https://en.wikipedia.org/wiki/Sexy_prime")
@@ -52,7 +72,7 @@ class OEIS {
 		AddWiki("nontotient","https://en.wikipedia.org/wiki/Nontotient")
 		AddWiki("Mersenne","https://en.wikipedia.org/wiki/Mersenne_prime")
 		AddWiki("Fermat","https://en.wikipedia.org/wiki/Fermat_number")
-		AddWiki("Fibonacci","https://en.wikipedia.org/wiki/Fibonacci_number")
+		
 		AddWiki("Lucas","https://en.wikipedia.org/wiki/Lucas_number")
 		AddWiki("tetrahedral","https://en.wikipedia.org/wiki/Tetrahedral_number")
 		AddWiki("Sierpinski","https://en.wikipedia.org/wiki/Sierpinski_number")

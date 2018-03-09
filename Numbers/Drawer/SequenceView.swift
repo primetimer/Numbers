@@ -9,7 +9,16 @@
 import UIKit
 import BigInt
 
-class SequenceView : DrawNrView {
+protocol EmitImage {
+	func Emit(image :UIImage )
+}
+
+class SequenceView : DrawNrView, EmitImage {
+	func Emit(image: UIImage) {
+		imageview.image = image
+		imageview.animationImages?.append(image)
+	}
+	
 	private var _needRecalc : Bool = true
 	override var frame : CGRect {
 		set {
@@ -38,138 +47,100 @@ class SequenceView : DrawNrView {
 			if oldValue != start { _needRecalc = true }
 		}
 	}
-	var ulammode : UlamType = UlamType.square {
-		didSet {
-			if ( ulammode != oldValue) { _needRecalc = true }
-		}
-	}
-	var count : Int = 100 {
-		didSet {
-			if (count != oldValue) { _needRecalc = true }
-		}
-	}
-	var UlamColored : Bool = false {
-		didSet {
-			if (UlamColored != oldValue) { _needRecalc = true }
-		}
-	}
-	var UlamSphere : Bool = false {
-		didSet {
-			if ( UlamSphere == oldValue){ _needRecalc = true }
-		}
-	}
-	
-	fileprivate var _zoom : CGFloat = 1.0
-	func setZoom(_ zoom : CGFloat)
-	{
-		_zoom *= zoom
-		_needRecalc = true
-	}
-	func resetZoom()
-	{
-		_zoom = 1.0
-		_needRecalc = true
-	}
-	func getZoom() -> CGFloat { return _zoom }
-	
-	fileprivate var _overscan : CGFloat = 1.0
-	var OverScan : CGFloat {
-		set {
-			if (_overscan == newValue) { return }
-			_overscan = newValue
-			_needRecalc = true
-			//_ulamdrawer?.overscan = newValue
-		}
-		get {
-			return _overscan
-		}
-	}
-	
-	fileprivate var _tausizing: Bool = false
-	var UlamTauSizing : Bool {
-		set {
-			if (_tausizing == newValue) { return }
-			_tausizing = newValue
-			_needRecalc = true
-			//_ulamdrawer?.bprimesizing = newValue
-		}
-		get {
-			return _tausizing
-		}
-	}
-	
-	var Direction : Int = 1
-	
-	func CreateDrawer(_ rect : CGRect) -> UlamDrawer {
-		let drawer = UlamDrawer(pointcount: self.count, utype: self.ulammode)
-		drawer.colored = self.UlamColored
-		drawer.bprimesphere = self.UlamSphere
-		drawer.direction = self.Direction
-		drawer.bprimesizing = self._tausizing
-		drawer.overscan = self._overscan
-		drawer.setZoom(self._zoom)
-		drawer.SetWidth(rect)
-		drawer.pstart = start
-		return drawer
-	}
-	
+
+	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		let drawer = CreateDrawer(rect)
-		CreateImages(rect,drawer: drawer)
-	}
-
-	var tlimit = TimeInterval(0.2)  //zeichnet asynchron
-	private var workItem : DispatchWorkItem? = nil
-	private func DrawNumbers(drawer: UlamDrawer, since : Int, _ context: CGContext!, worker : DispatchWorkItem) -> Int
-	{
-		guard let tester = tester else { return 0 }
-		for k in since ..< count {
-			if worker.isCancelled {
-				return k
-			}
-			let j = k // count - 1 - k
-			let nr =  Int(start) + j * Direction - 1
-			if nr < 0 { break }
-			if !tester.isSpecial(n: BigUInt(nr)) { continue }
-			drawer.draw_number(context, ulamindex: j, p: UInt64(nr))
-			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return 0 }
-			DispatchQueue.main.async(execute: {
-				self.imageview.animationImages?.append(image)
-				self.imageview.image  = image
-				//self.imageview.startAnimating()
-			})
-		}
-		return 0
-	}
-	func CreateImages(_ rect : CGRect, drawer : UlamDrawer)  {
-		workItem?.cancel()
-		self.imageview.image = nil
+		if tester == nil { return }
 		self.imageview.animationImages = []
 		self.imageview.animationDuration = 2.0
 		self.imageview.animationRepeatCount = 0
-		
+		workItem?.cancel()
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
-			UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
-			guard let context = UIGraphicsGetCurrentContext() else { return }
-			context.setStrokeColor(UIColor.red.cgColor)
-			context.setLineWidth(1.0);
-			context.beginPath()
-			drawer.draw_spiral(context)
-			self.DrawNumbers(drawer: drawer, since: 0, context, worker: worker)
-			let image = UIGraphicsGetImageFromCurrentImageContext()
-			UIGraphicsEndImageContext()
+			let seqdrawer = SequenceDrawer(rect: rect, tester: self.tester!, nr: self.start)
+			seqdrawer.emitdelegate = self
+			let image = seqdrawer.draw()
 			if !worker.isCancelled {
 				self.workItem = nil
 				DispatchQueue.main.async(execute: {
 					self.imageview.image  = image
 					self.imageview.startAnimating()
-					
 				})
 			}
 		}
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
+	}
+}
+
+class SequenceDrawer {
+	
+	var Direction : Int = 1
+	private var rect : CGRect!
+	private var drawer : UlamDrawer!
+	private var tester : NumTester!
+	private var context : CGContext!
+	private var drawnr : UInt64 = 0
+	
+	var bgcolor : UIColor? = nil
+	var worker : DispatchWorkItem? = nil
+	var emitdelegate : EmitImage? = nil
+	var count = 100
+	var ulammode = UlamType.square
+	
+	init(rect: CGRect, tester : NumTester, nr : UInt64) {
+		self.drawnr = nr
+		self.rect = rect
+		self.tester = tester
+		drawer = CreateDrawer(rect)
+	}
+	
+	func draw() -> UIImage? {
+		UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
+		defer { UIGraphicsEndImageContext() }
+		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		if bgcolor != nil {
+			bgcolor?.setFill()
+			UIRectFill(rect)
+		}
+		self.context = context
+		context.setStrokeColor(UIColor.red.cgColor)
+		context.setLineWidth(1.0);
+		context.beginPath()
+		drawer.draw_spiral(context)
+		DrawNumbers(since: 0)
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		return image
+	}
+	
+	private func CreateDrawer(_ rect : CGRect) -> UlamDrawer {
+		let drawer = UlamDrawer(pointcount: self.count, utype: self.ulammode)
+		drawer.colored = false
+		drawer.bprimesphere = false
+		drawer.direction = self.Direction
+		drawer.bprimesizing = false
+		drawer.overscan = 1.0
+		drawer.setZoom(1.0)
+		drawer.SetWidth(rect)
+		drawer.pstart = drawnr
+		return drawer
+	}
+	
+	private func DrawNumbers(since : Int)
+	{
+		guard let tester = tester else { return }
+		for k in since ..< count {
+			if worker?.isCancelled ?? false {
+				return
+			}
+			let j = k // count - 1 - k
+			let nr =  Int(drawnr) + j * Direction - 1
+			if nr < 0 { break }
+			if !tester.isSpecial(n: BigUInt(nr)) { continue }
+			drawer.draw_number(context, ulamindex: j, p: UInt64(nr))
+			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+			emitdelegate?.Emit(image: image)
+		}
 	}
 }
 

@@ -14,7 +14,6 @@ class WikiLinks {
 	let wikidefault = "https://en.wikipedia.org/wiki/List_of_numbers"
 	static var shared = WikiLinks()
 	private (set) var dict : [String:String] = [:]
-	//private let wiki = "https://en.wikipedia.org/wiki/"
 	
 	private init() {
 		AddWiki("triangle","https://en.wikipedia.org/wiki/Triangular_number")
@@ -29,6 +28,7 @@ class WikiLinks {
 		AddWiki("lucky","https://en.wikipedia.org/wiki/Lucky_number")
 		AddWiki("highly composite","https://en.wikipedia.org/wiki/Highly_composite_number")
 		AddWiki("prime","https://en.wikipedia.org/wiki/Prime_number")
+		AddWiki("composite","https://en.wikipedia.org/wiki/Composite_number")
 		AddWiki("twin prime","https://en.wikipedia.org/wiki/Twin_prime")
 		AddWiki("cousin prime","https://en.wikipedia.org/wiki/Cousin_prime")
 		AddWiki("sexy prime","https://en.wikipedia.org/wiki/Sexy_prime")

@@ -62,7 +62,12 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 		tv.reloadData()
 	}
-	func Jump(wikiurl: URL) {
+	func WikiTVCJump(wikiurl: URL) {
+		let subvc = WikiTVC()
+		subvc.SetWikiURL(url: wikiurl.absoluteString, nr: self.currnr)
+		self.navigationController?.pushViewController(subvc, animated: true)
+	}
+	func WikiJump(wikiurl: URL) {
 		let safari = SFSafariViewController(url: wikiurl)
 		self.present(safari, animated: true, completion: nil)
 	}
@@ -218,8 +223,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			let type = ncell.type
 			let typeadr = type.asWiki()
 			if let typeurl = URL(string: typeadr) {
-				Jump(wikiurl: typeurl)
+				WikiJump(wikiurl: typeurl)
 			}
+		}
+		if let scell = cell as? SequenceCell {
+			guard let property = scell.numtester?.property() else { return }
+			let wiki = WikiLinks.shared.Address(key:property)
+			guard let url = URL(string: wiki) else { return }
+			WikiTVCJump(wikiurl: url)
 		}
 	}
 	

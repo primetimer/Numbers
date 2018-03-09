@@ -16,7 +16,7 @@ class DrawingCells {
 	private var scells : [SequenceCell] = []
 	
 	init() {
-		#if true
+		#if false
 			let scell = SequenceCell()
 			scell.numtester = FibonacciTester()
 			scells.append(scell)
@@ -121,7 +121,7 @@ class DrawingCells {
 	*/
 		
 	func getRowHeight(row: Int) -> CGFloat {
-		var height = CGFloat(20)
+		var height = CGFloat(30)
 		let cell = getCell(row: row)
 		if cell.isHidden { return 0.0 }
 		
