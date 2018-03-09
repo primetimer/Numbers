@@ -28,16 +28,6 @@ class DrawNrView : UIView {
 			return _imageview!
 		}
 	}
-	/* 8.3.2018 not needed
-	override var frame : CGRect {
-		set {
-			super.frame = newValue
-			imageview.frame = CGRect(origin: .zero, size: newValue.size) #
-		}
-		get { return super.frame }
-	}
-	*/
-
 	internal var nr : UInt64 = 1
 	func SetNumber(_ nextnr : UInt64) {
 		self.nr = nextnr

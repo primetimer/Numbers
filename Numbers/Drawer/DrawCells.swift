@@ -16,6 +16,15 @@ class DrawingCells {
 	private var scells : [SequenceCell] = []
 	
 	init() {
+		#if true
+			let scell = SequenceCell()
+			scell.numtester = FibonacciTester()
+			scells.append(scell)
+			let dcell = DrawTableCell()
+			dcell.numtester = FibonacciTester()
+			dcell.expanded = false
+			dcells.append(dcell)
+			#else
 		for t in Tester.shared.complete {
 			let seqcell = SequenceCell()
 			seqcell.numtester = t
@@ -26,11 +35,12 @@ class DrawingCells {
 			dcells.append(dcell)
 			dcell.expanded = false
 		}
+		#endif
 	}
 	
 	private var expanded : Bool = false
 	var count : Int {
-		get { return scells.count+1 }
+		get { return 2*scells.count+1 }
 	}
 	
 	func Select(row : Int) {

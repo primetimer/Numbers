@@ -71,7 +71,9 @@ class DrawTableCell: BaseNrTableCell {
 	
 	private func CreateDrawView() -> DrawNrView {
 		if numtester is FibonacciTester {
-			return FiboView()
+			let ans = SequenceView()
+			ans.tester = numtester //FiboView()
+			return ans
 		}
 		if numtester is CompositeTester {
 			let faktorview = FaktorView()
@@ -115,7 +117,9 @@ class DrawTableCell: BaseNrTableCell {
 		if numtester is CatalanTester {
 			return CatalanView()
 		}
-		return SequenceView()
+		let ans = SequenceView()
+		ans.tester = numtester
+		return ans
 	}
 
 	

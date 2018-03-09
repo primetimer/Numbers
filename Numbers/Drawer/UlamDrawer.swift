@@ -299,7 +299,7 @@ class UlamDrawer:  NSObject {
 			let j = count - 1 - k
 			if (direction < 0) && (pstart <=  UInt64(j+1))  { continue }
 			let nr : UInt64 = UInt64( Int (pstart) + j * direction)
-			let p = nr //PNumber(x: nr)
+			let p = nr
 			if colored {
 				draw_number(context, ulamindex: j, p: p)
 				continue
@@ -308,14 +308,6 @@ class UlamDrawer:  NSObject {
 				draw_number(context, ulamindex: j, p: p)
 				continue
 			}
-			/*
-			if bsemiprimes {
-				let c = CoupleNumber(x: nr)
-				if c.iscouple {
-					draw_number(context,ulamindex: j,p: p);
-				}
-			}
-			*/
 		}
 		return 0
 	}

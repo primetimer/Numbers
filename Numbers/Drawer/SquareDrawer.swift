@@ -35,13 +35,6 @@ class PolygonalView : DrawNrView {
 	}
 	*/
 	
-	override var frame : CGRect {
-		set {
-			super.frame = newValue
-			imageview.frame = CGRect(origin: .zero, size: newValue.size)
-		}
-		get { return super.frame }
-	}
 	/*
 	private var nr : UInt64 = 1
 	func SetNumber(_ nextnr : UInt64) {

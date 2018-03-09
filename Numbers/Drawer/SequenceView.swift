@@ -7,12 +7,11 @@
 //
 
 import UIKit
+import BigInt
 
 
 class SequenceView : DrawNrView {
 	private var _needRecalc : Bool = true
-	var ulamimageview : SequenceImageView!
-	
 	override var frame : CGRect {
 		set {
 			super.frame = newValue
@@ -21,16 +20,13 @@ class SequenceView : DrawNrView {
 		get { return super.frame }
 	}
 	
+	var tester : NumTester? = nil
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		ulamimageview = SequenceImageView(frame: self.frame)
-		addSubview(ulamimageview)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		ulamimageview = SequenceImageView(frame: self.frame)
-		addSubview(ulamimageview)
 	}
 	
 	override func SetNumber(_ nextnr : UInt64) {
@@ -48,7 +44,7 @@ class SequenceView : DrawNrView {
 			if ( ulammode != oldValue) { _needRecalc = true }
 		}
 	}
-	var count : Int = 1000 {
+	var count : Int = 100 {
 		didSet {
 			if (count != oldValue) { _needRecalc = true }
 		}
@@ -103,29 +99,13 @@ class SequenceView : DrawNrView {
 		}
 	}
 	
-	var _direction : Int = 1
-	var UlamBackward : Bool {
-		set {
-			if newValue == true {
-				_direction = -1
-				//_ulamdrawer?.direction = -1
-			}
-			if newValue == false {
-				_direction = 1
-				//_ulamdrawer?.direction = 1
-			}
-		}
-		get {
-			if _direction == -1 { return true }
-			return false
-		}
-	}
+	var Direction : Int = 1
 	
 	func CreateDrawer(_ rect : CGRect) -> UlamDrawer {
 		let drawer = UlamDrawer(pointcount: self.count, utype: self.ulammode)
 		drawer.colored = self.UlamColored
 		drawer.bprimesphere = self.UlamSphere
-		drawer.direction = self._direction
+		drawer.direction = self.Direction
 		drawer.bprimesizing = self._tausizing
 		drawer.overscan = self._overscan
 		drawer.setZoom(self._zoom)
@@ -136,79 +116,50 @@ class SequenceView : DrawNrView {
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		ulamimageview.frame = rect
 		let drawer = CreateDrawer(rect)
-		ulamimageview.CreateImage(rect,drawer: drawer)
-		
+		CreateImages(rect,drawer: drawer)
 	}
-}
 
-class SequenceImageView : UIView {
-	
-	fileprivate var ulamimage : UIImage? = nil
-	//private var blockOperation : NSOperation? = nil
-	fileprivate let queue = OperationQueue()
 	var tlimit = TimeInterval(0.2)  //zeichnet asynchron
-	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError()
-	}
-	override func draw(_ rect: CGRect) {
-		super.draw(rect)
-		ulamimage?.draw(in: rect)
-	}
-	func CreateImage(_ rect : CGRect, drawer : UlamDrawer, k0 : Int = 0)  {
-		
-		queue.cancelAllOperations()
-		var k = k0
-		var drawfinished = false
-		
-		let blockOperation = BlockOperation()
-		blockOperation.addExecutionBlock {
+	private var workItem : DispatchWorkItem? = nil
+	private func DrawNumbers(drawer: UlamDrawer, since : Int, _ context: CGContext!, worker : DispatchWorkItem) -> Int
+	{
+		guard let tester = tester else { return 0 }
+		for k in since ..< count {
 			
-			
+			if worker.isCancelled {
+				return k
+			}
+			let j = count - 1 - k
+			let nr =  Int(start) + j * Direction - 1
+			if nr < 0 { break }
+			if !tester.isSpecial(n: BigUInt(nr)) { continue }
+			drawer.draw_number(context, ulamindex: j, p: UInt64(nr))
+		}
+		return 0
+	}
+	func CreateImages(_ rect : CGRect, drawer : UlamDrawer)  {
+		workItem?.cancel()
+		self.workItem = DispatchWorkItem {
+			guard let worker = self.workItem else { return }
 			UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
-			let context = UIGraphicsGetCurrentContext()
-			if k > 0 {
-				self.ulamimage?.draw(in: rect)
-				//CGContextDrawImage(context, rect, self.ulamimage?.CGImage)
-			}
-			
-			context!.setStrokeColor(UIColor.red.cgColor)
-			context!.setLineWidth(1.0);
-			context!.beginPath()
-			drawer.draw_spiral(context!)
-			
-			k = drawer.draw_primes(context!, k0 : k0, tlimit: self.tlimit)
-			if k == 0 { drawfinished = true }
-			self.ulamimage  = UIGraphicsGetImageFromCurrentImageContext()
+			guard let context = UIGraphicsGetCurrentContext() else { return }
+			context.setStrokeColor(UIColor.red.cgColor)
+			context.setLineWidth(1.0);
+			context.beginPath()
+			drawer.draw_spiral(context)
+			//drawer.draw_primes(context)
+			self.DrawNumbers(drawer: drawer, since: 0, context, worker: worker)
+			let image = UIGraphicsGetImageFromCurrentImageContext()
 			UIGraphicsEndImageContext()
-			
-			OperationQueue.main.addOperation {
-				//self.drawreentry = false
-				self.setNeedsDisplay()
-				if !blockOperation.isCancelled && !drawfinished {
-					self.CreateImage(rect, drawer: drawer, k0: k)
-					//print("Restart")
-				}
-				else {
-			
-					print("Sequenceview stop Stop")
-				}
+			if !worker.isCancelled {
+				self.workItem = nil
+				DispatchQueue.main.async(execute: {
+					self.imageview.image  = image
+				})
 			}
 		}
-		
-		if tlimit == 0.0 {
-			blockOperation.start()
-		} else
-		{
-			queue.addOperation(blockOperation)
-		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
 }
 
