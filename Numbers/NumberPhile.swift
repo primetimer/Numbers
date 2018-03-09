@@ -244,7 +244,7 @@ class NumberphileLinks {
 			return link
 		}
 		var possible : [String] = []
-		for t in Tester.testers {
+		for t in Tester.shared.complete {
 			if t.isSpecial(n: n) {
 				if let link = getLink(tester: t) {
 					possible.append(link)

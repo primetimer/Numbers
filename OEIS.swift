@@ -117,12 +117,7 @@ class OEIS {
 			return nil
 		}
 		
-		for t in Tester.testers {
-			if t.property() == property {
-				return t
-			}
-		}
-		for t in Tester.xtesters {
+		for t in Tester.shared.complete {
 			if t.property() == property {
 				return t
 			}

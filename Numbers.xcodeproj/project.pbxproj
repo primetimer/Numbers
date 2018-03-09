@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5403D96820505709007F6B21 /* TesterArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96720505709007F6B21 /* TesterArtCell.swift */; };
+		5403D96A20507665007F6B21 /* DrawCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96920507665007F6B21 /* DrawCells.swift */; };
+		5403D96C20507680007F6B21 /* DrawNrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96B20507680007F6B21 /* DrawNrView.swift */; };
 		54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADC20432D80001F51B6 /* TestLucky.swift */; };
 		54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */; };
 		54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */; };
@@ -14,6 +17,7 @@
 		54062AE52045F858001F51B6 /* SumOfCubesTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE42045F858001F51B6 /* SumOfCubesTester.swift */; };
 		5416E94A204AFBAB00CD8A06 /* TubeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5416E949204AFBAB00CD8A06 /* TubeCell.swift */; };
 		5416E94C204B06A200CD8A06 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5416E94B204B06A200CD8A06 /* BaseCell.swift */; };
+		54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54242CB22051098D00EC92FD /* SequenceCell.swift */; };
 		5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430781D1FDE6C0A0036516F /* MainViewController.swift */; };
 		543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078231FDEC08B0036516F /* SpokenNumber.swift */; };
 		543078261FDF07A20036516F /* AbundanceTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078251FDF07A20036516F /* AbundanceTester.swift */; };
@@ -52,6 +56,7 @@
 		54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C80204A038D0038716B /* NumeralSequenceArt.swift */; };
 		54924C83204A9D720038716B /* TestURLNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C82204A9D720038716B /* TestURLNumber.swift */; };
 		54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6140C2028F48C00408813 /* CollectionDescCell.swift */; };
+		54C1FBC92051E89600860FC9 /* SequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C1FBC82051E89500860FC9 /* SequenceView.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54D906D5204C891C009EED11 /* SmithTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D4204C891C009EED11 /* SmithTester.swift */; };
 		54D906D7204D2B41009EED11 /* SemiPrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */; };
@@ -93,6 +98,9 @@
 /* Begin PBXFileReference section */
 		0152CA84599AE3E7BE79E272 /* Pods_NumbersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NumbersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A04DC416C676164E1126677 /* Pods-Numbers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Numbers.release.xcconfig"; path = "Pods/Target Support Files/Pods-Numbers/Pods-Numbers.release.xcconfig"; sourceTree = "<group>"; };
+		5403D96720505709007F6B21 /* TesterArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TesterArtCell.swift; sourceTree = "<group>"; };
+		5403D96920507665007F6B21 /* DrawCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawCells.swift; sourceTree = "<group>"; };
+		5403D96B20507680007F6B21 /* DrawNrView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawNrView.swift; sourceTree = "<group>"; };
 		54062ADC20432D80001F51B6 /* TestLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLucky.swift; sourceTree = "<group>"; };
 		54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfSquareTester.swift; sourceTree = "<group>"; };
 		54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfSquares.swift; sourceTree = "<group>"; };
@@ -100,6 +108,7 @@
 		54062AE42045F858001F51B6 /* SumOfCubesTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfCubesTester.swift; sourceTree = "<group>"; };
 		5416E949204AFBAB00CD8A06 /* TubeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TubeCell.swift; sourceTree = "<group>"; };
 		5416E94B204B06A200CD8A06 /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		54242CB22051098D00EC92FD /* SequenceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCell.swift; sourceTree = "<group>"; };
 		5430781D1FDE6C0A0036516F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		543078231FDEC08B0036516F /* SpokenNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
 		543078251FDF07A20036516F /* AbundanceTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbundanceTester.swift; sourceTree = "<group>"; };
@@ -139,6 +148,7 @@
 		54924C80204A038D0038716B /* NumeralSequenceArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralSequenceArt.swift; sourceTree = "<group>"; };
 		54924C82204A9D720038716B /* TestURLNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestURLNumber.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
+		54C1FBC82051E89500860FC9 /* SequenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceView.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
 		54D906D4204C891C009EED11 /* SmithTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmithTester.swift; sourceTree = "<group>"; };
@@ -218,6 +228,9 @@
 			isa = PBXGroup;
 			children = (
 				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
+				54242CB22051098D00EC92FD /* SequenceCell.swift */,
+				5403D96920507665007F6B21 /* DrawCells.swift */,
+				5403D96B20507680007F6B21 /* DrawNrView.swift */,
 				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,
 				54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */,
 				543078291FE3C1180036516F /* SquareDrawer.swift */,
@@ -232,6 +245,7 @@
 				545ECE021FE6375A0035B9EA /* UlamDrawer.swift */,
 				545ECE041FE637C20035B9EA /* TheUlam.swift */,
 				545ECE061FE63E480035B9EA /* UlamView.swift */,
+				54C1FBC82051E89500860FC9 /* SequenceView.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -296,6 +310,7 @@
 				54F5F0BB1FFA99BF006DECED /* DescCell.swift */,
 				54A6140C2028F48C00408813 /* CollectionDescCell.swift */,
 				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
+				5403D96720505709007F6B21 /* TesterArtCell.swift */,
 				54924C80204A038D0038716B /* NumeralSequenceArt.swift */,
 				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
 				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
@@ -583,6 +598,7 @@
 				54E199EF204EB9520078874B /* OEIS.swift in Sources */,
 				54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */,
 				546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */,
+				5403D96C20507680007F6B21 /* DrawNrView.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
 				54F7E0FE2039D97A00B4EAEF /* TesterCache.swift in Sources */,
@@ -594,6 +610,7 @@
 				54DBF80D20497DBC00F07FD7 /* WikiCell.swift in Sources */,
 				54924C7D2049B4250038716B /* WikiVC.swift in Sources */,
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
+				5403D96A20507665007F6B21 /* DrawCells.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */,
 				547C4F09204B492E00884B6C /* Supersingular.swift in Sources */,
@@ -601,14 +618,17 @@
 				547C4F07204B098400884B6C /* NumberPhile.swift in Sources */,
 				54923FAE1FEF8724006993F2 /* TetrahedralTester.swift in Sources */,
 				54923FB21FF0F137006993F2 /* MersenneTester.swift in Sources */,
+				5403D96820505709007F6B21 /* TesterArtCell.swift in Sources */,
 				543078301FE3E1350036516F /* FaktorView.swift in Sources */,
 				54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */,
 				54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */,
 				545ECE071FE63E480035B9EA /* UlamView.swift in Sources */,
+				54C1FBC92051E89600860FC9 /* SequenceView.swift in Sources */,
 				54D906D5204C891C009EED11 /* SmithTester.swift in Sources */,
 				54A6140D2028F48C00408813 /* CollectionDescCell.swift in Sources */,
 				54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
+				54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */,
 				54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
 				54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */,

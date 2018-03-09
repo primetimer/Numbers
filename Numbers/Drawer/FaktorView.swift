@@ -56,11 +56,8 @@ class FaktorView: DrawNrView {
 			})
 		}
 		return workItem
-
-		
 	}
 	
-	#if true
 	override func draw(_ rect : CGRect) {
 		if _workItem != nil {
 			_workItem?.cancel()
@@ -68,42 +65,8 @@ class FaktorView: DrawNrView {
 		_workItem  = BackgroundWorker()
 		DispatchQueue.global(qos: .userInitiated).async(execute: _workItem!)
 	}
-	#else
-	override func draw(_ rect: CGRect) {
-		super.draw(rect)
-		
-		
-		param.withanimation = true
-		if param.withanimation {
-			DispatchQueue.global().async {
-				var images = self.CreateImages()
-				if let last = images.last {
-					let stillcount = images.count
-					for _ in 0...stillcount {
-						images.append(last)
-					}
-				}
-
-				DispatchQueue.main.async(execute: {
-					self.imageview.animationImages = images
-					self.imageview.image = images.last
-					self.imageview.animationDuration = 5.0 //TimeInterval(self.param.maxrekurs)
-					self.imageview.animationRepeatCount = 0
-					//self.imageview.isUserInteractionEnabled = true
-					self.imageview.startAnimating()
-				})
-			}
-		} else {
-			let images = CreateImages()
-			imageview.image = images.last
-			imageview.animationDuration = 0
-			imageview.animationRepeatCount = 0
-			//imageview.isUserInteractionEnabled = true
-		}
-	}
-	#endif
 	
-private func CreateImages(worker : DispatchWorkItem? = nil )  -> [UIImage] {
+	private func CreateImages(worker : DispatchWorkItem? = nil )  -> [UIImage] {
 		let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400.0)
 		var images : [UIImage] = []
 		let drawer = param.CreateDrawer(rect)
@@ -122,13 +85,7 @@ private func CreateImages(worker : DispatchWorkItem? = nil )  -> [UIImage] {
 				self.param.maxrekurs = UInt64(k)
 				self.param.rectLimit = 64
 				self.param.rect = rect
-				
-				/* Absturz 04.03.2018
-				if (k > 0) && (self.param.type != .circle) {
-					images[k-1].draw(in: rect)
-					//CGContextDrawImage(context, rect, self.ulamimage?.CGImage)
-				}
-				*/
+
 				context.setStrokeColor(UIColor.black.cgColor)
 				context.setLineWidth(1.0);
 				context.beginPath()

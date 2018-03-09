@@ -15,9 +15,15 @@ protocol NumTester {
 	func getDesc(n: BigUInt) -> String?
 	func getLatex(n: BigUInt) -> String?
 	func property() -> String	//Name of tested property
+	
+	func invers() -> NumTester?
+	func subtester() -> [NumTester]?
 }
 
-
+extension NumTester {
+	func invers() ->  NumTester? { return nil }
+	func subtester() -> [NumTester]? { return nil }
+}
 
 class Tester : NumTester {
 	
@@ -26,7 +32,7 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	static let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), CarmichaelTester(),AbundanceTester(),
+	let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), CarmichaelTester(),AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
@@ -36,9 +42,22 @@ class Tester : NumTester {
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
 										 MathConstantTester()]
-	static let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
+	
+	
+	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
 										 SOGPrimeTester(),SafePrimeTester()]
-	private init() {}
+	private (set) var complete : [NumTester] = []
+	private init() {
+		for t in testers {
+			complete.append(t)
+			if t.invers() != nil { complete.append(t.invers()!)}
+			if t.subtester() != nil {
+				for sub in t.subtester()! {
+					complete.append(sub)
+				}
+			}
+		}
+	}
 	
 	func isSpecial(n: BigUInt) -> Bool {
 		return true //!isDull(n: n)
@@ -46,7 +65,7 @@ class Tester : NumTester {
 	
 	func isDull(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
-		for t in Tester.testers {
+		for t in Tester.shared.testers {
 			if t is DullTester {
 				continue
 			}
@@ -66,7 +85,7 @@ class Tester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		
 		var str : String = ""
-		for t in Tester.testers {
+		for t in Tester.shared.complete {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				let desc = TesterCache.shared.getDesc(tester: t, n: n)
 				str = str + desc! + "\n"
@@ -77,7 +96,7 @@ class Tester : NumTester {
 	
 	func getLatex(n: BigUInt) -> String? {
 		var latex : String = ""
-		for t in Tester.testers {
+		for t in Tester.shared.complete {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				if let ltest = TesterCache.shared.getLatex(tester: t,n: n) {
 					latex = latex + ltest + "\\\\"
@@ -96,7 +115,7 @@ class Tester : NumTester {
 			ans.append("Neutral Element of multiplication")
 		}
 		
-		for t in Tester.testers {
+		for t in Tester.shared.complete {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				ans.append(t.property())
 			}

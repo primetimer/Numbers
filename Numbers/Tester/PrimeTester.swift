@@ -94,17 +94,35 @@ class CarmichaelTester : NumTester{
 	}
 }
 
+class CompositeTester : NumTester {
+	func getLatex(n: BigUInt) -> String? {
+		return FactorCache.shared.Latex(n: n, withpot: true)
+	}
+	func property() -> String {
+		return "composite"
+	}
+	func isSpecial(n: BigUInt) -> Bool {
+		return !PrimeTester().isSpecial(n: n)
+		
+	}
+	func getDesc(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
+	}
+}
+
 class PrimeTester : NumTester {
 	func property() -> String {
 		return "prime"
 	}
 	func isSpecial(n: BigUInt) -> Bool {
-		let p = BigUInt(n)
-		if PrimeCache.shared.IsPrime(p: p) {
-			return true
-		}
-		return false
+		return PrimeCache.shared.IsPrime(p: n)
 	}
+	func invers() -> NumTester? {
+		return CompositeTester()
+	}	
+	
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		var desc = WikiLinks.shared.getLink(tester: self, n: n)

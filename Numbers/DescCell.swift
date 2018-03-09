@@ -20,26 +20,11 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .none
 		contentView.addSubview(uidesc)
-		#if false
-			uidesc.isUserInteractionEnabled = false
-			uidesc.font = UIFont(name: "Arial", size: 18.0)
-			uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
-			
-			uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-			uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-			uidesc.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-			uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		#else
-			//uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
-			
 			uidesc.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 			uidesc.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 			uidesc.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 			uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 			uidesc.dataDetectorTypes = []
-			//uidesc.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-			
-		#endif
 	}
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")

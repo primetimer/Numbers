@@ -71,12 +71,32 @@ class Explanation : NSObject {
 		get {
 			let start = "<html><body>"
 			let end = "</body></html>"
+			
 			let nrstr = nr.formatUS()
 			var htmldesc = getP(nrstr, fontpx: 30)
 			let spoken = SpokenNumber.shared.spoken(n: nr).capitalized
 			if spoken.count < 20 {
 				htmldesc = getP(nrstr + " (" + spoken + ")", fontpx: 30)
 			}
+			#if false
+			var html = ""
+			html = html + "<TABLE    WIDTH=\"100%\"   CELLPADDING=\"4\" CELLSPACING=\"1\">"
+			//html = html + "<TR>"
+			html = html + "<TH COLSPAN=\"2\"><BR><H1>" + nrstr + "</H1>"
+			html = html + "</TH>"
+			html = html + "</TR>"
+			html = html + "<TR>"
+			html = html + "<TH>Column A</TH>"
+			html = html + "<TH>Column B</TH>"
+			html = html + "</TR>"
+			html = html + "<TR ALIGN=\"CENTER\">"
+			html = html + "<TD>Data 1</TD>"
+			html = html + "<TD>Data 2</TD>"
+			html = html + "</TR>"
+			html = html + "</TABLE>"
+			return html
+				#endif
+			
 			for s in desc.lines {
 				let text = getP(s)
 				htmldesc = htmldesc + text

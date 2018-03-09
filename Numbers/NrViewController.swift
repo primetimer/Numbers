@@ -14,21 +14,18 @@ import YouTubePlayer
 import SafariServices
 
 enum NrViewSection : Int {
-	case Description = 1
+	//case Description = 1
 	case Numerals = 0
 	case Formula = 2
-	case DrawNumber = 3
-	case Wiki = 4
-	case NumberPhile = 5
+	case DrawNumber = 1
+	case Wiki = 3
+	case NumberPhile = 4
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
-	
-	
-	
 	private let headerId = "headerId"
 	private let footerId = "footerId"
-	private let desccellId = "desccellId"
+	//private let desccellId = "desccellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
 	private let oeiscellId = "oeiscellId"
@@ -81,8 +78,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case NrViewSection.DrawNumber.rawValue:
-			//return 5
-			return TableCellType.allValues.count
+			return drawcells.count
 		case NrViewSection.Numerals.rawValue:
 			return NumeralCellType.allValues.count*2 - 1
 		default:
@@ -96,7 +92,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 		guard let header = view as? UITableViewHeaderFooterView else { return }
-		//header.textLabel?.textColor = UIColor.red
 		header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
 		header.textLabel?.frame = header.frame
 		header.textLabel?.textAlignment = .center
@@ -104,14 +99,14 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
-		case NrViewSection.Description.rawValue:
-			return "Summary"
+			//case NrViewSection.Description.rawValue:
+		//	return "Summary"
 		case NrViewSection.Numerals.rawValue:
 			return "Numerals"
 		case NrViewSection.Formula.rawValue:
 			return "Formula"
 		case NrViewSection.DrawNumber.rawValue:
-			return "Drawing"
+			return "Properties"
 		case NrViewSection.Wiki.rawValue:
 			return "Wikipedia"
 		case NrViewSection.NumberPhile.rawValue:
@@ -120,7 +115,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return nil
 		}
 	}
-
+	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 30.0
 	}
@@ -130,37 +125,18 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return header
 	}
 	
-	//
-	// MARK :- FOOTER
-	//
-	/*
-	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		return 150
-	}
-	
-	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-		
-		let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: footerId) as! CustomTableViewFooter
-		return footer
-	}
-	*/
-	
-	//
-	// MARK :- Cell
-	//
-	
-
-	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let width = tableView.frame.size.width // - 20
 		switch indexPath.section {
-		case NrViewSection.Description.rawValue:
+			/*
+			case NrViewSection.Description.rawValue:
 			if let temp = uidesctemp {
-				temp.frame.size = CGSize(width : width, height: 1.0)
-				temp.frame.size = temp.sizeThatFits(.zero)
-				uidesctemp?.frame = temp.frame
-				return temp.frame.height //+ 20.0
+			temp.frame.size = CGSize(width : width, height: 1.0)
+			temp.frame.size = temp.sizeThatFits(.zero)
+			uidesctemp?.frame = temp.frame
+			return temp.frame.height //+ 20.0
 			}
+			*/
 		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
 			if numeralcells.getCell(row: row).isHidden {
@@ -169,22 +145,18 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			let h = numeralcells.getRowHeight(row: row)
 			return h
 			
+		case NrViewSection.DrawNumber.rawValue:
+			let row = indexPath.row
+			if drawcells.getCell(row: row).isHidden {
+				return 0.0
+			}
+			let h = drawcells.getRowHeight(row: row)
+			return h
 		case NrViewSection.Formula.rawValue:
 			if let temp = uiformtemp {
 				temp.sizeToFit()
 				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
 				return height + 20.0
-			}
-		case NrViewSection.DrawNumber.rawValue:
-			let row = indexPath.row
-			let tablerow = drawcells.cells[row]
-			tablerow.isHidden = tablerow.isSpecial ? false : true
-			if !tablerow.isSpecial { return 0.0 }
-			if let temp = drawcells.cells[row].uidraw {
-				//let size = CGSize(width: self.view.width, height: self.view.width)
-				//let frame = CGRect(origin: CGPoint.zero, size: size)
-				let height = temp.bottom
-				return height
 			}
 		case NrViewSection.Wiki.rawValue:
 			if uiwebtemp != nil {
@@ -211,7 +183,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return indexPath
 	}
 	
-	//private var expandednumerals = false
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
@@ -219,31 +190,16 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			numeralcells.Expand(row: indexPath.row)
 			tableView.beginUpdates()
 			tableView.endUpdates()
-
 		case NrViewSection.DrawNumber.rawValue:
-			if cell.expanded {
-				tableView.beginUpdates()
-				cell.expanded = false
-				tableView.endUpdates()
-				cell.expanded = false
-				tableView.deselectRow(at: indexPath, animated: true)
-				return
-			}
+			drawcells.Select(row: indexPath.row)
 			tableView.beginUpdates()
-			cell.expanded = true
 			tableView.endUpdates()
 		case NrViewSection.Wiki.rawValue:
 			guard (tableView.cellForRow(at: indexPath) as? WikiTableCell) != nil else  { return }
-				#if true
-					if let url = URL(string: self.wikiadr) {
-						let safari = SFSafariViewController(url: url)
-						self.present(safari, animated: true, completion: nil)
-					}
-					#else
-					let subvc = WikiVC()
-				subvc.SetWikiUrl(wiki: wikiurl)
-				self.navigationController?.pushViewController(subvc, animated: true)
-				#endif
+			if let url = URL(string: self.wikiadr) {
+				let safari = SFSafariViewController(url: url)
+				self.present(safari, animated: true, completion: nil)
+			}
 		default:
 			break
 		}
@@ -259,20 +215,11 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
 		guard let cell = tableView.cellForRow(at: indexPath) else  { return }
 		if let ncell = cell as? NumeralCell {
-			
-			#if true
-				let type = ncell.type
-				let typeadr = type.asWiki()
-				if let typeurl = URL(string: typeadr) {
-					Jump(wikiurl: typeurl)
-				}
-			#else
-			let subvc = WikiVC()
 			let type = ncell.type
-			let wiki = type.asWiki()
-			self.navigationController?.pushViewController(subvc, animated: true)
-			subvc.SetWikiUrl(wiki: wiki)
-			#endif
+			let typeadr = type.asWiki()
+			if let typeurl = URL(string: typeadr) {
+				Jump(wikiurl: typeurl)
+			}
 		}
 	}
 	
@@ -280,24 +227,28 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		if let art = cell as? NumeralArtCell {
 			art.layoutIfNeeded()
 		}
+		if let art = cell as? TesterArtCell {
+			art.layoutIfNeeded()
+		}
 	}
-		var debugcell = UITableViewCell()
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch indexPath.section {
-		case NrViewSection.Description.rawValue:
+			/*
+			case NrViewSection.Description.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
-				uidesctemp = cell.uidesc
-				cell.nr = self.currnr
-				cell.setParentVC(vc: self)
-				cell.tableparent = tableView
-				cell.SetHtmlDesc(html: self.htmldesc)
-				return cell
+			uidesctemp = cell.uidesc
+			cell.nr = self.currnr
+			cell.setParentVC(vc: self)
+			cell.tableparent = tableView
+			cell.SetHtmlDesc(html: self.htmldesc)
+			return cell
 			}
+			*/
 		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
 			numeralcells.nr = currnr
 			let cell = numeralcells.getCell(row: row)
-			let dummy = 0
 			return cell
 			
 		case NrViewSection.Formula.rawValue:
@@ -309,11 +260,11 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			}
 		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
-			let cell = drawcells.cells[row]
-			cell.nr = currnr
-			cell.selectionStyle = .none
+			drawcells.nr = currnr
+			let cell = drawcells.getCell(row: row)
 			return cell
-		case NrViewSection.Wiki.rawValue:			
+			
+		case NrViewSection.Wiki.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: wikicellId, for: indexPath) as? WikiTableCell {
 				uiwebtemp = cell.uiweb
 				cell.accessoryType = .disclosureIndicator
@@ -342,7 +293,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.dataSource = self
 		tv.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
 		//tv.register(CustomTableViewFooter.self, forHeaderFooterViewReuseIdentifier: self.footerId)
-		tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
+		//tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
@@ -422,7 +373,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		uisearch.delegate = self
 		navigationItem.titleView = uisearch
 		self.view.addSubview(tv)
-			self.view.addSubview(uisearch)
+		self.view.addSubview(uisearch)
 		setupAutoLayout()
 		addDoneButtonOnKeyboard()
 	}
@@ -460,7 +411,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		tv.bottomAnchor.constraint(equalTo: myToolbar.topAnchor).isActive = true
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.

@@ -146,7 +146,6 @@ class NumeralCells {
 	var nr : BigUInt {
 		set {
 			startcell.nr = newValue
-
 			if newValue == _nr { return }
 			
 			_nr = newValue
