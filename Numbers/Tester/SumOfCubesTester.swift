@@ -10,13 +10,57 @@ import Foundation
 import BigInt
 import PrimeFactors
 
+class TaxiCabTester : SumOfTwoCubesTester {
+	
+	override func property() -> String {
+		return "Taxicab"
+	}
+	
+	override func isSpecial(n: BigUInt) -> Bool {
+		if CubeTester().isSpecial(n: n) { return false }
+		if !super.isSpecial(n: n) { return false }
+		
+		guard let seq = OEIS.shared.seq[self.property()] else { return false }
+		return seq.contains(n)
+	}
+	
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		if let (a,b,c,d) = Express2(n: n) {
+			let (stra,strb,strc,strd) = (String(a),String(b),String(c),String(d))
+			let latex = String(n) + "=" + stra + "^3 + " + strb + "^3" + " = " + strc + "^3 + " + strd
+			return latex
+		}
+		return nil
+	}
+	
+	private func Express2(n: BigUInt) -> (BigUInt,BigUInt,BigUInt,BigUInt)? {
+		var (n0,cube) = (n,BigUInt(1))
+		if n > 1000000000 {
+			(n0,cube) = RemoveCubes(n: n)
+		}
+		guard let (c,d) = super.Express(n: n0) else { return nil }
+		var a = d - 1
+		while a > c {
+			let a3 = a * a * a
+			let b3 = n0 - a3
+			let r3 = b3.iroot3()
+			if r3 * r3 * r3 == b3 {
+				return (a:a*cube, b: r3*cube,c:c*cube,d:d*cube)
+			}
+			a = a - 1
+		}
+		return nil
+	}
+	
+	
+}
 class SumOfTwoCubesTester : NumTester {
 	
 	func getDesc(n: BigUInt) -> String? {
 		var desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
-	
 	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
@@ -75,7 +119,7 @@ class SumOfTwoCubesTester : NumTester {
 		return false
 	}
 	
-	private func RemoveCubes(n:BigUInt) -> (n:BigUInt,cube: BigUInt) {
+	internal func RemoveCubes(n:BigUInt) -> (n:BigUInt,cube: BigUInt) {
 		if n.isPrime() {
 			return (n:n,cube:1)
 		}

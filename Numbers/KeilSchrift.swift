@@ -353,8 +353,25 @@ extension BigUInt {
 		return ans		
 	}
 	
+	func ChineseFinancial() -> String {
+		let chinese = ["零","壹","貳","叄","肆","伍","陸","柒","捌","玖"]
+		if self == 0 {
+			return chinese[0]
+		}
+		var ans = ""
+		var stellen = self
+		while stellen > 0 {
+			let digit = Int(stellen % 10)
+			ans = chinese[digit] + ans
+			stellen = stellen / 10
+		}
+		return ans
+	}
+	
 	func Chinese() -> String {
 		let chinese = ["零","一","二","三","四","五","六","七","八","九"]
+		let chinesef = ["零","壹","貳","叄","肆","伍","陸","柒","捌","玖"]
+
 		let powers = ["","十","百","千"] //,"十万","百万","千万","亿"]
 		let powers4 = ["", "万","亿","兆","京","垓","秭","穰","沟","涧","正","载"]
 		

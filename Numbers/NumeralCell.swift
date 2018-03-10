@@ -13,11 +13,11 @@ import BigInt
 enum NumeralCellType : Int {
 	case None = -1, FormatUS = 0, Spoken, Latin, Roman
 	case Indian, Abjad, Egyptian, Phonician, Greek, Hebraian
-	case Babylon, Chinese, Maya, Scientific, Duodezimal, Rod
+	case Babylon, Chinese, ChineseFinancial, Maya, Scientific, Duodezimal, Rod
 	
-	static let allValues : [NumeralCellType] = [FormatUS, .Spoken, .Roman,.Indian,.Abjad,.Egyptian,.Greek,.Hebraian,.Babylon,.Chinese,.Scientific,.Maya,.Rod]
+	static let allValues : [NumeralCellType] = [FormatUS, .Spoken, .Roman,.Indian,.Abjad,.Egyptian,.Greek,.Hebraian,.Babylon,.Chinese,.ChineseFinancial, .Scientific,.Maya,.Rod]
 	
-	static private let str = [ "hindu-arabian", "short scale", "arabian (west) ", "roman", "arabian (east)", "arabian (abjad)", "egyptian", "phoenician", "greek", "hebrew", "babylonian", "chinese", "maya", "scientific", "dozenal", "rod" ]
+	static private let str = [ "hindu-arabian", "short scale", "arabian (west) ", "roman", "arabian (east)", "arabian (abjad)", "egyptian", "phoenician", "greek", "hebrew", "babylonian", "chinese","chinese financial", "maya", "scientific", "dozenal", "rod" ]
 	
 	static private let wikis = ["https://en.wikipedia.org/wiki/Hindu–Arabic_numeral_system",
 							   "https://en.wikipedia.org/wiki/Long_and_short_scales",
@@ -31,6 +31,7 @@ enum NumeralCellType : Int {
 							   "https://en.wikipedia.org/wiki/Hebrew_numerals",
 							   "https://en.wikipedia.org/wiki/Babylonian_numerals",
 							   "https://en.wikipedia.org/wiki/Chinese_numerals",
+							   "https://en.wikipedia.org/wiki/Chinese_numerals",	//doppel financial
 							    "https://en.wikipedia.org/wiki/Maya_numerals",
 							   "https://en.wikipedia.org/wiki/Scientific_notation",
 							   "https://en.wikipedia.org/wiki/Duodecimal",
@@ -223,6 +224,8 @@ extension BigUInt {
 			return self.Roman()
 		case .Chinese:
 			return self.Chinese()
+		case .ChineseFinancial:
+			return self.ChineseFinancial()
 		case .Indian:
 			return self.IndianArabian()
 		case .Maya:
@@ -299,16 +302,16 @@ class NumeralCell: BaseNrTableCell {
 			super.nr = newValue
 			switch type {
 			case .Maya:
-				let font = UIFont(name: "Mayan", size: 20)
+				let font = UIFont(name: "Mayan", size: 24)
 				textLabel?.font = font
 			case .Rod:
-				let font = UIFont(name: "symbola", size: 20)
+				let font = UIFont(name: "symbola", size: 24)
 				textLabel?.font = font
 			case .Egyptian:
 				let fonthigher = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
 				textLabel?.font = fonthigher
 			default:
-				let deffont = UIFont.systemFont(ofSize: 20.0 ) //UIFont.labelFontSize)
+				let deffont = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
 				textLabel?.font = deffont
 			}
 			textLabel?.text = nr.getNumeral(type: type)

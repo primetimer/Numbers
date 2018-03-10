@@ -41,16 +41,29 @@ class BaseNrTableCell : UITableViewCell {
 
 class FormTableCell: BaseNrTableCell {
 	private (set) var uimath = MTMathUILabel()
+	private var uiscrollv = UIScrollView()
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .none
+		
+		
 		uimath.fontSize = 18.0
+		uiscrollv.translatesAutoresizingMaskIntoConstraints = false
 		uimath.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(uimath)
-		uimath.leadingAnchor.constraint (equalTo: contentView.leadingAnchor,constant: 10.0).isActive = true
-		uimath.trailingAnchor.constraint (equalTo: contentView.trailingAnchor,constant: 0.0).isActive = true
-		uimath.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 0.0).isActive = true
-		uimath.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0.0).isActive = true
+		contentView.addSubview(uiscrollv)
+		uiscrollv.addSubview(uimath)
+		
+		uiscrollv.leadingAnchor.constraint (equalTo: contentView.leadingAnchor, constant : 10.0).isActive = true
+		uiscrollv.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant : -10.0 ).isActive = true
+		uiscrollv.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 0.0).isActive = true
+		uiscrollv.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0.0).isActive = true
+		uiscrollv.contentSize = CGSize(width: 1000.0, height: 0.0)
+		//uimath.leadingAnchor.constraint (equalTo: uiscrollv.leadingAnchor,constant: 10.0).isActive = true
+		
+		uimath.leftAnchor.constraint (equalTo: uiscrollv.leftAnchor,constant: 0.0).isActive = true
+		uimath.topAnchor.constraint(equalTo: uiscrollv.topAnchor,constant: 0.0).isActive = true
+		uimath.heightAnchor.constraint(equalTo: uiscrollv.heightAnchor).isActive = true
+		uimath.widthAnchor.constraint(equalToConstant: 1000.0).isActive = true
 		//uimath.frame = CGRect(x: 10.0, y: 10.0, width: self.frame.width, height: self.frame.height)
 	}
 	

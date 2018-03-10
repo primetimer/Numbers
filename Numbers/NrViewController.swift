@@ -53,7 +53,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var formula : String = "" // \\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiadr : String = "wikipedia.de"
 	
-	var currnr : BigUInt = 2 {
+	var currnr : BigUInt = 0 {
 		didSet {
 			numeralcells.nr = currnr
 			drawcells.nr = currnr
@@ -324,6 +324,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+		currnr = 2
 		GetExplanation()
 		tv.reloadData()
 	}

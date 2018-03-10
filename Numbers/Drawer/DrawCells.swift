@@ -130,7 +130,7 @@ class DrawingCells {
 			return h
 		}
 		if let cell = cell as? SequenceCell {
-			return height + 10
+			return height + 20
 		}
 		if let cell = cell as? DrawTableCell {
 			height = cell.width

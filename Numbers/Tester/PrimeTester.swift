@@ -129,6 +129,7 @@ class CompositeTester : NumTester {
 		return "composite"
 	}
 	func isSpecial(n: BigUInt) -> Bool {
+		if n <= 2 { return false }
 		return !PrimeTester().isSpecial(n: n)
 		
 	}
@@ -201,6 +202,6 @@ class PrimeTester : NumTester {
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
 			return nstr + subset(type:6)
 		}
-		return nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\} \\\\"
+		return nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\}"
 	}
 }
