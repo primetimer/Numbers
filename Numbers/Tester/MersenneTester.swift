@@ -128,7 +128,7 @@ class SierpinskiTester : NumTester {
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
-		let latex =  "\\forall n : " + String(n) + "\\cdot{2^n} +1 \\notin \\mathbb{P}  \\\\"
+		let latex =  "\\forall n : " + String(n) + "\\cdot{2^n} +1 \\notin \\mathbb{P}  "
 		return latex
 	}
 	
@@ -198,7 +198,7 @@ class CatalanTester : NumTester {
 	func getLatex(n: BigUInt) -> String? {
 		let nth = Nth(n: n)
 		if n <= 2 { return nil }
-		let latex =  String(n) + " = \\prod_{k=1}^{ " + String(nth+2) + "- 2} \\frac{4k-2}{k+1} \\\\"
+		let latex =  String(n) + " = \\prod_{k=1}^{ " + String(nth+2) + "- 2} \\frac{4k-2}{k+1}"
 		return latex
 	}
 	

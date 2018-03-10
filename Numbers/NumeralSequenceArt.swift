@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import BigInt
-//import FutureKit
 
 class NumeralSequenceArtCell: BaseNrTableCell {
 	private (set) var uiart = UIWordCloudView()

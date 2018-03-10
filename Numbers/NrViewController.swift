@@ -50,10 +50,19 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var uiwebtemp : UIWebView? = nil
 	private var uitubetemp : YouTubePlayerView? = nil
 	private var htmldesc = ""
-	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
+	private var formula : String = "" // \\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiadr : String = "wikipedia.de"
 	
-	var currnr : BigUInt = 2
+	var currnr : BigUInt = 2 {
+		didSet {
+			numeralcells.nr = currnr
+			drawcells.nr = currnr
+			if currnr != oldValue {
+				tv.beginUpdates()
+				tv.endUpdates()
+			}
+		}
+	}
 	func Jump(to: BigUInt) {
 		currnr = to
 		GetExplanation()
@@ -258,7 +267,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			*/
 		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
-			numeralcells.nr = currnr
+			//numeralcells.nr = currnr
 			let cell = numeralcells.getCell(row: row)
 			return cell
 			
@@ -271,7 +280,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			}
 		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
-			drawcells.nr = currnr
+			//drawcells.nr = currnr
 			let cell = drawcells.getCell(row: row)
 			return cell
 			
@@ -409,8 +418,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		currnr = nr
 		GetExplanation()
 		tv.reloadData()
-		tv.beginUpdates()
-		tv.endUpdates()
+		let indexPath = IndexPath(row: 0, section: 0)
+		self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 	}
 	
 	func setupAutoLayout() {

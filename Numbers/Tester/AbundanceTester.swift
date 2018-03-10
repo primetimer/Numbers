@@ -43,7 +43,7 @@ extension FactorCache {
 				if index > 0 { latex = latex + "}" }
 			}
 		}
-		latex = latex + "\\\\"
+		//latex = latex + "\\\\"
 		return latex
 	}
 	
@@ -116,7 +116,7 @@ class PerfectTester : NumTester {
 		if let m = getFaktors(n: n) {
 			var latex = String(n)
 			latex = latex + "= 2^{" + String(m) + "}"
-			latex = latex + "(2^{" + String(m+1) + "} - 1) \\\\"
+			latex = latex + "(2^{" + String(m+1) + "} - 1) "
 			return latex
 		}
 		return nil

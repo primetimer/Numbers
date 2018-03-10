@@ -211,6 +211,7 @@ class Explanation : NSObject {
 				break
 			}
 		}
+		/*
 		switch(nr) {
 		case 0,1,2,3,4,5,7,8,9,11:
 			break
@@ -219,6 +220,7 @@ class Explanation : NSObject {
 				latex = latex + factorlatex
 			}
 		}
+		*/
 		if Tester.shared.isSpecial(n: nr) {
 			let props = Tester.shared.properties(n: nr)
 			for p in props {

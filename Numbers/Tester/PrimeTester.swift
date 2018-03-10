@@ -65,6 +65,32 @@ class SafePrimeTester : PrimeTester {
 	}
 }
 
+class ProbablePrimeTester : NumTester {
+	func getDesc(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
+	}
+	func getLatex(n: BigUInt) -> String? {
+		if n <= 2 { return nil }
+		let latex = "2^{" + String(n-1) + "} \\equiv_{" + String(n) + "} 1 "
+		return latex
+	}
+	
+	var base = BigUInt(2)
+	func property() -> String {
+		return "Probable Prime"
+	}
+	func isSpecial(n: BigUInt) -> Bool {
+		if n <= 2 { return false }
+		let test = base.power(n-1, modulus: n)
+		if 	test == 1 {
+			return true
+		}
+		return false
+	}
+	
+}
 class CarmichaelTester : NumTester{
 	func property() -> String {
 		return "Carmichael"
@@ -88,8 +114,9 @@ class CarmichaelTester : NumTester{
 		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
-	func getLatex(n: BigUInt) -> String? {		
-		let latex = "\\forall b \\in \\mathbb{N} : b^{" + String(n) + "} \\equiv_{" + String(n) + "} b \\\\"
+	func getLatex(n: BigUInt) -> String? {
+		if n <= 2 { return nil }
+		let latex = "\\forall b \\in \\mathbb{N} : b^{" + String(n-1) + "} \\equiv_{" + String(n) + "} 1 "
 		return latex
 	}
 }

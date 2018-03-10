@@ -32,7 +32,7 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), CarmichaelTester(),AbundanceTester(),
+	let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), ProbablePrimeTester(),CarmichaelTester(),AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
@@ -258,7 +258,7 @@ class PentagonalTester : NumTester {
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = Int(troot(x: Double(n)))
-		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "} \\frac{3\\cdot{k^2-k}}{2} \\\\"
+		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "} \\frac{3\\cdot{k^2-k}}{2} "
 		return latex
 	}
 }
@@ -276,7 +276,7 @@ class Pow2Tester : NumTester {
 			nn = nn / 2
 			pow = pow + 1
 		}
-		let latex = String(n) + "= 2^{" + String(pow) + "} \\\\"
+		let latex = String(n) + "= 2^{" + String(pow) + "} "
 		return latex
 	}
 	

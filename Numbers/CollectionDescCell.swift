@@ -62,9 +62,7 @@ class DescCollectionCell: BaseNrCollectionCell , UIWebViewDelegate {
 		contentView.addSubview(uidesc)
 		contentView.addSubview(uinr)
 
-		let margins = contentView.layoutMarginsGuide
-
-		//uidesc.frame = CGRect(x: 10.0, y: 0, width: self.frame.width, height: self.frame.height)
+		//let margins = contentView.layoutMarginsGuide
 		let viewsDict = ["nr" : uinr, "web" : uidesc , "content" : contentView]
 		let nrHorizontal = "H:|-[nr]-|"
 		let descHorizontal = "H:|-[web]-|"

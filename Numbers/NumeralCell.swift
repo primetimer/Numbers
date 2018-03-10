@@ -59,7 +59,6 @@ class NumeralCells {
 	private var artcell = NumeralArtCell()
 	private var ncells : [NumeralCell] = []
 	private var wikicells : [WikiTableCell] = []
-	//private var wikirow = -1
 	
 	private var expanded : Bool = false {
 		didSet {
@@ -116,12 +115,13 @@ class NumeralCells {
 		if let cell = cell as? NumeralCell {
 			if cell.isHidden { return 0 }
 			//if !cell.expanded { return 0.0 }
-			let label = cell.uilabel
-			let width = label.width
-			label.sizeToFit()
-			height = max(height,label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height)
+			if let label = cell.textLabel {
+				let width = label.width
+				label.sizeToFit()
+				height = max(height,label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height)
+			}
 		}
-		return height + 10.0
+		return height + 20.0
 	}
 	
 	init() {
@@ -252,19 +252,20 @@ extension BigUInt {
 class NumeralCell: BaseNrTableCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
+		super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
 		self.accessoryType = .detailButton // .disclosureIndicator
-		uilabel.lineBreakMode = .byWordWrapping
-		uilabel.numberOfLines = 0
-		uilabel.translatesAutoresizingMaskIntoConstraints = false
-		uinumeraltype.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(uinumeraltype)
-		contentView.addSubview(uilabel)
-		LayoutUI()
+		
+		textLabel?.lineBreakMode = .byWordWrapping
+		textLabel?.numberOfLines = 0
+		//textLabel.translatesAutoresizingMaskIntoConstraints = false
+		//uinumeraltype.translatesAutoresizingMaskIntoConstraints = false
+		//contentView.addSubview(uinumeraltype)
+		//contentView.addSubview(uilabel)
+		//LayoutUI()
 	}
 	
-	private (set) var uilabel = UILabel()
-	private var uinumeraltype = UITextView()
+	//private (set) var uilabel = UILabel()
+	//private var uinumeraltype = UITextView()
 	private var _type : NumeralCellType = .None
 	private (set) var isSpecial : Bool = false
 	private (set) var numtester : NumTester? = nil
@@ -273,10 +274,10 @@ class NumeralCell: BaseNrTableCell {
 		set {
 			if newValue == _type { return }
 			_type = newValue
-			uilabel.text = nr.getNumeral(type: _type)
-			uinumeraltype.isUserInteractionEnabled = false
-			uinumeraltype.text = type.asString()
-			uinumeraltype.textAlignment = .right
+			textLabel?.text = nr.getNumeral(type: _type)
+			//uinumeraltype.isUserInteractionEnabled = false
+			detailTextLabel?.text = type.asString()
+			//uinumeraltype.textAlignment = .right
 			
 			//LayoutUI()
 		}
@@ -299,18 +300,18 @@ class NumeralCell: BaseNrTableCell {
 			switch type {
 			case .Maya:
 				let font = UIFont(name: "Mayan", size: 20)
-				uilabel.font = font
+				textLabel?.font = font
 			case .Rod:
 				let font = UIFont(name: "symbola", size: 20)
-				uilabel.font = font
+				textLabel?.font = font
 			case .Egyptian:
 				let fonthigher = UIFont.systemFont(ofSize: 24.0 ) //UIFont.labelFontSize)
-				uilabel.font = fonthigher
+				textLabel?.font = fonthigher
 			default:
 				let deffont = UIFont.systemFont(ofSize: 20.0 ) //UIFont.labelFontSize)
-				uilabel.font = deffont
+				textLabel?.font = deffont
 			}
-			uilabel.text = nr.getNumeral(type: type)
+			textLabel?.text = nr.getNumeral(type: type)
 			
 			//LayoutUI()
 		}
@@ -321,13 +322,14 @@ class NumeralCell: BaseNrTableCell {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
+/*
 	override var isHidden: Bool {
 		didSet {
 			uilabel.isHidden = isHidden
 			uinumeraltype.isHidden = isHidden
 		}
 	}
+
 	private func LayoutUI() {
 
 		
@@ -348,5 +350,6 @@ class NumeralCell: BaseNrTableCell {
 			//uinumeraltype.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -1.0).isActive = true
 		}
 	}
+*/
 }
 

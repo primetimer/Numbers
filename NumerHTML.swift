@@ -24,6 +24,7 @@ class WikiLinks {
 		AddWiki("hexagonal","https://en.wikipedia.org/wiki/Hexagonal_number")
 		AddWiki("abundant","https://en.wikipedia.org/wiki/Abundant_number")
 		AddWiki("Carmichael","https://en.wikipedia.org/wiki/Carmichael_number")
+		AddWiki(ProbablePrimeTester().property(),"https://en.wikipedia.org/wiki/Probable_prime")
 		AddWiki("superabundant","https://en.wikipedia.org/wiki/Superabundant_number")
 		AddWiki("lucky","https://en.wikipedia.org/wiki/Lucky_number")
 		AddWiki("highly composite","https://en.wikipedia.org/wiki/Highly_composite_number")

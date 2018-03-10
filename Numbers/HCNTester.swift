@@ -42,13 +42,6 @@ class HCNTester : NumTester {
 		}
 		if let hcn = findHCN(n: n) {
 			var latex = ""
-			/*
-			latex = String(n) + " = "
-			for k in 0..<hcn.exponents.count {
-				latex = latex + String(HCNumber.shared.primes[k])
-			}
-			latex = latex + "\\\\"
-			*/
 			latex = latex + "\\tau (n) = " + String(hcn.div)
 			return latex
 		}

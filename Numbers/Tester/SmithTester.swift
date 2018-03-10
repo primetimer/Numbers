@@ -85,7 +85,7 @@ class SmithTester : NumTester {
 				latex = latex + String(f)
 			}
 		}
-		latex = latex + "\\\\"
+		//latex = latex + "\\\\"
 		return latex
 	}
 }

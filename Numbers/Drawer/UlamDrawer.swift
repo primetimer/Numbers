@@ -266,7 +266,7 @@ class UlamDrawer:  NSObject {
 		
 		color?.setFill()
 		context.fill(rect)
-		if count < 200 && p <= 100  {
+		if count < 200 && p <= 999  {
 			let textcolor = UIColor.white
 			textcolor.setStroke()
 			let text = String(p)
