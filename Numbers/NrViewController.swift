@@ -23,6 +23,7 @@ enum NrViewSection : Int {
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
+	private let initialnumber = BigUInt(314)
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"
@@ -324,7 +325,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		currnr = 2
+		currnr = initialnumber
 		GetExplanation()
 		tv.reloadData()
 	}

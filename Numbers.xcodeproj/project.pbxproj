@@ -32,6 +32,7 @@
 		545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE081FE64DBF0035B9EA /* DrawCell.swift */; };
 		545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */; };
 		545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE0C1FE664570035B9EA /* FactorCache.swift */; };
+		545FEE1C205504C40040A3F4 /* FermatTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545FEE1B205504C40040A3F4 /* FermatTester.swift */; };
 		546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546AB3541FDD5FEA007887E8 /* PrimeTester.swift */; };
 		546DD98D2041E3C6009A1A16 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 546DD98C2041E23C009A1A16 /* symbola.ttf */; };
 		546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */; };
@@ -40,6 +41,7 @@
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
 		547C4F07204B098400884B6C /* NumberPhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547C4F06204B098400884B6C /* NumberPhile.swift */; };
 		547C4F09204B492E00884B6C /* Supersingular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547C4F08204B492E00884B6C /* Supersingular.swift */; };
+		547EEED4205440DF00ED1423 /* PiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547EEED3205440DF00ED1423 /* PiView.swift */; };
 		5486C560203D755600778A81 /* NumeralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C55F203D755600778A81 /* NumeralCell.swift */; };
 		5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */; };
 		5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C566203F2E0900778A81 /* UIWordCloud.swift */; };
@@ -123,6 +125,7 @@
 		545ECE081FE64DBF0035B9EA /* DrawCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawCell.swift; sourceTree = "<group>"; };
 		545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaktorDrawerUlam.swift; sourceTree = "<group>"; };
 		545ECE0C1FE664570035B9EA /* FactorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorCache.swift; sourceTree = "<group>"; };
+		545FEE1B205504C40040A3F4 /* FermatTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FermatTester.swift; sourceTree = "<group>"; };
 		546AB3541FDD5FEA007887E8 /* PrimeTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTester.swift; sourceTree = "<group>"; };
 		546DD98C2041E23C009A1A16 /* symbola.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = symbola.ttf; sourceTree = "<group>"; };
 		546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
 		547C4F06204B098400884B6C /* NumberPhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberPhile.swift; path = Numbers/NumberPhile.swift; sourceTree = "<group>"; };
 		547C4F08204B492E00884B6C /* Supersingular.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Supersingular.swift; sourceTree = "<group>"; };
+		547EEED3205440DF00ED1423 /* PiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PiView.swift; sourceTree = "<group>"; };
 		5486C55F203D755600778A81 /* NumeralCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralCell.swift; sourceTree = "<group>"; };
 		5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStrokeAnimatedLabel.swift; sourceTree = "<group>"; };
 		5486C566203F2E0900778A81 /* UIWordCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWordCloud.swift; sourceTree = "<group>"; };
@@ -246,6 +250,7 @@
 				545ECE041FE637C20035B9EA /* TheUlam.swift */,
 				545ECE061FE63E480035B9EA /* UlamView.swift */,
 				54C1FBC82051E89500860FC9 /* SequenceView.swift */,
+				547EEED3205440DF00ED1423 /* PiView.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				54F8B6A7204E669100267020 /* NumberSequencer.swift */,
 				54FD752B1FF6144300AE24E8 /* PiTester.swift */,
 				54923FB11FF0F137006993F2 /* MersenneTester.swift */,
+				545FEE1B205504C40040A3F4 /* FermatTester.swift */,
 				54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */,
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
@@ -577,6 +583,7 @@
 				543078261FDF07A20036516F /* AbundanceTester.swift in Sources */,
 				54FD752E1FF7926100AE24E8 /* HCNTester.swift in Sources */,
 				54D906D7204D2B41009EED11 /* SemiPrimeTester.swift in Sources */,
+				545FEE1C205504C40040A3F4 /* FermatTester.swift in Sources */,
 				5430781E1FDE6C0A0036516F /* MainViewController.swift in Sources */,
 				54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
@@ -601,6 +608,7 @@
 				5403D96C20507680007F6B21 /* DrawNrView.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
+				547EEED4205440DF00ED1423 /* PiView.swift in Sources */,
 				54F7E0FE2039D97A00B4EAEF /* TesterCache.swift in Sources */,
 				545ECE051FE637C20035B9EA /* TheUlam.swift in Sources */,
 				548DE2EE1FEA3BC500646D91 /* FiboDrawer.swift in Sources */,

@@ -116,6 +116,9 @@ class DrawTableCell: BaseNrTableCell {
 		if numtester is CatalanTester {
 			return CatalanView()
 		}
+		if numtester is MathConstantTester {
+			return PiView()
+		}
 		let ans = SequenceView()
 		ans.tester = numtester
 		return ans

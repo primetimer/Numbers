@@ -22,9 +22,9 @@ enum MathConstantString : Int {
 	static let val = [pistr,estr,root2str,ln2str,gammastr]
 	static let pot = [0,0,0,-1,-1]
 	
-	static let pistr = "31415926535897932384626433832795028841972"
+	static let pistr = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
 	static let estr = "27182818284590452353602874713526624977572"
-	static let root2str = "14142135623730950488016887242096980785697"
+	static let root2str = "1414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831"
 	static let ln2str = "69314718055994530941723212145817656807550"
 	static let gammastr = "5772156649015328606065120900824024310421"
 }
@@ -57,6 +57,13 @@ class MathConstantTester : NumTester {
 		let (nth,_) = Nth(n: n)
 		if nth == nil { return false }
 		return true
+	}
+	
+	func getConstant(n: BigUInt) -> String? {
+		let (nth,hit) = Nth(n: n)
+		if nth == nil { return nil }
+		let val = MathConstantString.val[hit!.rawValue]
+		return val
 	}
 	
 	func getDesc(n: BigUInt) -> String? {

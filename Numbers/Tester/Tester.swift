@@ -36,7 +36,7 @@ class Tester : NumTester {
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
-										 Pow2Tester(),MersenneTester(), PerfectTester(),ProthTester(),
+										 Pow2Tester(),MersenneTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),TaxiCabTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
