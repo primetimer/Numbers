@@ -85,7 +85,6 @@ class PiDrawer {
 	
 	var Direction : Int = 1
 	private var rect : CGRect!
-	private var drawer : UlamDrawer!
 	private var tester : MathConstantTester!
 	private var context : CGContext!
 	private var drawnr : UInt64 = 0

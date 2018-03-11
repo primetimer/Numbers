@@ -210,8 +210,7 @@ class CatalanView: DrawNrView {
 		path.addLine(to: CGPoint(x: pt1.x+1,y:pt1.y+1))
 		path.addLine(to: CGPoint(x: pt1.x+1, y:pt1.y-1))
 		path.addLine(to:  pt1)
-	}
-	
+	}	
 	private func ClearShapes(from: Int = 0) {
 		if shapeLayer.count > from {
 			for i in from..<shapeLayer.count {

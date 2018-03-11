@@ -1,0 +1,332 @@
+//
+//  UlamView.swift
+//  PrimeTime
+//
+//  Created by Stephan Jancar on 03.04.16.
+//  Copyright © 2016 esjot. All rights reserved.
+//
+
+
+//https://www.whitman.edu/Documents/Academics/Mathematics/Kuh.pdf
+import UIKit
+import BigInt
+
+class ConstructibleView : DrawNrView, EmitImage {
+	func Emit(image: UIImage) {
+		DispatchQueue.main.async(execute: {
+			self.imageview.image  = image
+			self.imageview.animationImages?.append(image)
+			self.imageview.startAnimating()
+		})
+	}
+	
+	override var frame : CGRect {
+		set {
+			super.frame = newValue
+			setNeedsDisplay()
+		}
+		get { return super.frame }
+	}
+	
+	private var tester = ConstructibleTester()
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	
+	override func SetNumber(_ nextnr : UInt64) {
+		super.SetNumber(nextnr)
+		self.start = nextnr
+	}
+	
+	var start : UInt64 = 2
+
+	private var workItem : DispatchWorkItem? = nil
+	override func draw(_ rect: CGRect) {
+		super.draw(rect)
+
+		self.imageview.animationImages = []
+		self.imageview.animationDuration = 60.0
+		self.imageview.animationRepeatCount = 0
+		workItem?.cancel()
+		self.workItem = DispatchWorkItem {
+			guard let worker = self.workItem else { return }
+			let drawer = ConstructibleDrawer(rect: rect, tester: self.tester, nr: self.start)
+			drawer.emitdelegate = self
+			let image = drawer.draw()
+			if !worker.isCancelled {
+				self.workItem = nil
+				DispatchQueue.main.async(execute: {
+					self.imageview.image  = image
+					self.imageview.startAnimating()
+				})
+			}
+		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
+	}
+}
+
+class ConstructibleDrawer {
+	
+	var Direction : Int = 1
+	private var rect : CGRect!
+	
+	private var tester : ConstructibleTester!
+	private var context : CGContext!
+	private var drawnr : UInt64 = 0
+	
+	var bgcolor : UIColor? = nil
+	var worker : DispatchWorkItem? = nil
+	var emitdelegate : EmitImage? = nil
+	var count = 100
+	var ulammode = UlamType.square
+	
+	init(rect: CGRect, tester : ConstructibleTester, nr : UInt64) {
+		self.drawnr = nr
+		self.rect = rect
+		self.tester = tester
+	}
+	
+	func draw() -> UIImage? {
+		UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
+		defer { UIGraphicsEndImageContext() }
+		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		if bgcolor != nil {
+			bgcolor?.setFill()
+			UIRectFill(rect)
+		}
+		self.context = context
+		do {
+			context.setStrokeColor(UIColor.red.cgColor)
+			context.setFillColor(UIColor.green.cgColor)
+			context.setLineWidth(2.0);
+			context.beginPath()
+			let a = CGPoint(x: 170,y:rect.height * 0.7)
+			let b = CGPoint(x: 230,y:rect.height * 0.7)
+			for step in 1...10 {
+				Step(a: a, b: b, step: step)
+				guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+				emitdelegate?.Emit(image: image)
+			}
+			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+			emitdelegate?.Emit(image: image)
+		}
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		return image
+	}
+	
+	private func DrawText(_ str : String, at : CGPoint) {
+		let paragraphStyle = NSMutableParagraphStyle()
+		paragraphStyle.alignment = .center
+	
+		let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
+						  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize: 12.0),
+						  NSAttributedStringKey.foregroundColor : UIColor.white,
+				]
+	
+		let attrString = NSAttributedString(string: str,attributes: attributes)
+		attrString.draw(at: at)
+	}
+	
+	func Draw(_ a: CGPoint, _ b: CGPoint) {
+		context.move(to: a)
+		context.addLine(to: b)
+		context.strokePath()
+	}
+	
+	func Circle(_ a: CGPoint, r: CGFloat) {
+		let rcircle = CGRect(x: a.x-r, y: a.y-r, width: 2*r, height: 2*r)
+		context.addEllipse(in: rcircle)
+		context.strokePath()
+	}
+	
+	func dist(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+		let dx = a.x - b.x
+		let dy = a.y - b.y
+		let r = sqrt(dx*dx+dy*dy)
+		return r
+	}
+	
+	//Between two circles
+	func Intersect(p1 : CGPoint, p2: CGPoint, r1: CGFloat, r2: CGFloat) -> (s1: CGPoint,s2: CGPoint) {
+		let (dx,dy) = (p2.x-p1.x,p2.y-p1.y)
+		let d = sqrt(dx*dx+dy*dy)
+		let l = (r1*r1-r2*r2+d*d) / 2 / d
+		let h = sqrt(r1*r1-l*l)
+		
+		let x = l/d * dx + h/d * dy + p1.x
+		let y = l/d * dy - h/d * dx + p1.y
+		let xx = l/d * dx - h/d * dy + p1.x
+		let yy = l/d * dy + h/d * dx + p1.y
+		
+		let s1 = CGPoint(x: x, y: y)
+		let s2 = CGPoint(x: xx, y: yy)
+		return (s1,s2)
+	}
+
+	//Beetween two lines
+	func Intersect (a1: CGPoint, a2: CGPoint, b1: CGPoint, b2: CGPoint) -> CGPoint {
+		let (x1,x2,x3,x4) = (a1.x,a2.x,b1.x,b2.x)
+		let (y1,y2,y3,y4) = (a1.y,a2.y,b1.y,b2.y)
+		
+		let x = (x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4)
+		let y = (x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4)
+		let d = (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)
+		
+		let p = CGPoint(x: x/d, y: y/d)
+		return p
+	}
+	
+	//Beetween line and circle
+	private func Intersect0(r: CGFloat,p1: CGPoint,p2:CGPoint) -> (CGPoint,CGPoint) {
+		let (dx,dy) = (p2.x-p1.x,p2.y-p1.y)
+		let dr = sqrt(dx*dx+dy*dy)
+		let D = p1.x*p2.y-p2.x*p1.y
+		let sgn : CGFloat = dy < 0 ? -1 : 1
+		let s = sqrt(r*r*dr*dr-D*D)
+		let x1 = (D * dy + sgn * dx * s) / dr / dr
+		let y1 = (-D * dx + abs(dy) * s) / dr / dr
+		let x2 = (D * dy - sgn * dx * s) / dr / dr
+		let y2 = (-D * dx - abs(dy) * s) / dr / dr
+		return (CGPoint(x: x1, y: y1), CGPoint(x:x2,y:y2))
+	}
+	func Intersect(m: CGPoint, r: CGFloat,p1: CGPoint,p2:CGPoint) -> (CGPoint,CGPoint) {
+		let p1t = CGPoint(x: p1.x - m.x, y: p1.y - m.y)
+		let p2t = CGPoint(x: p2.x - m.x, y: p2.y - m.y)
+		let (s1t,s2t) = Intersect0(r: r, p1: p1t, p2: p2t)
+		let s1 = CGPoint(x: s1t.x + m.x, y: s1t.y + m.y)
+		let s2 = CGPoint(x: s2t.x + m.x, y: s2t.y + m.y)
+		return (s2,s1)
+	}
+	
+	
+	func Midpoint(a: CGPoint, b: CGPoint) -> CGPoint {
+		let r = dist(a,b)
+		let (s1,s2) = Intersect(p1: a, p2: b, r1: r, r2: r)
+		Draw(s1, s2)
+		Draw( a, b)
+		let m = Intersect(a1: a, a2: b, b1: s1, b2: s2)
+		
+		return m
+	}
+	
+	func Perpendicular(a: CGPoint, b: CGPoint, p: CGPoint) -> (CGPoint,CGPoint) {
+		let dx = b.x - a.x
+		let dy = b.y - a.y
+		if dx == 0 {
+			let p1 = CGPoint(x:p.x - 1000,y:p.y)
+			let p2 = CGPoint(x:p.x + 1000,y:p.y)
+			return (p1,p2)
+		}
+		let m = dy / dx
+		let n = -1.0 / m
+		let n1 = CGPoint(x: p.x + 1000 , y: p.y + 1000 * n)
+		let n2 = CGPoint(x: p.x - 1000, y: p.y - 1000 * n)
+		return (n1,n2)
+		
+	}
+	
+	func SetColor(step : Int, from : Int) {
+		let dbri : CGFloat = 1.0 / CGFloat(from)
+		let bri = CGFloat(step) * dbri
+		let color = UIColor(hue: 0.0, saturation: 0.0, brightness: bri, alpha: 1.0)
+		context.setStrokeColor(color.cgColor)
+	}
+	func Step(a: CGPoint, b: CGPoint, step : Int) {
+		SetColor(step: 1, from: step)
+		let ab = dist(a, b)
+		Circle( a, r: ab)
+		Circle( b, r: ab)
+		let c = Midpoint(a: a, b: b)
+		Draw(a, c)
+		Draw(a, b)
+		DrawText("A", at: a)
+		DrawText("B", at: b)
+		DrawText("C", at: c)
+		if step <= 1 { return }
+		
+		SetColor(step: 2, from: step)
+		let (s1,s2) = Intersect(p1: a, p2: b, r1: ab, r2: ab)
+		let (d,dd) = Intersect(m: c, r: ab, p1: s1, p2: s2)
+		
+		Circle( c, r: ab)
+		Draw( d, dd)
+		Draw( a,  d)
+		DrawText("D", at: d)
+		DrawText("D'", at: dd)
+		if step <= 2 { return }
+		SetColor(step: 3, from: step)
+		let r2 = dist( a, c)
+		Circle( a, r: r2)
+		let (e,_) = Intersect(m: a, r: r2, p1: a, p2: d)
+		Draw(a,e)
+		DrawText("E", at: e)
+		let (t1,t2) = Perpendicular(a: a, b: e, p: e)
+		Draw( t1, t2)
+		let ddist = dist(d,  dd)
+		Circle(d, r: ddist)
+		if step <= 3 {
+			return
+		}
+		SetColor(step: 3, from: step)
+		let (f,g) = Intersect(m: d, r: ddist, p1: t1, p2: t2)
+		Draw( f,  g)
+		Draw( f,  d)
+		DrawText("F",at: f)
+		DrawText("G",at: g)
+		let da = dist(a, d)
+		
+		//Circle Z
+		if step <= 4 {
+			return
+		}
+		SetColor(step: 4, from: step)
+		Circle(d, r: da)
+		let (zfd,_) = Intersect(m: d, r: da, p1: f, p2: d)
+		let (_,zgd) = Intersect(m: d, r: da, p1: g, p2: d)
+		let ff = zfd
+		let gg = zgd
+		Draw(d,f)
+		Draw(d,g)
+		Draw(d,ff)
+		Draw(d,gg)
+		DrawText("F'", at: ff)
+		DrawText("G'", at: gg)
+		if step <= 5 {
+			return
+		}
+		SetColor(step: 5, from: step)
+		let d_a_ff = dist(a, ff)
+		Circle( ff, r: d_a_ff)
+		let (_,h) = Intersect(p1: d, p2: ff, r1: da, r2: d_a_ff)
+		DrawText("H", at: h)
+
+		let d_ff_h = dist(ff, h)
+		Circle(h, r: d_ff_h)
+		let (_,i) = Intersect(p1: d, p2: h, r1: da, r2: d_ff_h)
+		DrawText("I",at:i)
+		context.setStrokeColor(UIColor.cyan.cgColor)
+		if step <= 6 { return }
+		SetColor(step: step, from: step)
+		Draw( a,  ff)
+		Draw( ff,  h)
+		Draw( h,  i)
+		Draw(i, gg)
+		Draw(gg,  a)
+		if step <= 7 { return }
+		
+		context.move(to: a)
+		context.addLine(to: ff)
+		context.addLine(to: h)
+		context.addLine(to: i)
+		context.addLine(to: gg)
+		context.addLine(to: a)
+		context.closePath()
+		context.drawPath(using: .fill)
+		
+	}
+}
+

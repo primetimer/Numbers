@@ -70,6 +70,15 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private func CreateDrawView() -> DrawNrView {
+		return ConstructibleView()
+		
+		if numtester is PrimeTester {
+			let ulam = UlamView()
+			if nr <= BigUInt(Int64.max) {
+				ulam.start = UInt64(nr)
+			}
+			return ulam
+		}
 		if numtester is FibonacciTester {
 			let ans = FiboView()
 			return ans
@@ -98,13 +107,7 @@ class DrawTableCell: BaseNrTableCell {
 		if numtester is PalindromicTester {
 			return PalindromeView()
 		}
-		if numtester is PrimeTester {
-			let ulam = UlamView()
-			if nr <= BigUInt(Int64.max) {
-				ulam.start = UInt64(nr)
-			}
-			return ulam
-		}
+		
 		if numtester is AbundanceTester {
 			let faktorview = FaktorView()
 			faktorview.param.type = .ulam
