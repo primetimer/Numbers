@@ -92,6 +92,18 @@ class ConstructibleDrawer {
 		self.tester = tester
 	}
 	
+	private func StartPoint(n: UInt64, r : CGFloat) -> (CGPoint,CGPoint) {
+		if n % 17 != 0 {
+			let a = CGPoint(x: 160,y:r * 0.7)
+			let b = CGPoint(x: 240,y:r * 0.7)
+			return(a,b)
+		} else {
+			let a = CGPoint(x: 40,y:r * 0.5)
+			let b = CGPoint(x: 360,y:r * 0.5)
+			return(a,b)
+		}
+	}
+
 	func draw() -> UIImage? {
 		UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
 		defer { UIGraphicsEndImageContext() }
@@ -107,12 +119,12 @@ class ConstructibleDrawer {
 			//context.setFillColor(UIColor.green.cgColor)
 			context.setLineWidth(2.0);
 			context.beginPath()
-			let a = CGPoint(x: 160,y:rect.height * 0.7)
-			let b = CGPoint(x: 240,y:rect.height * 0.7)
+			let (a,b) = StartPoint(n: drawnr, r: rect.height)
+			
 			//for step in 1...10 {
 			var ngon : [CGPoint] = []
 			
-			
+			//drawnr = 17
 			var nr = drawnr
 			if drawnr % 3 == 0 {
 				ngon = Triangle(a: a, b: b)
@@ -120,7 +132,10 @@ class ConstructibleDrawer {
 			} else if drawnr % 5 == 0 {
 				ngon = Pentagon(a: a, b: b)
 				nr = nr / 5
-			} else if drawnr % 4 == 0 {
+			} else if drawnr % 17 == 0 {
+				ngon = Heptadecagon(a: b, b: a)
+			}
+			else if drawnr % 4 == 0 {
 				ngon = Square(a: a, b: b)
 				nr = nr / 4
 			}
@@ -139,13 +154,11 @@ class ConstructibleDrawer {
 			}
 			DoDrawCmd()
 			FinalGon(pt: n2)
-			
-			//	Step(a: a, b: b) //, step: step)
+
 			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 			emitdelegate?.Emit(image: image)
-			//}
-			//guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
-			//emitdelegate?.Emit(image: image)
+			emitdelegate?.Emit(image: image)
+			emitdelegate?.Emit(image: image)
 		}
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		return image
@@ -409,7 +422,8 @@ func Square(a: CGPoint, b: CGPoint) -> [CGPoint] {
 
 private func FinalGon(pt : [CGPoint])
 {
-	UIColor.green.setFill()
+	let fillcolor = UIColor(hue: 0.5, saturation: 1.0, brightness: 1.0, alpha: 0.8)
+	fillcolor.setFill()
 	context.beginPath()
 	context.move(to: pt.last!)
 	for p in pt {
@@ -520,7 +534,111 @@ func Pentagon(a: CGPoint, b: CGPoint) -> [CGPoint] {
 	
 	return [a,ff,h,i,gg]
 }
+	
+	func halfrect(a: CGPoint, b: CGPoint) {
+		
+	}
+	func Heptadecagon(a: CGPoint, b: CGPoint) -> [CGPoint] {
+		cmd = []
+		let r = dist(a, b) / 2
+		let o = CGPoint(x: (a.x+b.x ) / 2 , y: (a.y+b.y) / 2)
+		cmd.append(LineCmd( a,  b))
+		cmd.append(TextCmd("A", at: a))
+		cmd.append(TextCmd("B", at: b))
+		cmd.append(TextCmd("O", at: o))
+		cmd.append(CircleCmd(o, r: r))
+		var (t,s) = Perpendicular(a: a, b: b, p: o)
+		cmd.append(LineCmd( t,  s, limited : false))
+		
+		let d = CGPoint(x:o.x, y: a.y + r / 4.0 )
+		let dd = CGPoint(x: o.x, y: a.y + 2*r/4)
+		let c = CGPoint(x: o.x, y: a.y + r)
+		cmd.append(LineCmd( o,  c))
+		cmd.append(TextCmd("C", at: c))
+		cmd.append(TextCmd("D", at: d))
+		cmd.append(LineCmd( a,  d))
+		
+		let od = CGPoint(x: (o.x+d.x) / 2.0 , y: (o.y+d.y) / 2)
+		cmd.append(TextCmd("1", at: od))
+		let oa = CGPoint(x: (o.x+a.x) / 2.0 , y: (o.y+a.y) / 2)
+		cmd.append(TextCmd("4", at: oa))
+		let da = CGPoint(x: (d.x+a.x) / 2.0 , y: (d.y+a.y) / 2)
+		cmd.append(TextCmd("√17", at: da))
+		
+		let w_ode = atan(4.0)
+		let xe = tan(w_ode / 4.0)
+		let e = CGPoint(x: o.x + CGFloat(xe) * r / 4 , y: o.y)
+		cmd.append(LineCmd( d,  e))
+		cmd.append(TextCmd("E", at: e))
+		
+		let w_odf = 45 / 360 * 2.0 * Double.pi - w_ode / 4.0
+		let xf = tan(-w_odf)
+		let f = CGPoint(x: o.x + CGFloat(xf) * r / 4 , y: o.y)
+		cmd.append(LineCmd( d,  f))
+		cmd.append(TextCmd("F", at: f))
+		
+		let z = CGPoint(x:(a.x + f.x) / 2 , y:a.y)
+		cmd.append(TextCmd("Z", at: z))
+		let za = dist(a,z)
+		cmd.append(TextCmd("F'", at: f))
+		cmd.append(CircleCmd(z, r: za))
+		
+		let (_,g) = Intersect(m: z, r: za, p1: o, p2: c)
+		cmd.append(TextCmd("G", at: g))
+		cmd.append(LineCmd( e,  g))
+		
+		let eg = dist(e,g)
+		cmd.append(CircleCmd(e, r: eg))
+		
+		let (k,h) = Intersect(m: e, r: eg, p1: a, p2: b)
+		cmd.append(TextCmd("H", at: h))
+		cmd.append(TextCmd("K", at: k))
+		
+		let (h1,h2) = Perpendicular(a: a, b: b, p: h)
+		cmd.append(LineCmd( h1,  h2, limited : false))
+		let (k1,k2) = Perpendicular(a: a, b: b, p: k)
+		cmd.append(LineCmd( k1,  k2, limited : false))
+		
+		let (l,_) = Intersect(m: o, r: r, p1: h1, p2: h2)
+		let (m,_) = Intersect(m: o, r: r, p1: k1, p2: k2)
+		cmd.append(TextCmd("M", at: m))
+		
+		cmd.append(TextCmd("L", at: l))
+		
+		let d_km = dist(k,m)
+		let d_ko = dist(k,o)
+		let w_kmo = atan(d_km / d_ko)
+		
+		let d_hl = dist(h,l)
+		let d_ho = dist(h,o)
+		let w_hlo = atan(d_hl / d_ho)
+		
+		let nn = CGPoint(x: (m.x + l.x) / 2.0 , y: (m.y + l.y) / 2.0)
+		let (n,_) = Intersect(m: o, r: r, p1: o, p2: nn)
+		cmd.append(LineCmd( o,  n))
+		cmd.append(TextCmd("N", at: n))
+		
+		let r17 = dist(l,n)
+		
+		var ans : [CGPoint] = []
+		var c0 = l
+		for _ in 1...17 {
+			cmd.append(CircleCmd(c0,r: r17))
+			let (c1,_) = Intersect(p1: o, p2: c0, r1: r, r2: r17)
+			cmd.append(LineCmd(c0, c1))
+			c0 = c1
+			ans.append(c0)
+		}
+		
+		
+		
+		return ans
+	}
+		
+
 }
+
+
 
 protocol DrawCmd {
 	func draw(context : CGContext,color : UIColor)
