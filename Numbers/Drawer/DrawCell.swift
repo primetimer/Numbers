@@ -70,7 +70,7 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private func CreateDrawView() -> DrawNrView {
-		return ConstructibleView()
+		//return ConstructibleView()
 		
 		if numtester is PrimeTester {
 			let ulam = UlamView()
@@ -121,6 +121,9 @@ class DrawTableCell: BaseNrTableCell {
 		}
 		if numtester is MathConstantTester {
 			return PiView()
+		}
+		if numtester is ConstructibleTester {
+			return ConstructibleView()
 		}
 		let ans = SequenceView()
 		ans.tester = numtester

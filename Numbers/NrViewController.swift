@@ -23,7 +23,7 @@ enum NrViewSection : Int {
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
-	private let initialnumber = BigUInt(314)
+	private let initialnumber = BigUInt(3)
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"

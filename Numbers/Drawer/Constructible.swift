@@ -42,13 +42,14 @@ class ConstructibleView : DrawNrView, EmitImage {
 		self.start = nextnr
 	}
 	
-	var start : UInt64 = 2
+	private var start : UInt64 = 2
 	
 	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		
 		self.imageview.animationImages = []
+		self.imageview.image = nil
 		self.imageview.animationDuration = 60.0
 		self.imageview.animationRepeatCount = 0
 		workItem?.cancel()
@@ -61,6 +62,7 @@ class ConstructibleView : DrawNrView, EmitImage {
 				self.workItem = nil
 				DispatchQueue.main.async(execute: {
 					self.imageview.image  = image
+					self.imageview.animationDuration = TimeInterval(self.imageview.animationImages?.count ?? 0)
 					self.imageview.startAnimating()
 				})
 			}
@@ -100,16 +102,42 @@ class ConstructibleDrawer {
 		}
 		self.context = context
 		do {
-			context.setStrokeColor(UIColor.red.cgColor)
-			context.setFillColor(UIColor.green.cgColor)
+			
+			//context.setStrokeColor(UIColor.red.cgColor)
+			//context.setFillColor(UIColor.green.cgColor)
 			context.setLineWidth(2.0);
 			context.beginPath()
 			let a = CGPoint(x: 160,y:rect.height * 0.7)
 			let b = CGPoint(x: 240,y:rect.height * 0.7)
 			//for step in 1...10 {
-				Step(a: a, b: b) //, step: step)
-				guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
-				emitdelegate?.Emit(image: image)
+			var ngon : [CGPoint] = []
+			
+			
+			var nr = drawnr
+			if drawnr % 3 == 0 {
+				ngon = Triangle(a: a, b: b)
+				nr = nr / 3
+			} else if drawnr % 5 == 0 {
+				ngon = Pentagon(a: a, b: b)
+				nr = nr / 5
+			} else if drawnr % 4 == 0 {
+				ngon = Square(a: a, b: b)
+				nr = nr / 4
+			}
+			if ngon.isEmpty { return nil }
+			var n2 = ngon
+			while nr % 2 == 0 {
+				//FinalGon(pt: n2)
+				CircleAround(pt: n2)
+				nr = nr / 2
+				n2 = n2gon(pt: n2)
+			}
+			DoDrawCmd()
+			FinalGon(pt: n2)
+			
+			//	Step(a: a, b: b) //, step: step)
+			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+			emitdelegate?.Emit(image: image)
 			//}
 			//guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 			//emitdelegate?.Emit(image: image)
@@ -186,6 +214,16 @@ class ConstructibleDrawer {
 		return (s2,s1)
 	}
 	
+	//One of the points is on the circle
+	func Flip(m: CGPoint, r: CGFloat,p: CGPoint) -> CGPoint {
+		
+		let dx = m.x - p.x
+		let dy = m.y - p.y
+		let x = m.x + dx
+		let y = m.y + dy
+		return CGPoint(x: x, y: y)
+	}
+	
 	
 	func Midpoint(a: CGPoint, b: CGPoint) -> CGPoint {
 		let r = dist(a,b)
@@ -203,6 +241,11 @@ class ConstructibleDrawer {
 		if dx == 0 {
 			let p1 = CGPoint(x:p.x - 1000,y:p.y)
 			let p2 = CGPoint(x:p.x + 1000,y:p.y)
+			return (p1,p2)
+		}
+		if dy == 0 {
+			let p1 = CGPoint(x:p.x,y:p.y-1000)
+			let p2 = CGPoint(x:p.x,y:p.y+1000)
 			return (p1,p2)
 		}
 		let m = dy / dx
@@ -236,100 +279,201 @@ class ConstructibleDrawer {
 			OnDrawn()
 		}
 	}
-	func Step(a: CGPoint, b: CGPoint) {
-		cmd = []
-		let ab = dist(a, b)
-		cmd.append(LineCmd(a, b))
-		cmd.append(TextCmd("A", at: a))
-		cmd.append(TextCmd("B", at: b))
-		
-		cmd.append(CircleCmd( a, r: ab))
-		cmd.append(CircleCmd( b, r: ab))
-		let (s1,s2) = Intersect(p1: a, p2: b, r1: ab, r2: ab)
-		cmd.append(LineCmd(s1,s2,limited: false))
-		let c = Midpoint(a: a, b: b)
-		cmd.append(LineCmd(a, c))
-		
-		
-		cmd.append(TextCmd("C", at: c))
-		
-		//SetColor(step: 2, from: step)
-		
-		let (d,dd) = Intersect(m: c, r: ab, p1: s1, p2: s2)
-		
-		cmd.append(CircleCmd( c, r: ab))
-		cmd.append(LineCmd( d, dd))
-		cmd.append(LineCmd( a,  d))
-		cmd.append(TextCmd("D", at: d))
-		cmd.append(TextCmd("D'", at: dd))
-		//if step <= 2 { return }
-		//SetColor(step: 3, from: step)
-		let r2 = dist( a, c)
-		cmd.append(CircleCmd( a, r: r2))
-		let (e,_) = Intersect(m: a, r: r2, p1: a, p2: d)
-		cmd.append(LineCmd(a,e))
-		cmd.append(TextCmd("E", at: e))
-		let (t1,t2) = Perpendicular(a: a, b: e, p: e)
-		cmd.append(LineCmd( t1, t2))
-		let ddist = dist(d,  dd)
-		cmd.append(CircleCmd(d, r: ddist))
-		//if step <= 3 {	return	}
-		//SetColor(step: 3, from: step)
-		let (f,g) = Intersect(m: d, r: ddist, p1: t1, p2: t2)
-		cmd.append(LineCmd( f,  g))
-		cmd.append(LineCmd( f,  d))
-		cmd.append(TextCmd("F",at: f))
-		cmd.append(TextCmd("G",at: g))
-		let da = dist(a, d)
-		
-		//Circle Z
-		//if step <= 4 {	return	}
-		//SetColor(step: 4, from: step)
-		cmd.append(CircleCmd(d, r: da))
-		let (zfd,_) = Intersect(m: d, r: da, p1: f, p2: d)
-		let (_,zgd) = Intersect(m: d, r: da, p1: g, p2: d)
-		let ff = zfd
-		let gg = zgd
-		cmd.append(LineCmd(d,f))
-		cmd.append(LineCmd(d,g))
-		cmd.append(LineCmd(d,ff))
-		cmd.append(LineCmd(d,gg))
-		cmd.append(TextCmd("F'", at: ff))
-		cmd.append(TextCmd("G'", at: gg))
-		//if step <= 5 {	return	}
-		//SetColor(step: 5, from: step)
-		let d_a_ff = dist(a, ff)
-		cmd.append(CircleCmd( ff, r: d_a_ff))
-		let (_,h) = Intersect(p1: d, p2: ff, r1: da, r2: d_a_ff)
-		cmd.append(TextCmd("H", at: h))
-		
-		let d_ff_h = dist(ff, h)
-		cmd.append(CircleCmd(h, r: d_ff_h))
-		let (_,i) = Intersect(p1: d, p2: h, r1: da, r2: d_ff_h)
-		cmd.append(TextCmd("I",at:i))
-		context.setStrokeColor(UIColor.cyan.cgColor)
-		//if step <= 6 { return }
-		//SetColor(step: step, from: step)
-		cmd.append(LineCmd( a,  ff))
-		cmd.append(LineCmd( ff,  h))
-		cmd.append(LineCmd( h,  i))
-		cmd.append(LineCmd(i, gg))
-		cmd.append(LineCmd(gg,  a))
-		//if step <= 7 { return }
-		
-		DoDrawCmd()
-		
-		context.move(to: a)
-		context.addLine(to: ff)
-		context.addLine(to: h)
-		context.addLine(to: i)
-		context.addLine(to: gg)
-		context.addLine(to: a)
-		context.closePath()
-		context.drawPath(using: .fill)
-		
-		
+	
+	private func CircleAround(pt : [CGPoint]) -> CGPoint {
+		var (x,y) = (CGFloat(0),CGFloat(0))
+		for p in pt {
+			x = x + p.x
+			y = y + p.y
+		}
+		x = x / CGFloat(pt.count)
+		y = y / CGFloat(pt.count)
+		let ans = CGPoint(x: x, y: y)
+		let r = dist(pt[0], ans)
+		cmd.append(CircleCmd(ans, r: r))
+		return ans
 	}
+	
+	private func n2gon(pt : [CGPoint]) -> [CGPoint] {
+		var (x,y) = (CGFloat(0),CGFloat(0))
+		for p in pt {
+			x = x + p.x
+			y = y + p.y
+		}
+		x = x / CGFloat(pt.count)
+		y = y / CGFloat(pt.count)
+		let m = CGPoint(x: x, y: y)
+		let r = dist(pt[0], m)
+		
+		var n2gon : [CGPoint] = []
+		for i in 0..<pt.count {
+			var i1 = i + pt.count / 2
+			i1 = i1 % pt.count
+			var i2 = i1 + 1
+			i2 = i2 % pt.count
+			
+			let a = pt[i1]
+			let b = pt[i2]
+			let p = pt[i]
+			//cmd.append(CircleCmd(p, r: r))
+			let c = Flip(m: m, r: r, p: p)
+			print(i,p,i1,a,i2,b,"c=",c)
+			//n2gon.append(a)
+			n2gon.append(c)
+			n2gon.append(b)
+			
+			cmd.append(LineCmd(a,c))
+			cmd.append(LineCmd(c,b))
+			
+		}
+	
+	/*
+	var p0  = n2gon.last!
+	for p in n2gon {
+	cmd.append(LineCmd(p0,p))
+	p0 = p
+	}
+	*/
+	
+	return n2gon
+}
+
+func Square(a: CGPoint, b: CGPoint) -> [CGPoint] {
+	cmd = []
+	let ab = dist(a, b)
+	cmd.append(TextCmd("A", at: a))
+	cmd.append(TextCmd("B", at: b))
+	cmd.append(LineCmd(a, b))
+	let (pa1,pa2) = Perpendicular(a: a, b: b, p: a)
+	cmd.append(LineCmd(pa1,pa2))
+	let (pb1,pb2) = Perpendicular(a: a, b: b, p: b)
+	cmd.append(LineCmd(pb1,pb2))
+	cmd.append(CircleCmd(a, r: ab))
+	cmd.append(CircleCmd(b, r: ab))
+	let (c,_) = Intersect(m: a, r: ab, p1: pa1, p2: pa2)
+	cmd.append(LineCmd(a,c))
+	let (d,_) = Intersect(m: b, r: ab, p1: pb1, p2: pb2)
+	cmd.append(LineCmd(b,d))
+	cmd.append(TextCmd("C", at: c))
+	cmd.append(TextCmd("D", at: d))
+	
+	return [a,c,d,b]
+	
+}
+
+private func FinalGon(pt : [CGPoint])
+{
+	UIColor.green.setFill()
+	context.beginPath()
+	context.move(to: pt.last!)
+	for p in pt {
+		context.addLine(to: p)
+	}
+	context.closePath()
+	context.drawPath(using: .fill)
+}
+
+
+func Triangle(a: CGPoint, b: CGPoint) -> [CGPoint] {
+	cmd = []
+	let ab = dist(a, b)
+	cmd.append(LineCmd(a, b))
+	cmd.append(TextCmd("A", at: a))
+	cmd.append(TextCmd("B", at: b))
+	cmd.append(CircleCmd( a, r: ab))
+	cmd.append(CircleCmd( b, r: ab))
+	let (s1,s2) = Intersect(p1: a, p2: b, r1: ab, r2: ab)
+	cmd.append(LineCmd(s1,s2,limited: false))
+	cmd.append(TextCmd("C", at: s1))
+	let c = s1
+	cmd.append(LineCmd(a, c))
+	cmd.append(LineCmd(c, b))
+	
+	return [a,b,c]
+}
+
+func Pentagon(a: CGPoint, b: CGPoint) -> [CGPoint] {
+	cmd = []
+	let ab = dist(a, b)
+	cmd.append(LineCmd(a, b))
+	cmd.append(TextCmd("A", at: a))
+	cmd.append(TextCmd("B", at: b))
+	
+	cmd.append(CircleCmd( a, r: ab))
+	cmd.append(CircleCmd( b, r: ab))
+	let (s1,s2) = Intersect(p1: a, p2: b, r1: ab, r2: ab)
+	cmd.append(LineCmd(s1,s2,limited: false))
+	let c = Midpoint(a: a, b: b)
+	cmd.append(LineCmd(a, c))
+	
+	
+	cmd.append(TextCmd("C", at: c))
+	
+	//SetColor(step: 2, from: step)
+	
+	let (d,dd) = Intersect(m: c, r: ab, p1: s1, p2: s2)
+	
+	cmd.append(CircleCmd( c, r: ab))
+	cmd.append(LineCmd( d, dd))
+	cmd.append(LineCmd( a,  d))
+	cmd.append(TextCmd("D", at: d))
+	cmd.append(TextCmd("D'", at: dd))
+	//if step <= 2 { return }
+	//SetColor(step: 3, from: step)
+	let r2 = dist( a, c)
+	cmd.append(CircleCmd( a, r: r2))
+	let (e,_) = Intersect(m: a, r: r2, p1: a, p2: d)
+	cmd.append(LineCmd(a,e))
+	cmd.append(TextCmd("E", at: e))
+	let (t1,t2) = Perpendicular(a: a, b: e, p: e)
+	cmd.append(LineCmd( t1, t2))
+	let ddist = dist(d,  dd)
+	cmd.append(CircleCmd(d, r: ddist))
+	//if step <= 3 {	return	}
+	//SetColor(step: 3, from: step)
+	let (f,g) = Intersect(m: d, r: ddist, p1: t1, p2: t2)
+	cmd.append(LineCmd( f,  g))
+	cmd.append(LineCmd( f,  d))
+	cmd.append(TextCmd("F",at: f))
+	cmd.append(TextCmd("G",at: g))
+	let da = dist(a, d)
+	
+	//Circle Z
+	//if step <= 4 {	return	}
+	//SetColor(step: 4, from: step)
+	cmd.append(CircleCmd(d, r: da))
+	let (zfd,_) = Intersect(m: d, r: da, p1: f, p2: d)
+	let (_,zgd) = Intersect(m: d, r: da, p1: g, p2: d)
+	let ff = zfd
+	let gg = zgd
+	cmd.append(LineCmd(d,f))
+	cmd.append(LineCmd(d,g))
+	cmd.append(LineCmd(d,ff))
+	cmd.append(LineCmd(d,gg))
+	cmd.append(TextCmd("F'", at: ff))
+	cmd.append(TextCmd("G'", at: gg))
+	//if step <= 5 {	return	}
+	//SetColor(step: 5, from: step)
+	let d_a_ff = dist(a, ff)
+	cmd.append(CircleCmd( ff, r: d_a_ff))
+	let (_,h) = Intersect(p1: d, p2: ff, r1: da, r2: d_a_ff)
+	cmd.append(TextCmd("H", at: h))
+	
+	let d_ff_h = dist(ff, h)
+	cmd.append(CircleCmd(h, r: d_ff_h))
+	let (_,i) = Intersect(p1: d, p2: h, r1: da, r2: d_ff_h)
+	cmd.append(TextCmd("I",at:i))
+	context.setStrokeColor(UIColor.cyan.cgColor)
+	//if step <= 6 { return }
+	//SetColor(step: step, from: step)
+	cmd.append(LineCmd( a,  ff))
+	cmd.append(LineCmd( ff,  h))
+	cmd.append(LineCmd( h,  i))
+	cmd.append(LineCmd(i, gg))
+	cmd.append(LineCmd(gg,  a))
+	
+	return [a,ff,h,i,gg]
+}
 }
 
 protocol DrawCmd {
@@ -390,16 +534,16 @@ struct TextCmd : DrawCmd {
 	}
 	
 	func draw(context: CGContext, color: UIColor) {
-			let paragraphStyle = NSMutableParagraphStyle()
-			paragraphStyle.alignment = .center
-			
-			let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
-							  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize: 12.0),
-							  NSAttributedStringKey.foregroundColor : UIColor.white,
-							  ]
-			
-			let attrString = NSAttributedString(string: str,attributes: attributes)
-			attrString.draw(at: at)
+		let paragraphStyle = NSMutableParagraphStyle()
+		paragraphStyle.alignment = .center
+		
+		let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
+						  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize: 12.0),
+						  NSAttributedStringKey.foregroundColor : UIColor.white,
+						  ]
+		
+		let attrString = NSAttributedString(string: str,attributes: attributes)
+		attrString.draw(at: at)
 	}
 }
 

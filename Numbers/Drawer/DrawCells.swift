@@ -100,11 +100,11 @@ class DrawingCells {
 	func getCell(row : Int) -> UITableViewCell {
 		if row == 0 { return artcell }
 		if let sindex = SequenceIndex(row: row) {
-			print ("row", row, "sindex", sindex, scells[sindex].numtester?.property())
+//			print ("row", row, "sindex", sindex, scells[sindex].numtester?.property())
 			return scells[sindex]
 		}
 		if let dindex = DrawIndex(row: row) {
-			print ("row", row, "dindex", dindex, dcells[dindex]?.numtester?.property())
+//			print ("row", row, "dindex", dindex, dcells[dindex]?.numtester?.property())
 			if let ans = dcells[dindex] {
 				return ans
 			}
