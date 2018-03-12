@@ -43,11 +43,11 @@ class ConstructibleView : DrawNrView, EmitImage {
 	}
 	
 	var start : UInt64 = 2
-
+	
 	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-
+		
 		self.imageview.animationImages = []
 		self.imageview.animationDuration = 60.0
 		self.imageview.animationRepeatCount = 0
@@ -104,44 +104,28 @@ class ConstructibleDrawer {
 			context.setFillColor(UIColor.green.cgColor)
 			context.setLineWidth(2.0);
 			context.beginPath()
-			let a = CGPoint(x: 170,y:rect.height * 0.7)
-			let b = CGPoint(x: 230,y:rect.height * 0.7)
-			for step in 1...10 {
-				Step(a: a, b: b, step: step)
+			let a = CGPoint(x: 160,y:rect.height * 0.7)
+			let b = CGPoint(x: 240,y:rect.height * 0.7)
+			//for step in 1...10 {
+				Step(a: a, b: b) //, step: step)
 				guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 				emitdelegate?.Emit(image: image)
-			}
-			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
-			emitdelegate?.Emit(image: image)
+			//}
+			//guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+			//emitdelegate?.Emit(image: image)
 		}
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		return image
 	}
 	
-	private func DrawText(_ str : String, at : CGPoint) {
-		let paragraphStyle = NSMutableParagraphStyle()
-		paragraphStyle.alignment = .center
 	
-		let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
-						  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize: 12.0),
-						  NSAttributedStringKey.foregroundColor : UIColor.white,
-				]
 	
-		let attrString = NSAttributedString(string: str,attributes: attributes)
-		attrString.draw(at: at)
+	private func OnDrawn() {
+		if emitdelegate == nil { return }
+		guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+		emitdelegate?.Emit(image: image)
 	}
 	
-	func Draw(_ a: CGPoint, _ b: CGPoint) {
-		context.move(to: a)
-		context.addLine(to: b)
-		context.strokePath()
-	}
-	
-	func Circle(_ a: CGPoint, r: CGFloat) {
-		let rcircle = CGRect(x: a.x-r, y: a.y-r, width: 2*r, height: 2*r)
-		context.addEllipse(in: rcircle)
-		context.strokePath()
-	}
 	
 	func dist(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
 		let dx = a.x - b.x
@@ -166,7 +150,7 @@ class ConstructibleDrawer {
 		let s2 = CGPoint(x: xx, y: yy)
 		return (s1,s2)
 	}
-
+	
 	//Beetween two lines
 	func Intersect (a1: CGPoint, a2: CGPoint, b1: CGPoint, b2: CGPoint) -> CGPoint {
 		let (x1,x2,x3,x4) = (a1.x,a2.x,b1.x,b2.x)
@@ -206,8 +190,8 @@ class ConstructibleDrawer {
 	func Midpoint(a: CGPoint, b: CGPoint) -> CGPoint {
 		let r = dist(a,b)
 		let (s1,s2) = Intersect(p1: a, p2: b, r1: r, r2: r)
-		Draw(s1, s2)
-		Draw( a, b)
+		//Draw(s1, s2)
+		//Draw( a, b)
 		let m = Intersect(a1: a, a2: b, b1: s1, b2: s2)
 		
 		return m
@@ -235,88 +219,105 @@ class ConstructibleDrawer {
 		let color = UIColor(hue: 0.0, saturation: 0.0, brightness: bri, alpha: 1.0)
 		context.setStrokeColor(color.cgColor)
 	}
-	func Step(a: CGPoint, b: CGPoint, step : Int) {
-		SetColor(step: 1, from: step)
-		let ab = dist(a, b)
-		Circle( a, r: ab)
-		Circle( b, r: ab)
-		let c = Midpoint(a: a, b: b)
-		Draw(a, c)
-		Draw(a, b)
-		DrawText("A", at: a)
-		DrawText("B", at: b)
-		DrawText("C", at: c)
-		if step <= 1 { return }
+	
+	var cmd : [DrawCmd] = []
+	private func DoDrawCmd() {
 		
-		SetColor(step: 2, from: step)
+		let dbrightness = 1.0 / CGFloat(max(cmd.count,1))
+		for i in 0..<cmd.count {
+			var brightness = CGFloat(1) - CGFloat(i) * dbrightness
+			for (index,c) in cmd.enumerated() {
+				if index > i { break }
+				let color = UIColor(hue: 0.0, saturation: 0.0, brightness: brightness, alpha: 1.0)
+				color.setStroke()
+				c.draw(context: context, color: color)
+				brightness = brightness + dbrightness
+			}
+			OnDrawn()
+		}
+	}
+	func Step(a: CGPoint, b: CGPoint) {
+		cmd = []
+		let ab = dist(a, b)
+		cmd.append(LineCmd(a, b))
+		cmd.append(TextCmd("A", at: a))
+		cmd.append(TextCmd("B", at: b))
+		
+		cmd.append(CircleCmd( a, r: ab))
+		cmd.append(CircleCmd( b, r: ab))
 		let (s1,s2) = Intersect(p1: a, p2: b, r1: ab, r2: ab)
+		cmd.append(LineCmd(s1,s2,limited: false))
+		let c = Midpoint(a: a, b: b)
+		cmd.append(LineCmd(a, c))
+		
+		
+		cmd.append(TextCmd("C", at: c))
+		
+		//SetColor(step: 2, from: step)
+		
 		let (d,dd) = Intersect(m: c, r: ab, p1: s1, p2: s2)
 		
-		Circle( c, r: ab)
-		Draw( d, dd)
-		Draw( a,  d)
-		DrawText("D", at: d)
-		DrawText("D'", at: dd)
-		if step <= 2 { return }
-		SetColor(step: 3, from: step)
+		cmd.append(CircleCmd( c, r: ab))
+		cmd.append(LineCmd( d, dd))
+		cmd.append(LineCmd( a,  d))
+		cmd.append(TextCmd("D", at: d))
+		cmd.append(TextCmd("D'", at: dd))
+		//if step <= 2 { return }
+		//SetColor(step: 3, from: step)
 		let r2 = dist( a, c)
-		Circle( a, r: r2)
+		cmd.append(CircleCmd( a, r: r2))
 		let (e,_) = Intersect(m: a, r: r2, p1: a, p2: d)
-		Draw(a,e)
-		DrawText("E", at: e)
+		cmd.append(LineCmd(a,e))
+		cmd.append(TextCmd("E", at: e))
 		let (t1,t2) = Perpendicular(a: a, b: e, p: e)
-		Draw( t1, t2)
+		cmd.append(LineCmd( t1, t2))
 		let ddist = dist(d,  dd)
-		Circle(d, r: ddist)
-		if step <= 3 {
-			return
-		}
-		SetColor(step: 3, from: step)
+		cmd.append(CircleCmd(d, r: ddist))
+		//if step <= 3 {	return	}
+		//SetColor(step: 3, from: step)
 		let (f,g) = Intersect(m: d, r: ddist, p1: t1, p2: t2)
-		Draw( f,  g)
-		Draw( f,  d)
-		DrawText("F",at: f)
-		DrawText("G",at: g)
+		cmd.append(LineCmd( f,  g))
+		cmd.append(LineCmd( f,  d))
+		cmd.append(TextCmd("F",at: f))
+		cmd.append(TextCmd("G",at: g))
 		let da = dist(a, d)
 		
 		//Circle Z
-		if step <= 4 {
-			return
-		}
-		SetColor(step: 4, from: step)
-		Circle(d, r: da)
+		//if step <= 4 {	return	}
+		//SetColor(step: 4, from: step)
+		cmd.append(CircleCmd(d, r: da))
 		let (zfd,_) = Intersect(m: d, r: da, p1: f, p2: d)
 		let (_,zgd) = Intersect(m: d, r: da, p1: g, p2: d)
 		let ff = zfd
 		let gg = zgd
-		Draw(d,f)
-		Draw(d,g)
-		Draw(d,ff)
-		Draw(d,gg)
-		DrawText("F'", at: ff)
-		DrawText("G'", at: gg)
-		if step <= 5 {
-			return
-		}
-		SetColor(step: 5, from: step)
+		cmd.append(LineCmd(d,f))
+		cmd.append(LineCmd(d,g))
+		cmd.append(LineCmd(d,ff))
+		cmd.append(LineCmd(d,gg))
+		cmd.append(TextCmd("F'", at: ff))
+		cmd.append(TextCmd("G'", at: gg))
+		//if step <= 5 {	return	}
+		//SetColor(step: 5, from: step)
 		let d_a_ff = dist(a, ff)
-		Circle( ff, r: d_a_ff)
+		cmd.append(CircleCmd( ff, r: d_a_ff))
 		let (_,h) = Intersect(p1: d, p2: ff, r1: da, r2: d_a_ff)
-		DrawText("H", at: h)
-
+		cmd.append(TextCmd("H", at: h))
+		
 		let d_ff_h = dist(ff, h)
-		Circle(h, r: d_ff_h)
+		cmd.append(CircleCmd(h, r: d_ff_h))
 		let (_,i) = Intersect(p1: d, p2: h, r1: da, r2: d_ff_h)
-		DrawText("I",at:i)
+		cmd.append(TextCmd("I",at:i))
 		context.setStrokeColor(UIColor.cyan.cgColor)
-		if step <= 6 { return }
-		SetColor(step: step, from: step)
-		Draw( a,  ff)
-		Draw( ff,  h)
-		Draw( h,  i)
-		Draw(i, gg)
-		Draw(gg,  a)
-		if step <= 7 { return }
+		//if step <= 6 { return }
+		//SetColor(step: step, from: step)
+		cmd.append(LineCmd( a,  ff))
+		cmd.append(LineCmd( ff,  h))
+		cmd.append(LineCmd( h,  i))
+		cmd.append(LineCmd(i, gg))
+		cmd.append(LineCmd(gg,  a))
+		//if step <= 7 { return }
+		
+		DoDrawCmd()
 		
 		context.move(to: a)
 		context.addLine(to: ff)
@@ -327,6 +328,79 @@ class ConstructibleDrawer {
 		context.closePath()
 		context.drawPath(using: .fill)
 		
+		
 	}
 }
+
+protocol DrawCmd {
+	func draw(context : CGContext,color : UIColor)
+}
+
+struct LineCmd : DrawCmd {
+	var a: CGPoint!
+	var b: CGPoint!
+	init(_ a: CGPoint, _ b: CGPoint, limited : Bool = true) {
+		if limited {
+			self.a = a
+			self.b = b
+			return
+		}
+		let dx = b.x - a.x
+		let dy = b.y - a.y
+		if dx == 0 {
+			self.a = CGPoint(x:a.x,y:a.y - 1000.0)
+			self.b = CGPoint(x:a.x, y: a.y + 1000.0)
+			return
+		}
+		let m = dy / dx
+		self.a = CGPoint(x: a.x + 1000 , y: a.y + 1000 * m)
+		self.b = CGPoint(x: a.x - 1000, y: b.y - 1000 * m)
+	}
+	
+	func draw(context : CGContext,color : UIColor) {
+		context.move(to: a)
+		context.addLine(to: b)
+		context.strokePath()
+	}
+}
+
+struct CircleCmd : DrawCmd {
+	
+	var a : CGPoint!
+	var r : CGFloat = 0.0
+	init(_ a: CGPoint, r: CGFloat) {
+		self.a = a
+		self.r = r
+	}
+	
+	func draw(context: CGContext, color: UIColor) {
+		let rcircle = CGRect(x: a.x-r, y: a.y-r, width: 2*r, height: 2*r)
+		context.addEllipse(in: rcircle)
+		context.strokePath()
+	}
+}
+
+struct TextCmd : DrawCmd {
+	var at: CGPoint!
+	var str : String!
+	
+	init(_ str : String, at : CGPoint) {
+		self.at = at
+		self.str = str
+	}
+	
+	func draw(context: CGContext, color: UIColor) {
+			let paragraphStyle = NSMutableParagraphStyle()
+			paragraphStyle.alignment = .center
+			
+			let attributes = [NSAttributedStringKey.paragraphStyle  :  paragraphStyle,
+							  NSAttributedStringKey.font            :   UIFont.systemFont(ofSize: 12.0),
+							  NSAttributedStringKey.foregroundColor : UIColor.white,
+							  ]
+			
+			let attrString = NSAttributedString(string: str,attributes: attributes)
+			attrString.draw(at: at)
+	}
+}
+
 
