@@ -128,9 +128,14 @@ class ConstructibleDrawer {
 			var n2 = ngon
 			while nr % 2 == 0 {
 				//FinalGon(pt: n2)
+				
 				CircleAround(pt: n2)
+				if n2.count % 2 == 0 {
+					n2 = n2goneven(pt: n2)
+				} else {
+					n2 = n2gonodd(pt: n2)
+				}
 				nr = nr / 2
-				n2 = n2gon(pt: n2)
 			}
 			DoDrawCmd()
 			FinalGon(pt: n2)
@@ -267,6 +272,7 @@ class ConstructibleDrawer {
 	private func DoDrawCmd() {
 		
 		let dbrightness = 1.0 / CGFloat(max(cmd.count,1))
+		let modview = 1 + cmd.count / 100
 		for i in 0..<cmd.count {
 			var brightness = CGFloat(1) - CGFloat(i) * dbrightness
 			for (index,c) in cmd.enumerated() {
@@ -276,7 +282,9 @@ class ConstructibleDrawer {
 				c.draw(context: context, color: color)
 				brightness = brightness + dbrightness
 			}
-			OnDrawn()
+			if i % modview == 0 {
+				OnDrawn()
+			}
 		}
 	}
 	
@@ -294,7 +302,45 @@ class ConstructibleDrawer {
 		return ans
 	}
 	
-	private func n2gon(pt : [CGPoint]) -> [CGPoint] {
+	private func n2goneven(pt : [CGPoint]) -> [CGPoint] {
+		var (x,y) = (CGFloat(0),CGFloat(0))
+		for p in pt {
+			x = x + p.x
+			y = y + p.y
+		}
+		x = x / CGFloat(pt.count)
+		y = y / CGFloat(pt.count)
+		let m = CGPoint(x: x, y: y)
+		let r = dist(pt[0], m)
+		var n2gon : [CGPoint] = []
+		
+		for i in 0..<pt.count {
+			var i1 = i
+			i1 = i1 % pt.count
+			var i2 = i1 + 1
+			i2 = i2 % pt.count
+			
+			
+			let a = pt[i1]
+			let b = pt[i2]
+			let ab = CGPoint(x: (a.x + b.x) / 2.0 , y: (a.y + b.y ) / 2.0)
+			
+			let (s,t) = Intersect(m: m, r: r, p1: m, p2: ab)
+			let ab_s = dist(ab,s)
+			let ab_t = dist(ab,t)
+			if ab_s < ab_t {
+				n2gon.append(s)
+				n2gon.append(b)
+				cmd.append(LineCmd(s,b))
+			} else {
+				n2gon.append(t)
+				n2gon.append(b)
+				cmd.append(LineCmd(t,b))
+			}
+		}
+		return n2gon
+	}
+	private func n2gonodd(pt : [CGPoint]) -> [CGPoint] {
 		var (x,y) = (CGFloat(0),CGFloat(0))
 		for p in pt {
 			x = x + p.x
