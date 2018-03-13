@@ -89,8 +89,8 @@ class ProbablePrimeTester : NumTester {
 		}
 		return false
 	}
-	
 }
+
 class CarmichaelTester : NumTester{
 	func property() -> String {
 		return "Carmichael"
