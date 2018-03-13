@@ -20,6 +20,7 @@ class ConstructibleView : DrawNrView, EmitImage {
 		})
 	}
 	
+	/*
 	override var frame : CGRect {
 		didSet {
 			//print("con Frame:", frame,oldValue)
@@ -30,6 +31,7 @@ class ConstructibleView : DrawNrView, EmitImage {
 			}
 		}
 	}
+	*/
 	
 	private var tester = ConstructibleTester()
 	override init(frame: CGRect) {
@@ -59,7 +61,7 @@ class ConstructibleView : DrawNrView, EmitImage {
 	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		if self.isHidden { return }
-		if rect.size == CGSize.zero { return }
+		if rect.height <= 10 { return }
 		if !needredraw { return }
 		super.draw(rect)
 		self.imageview.animationImages = []
@@ -379,12 +381,15 @@ class ConstructibleDrawer {
 				n2gon.append(s)
 				n2gon.append(b)
 				cmd.append(LineCmd(s,b))
+				cmd.append(GonCmd(pt: [a,b,s]))
 			} else {
 				n2gon.append(t)
 				n2gon.append(b)
 				cmd.append(LineCmd(t,b))
+				cmd.append(GonCmd(pt: [a,b,s]))
 			}
 		}
+		cmd.append(GonCmd(pt: n2gon))
 		return n2gon
 	}
 	private func n2gonodd(pt : [CGPoint]) -> [CGPoint] {
@@ -417,6 +422,7 @@ class ConstructibleDrawer {
 			
 			cmd.append(LineCmd(a,c))
 			cmd.append(LineCmd(c,b))
+			cmd.append(GonCmd(pt: [a,c,b]))
 			
 		}
 		
@@ -449,13 +455,14 @@ class ConstructibleDrawer {
 		cmd.append(LineCmd(b,d))
 		cmd.append(TextCmd("C", at: c))
 		cmd.append(TextCmd("D", at: d))
-		
+		cmd.append(GonCmd(pt: [a,b,c,d]))
 		return [a,c,d,b]
 		
 	}
 	
 	private func FinalGon(pt : [CGPoint])
 	{
+		return
 		let fillcolor = UIColor(hue: 0.5, saturation: 1.0, brightness: 1.0, alpha: 0.8)
 		fillcolor.setFill()
 		context.beginPath()
@@ -482,6 +489,7 @@ class ConstructibleDrawer {
 		let c = s1
 		cmd.append(LineCmd(a, c))
 		cmd.append(LineCmd(c, b))
+		cmd.append(GonCmd(pt: [a,b,c]))
 		
 		return [a,b,c]
 	}
@@ -566,6 +574,8 @@ class ConstructibleDrawer {
 		cmd.append(LineCmd(i, gg))
 		cmd.append(LineCmd(gg,  a))
 		
+		cmd.append(GonCmd(pt: [a,ff,h,i,gg,a]))
+		
 		return [a,ff,h,i,gg]
 	}
 	
@@ -579,7 +589,7 @@ class ConstructibleDrawer {
 		let dw = Double.pi * 2 / Double(nn)
 		
 		var ans : [CGPoint] = []
-		
+		//var last = CGPoint.zero
 		for i in 0...nn {
 			let w = Double(i) * dw
 			let x = m.x + CGFloat(sin(w)) * r
@@ -587,6 +597,7 @@ class ConstructibleDrawer {
 			let p = CGPoint(x: x, y: y)
 			cmd.append(LineCmd(m,p))
 			ans.append(p)
+			cmd.append(GonCmd(pt: ans))
 		}
 		return ans
 	}
@@ -612,7 +623,6 @@ class ConstructibleDrawer {
 		cmd.append(LineCmd( a,  d))
 		
 		
-		
 		let od = CGPoint(x: (o.x+d.x) / 2.0 , y: (o.y+d.y) / 2)
 		cmd.append(TextCmd("1", at: od))
 		let oa = CGPoint(x: (o.x+a.x) / 2.0 , y: (o.y+a.y) / 2)
@@ -625,6 +635,7 @@ class ConstructibleDrawer {
 		let e = CGPoint(x: o.x + CGFloat(xe) * r / 4 , y: o.y)
 		cmd.append(LineCmd( d,  e))
 		cmd.append(TextCmd("E", at: e))
+		cmd.append(GonCmd(pt: [a,d,e]))
 		
 		let w_odf = 45 / 360 * 2.0 * Double.pi - w_ode / 4.0
 		let xf = tan(-w_odf)
@@ -686,6 +697,9 @@ class ConstructibleDrawer {
 		}
 		
 		
+		cmd.append(GonCmd(pt: ans))
+		
+		
 		
 		return ans
 	}
@@ -740,6 +754,27 @@ struct CircleCmd : DrawCmd {
 		let rcircle = CGRect(x: a.x-r, y: a.y-r, width: 2*r, height: 2*r)
 		context.addEllipse(in: rcircle)
 		context.strokePath()
+	}
+}
+
+struct GonCmd : DrawCmd {
+	
+	private var pt : [CGPoint]
+	init (pt : [CGPoint]) {
+		self.pt = pt
+	}
+	func draw(context: CGContext, color: UIColor) {
+		if pt.isEmpty { return }
+		let tcolor = color.withAlphaComponent(0.5)
+		let fillcolor = UIColor(hue: 0.5, saturation: 1.0, brightness: 1.0, alpha: 0.8)
+		fillcolor.setFill()
+		context.beginPath()
+		context.move(to: pt.last!)
+		for p in pt {
+			context.addLine(to: p)
+		}
+		context.closePath()
+		context.drawPath(using: .fill)
 	}
 }
 
