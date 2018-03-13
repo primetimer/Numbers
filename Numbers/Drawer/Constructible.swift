@@ -608,7 +608,10 @@ class ConstructibleDrawer {
 		cmd.append(LineCmd( o,  c))
 		cmd.append(TextCmd("C", at: c))
 		cmd.append(TextCmd("D", at: d))
+		cmd.append(TextCmd("2", at: dd,helpx : true))
 		cmd.append(LineCmd( a,  d))
+		
+		
 		
 		let od = CGPoint(x: (o.x+d.x) / 2.0 , y: (o.y+d.y) / 2)
 		cmd.append(TextCmd("1", at: od))
@@ -743,10 +746,14 @@ struct CircleCmd : DrawCmd {
 struct TextCmd : DrawCmd {
 	var at: CGPoint!
 	var str : String!
+	private var helpx : Bool!
+	private var helpy : Bool!
 	
-	init(_ str : String, at : CGPoint) {
+	init(_ str : String, at : CGPoint, helpx : Bool = false , helpy : Bool = false) {
 		self.at = at
 		self.str = str
+		self.helpx = helpx
+		self.helpy = helpy
 	}
 	
 	func draw(context: CGContext, color: UIColor) {
@@ -760,6 +767,17 @@ struct TextCmd : DrawCmd {
 		
 		let attrString = NSAttributedString(string: str,attributes: attributes)
 		attrString.draw(at: at)
+		if helpx {
+			context.move(to: CGPoint(x: at.x - 10,y: at.y))
+			context.addLine(to: CGPoint(x: at.x + 10, y: at.y))
+			context.strokePath()
+		}
+		if helpy {
+			context.move(to: CGPoint(x: at.x,y: at.y-10))
+			context.addLine(to: CGPoint(x: at.x, y: at.y+10))
+			context.strokePath()
+		}
+		
 	}
 }
 
