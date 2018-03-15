@@ -39,10 +39,10 @@ class SphereDrawer : NSObject
 class RingDrawer : NSObject {
 	var starthue : CGFloat = 0.0
 	var endhue : CGFloat = 1.0
-	var endangle = CGFloat(M_PI * 2.0)
+	var endangle = CGFloat(Double.pi * 2.0)
 	var startangle = CGFloat(0.0)
 	func draw(_ c : CGContext,x: CGFloat, y: CGFloat, r: CGFloat, width : CGFloat) {
-		if abs(endangle - startangle) > CGFloat(M_PI) {
+		if abs(endangle - startangle) > CGFloat(Double.pi) {
 			let ring1 = RingDrawer()
 			ring1.startangle = self.startangle
 			ring1.endangle = (self.startangle + self.endangle) / 2.0

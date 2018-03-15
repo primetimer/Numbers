@@ -207,7 +207,7 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 		tv.allowsSelection = true
 		//tv.register(NrTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
 		//tv.register(NrTableCell.self, forCellReuseIdentifier: self.nrcellId)
-		tv.register(DescCollectionCell.self, forCellWithReuseIdentifier: nrcellcollectionId)
+		//tv.register(DescCollectionCell.self, forCellWithReuseIdentifier: nrcellcollectionId)
 		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
 
 		return tv
