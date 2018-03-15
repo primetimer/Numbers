@@ -226,7 +226,7 @@ class NonTotientTester : NumTester {
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
-		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
 	

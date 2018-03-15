@@ -57,17 +57,12 @@ class TaxiCabTester : SumOfTwoCubesTester {
 }
 class SumOfTwoCubesTester : NumTester {
 	
-	func getDesc(n: BigUInt) -> String? {
-		var desc = WikiLinks.shared.getLink(tester: self, n: n)
-		return desc
-	}
-	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if let (a,b) = Express(n: n) {
 			let stra = String(a)
 			let strb = String(b)
-			var latex = String(n) + "=" + stra + "^3 + " + strb + "^3"
+			let latex = String(n) + "=" + stra + "^3 + " + strb + "^3"
 			return latex
 		}
 		return nil

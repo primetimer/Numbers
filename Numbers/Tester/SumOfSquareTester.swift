@@ -13,7 +13,7 @@ import PrimeFactors
 class SumOfTwoSquaresTester : NumTester {
 	
 	func getDesc(n: BigUInt) -> String? {
-		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
 	
@@ -23,7 +23,7 @@ class SumOfTwoSquaresTester : NumTester {
 		if let (a,b) = Express(n: n) {
 			let stra = String(a)
 			let strb = String(b)
-			var latex = String(n) + "=" + stra + "^2 + " + strb + "^2"
+			let latex = String(n) + "=" + stra + "^2 + " + strb + "^2"
 			return latex
 		}
 		return nil
@@ -164,6 +164,25 @@ class SumOfTwoSquaresTester : NumTester {
 			if (f.e % 2 == 1) && (f.f % 4 == 3) { return false }
 		}
 		return true
+	}
+	
+	//NUmber of ways to write n = a^2 + b^2
+	func r2(n: BigUInt) -> BigUInt {
+		if n == 0 { return 1 }
+		var (ans,d1,d3) = (0,0,0)
+		let divisors = FactorCache.shared.Divisors(p: n)
+		for d in divisors {
+			switch Int(d % 4) {
+			case 1:
+				d1 = d1 + 1
+			case 3:
+				d3 = d3 + 1
+			default:
+				break
+			}
+		}
+		ans = 4*(d1 - d3)
+		return BigUInt(ans)
 	}
 }
 

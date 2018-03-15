@@ -22,6 +22,21 @@ class TestSumOfSquares : XCTestCase {
 		super.tearDown()
 	}
 	
+	func testWays() {
+		let ref = [
+			1, 4, 4, 0, 4, 8, 0, 0, 4, 4, 8, 0, 0, 8, 0, 0, 4, 8, 4, 0, 8, 0, 0, 0, 0, 12, 8, 0, 0, 8, 0, 0, 4, 0, 8, 0, 4, 8, 0, 0, 8, 8, 0, 0, 0, 8, 0, 0, 0, 4, 12, 0, 8, 8, 0, 0, 0, 0, 8, 0, 0, 8, 0, 0, 4, 16, 0, 0, 8, 0, 0, 0, 4, 8, 8, 0, 0, 0, 0, 0, 8, 4, 8, 0, 0, 16, 0, 0, 0, 8, 8, 0, 0, 0, 0, 0, 0, 8, 4, 0, 12, 8]
+		let t = SumOfTwoSquaresTester()
+		for n in 0..<ref.count {
+			let r2 = t.r2(n: BigUInt(n))
+			let refn = ref[n]
+			if refn != Int(r2) {
+				print(n,r2,refn)
+			}
+			XCTAssert(Int(r2) == refn)
+		}
+		
+		
+	}
 	func testSum() {
 		let t = SumOfTwoSquaresTester()
 		

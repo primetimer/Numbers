@@ -21,7 +21,7 @@ class FaktorDrawerUlam : FaktorDrawer {
 	
 	override func drawFaktor(_ rect: CGRect, context: CGContext) {
 		
-		let r = Radius(0)
+		//let r = Radius(0)
 		var count = TheUlamBase.defcount
 		if UInt64(count) > param.nr {
 			count = Int(param.nr)

@@ -55,6 +55,9 @@ class WikiLinks {
 		AddWiki("supersingular","https://en.wikipedia.org/wiki/Supersingular_prime_(moonshine_theory)")
 		AddWiki("Smith","https://en.wikipedia.org/wiki/Smith_number")
 		AddWiki("semiprime","https://en.wikipedia.org/wiki/Semiprime")
+		AddWiki(HeegnerTester().property(),"https://en.wikipedia.org/wiki/Heegner_number")
+		AddWiki(MathConstantTester().property(),"https://en.wikipedia.org/wiki/List_of_mathematical_constants")
+		AddWiki(LatticeTester().property(),"https://en.wikipedia.org/wiki/Gauss_circle_problem")
 	}
 	
 	func Address(key :String) -> String {
@@ -108,9 +111,6 @@ class WikiLinks {
 				property = s.key
 				break
 			}
-		}
-		if property == nil {
-			return nil
 		}
 		for t in Tester.shared.complete {
 			if t.property() == property {

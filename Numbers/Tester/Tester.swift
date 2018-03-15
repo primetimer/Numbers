@@ -21,6 +21,12 @@ protocol NumTester {
 }
 
 extension NumTester {
+	func getDesc(n: BigUInt) -> String? {
+		return WikiLinks.shared.getLink(tester: self, n: n)
+	}
+}
+
+extension NumTester {
 	func invers() ->  NumTester? { return nil }
 	func subtester() -> [NumTester]? { return nil }
 }
@@ -36,12 +42,12 @@ class Tester : NumTester {
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
-										 Pow2Tester(),MersenneTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
+										 Pow2Tester(),MersenneTester(),HeegnerTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),TaxiCabTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
-										 MathConstantTester()]
+										 MathConstantTester(),LatticeTester()]
 	
 	
 	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
@@ -251,9 +257,6 @@ class PentagonalTester : NumTester {
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a pentagonal number"
-		return str
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
@@ -266,7 +269,6 @@ class PentagonalTester : NumTester {
 class Pow2Tester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
-		return String(n) + " is a power of 2"
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
@@ -317,9 +319,6 @@ class HexagonalTester : NumTester {
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a hexagonal number"
-		return str
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
@@ -342,9 +341,6 @@ class SquareTester : NumTester {
 	}
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a square"
-		return str
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
@@ -364,12 +360,7 @@ class CubeTester : NumTester {
 		let r = n.iroot3()
 		return r*r*r == n
 	}
-	func getDesc(n: BigUInt) -> String? {
-		return WikiLinks.shared.getLink(tester: self, n: n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a cube"
-		return str
-	}
+	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		let nth = String(n.iroot3())
@@ -420,12 +411,7 @@ class FibonacciTester : NumTester {
 		}
 		return previ
 	}
-	func getDesc(n: BigUInt) -> String? {
-		return WikiLinks.shared.getLink(tester: self, n:n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a Fibonacci number"
-		return str
-	}
+	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n == 1 {
@@ -484,12 +470,6 @@ class LucasTester : NumTester {
 		return (0,0)
 	}
 	
-	func getDesc(n: BigUInt) -> String? {
-		return WikiLinks.shared.getLink(tester: self, n: n)
-		if !isSpecial(n: n) { return nil }
-		let str = String(n) + " is a Lucas number"
-		return str
-	}
 	
 	func Nth(n: BigUInt) -> Int {
 		if n == 2 { return 1 }

@@ -8,39 +8,89 @@
 
 import Foundation
 import BigInt
+import BigFloat
 
 
-enum MathConstantString : Int {
+enum MathConstantType : Int {
 	case pi = 0
 	case e
 	case root2
 	case ln2
 	case gamma
+	case mill
+	case pisquare
 	
-	static let allValues = [pi,e,root2,ln2,gamma]
-	static let name = ["π","e","√2","ln(2)","gamma"]
-	static let val = [pistr,estr,root2str,ln2str,gammastr]
-	static let pot = [0,0,0,-1,-1]
+	static let allValues = [pi,e,root2,ln2,gamma,mill,pisquare]
+	static let name = ["π","e","√2","ln(2)","θ","π^2"]
+	private static let latex = ["\\pi","e","\\sqrt{2}","ln(2)","\\gamma","\\mill","\\pi^2]"]
 	
-	static let pistr = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
-	static let estr = "27182818284590452353602874713526624977572"
-	static let root2str = "1414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831"
-	static let ln2str = "69314718055994530941723212145817656807550"
-	static let gammastr = "5772156649015328606065120900824024310421"
+	func asString() -> String {
+		return MathConstant.shared.dict[self] ?? ""
+	}
+	func withPot() -> Int{
+		switch self {
+		case .pi, .e, .pisquare,.root2,.mill:
+			return 0
+		case .ln2, .gamma:
+			return -1
+		}
+	}
+	func Latex() -> String {
+		return MathConstantType.latex[self.rawValue]
+	}
 }
+
+
+
+class MathConstant {
+	let precision = 1000
+	var dict : [MathConstantType:String] = [:]
+	static var shared = MathConstant()
+	private init() {
+		for type in MathConstantType.allValues {
+			let val = Value(type: type)
+			let s = val.asString(10, maxlen: 1000, fix: 1000)
+			let s0 = s.replacingOccurrences(of: "0.", with: "")
+			let s1 = s0.replacingOccurrences(of: ".", with: "")
+			dict[type] = s1
+		}
+	}
+	
+	private func Value(type : MathConstantType) -> BigFloat {
+		switch type {
+		case .pi:
+			return BigFloatConstant.pi
+		case .e:
+			return BigFloatConstant.e
+		case .root2:
+			return BigFloatConstant.sqrt2
+		case .ln2:
+			return BigFloatConstant.ln2
+		case .gamma:
+			return BigFloat("5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495")
+		case .mill:
+			return BigFloat("13063778838630806904686144926026057129167845851567136443680537599664340537668265988215014037011973957")
+				case .pisquare:
+			return BigFloatConstant.pi2
+		}
+	}
+}
+
+
 
 class MathConstantTester : NumTester {
 	
-	func Nth(n : BigUInt) -> (nth: Int?, hit: MathConstantString? ) {
-		let s = String(n)
-		for k in 0..<MathConstantString.allValues.count {
-			if testStr(nstr: s, cstr: MathConstantString.val[k]) {
-				return (s.count,MathConstantString.allValues[k])
+	private func FindConst(n : BigUInt) -> (type : MathConstantType, digits: Int, const: String)? {
+		let nstr = String(n)
+		for c in MathConstantType.allValues {
+			let cstr = c.asString()
+			if testStr(nstr: nstr, cstr: cstr) {
+				return (c,nstr.count, cstr)
 			}
 		}
-		return (nil,nil)
+		return nil
 	}
-
+	
 	private func testStr(nstr: String, cstr : String) -> Bool
 	{
 		let nc = Array(nstr)
@@ -52,89 +102,44 @@ class MathConstantTester : NumTester {
 		}
 		return true
 	}
-
+	
 	func isSpecial(n: BigUInt) -> Bool {
-		let (nth,_) = Nth(n: n)
-		if nth == nil { return false }
+		if FindConst(n: n) == nil {
+			return false
+		}
 		return true
 	}
 	
 	func getConstant(n: BigUInt) -> String? {
-		let (nth,hit) = Nth(n: n)
-		if nth == nil { return nil }
-		let val = MathConstantString.val[hit!.rawValue]
-		return val
+		guard let (_,_,const) = FindConst(n: n) else { return nil }
+		return const
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
-		let (nth,hit) = Nth(n: n)
-		if nth == nil { return nil }
-		let hitstr = MathConstantString.name[hit!.rawValue]
-		let nthstr = String(nth!)
-		var desc = String(n) + " are the first "
-		desc = desc + nthstr + " digits of " + hitstr
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
 	
-	private func getErrLatex(str: String, nth: Int, pot : Int) -> String
-	{
-		let valc = Array(str)
-		let nextdigit = valc[nth]
-		var powerr = nth-pot
-		var nextdigit1 = ""
-		switch nextdigit {
-		case "0":
-			nextdigit1 = "1"
-		case "1":
-			nextdigit1 = "2"
-		case "2":
-			nextdigit1 = "3"
-		case "3":
-			nextdigit1 = "4"
-		case "4":
-			nextdigit1 = "5"
-		case "5":
-			nextdigit1 = "6"
-		case "6":
-			nextdigit1 = "7"
-		case "7":
-			nextdigit1 = "8"
-		case "8":
-			nextdigit1 = "9"
-		case "9":
-			nextdigit1 = "1"
-			powerr = powerr - 1
-		default:
-			assert(false)
-		}
-		
-		let latex = "\\pm" + nextdigit1 + "\\cdot{10^{-" + String(powerr) + "}}"
-		return latex
-	}
-	
 	func getLatex(n: BigUInt) -> String? {
-		let (nth,hit) = Nth(n: n)
+		guard let (type,digits,_) = FindConst(n: n) else { return nil}
 		var latex = ""
-		if let hit = hit, let nth = nth {
-			let val = MathConstantString.val[hit.rawValue]
-			let pot = MathConstantString.pot[hit.rawValue]
-			let errlatex = getErrLatex(str: val, nth: nth, pot : pot)
-			var latexname = ""
-			switch hit {
-			case .pi:
-				latexname = "\\pi"
-			case .root2:
-				latexname = "\\sqrt{2}"
-			case .ln2:
-				latexname = "ln(2)"
-			case .gamma:
-				latexname = "\\gamma"
-			default:
-				latexname = MathConstantString.name[hit.rawValue]
-			}
-			latex = latexname + " = " + String(n)
-			latex = latex + "\\cdot{10^{-" + String(nth-1-pot) + "}}"
-			latex = latex + errlatex
+		var morelatex = ""
+		let pot = type.withPot()
+		let latexname = type.Latex()
+		switch type {
+		case .pi:
+			morelatex = "\\frac{4}{\\pi} = \\prod_{k=2}^{\\infty} (1 - \\frac{\\chi(p_k)}{p_k})"
+		case .pisquare:
+			morelatex = "\\frac{6}{\\pi^2} = \\frac{1}{\\zeta(2)} = \\prod_{p \\in \\mathbb{P}} (1-\\frac{1}{p^2})"
+		case .ln2:
+			morelatex = "\\prod_{p \\leq x}(1-\\frac{1}{p}) \\sim \\frac{e^{-\\gamma}}{ln x}"
+		default:
+			break
+		}
+		latex = latexname + " \\approx " + String(n)
+		latex = latex + "\\cdot{10^{-" + String(digits-1-pot) + "}}"
+		if !morelatex.isEmpty {
+			latex = latex + "\\\\" + morelatex
 		}
 		return latex
 	}

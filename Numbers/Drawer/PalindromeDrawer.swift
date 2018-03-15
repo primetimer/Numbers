@@ -68,7 +68,7 @@ class PalindromeView : DrawNrView {
 		if alpha == 1.1 { return image2 }
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
 		defer { UIGraphicsEndImageContext() }
-		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		guard let _ = UIGraphicsGetCurrentContext() else { return nil }
 		image1.draw(in: rect)
 		image2.draw(in: rect, blendMode: .multiply, alpha: alpha)
 		let image = UIGraphicsGetImageFromCurrentImageContext()

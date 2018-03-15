@@ -45,19 +45,21 @@ class PiView : DrawNrView, EmitImage {
 	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-
+		self.imageview.stopAnimating()
 		self.imageview.animationImages = []
 		self.imageview.animationDuration = 2.0
-		self.imageview.animationRepeatCount = 0
+		self.imageview.animationRepeatCount = 0		
 		workItem?.cancel()
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
 			let drawer = PiDrawer(rect: rect, tester: self.tester, nr: self.start)
 			drawer.emitdelegate = self
+			drawer.worker = worker
 			let image = drawer.draw()
+			self.workItem = nil
 			if !worker.isCancelled {
-				self.workItem = nil
 				DispatchQueue.main.async(execute: {
+					
 					self.imageview.image  = image
 					self.imageview.startAnimating()
 				})
@@ -94,6 +96,7 @@ class PiDrawer {
 	var emitdelegate : EmitImage? = nil
 	var count = 100
 	var ulammode = UlamType.square
+
 	
 	init(rect: CGRect, tester : MathConstantTester, nr : UInt64) {
 		self.drawnr = nr
@@ -116,6 +119,7 @@ class PiDrawer {
 		guard let const = tester.getConstant(n: BigUInt(drawnr)) else { return nil}
 		for i in 0..<count {
 			for j in 0..<count {
+				if worker?.isCancelled ?? false { return nil }
 				context.setStrokeColor(UIColor.red.cgColor)
 				context.setFillColor(UIColor.green.cgColor)
 				context.setLineWidth(1.0);
@@ -142,8 +146,6 @@ class PiDrawer {
 				let s = String(digit)
 				let textcolor = UIColor.white
 				textcolor.setStroke()
-				
-				//s.draw(in: r, withAttributes: nil)
 				s.drawCentered(in: r)
 				
 				context.strokePath()

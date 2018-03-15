@@ -140,6 +140,46 @@ class CompositeTester : NumTester {
 	}
 }
 
+struct GaussianInt {
+	var a: BigInt = 0
+	var i: BigInt = 0
+	init(_ a: BigInt, i : BigInt) {
+		self.a = a
+		self.i = i
+	}
+	
+	func asString() -> String {
+		var ans = String(a)
+		if self.i == 1 {
+			ans = ans + "+i"
+		} else if self.i == -1 {
+			ans = ans + "-i"
+		} else if i > 0 {
+			ans = ans + "+" + String(self.i) + "i"
+		} else if i < 0 {
+			ans = ans + String(self.i) + "i"
+		}
+		return ans
+	}
+	
+	static func FactorPrime(p : BigUInt) -> (GaussianInt,GaussianInt)? {
+		if p == 2 {
+			let g1 = GaussianInt(1,i: 1)
+			let g2 = GaussianInt(1,i:-1)
+			return (g1,g2)
+		}
+		if p % 4 == 3 {
+			return nil
+		}
+		if let (a,b) = SumOfTwoSquaresTester().Express(n: p) {
+			let g1 = GaussianInt(BigInt(a),i:BigInt(b))
+			let g2 = GaussianInt(BigInt(a),i:-BigInt(b))
+			return (g1,g2)
+		}
+		return nil
+	}
+}
+
 class PrimeTester : NumTester {
 	func property() -> String {
 		return "prime"
@@ -185,23 +225,40 @@ class PrimeTester : NumTester {
 		return latex
 	}
 	
+	private func GaussianLatex(p: BigUInt) -> String? {
+		if let (g1,g2) = GaussianInt.FactorPrime(p: p) {
+			var latex = String(p) + "="
+			let g1str = g1.asString()
+			let g2str = g2.asString()
+			
+			latex = latex + "(" + g1str + ")"
+			latex = latex + "(" + g2str + ")"
+			return latex
+		}
+		return nil
+	}
+	
+	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n<2 { return nil }
 		//if n==2 { return "2 is the one and only even prime" }
 		let nstr = String(n)
+		var latex = ""
 		if PrimeCache.shared.IsPrime(p: BigUInt(n+2)) {
-			return nstr + subset(type:2)
+			latex = nstr + subset(type:2)
+		} else 	if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
+			latex = nstr + subset(type:-2)
+		} else 	if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
+			latex = nstr + subset(type:4)
+		} else if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
+			latex = nstr + subset(type:6)
+		} else {
+			latex = nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\}"
 		}
-		if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
-			return nstr + subset(type:-2)
+		if let gausslatex = GaussianLatex(p: n) {
+			latex = latex + "\\\\" + gausslatex
 		}
-		if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
-			return nstr + subset(type:4)
-		}
-		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
-			return nstr + subset(type:6)
-		}
-		return nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\}"
+		return latex
 	}
 }

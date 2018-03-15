@@ -116,7 +116,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	// MARK :- Cell
 	//
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		let width = tableView.frame.size.width // - 20
+		//let width = tableView.frame.size.width // - 20
 		switch indexPath.section {
 		case TVCViewSection.Art.rawValue:
 			if artcell.expanded {
@@ -136,7 +136,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
+		guard let _ = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
 		case TVCViewSection.Art.rawValue:
 			artcell.expanded = !artcell.expanded

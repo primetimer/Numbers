@@ -449,7 +449,7 @@ class FaktorDrawerPolygon : FaktorDrawer {
 		var a = angle
 		let p = param.PowerOf(t)
 		let blimit = param.DrawLimit(UInt64(rekurs))
-		if p > 1 { a = a + M_PI_4 }
+		if p > 1 { a = a + Double.pi / 4 }
 		if !blimit {
 			super.DrawNumber(rekurs, xpos: xpos, ypos: ypos, angle: a, hue: hue)
 		}
@@ -468,7 +468,7 @@ class FaktorDrawerPolygon : FaktorDrawer {
 		let colorend = PColor(hue: CGFloat(hue) + CGFloat(huerange), saturation : 1.0, brightness : 1.0, alpha: 1.0)
 		let colorspace = CGColorSpaceCreateDeviceRGB()
 		let locations: [CGFloat] = [0.0, 1.0]
-		var colarr = [color.cgColor, colorend.cgColor]
+		let colarr = [color.cgColor, colorend.cgColor]
 		let gradient = CGGradient(colorsSpace: colorspace,colors: colarr as CFArray, locations: locations)
 		
 		let path = PBezierPath()

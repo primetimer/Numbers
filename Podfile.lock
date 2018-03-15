@@ -1,4 +1,6 @@
 PODS:
+  - BigFloat (0.1.0):
+    - BigInt
   - BigInt (3.0.1):
     - SipHash (~> 1.2)
   - iosMath (0.9.4)
@@ -8,6 +10,7 @@ PODS:
   - YouTubePlayer (0.4.0)
 
 DEPENDENCIES:
+  - BigFloat (from `https://github.com/primetimer/BigFloat`)
   - BigInt (~> 3.0)
   - iosMath
   - PrimeFactors (from `https://github.com/primetimer/PrimeFactors`)
@@ -15,21 +18,27 @@ DEPENDENCIES:
   - YouTubePlayer
 
 EXTERNAL SOURCES:
+  BigFloat:
+    :git: https://github.com/primetimer/BigFloat
   PrimeFactors:
     :git: https://github.com/primetimer/PrimeFactors
 
 CHECKOUT OPTIONS:
+  BigFloat:
+    :commit: df8a6b14b639c120bcda9bda96a60023cd89c6d7
+    :git: https://github.com/primetimer/BigFloat
   PrimeFactors:
     :commit: d7881acfa8567400a069c5b615e66276bf25c856
     :git: https://github.com/primetimer/PrimeFactors
 
 SPEC CHECKSUMS:
+  BigFloat: d44c2ecc56c5a05567f99a9d898261f4cf043caf
   BigInt: 8e8a52161c745cd3ab78e3dc346a9fbee51e6cf6
   iosMath: f7a6cbadf9d836d2149c2a84c435b1effc244cba
   PrimeFactors: 8ca435ced44b6def3373cd935fe280f305562cda
   SipHash: c6e9e43e9c531b5bc6602545130c26194a6d31ce
   YouTubePlayer: 028451f6772f372d4759866db99824c676ac1473
 
-PODFILE CHECKSUM: 24ae299f88bcb71e4e872b4a9fde8217dcb2801a
+PODFILE CHECKSUM: b710f25c3e2f857a2c071ca4f9e4dc98ca559d10
 
 COCOAPODS: 1.3.1

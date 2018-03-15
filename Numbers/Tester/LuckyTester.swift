@@ -125,7 +125,10 @@ class LuckyTester : NumTester {
 	}
 	
 	func getLatex(n: BigUInt) -> String? {
-		return ""
+		let lcount = Double(n) / Double(log(Double(n)))
+		let lstr = String(lcount)
+		let latex = "|\\{l_{<=" + String(n) + "} : \\text{l is lucky}\\}| \\sim \\frac{n}{log n} \\approx " + lstr
+		return latex
 	}
 	
 	func property() -> String {

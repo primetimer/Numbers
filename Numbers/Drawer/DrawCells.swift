@@ -129,7 +129,7 @@ class DrawingCells {
 			let h = expanded ? cell.contentView.width : 150.0
 			return h
 		}
-		if let cell = cell as? SequenceCell {
+		if let _ = cell as? SequenceCell {
 			return height + 20
 		}
 		if let cell = cell as? DrawTableCell {

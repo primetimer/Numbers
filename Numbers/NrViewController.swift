@@ -23,7 +23,7 @@ enum NrViewSection : Int {
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
-	private let initialnumber = BigUInt(3)
+	private let initialnumber = BigUInt(577)
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"
@@ -199,7 +199,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let cell = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
+		guard let _ = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
 		case NrViewSection.Numerals.rawValue:
 			numeralcells.Expand(row: indexPath.row)

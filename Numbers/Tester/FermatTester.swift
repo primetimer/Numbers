@@ -29,7 +29,7 @@ class FermatTester : NumTester {
 		guard let oeisseq = OEIS.shared.seq[self.property()] else { return nil }
 		for (index,p) in oeisseq.enumerated() {
 			if n == p {
-				var latex = String(n) + "= 2^{2^{" + String(index+1) + "}} + 1 = F_{" + String(index) + "}"
+				let latex = String(n) + "= 2^{2^{" + String(index+1) + "}} + 1 = F_{" + String(index) + "}"
 				return latex
 			}
 		}

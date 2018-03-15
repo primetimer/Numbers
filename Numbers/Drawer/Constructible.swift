@@ -50,7 +50,7 @@ class ConstructibleView : DrawNrView, EmitImage {
 	private var needredraw = true
 	override var nr: UInt64 {
 		didSet {
-			print("con nr:", nr,oldValue)
+			//print("con nr:", nr,oldValue)
 			if nr != oldValue {
 				needredraw = true
 				setNeedsDisplay()
@@ -156,8 +156,7 @@ class ConstructibleDrawer {
 			
 			//for step in 1...10 {
 			var ngon : [CGPoint] = []
-			
-			//drawnr = 17
+
 			var nr = drawnr
 			if drawnr > 34 {
 				let m = CGPoint(x: rect.width / 2, y: rect.height / 2)
@@ -189,8 +188,6 @@ class ConstructibleDrawer {
 				nr = nr / 2
 			}
 			DoDrawCmd()
-			FinalGon(pt: n2)
-			
 			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 			emitdelegate?.Emit(image: image)
 			emitdelegate?.Emit(image: image)
@@ -337,7 +334,7 @@ class ConstructibleDrawer {
 		}
 	}
 	
-	private func CircleAround(pt : [CGPoint]) -> CGPoint {
+	private func CircleAround(pt : [CGPoint])  {
 		var (x,y) = (CGFloat(0),CGFloat(0))
 		for p in pt {
 			x = x + p.x
@@ -348,7 +345,6 @@ class ConstructibleDrawer {
 		let ans = CGPoint(x: x, y: y)
 		let r = dist(pt[0], ans)
 		cmd.append(CircleCmd(ans, r: r))
-		return ans
 	}
 	
 	private func n2goneven(pt : [CGPoint]) -> [CGPoint] {
@@ -415,7 +411,7 @@ class ConstructibleDrawer {
 			let p = pt[i]
 			//cmd.append(CircleCmd(p, r: r))
 			let c = Flip(m: m, r: r, p: p)
-			print(i,p,i1,a,i2,b,"c=",c)
+			//print(i,p,i1,a,i2,b,"c=",c)
 			//n2gon.append(a)
 			n2gon.append(c)
 			n2gon.append(b)
@@ -459,21 +455,6 @@ class ConstructibleDrawer {
 		return [a,c,d,b]
 		
 	}
-	
-	private func FinalGon(pt : [CGPoint])
-	{
-		return
-		let fillcolor = UIColor(hue: 0.5, saturation: 1.0, brightness: 1.0, alpha: 0.8)
-		fillcolor.setFill()
-		context.beginPath()
-		context.move(to: pt.last!)
-		for p in pt {
-			context.addLine(to: p)
-		}
-		context.closePath()
-		context.drawPath(using: .fill)
-	}
-	
 	
 	func Triangle(a: CGPoint, b: CGPoint) -> [CGPoint] {
 		cmd = []
@@ -610,7 +591,7 @@ class ConstructibleDrawer {
 		cmd.append(TextCmd("B", at: b))
 		cmd.append(TextCmd("O", at: o))
 		cmd.append(CircleCmd(o, r: r))
-		var (t,s) = Perpendicular(a: a, b: b, p: o)
+		let (t,s) = Perpendicular(a: a, b: b, p: o)
 		cmd.append(LineCmd( t,  s, limited : false))
 		
 		let d = CGPoint(x:o.x, y: a.y + r / 4.0 )
@@ -671,16 +652,16 @@ class ConstructibleDrawer {
 		
 		cmd.append(TextCmd("L", at: l))
 		
-		let d_km = dist(k,m)
-		let d_ko = dist(k,o)
-		let w_kmo = atan(d_km / d_ko)
-		
-		let d_hl = dist(h,l)
-		let d_ho = dist(h,o)
-		let w_hlo = atan(d_hl / d_ho)
-		
 		let nn = CGPoint(x: (m.x + l.x) / 2.0 , y: (m.y + l.y) / 2.0)
 		let (n,_) = Intersect(m: o, r: r, p1: o, p2: nn)
+		
+		do {
+			//let om2 = CGPoint(x: (o.x+m.x) / 2.0 , y: (o.y+m.y) / 2 )
+			//let ol2 = CGPoint(x: (o.x+l.x) / 2.0 , y: (o.y+l.y) / 2 )
+			cmd.append(GonCmd(pt: [o,m,l]))
+			//let ml = CGPoint(x: (m.x+l.x) / 2.0 , y: (m.y+l.y) / 2 )
+			//cmd.append(GonCmd(pt: [o,m,ml]))
+		}
 		cmd.append(LineCmd( o,  n))
 		cmd.append(TextCmd("N", at: n))
 		
@@ -765,7 +746,7 @@ struct GonCmd : DrawCmd {
 	}
 	func draw(context: CGContext, color: UIColor) {
 		if pt.isEmpty { return }
-		let tcolor = color.withAlphaComponent(0.5)
+		//let tcolor = color.withAlphaComponent(0.5)
 		let fillcolor = UIColor(hue: 0.5, saturation: 1.0, brightness: 1.0, alpha: 0.8)
 		fillcolor.setFill()
 		context.beginPath()

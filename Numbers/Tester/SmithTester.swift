@@ -38,6 +38,7 @@ class SmithTester : NumTester {
 	}
 	func isSpecial(n: BigUInt) -> Bool {
 		if n <= 3 { return false }
+		if PrimeCache.shared.IsPrime(p: n) { return false }
 		
 		let dsum = n.SumOfDigits()
 		let ssum = SmithSum(n: n)
@@ -64,7 +65,6 @@ class SmithTester : NumTester {
 		if !isSpecial(n: n) { return nil }
 		let factors = FactorCache.shared.Factor(p: n)
 		var latex = ""
-		var temp = n
 		let s = String(n)
 		for (index,c) in s.enumerated() {
 			if index > 0 { latex = latex + "+" }

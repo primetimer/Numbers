@@ -19,7 +19,7 @@ class HCNTester : NumTester {
 		return nil
 	}
 	func isSpecial(n: BigUInt) -> Bool {
-		if let hcn = findHCN(n: n) {
+		if let _ = findHCN(n: n) {
 			return true
 		}
 		return false
@@ -95,7 +95,7 @@ class HCNumber {
 			if hcn.div > div {
 				hcnarr.append(hcn)
 				div = hcn.div
-				print(hcn.n,hcn.div,hcn.exponents)
+				//print(hcn.n,hcn.div,hcn.exponents)
 			}
 		}
 		possible_hcn = []
@@ -111,7 +111,7 @@ class HCNumber {
 			var pipow : BigUInt = 1
 			if exponents.count > 0 {
 				
-				for k in 1...exponents[i] {
+				for _ in 1...exponents[i] {
 					pipow = pipow * primes[i]
 				}
 				n = n * pipow

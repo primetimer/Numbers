@@ -19,9 +19,8 @@ class DrawTableCell: BaseNrTableCell {
 	
 	private func LayoutUI() {
 		guard let draw = uidraw else { return }
-				draw.translatesAutoresizingMaskIntoConstraints = false
+		draw.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(draw)
-
 		draw.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
 		draw.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 		draw.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -30,7 +29,6 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private (set) var isSpecial : Bool = false
-	//private (set) var numtester : NumTester? = nil
 	
 	var uidraw : DrawNrView? = nil {
 		willSet {
@@ -70,8 +68,6 @@ class DrawTableCell: BaseNrTableCell {
 	}
 	
 	private func CreateDrawView() -> DrawNrView {
-		//return ConstructibleView()
-		
 		if numtester is PrimeTester {
 			let ulam = UlamView()
 			if nr <= BigUInt(Int64.max) {
@@ -200,13 +196,14 @@ class DrawTableCell: BaseNrTableCell {
 			if let test = numtester  {
 				isSpecial = test.isSpecial(n: nr)
 			}
+			if nr.isInt64() {
+				uidraw?.SetNumber(UInt64(nr))
+			}
 			if !isSpecial {
 				uidraw?.isHidden = true
 				return
 			}
-			if nr.isInt64() {
-				uidraw?.SetNumber(UInt64(nr))
-			}
+			
 			uidraw?.isHidden = false
 			uidraw?.setNeedsDisplay()
 		}

@@ -28,7 +28,7 @@ class SemiPrimeTester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		
-		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		let desc = WikiLinks.shared.getLink(tester: self, n: n)
 		return desc
 	}
 	

@@ -77,7 +77,7 @@ class NumeralCells {
 	
 	func Expand(row : Int) {
 		let cell = getCell(row: row)
-		if let cell = cell as? NumeralArtCell {
+		if let _ = cell as? NumeralArtCell {
 			expanded = !expanded
 			for cell in ncells { cell.expanded = false; cell.isHidden = !expanded }
 			for cell in wikicells { cell.expanded = false;  cell.isHidden = true }
