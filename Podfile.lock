@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   BigFloat:
-    :commit: df8a6b14b639c120bcda9bda96a60023cd89c6d7
+    :commit: 57459f8ffbe4b80764245339f73f33c192a82f47
     :git: https://github.com/primetimer/BigFloat
   PrimeFactors:
     :commit: d7881acfa8567400a069c5b615e66276bf25c856

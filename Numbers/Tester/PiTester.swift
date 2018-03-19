@@ -19,17 +19,18 @@ enum MathConstantType : Int {
 	case gamma
 	case mill
 	case pisquare
+	case phi
 	
-	static let allValues = [pi,e,root2,ln2,gamma,mill,pisquare]
-	static let name = ["π","e","√2","ln(2)","θ","π^2"]
-	private static let latex = ["\\pi","e","\\sqrt{2}","ln(2)","\\gamma","\\mill","\\pi^2]"]
+	static let allValues = [pi,e,root2,ln2,gamma,mill,pisquare,phi]
+	static let name = ["π","e","√2","ln(2)","θ","π^2","φ"]
+	private static let latex = ["\\pi","e","\\sqrt{2}","ln(2)","\\gamma","\\mill","\\pi^2]","\\phi"]
 	
 	func asString() -> String {
 		return MathConstant.shared.dict[self] ?? ""
 	}
 	func withPot() -> Int{
 		switch self {
-		case .pi, .e, .pisquare,.root2,.mill:
+		case .pi, .e, .pisquare,.root2,.mill,.phi:
 			return 0
 		case .ln2, .gamma:
 			return -1
@@ -37,6 +38,27 @@ enum MathConstantType : Int {
 	}
 	func Latex() -> String {
 		return MathConstantType.latex[self.rawValue]
+	}
+	
+	func asDouble() -> Double {
+		switch self {
+		case .pi:
+			return Double.pi
+		case .e:
+			return exp(1.0)
+		case .root2:
+			return sqrt(2.0)
+		case .ln2:
+			return log(2.0)
+		case .gamma:
+			return Double.gamma
+		case .mill:
+			return Double.mill
+		case .pisquare:
+			return Double.pi * Double.pi
+		case .phi:
+			return Double.phi
+		}
 	}
 }
 
@@ -56,6 +78,8 @@ class MathConstant {
 		}
 	}
 	
+	
+	
 	private func Value(type : MathConstantType) -> BigFloat {
 		switch type {
 		case .pi:
@@ -70,8 +94,10 @@ class MathConstant {
 			return BigFloat("5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495")
 		case .mill:
 			return BigFloat("13063778838630806904686144926026057129167845851567136443680537599664340537668265988215014037011973957")
-				case .pisquare:
+		case .pisquare:
 			return BigFloatConstant.pi2
+		case .phi:
+			return BigFloatConstant.phi
 		}
 	}
 }
@@ -82,6 +108,7 @@ class MathConstantTester : NumTester {
 	
 	private func FindConst(n : BigUInt) -> (type : MathConstantType, digits: Int, const: String)? {
 		let nstr = String(n)
+		if nstr.count < 3 { return nil }
 		for c in MathConstantType.allValues {
 			let cstr = c.asString()
 			if testStr(nstr: nstr, cstr: cstr) {
@@ -136,8 +163,11 @@ class MathConstantTester : NumTester {
 		default:
 			break
 		}
-		latex = latexname + " \\approx " + String(n)
-		latex = latex + "\\cdot{10^{-" + String(digits-1-pot) + "}}"
+		latex = String(n)
+		latex = latex + "\\cdot{10^{-" + String(digits-1-pot) + "}} \\approx "
+		latex = latex + latexname + "=" + String(type.asDouble()) + "..."
+		
+		
 		if !morelatex.isEmpty {
 			latex = latex + "\\\\" + morelatex
 		}

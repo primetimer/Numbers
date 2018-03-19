@@ -9,41 +9,17 @@
 import UIKit
 import BigInt
 
-class PiView : DrawNrView, EmitImage {
-	func Emit(image: UIImage) {
-		DispatchQueue.main.async(execute: {
-			self.imageview.image  = image
-			self.imageview.animationImages?.append(image)
-			self.imageview.startAnimating()
-		})
-	}
-	
-	override var frame : CGRect {
-		set {
-			super.frame = newValue
-			setNeedsDisplay()
-		}
-		get { return super.frame }
-	}
-	
-	private var tester = MathConstantTester()
+class PiView : DrawNrView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		self.tester = MathConstantTester()
 	}
-	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	
-	override func SetNumber(_ nextnr : UInt64) {
-		super.SetNumber(nextnr)
-		self.start = nextnr
-	}
-	
-	var start : UInt64 = 2
-
-	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
+		if !needredraw { return }
+		guard let tester = self.tester as? MathConstantTester else { return }
 		super.draw(rect)
 		self.imageview.stopAnimating()
 		self.imageview.animationImages = []
@@ -52,7 +28,8 @@ class PiView : DrawNrView, EmitImage {
 		workItem?.cancel()
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
-			let drawer = PiDrawer(rect: rect, tester: self.tester, nr: self.start)
+			guard let tester = self.tester as? MathConstantTester else { return }
+			let drawer = PiDrawer(rect: rect, tester: tester, nr: self.nr)
 			drawer.emitdelegate = self
 			drawer.worker = worker
 			let image = drawer.draw()
@@ -78,7 +55,7 @@ extension String {
 	}
 	func drawCentered(in rect: CGRect, withAttributes attributes: [NSAttributedStringKey : Any]? = nil) {
 		let size = self.size(withAttributes: attributes)
-		let centeredRect = CGRect(x: rect.origin.x + (rect.size.width-size.width)/2.0, y: rect.origin.y + (rect.size.height-size.height)/2.0, width: rect.size.width, height: size.height)
+		let centeredRect = CGRect(x: rect.origin.x + (rect.size.width-size.width)/2.0, y: rect.origin.y + (rect.size.height-size.height)/2.0, width: size.width, height: size.height)
 		self.draw(in: centeredRect, withAttributes: attributes)
 	}
 }

@@ -23,7 +23,7 @@ enum NrViewSection : Int {
 }
 
 class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
-	private let initialnumber = BigUInt(577)
+	private let initialnumber = BigUInt(13)
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"
@@ -41,11 +41,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	lazy var uisearch: UISearchBar = UISearchBar()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
-	#if false
-	private var uidesctemp : UITextView? = nil
-	#else
+
 	private var uidesctemp : UIWebView? = nil
-	#endif
 	private var uinumeraltemp : UILabel? = nil
 	private var uiformtemp : MTMathUILabel? = nil
 	private var uiwebtemp : UIWebView? = nil
@@ -93,7 +90,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case NrViewSection.DrawNumber.rawValue:
-			return drawcells.count
+			let ans = drawcells.count
+			return ans //
 		case NrViewSection.Numerals.rawValue:
 			return NumeralCellType.allValues.count*2 - 1
 		default:
@@ -114,8 +112,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
-			//case NrViewSection.Description.rawValue:
-		//	return "Summary"
 		case NrViewSection.Numerals.rawValue:
 			return "Numerals"
 		case NrViewSection.Formula.rawValue:
@@ -185,6 +181,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		return 150
 	}
 	
+	/*
 	func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
 			if cell.expanded {
@@ -197,6 +194,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 		return indexPath
 	}
+	*/
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let _ = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
@@ -251,24 +249,17 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		if let art = cell as? TesterArtCell {
 			art.layoutIfNeeded()
 		}
+		if let cell = cell as? DrawTableCell {
+			cell.layoutIfNeeded()
+			cell.uidraw?.setNeedsDisplay()
+		}
+		
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		switch indexPath.section {
-			/*
-			case NrViewSection.Description.rawValue:
-			if let cell = tableView.dequeueReusableCell(withIdentifier: desccellId, for: indexPath) as? DescTableCell {
-			uidesctemp = cell.uidesc
-			cell.nr = self.currnr
-			cell.setParentVC(vc: self)
-			cell.tableparent = tableView
-			cell.SetHtmlDesc(html: self.htmldesc)
-			return cell
-			}
-			*/
 		case NrViewSection.Numerals.rawValue:
 			let row = indexPath.row
-			//numeralcells.nr = currnr
 			let cell = numeralcells.getCell(row: row)
 			return cell
 			
@@ -281,7 +272,6 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			}
 		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
-			//drawcells.nr = currnr
 			let cell = drawcells.getCell(row: row)
 			return cell
 			
@@ -313,13 +303,10 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.delegate = self
 		tv.dataSource = self
 		tv.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
-		//tv.register(CustomTableViewFooter.self, forHeaderFooterViewReuseIdentifier: self.footerId)
-		//tv.register(DescTableCell.self, forCellReuseIdentifier: self.desccellId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
 		tv.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
-		//tv.register(DrawTableCell.self, forCellReuseIdentifier: self.drawcellId)
 		return tv
 	}()
 	
@@ -362,24 +349,33 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	@objc func backButtonAction() {
-		if currnr <= 0 { return }
+		var nr = currnr
 		repeat {
-			currnr = currnr - 1
-		} while Tester.shared.isDull(n: currnr)
+			if currnr == 0 { break }
+			nr = nr - 1
+		} while Tester.shared.isDull(n: nr)
+		currnr = nr
 		GetExplanation()
-		tv.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
+		tv.beginUpdates()
+		tv.endUpdates()
+		//tv.reloadData()
+		//let indexPath = IndexPath(row: 0, section: 0)
+		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 	}
 	@objc func fwdButtonAction() {
-		if currnr <= 0 { currnr = 0 }
+		var nr = currnr
 		repeat {
-			currnr = currnr + 1
-		} while Tester.shared.isRealDull(n: currnr)
+			nr = nr + 1
+		} while Tester.shared.isRealDull(n: nr)
+		currnr = nr
+	
 		GetExplanation()
-		tv.reloadData()
-		let indexPath = IndexPath(row: 0, section: 0)
-		self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
+		tv.beginUpdates()
+		tv.endUpdates()
+
+		//tv.reloadData()
+		//let indexPath = IndexPath(row: 0, section: 0)
+		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 	}
 	
 	override func viewDidLoad() {

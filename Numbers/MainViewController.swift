@@ -1,3 +1,5 @@
+/*
+
 //
 //  ViewController.swift
 //  Numbers
@@ -324,3 +326,4 @@ class MainViewController: UIViewController , UICollectionViewDelegate, UICollect
 	}
 }
 
+*/

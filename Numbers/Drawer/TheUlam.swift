@@ -7,15 +7,18 @@
 //
 
 import Foundation
+import BigInt
 
 enum UlamType : Int {
-	case square = 0, spiral = 1, fibonacci = 2, hexagon = 3
+	case square = 0, spiral = 1, fibonacci = 2, lucas = 3, hexagon = 4
 }
 
+#if false
 let theulamrect = TheUlamRect()
 let theulamspiral = TheUlamRound()
-let theulamexplode = TheUlamExplode()
+let theulamexplode = TheUlamFibonacci()
 let theulamhexagon = TheUlamHexagon()
+	#endif
 
 typealias SpiralXY = (x: Float, y: Float)
 
@@ -49,32 +52,44 @@ class TheUlamRound : TheUlamBase {
 		let x = cos(theta)*r
 		let y = -sin(theta)*r
 		let p = (x: x, y: y)
-		return p
-		
+		return p		
 	}
 	
 	
 }
 
-class TheUlamExplode : TheUlamBase {
-	static let sharedInstance = TheUlamExplode()
-	
-	let pi = Double(4.0 * atan(1.0))
-	let phi = Double(sqrt(5.0) + 1.0 ) / 2.0
-	var dtheta = Double(0.0)
-	
-	
+class TheUlamFibonacci : TheUlamBase {
+	static let sharedInstance = TheUlamFibonacci()
+	private var dtheta :  Double
 	fileprivate override init() {
-		
+		self.dtheta =  2.0 * Double.pi / Double.phi / Double.phi
 		super.init()
-		self.dtheta =  2.0 * pi / phi / phi
+
 	}
-	
 	override func getPoint(_ n: Int) -> SpiralXY {
 		let i = n
 		let r = sqrt(Double(i))
 		let theta =  Double(n) * dtheta
-		//if (theta > 2.0 * pi) { theta = theta - 2 * pi }
+		let x = cos(theta)*r
+		let y = -sin(theta)*r
+		let p = (x: Float(x), y: Float(y))
+		return p
+	}
+	
+}
+
+class TheUlamLucas : TheUlamBase {
+	static let sharedInstance = TheUlamLucas()
+	private override init() {
+		super.init()
+	}
+	override func getPoint(_ n: Int) -> SpiralXY {
+		let i = n
+		let r = sqrt(Double(i))
+		let ln = LucasTester.Ln(n: n)
+		let ln1 = LucasTester.Ln(n: n+1)
+		let q = ln1 / ln
+		let theta = 2.0 * Double.pi / q / q * Double(n)
 		let x = cos(theta)*r
 		let y = -sin(theta)*r
 		let p = (x: Float(x), y: Float(y))
@@ -84,7 +99,7 @@ class TheUlamExplode : TheUlamBase {
 }
 
 class TheUlamHexagon : TheUlamBase {
-	static let sharedInstance = TheUlamExplode()
+	static let sharedInstance = TheUlamFibonacci()
 	
 	fileprivate override init() {
 		super.init()

@@ -53,6 +53,9 @@ class ConstructibleTester : NumTester {
 	func property() -> String {
 		return "Constructible"
 	}
+	func propertyString() -> String {
+		return "con\u{00AD}struc\u{00AD}tible"
+	}
 	func isSpecial(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
 		if let _ = Decompose(n: n) {

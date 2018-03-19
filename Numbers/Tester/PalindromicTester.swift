@@ -83,6 +83,9 @@ class PalindromicTester : NumTester {
 	func property() -> String {
 		return "palindromic"
 	}
+	func propertyString() -> String {
+		return "palin\u{00AD}dromic"
+	}
 	
 	
 }

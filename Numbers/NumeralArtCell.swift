@@ -25,7 +25,6 @@ import BigInt
 	}
 		
 		override func layoutSubviews() {
-			//print("layout:",self.contentView.frame)
 			super.layoutSubviews()
 			uiart.DrawCloud()
 		}

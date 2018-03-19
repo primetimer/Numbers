@@ -156,44 +156,47 @@ class DyckWord : CustomStringConvertible {
 
 class CatalanView: DrawNrView {
 	
-	
 	private let maxdraw : UInt64 = 132
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		CreateDisplayLink()
-		
 	}
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		CreateDisplayLink()
 	}
 	
-	var displayLink : CADisplayLink? = nil
+	override var isHidden: Bool {
+		didSet {
+			if isHidden == oldValue { return }
+			if !isHidden {
+				displayLink = CADisplayLink(target: self, selector: #selector(DisplayUpdate))
+				displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+			} else {
+				displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+			}
+		}
+	}
+	private var displayLink : CADisplayLink? = nil
 	private func CreateDisplayLink() {
-			displayLink = CADisplayLink(target: self, selector: #selector(DisplayUpdate))
-			displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+		displayLink = CADisplayLink(target: self, selector: #selector(DisplayUpdate))
+		displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
 	}
-	
 	@objc func DisplayUpdate() {
 		self.setNeedsDisplay()
 		self.clearsContextBeforeDrawing = false
 	}
-	
-	private let catalan = CatalanTester()
-
-	override func SetNumber(_ nextnr : UInt64) {
-		if nextnr == self.nr { return }
-		displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
-		displayLink = nil
-		while !shapeLayer.isEmpty {
-			ClearShapes()
-		}
-		super.SetNumber(nextnr)
-		let n = nextnr //min(nextnr,maxdraw)
-		self.nth = catalan.Nth(n: BigUInt(n))
-		dyck = DyckWord(n: UInt64(nth))
-		if catalan.isSpecial(n: BigUInt(Int(n))) {
-			CreateDisplayLink()
+	override var nr : UInt64 {
+		didSet {
+			if nr == oldValue { return }
+			let catalan = CatalanTester()
+			displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+			displayLink = nil
+			while !shapeLayer.isEmpty {	ClearShapes() }
+			let n = nr //min(nextnr,maxdraw)
+				self.nth = catalan.Nth(n: BigUInt(n))
+				dyck = DyckWord(n: UInt64(nth))
+			if catalan.isSpecial(n: BigUInt(Int(n))) {
+				CreateDisplayLink()
+			}
 		}
 	}
 	
@@ -201,9 +204,7 @@ class CatalanView: DrawNrView {
 	private var (rx,ry) = (CGFloat(0),CGFloat(0))
 	private var nth = 0
 
-	//private var path : [UIBezierPath] = []
 	private var shapeLayer: [CAShapeLayer] = []
-		
 	private func addToPath(_ pt0 : CGPoint, _ pt1: CGPoint, path: UIBezierPath) {
 		path.move(to: pt0)
 		path.addLine(to:  pt1)
@@ -261,12 +262,8 @@ class CatalanView: DrawNrView {
 		let newlayer = CAShapeLayer()
 		shapeLayer.insert(newlayer, at: 0)
 		ClearShapes(from: 132)
-		
-		//shapeLayer[index].removeFromSuperlayer()
-		//shapeLayer[index] = CAShapeLayer()
 		newlayer.fillColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0).cgColor
 		newlayer.strokeColor = color.cgColor
-		//newlayer.lineWidth = CGFloat(lw)
 		newlayer.path = path.cgPath //[index].cgPath
 		let animation = CABasicAnimation(keyPath: "strokeEnd")
 		animation.fromValue = 0
@@ -277,9 +274,11 @@ class CatalanView: DrawNrView {
 	
 	var drawcounter : UInt64 = 0
 	override func draw(_ rect: CGRect) {
-		super.draw(rect)
+		guard let tester = self.tester else { return }
 		if self.nth == 0 { return }
-		if !catalan.isSpecial(n: BigUInt(nr)) { return }
+		if isHidden { return }
+		super.draw(rect)
+		if !tester.isSpecial(n: BigUInt(nr)) { return }
 	
 		if self.rx != rect.width || self.ry != rect.height {
 				ClearShapes()

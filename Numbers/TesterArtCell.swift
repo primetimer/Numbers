@@ -43,7 +43,7 @@ class TesterArtCell : BaseNrTableCell {
 		uiart.Clear()
 		for t in Tester.shared.complete {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
-				uiart.AppendString(s: t.property())
+				uiart.AppendString(s: t.propertyString())
 			}
 		}
 		uiart.DrawCloud()

@@ -13,6 +13,8 @@ import BigInt
 class PalindromeView : DrawNrView {
 	init () {
 		super.init(frame: CGRect.zero)
+		//let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+		
 	}
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
@@ -23,43 +25,33 @@ class PalindromeView : DrawNrView {
 			self.setNeedsDisplay()
 		}
 	}
+	
+	@objc override func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+	{
+		AddAnimation()
+	}
+	
+	func AddAnimation() {
+		var transform = CATransform3DIdentity;
+		transform.m34 = 1.0 / 500.0;
+		self.layer.removeAllAnimations()
+		let t1 = CATransform3DRotate(transform, CGFloat(-1 * Double.pi), 0, 1, 0)
+		let t2 = CATransform3DRotate(transform, CGFloat(-0.5 * Double.pi ), 0, 1, 0)
+		let t3 = CATransform3DRotate(transform, CGFloat(+0.5 * Double.pi ), 0, 1, 0)
+		let t4 = CATransform3DRotate(transform, CGFloat(1 * Double.pi ), 0, 1, 0)
+		self.animation.values = [t1,t2,t3,t4]
+		self.animation.duration = 3
+		self.animation.repeatCount = 3 //.infinity
+		imageview.layer.add(animation, forKey: "transform")
+	}
+	
+	lazy var animation : CAKeyframeAnimation = { return CAKeyframeAnimation(keyPath: "transform") } ()
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		imageview.stopAnimating()
 		if let image = NumberImage(rect: rect) {
 			imageview.image = image
-			var transform = CATransform3DIdentity;
-			transform.m34 = 1.0 / 500.0;
-			let t1 = CATransform3DRotate(transform, CGFloat(-1 * Double.pi), 0, 1, 0)
-			let t2 = CATransform3DRotate(transform, CGFloat(-0.5 * Double.pi ), 0, 1, 0)
-			let t3 = CATransform3DRotate(transform, CGFloat(+0.5 * Double.pi ), 0, 1, 0)
-			let t4 = CATransform3DRotate(transform, CGFloat(1 * Double.pi ), 0, 1, 0)
-			
-			//imageview.layer.transform = transform
-			/*
-			let animation = CABasicAnimation(keyPath: "transform")
-			animation.fromValue = NSValue(caTransform3D: t1)
-			animation.toValue = NSValue(caTransform3D:t2)
-			animation.duration = 3
-			animation.repeatCount = .infinity
-			*/
-			let animation = CAKeyframeAnimation(keyPath: "transform")
-			animation.values = [t1,t2,t3,t4]
-			animation.duration = 3
-			animation.repeatCount = .infinity
-			
-			
-			imageview.layer.add(animation, forKey: "transform")
-
-	
-
-			
-			/*
-			imageview.animationImages = Blend(image: image, rect: rect)
-			imageview.animationRepeatCount = 0
-			imageview.animationDuration = 2.0
-			imageview.startAnimating()
-			*/
+			AddAnimation()
 		}
 	}
 	
@@ -192,7 +184,7 @@ class PalindromeDrawer : NSObject
 		let w = rect.width
 		
 		
-		let dy = rect.height / CGFloat(base.count+1) 
+		let dy = rect.height / CGFloat(base.count) 
 		var y0 : CGFloat = 0
 		for  b in base {
 			var myText = BigUInt(nr).asString(toBase : b)

@@ -12,114 +12,150 @@ import BigInt
 import PrimeFactors
 
 class LuckyView : DrawNrView {
-	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		self.tester = LuckyTester()
 	}
 	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
+		fatalError("init(coder:) has not been implemented")
 	}
-	
-	let maxnr : UInt64 = (120*120)
-	override func SetNumber(_ nextnr : UInt64) {
-		if nextnr > maxnr {
-			super.SetNumber(maxnr)
-		} else {
-			super.SetNumber(nextnr)
-		}
-	}
-	
-	private var imagearr : [UIImage] = []
-	override func draw(_ rect: CGRect) {
-		super.draw(rect)
-		
-		
-		DispatchQueue.global().async {
-			let drawer = LuckyDrawer(nr: self.nr)
-			self.imagearr = drawer.CreateImages()
-			
-			DispatchQueue.main.async(execute: {
-				self.imageview.animationImages = self.imagearr
-				self.imageview.image = self.imagearr.last
-				self.imageview.animationDuration = 5.0
-				self.imageview.animationRepeatCount = 0
-				self.imageview.startAnimating()
-			})
-		}
+	override func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {
+		let ans = LuckyDrawer(nr: nr, tester: tester, emitter: self, worker: worker)
+		return ans
 	}
 }
 
-
-class LuckyDrawer : UlamDrawer {
-	private let rect = CGRect(x: 0, y: 0, width: 400.0, height: 400.0)
-	private var imagearr : [UIImage] = []
-	private (set) var luck : [Bool] = []
+class LuckyDrawer : ImageNrDrawer {
+	private var context : CGContext!
+	let maxnr : Int = (120*120)
 	private var determined : Int = 1
 	private var picturemod : Int = 1
-	private let maxpictures = 100		//round abtout
+	private let maxpictures = 100
 	private var picturecounter = 0
+	private var count : Int = 0
+	private let ulammode = UlamType.square
+	private var luck : [Bool] = []
+	/*
+	private func ComputeLucky {
+		
+		let luck : [Int] = []
+		for i in 1...count {
+			luck.append(i)
+		}
+		
+		
+		let  bbb = 3;
+		let j = luck.count
+		let a = 3;
+		while (bbb < j) {
+			let b = numbers.count
+			var p = 1;
+			var i = bbb
+			while i < b {
+				luck.remove(at: i-p)
+				p = p + 1;
+				i = i + bbb
+			}
+			b = numbers.size() - 1;
+			c = numbers.get(b);
+			j = j - numbers.size() / bbb;
+			bbb = numbers.get(a-1);
+			a = a + 1;
+			//  System.out.println(numbers);
+		}
+	*/
 	
-	init(nr : UInt64) {
-		super.init(pointcount: Int(nr), utype: .square)
-		luck = Array(repeating: true, count: count+1)
-		self.picturecounter = 0
-		self.picturemod = Int(nr) / maxpictures + 1
+	private func PreEmitter() {
+		if emitter == nil { return }
+		picturecounter = picturecounter + 1
+		picturemod = count / maxpictures + 1
+		if picturecounter % picturemod == 0 {
+			return
+		}
+		if let image = UIGraphicsGetImageFromCurrentImageContext() {
+			emitter?.Emit(image: image)
+		}
 	}
 	
-	func CreateImages() -> [UIImage] {
+	private func CreateSpiralDrawer(_ rect : CGRect) -> UlamDrawer {
+		let drawer = UlamDrawer(pointcount: self.count, utype: self.ulammode)
+		drawer.colored = false
+		drawer.bprimesphere = false
+		drawer.direction = 1
+		drawer.bprimesizing = false
+		drawer.overscan = 1.0
+		drawer.setZoom(1.0)
+		drawer.SetWidth(rect)
+		drawer.pstart = nr
+		return drawer
+	}
+	
+	override func DrawNrImage(rect : CGRect) -> UIImage? {
+		count = min(Int(nr),maxnr)
+		if nr < 100 { count = 100 }
+		luck = Array(repeating: true, count: self.count+1)
+		self.rect = rect
+		UIGraphicsBeginImageContextWithOptions(rect.size, true, 0.0)
+		defer { UIGraphicsEndImageContext() }
+		guard let context = UIGraphicsGetCurrentContext() else { return nil }
+		self.context = context
+		context.setStrokeColor(UIColor.red.cgColor)
+		context.setLineWidth(1.0);
+		context.beginPath()
+		let spiral = CreateSpiralDrawer(rect)
+		spiral.draw_spiral(context)
 		let maxlevel = 10
-		for level in 0...maxlevel {
-			self.removeLevel(level: level)
-			if level == maxlevel {
-				self.correct()
+		if emitter != nil {
+			DrawAllNumbers(spiralDrawer: spiral)
+			for level in 0...maxlevel {
+				if worker?.isCancelled ?? false { return nil }
+				self.removeLevel(level: level, spiralDrawer: spiral)
 			}
 		}
-		return imagearr
+		let image = self.correct(spiralDrawer: spiral)
+
+		return image
 	}
 	
-	private func removeLevel(level : Int) {
+	private func removeLevel(level : Int, spiralDrawer : UlamDrawer) {
 		if level == 0 { return }
 		guard let which = findLucky(which: level)  else { return }
 		self.determined = which
-		
+		DrawNumber(k: which, spiralDrawer: spiralDrawer)
 		var prev = 1
 		while true {
 			guard let next = getNext(from: prev,step: which) else { return }
 			luck[next] = false
+			DrawNumber(k: next, spiralDrawer: spiralDrawer)
 			prev = next
-			if let image = CreateImage() {
-				imagearr.append(image)
-			}
+		}
+	}
+	private func DrawAllNumbers(spiralDrawer: UlamDrawer)
+	{
+		for k in 0 ..< count {
+			if worker?.isCancelled ?? false { return }
+			let color = getColor(k)
+			spiralDrawer.draw_number(context, ulamindex: k, p: UInt64(k), color: color)
+		}
+		if let image = UIGraphicsGetImageFromCurrentImageContext() {
+			emitter?.Emit(image: image)
 		}
 	}
 	
-	private func CreateImage(force : Bool = false) -> UIImage? {
-		picturecounter = picturecounter + 1
-		if force == false && picturecounter % picturemod != 0 { return nil }
-		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-		defer { UIGraphicsEndImageContext() }
-		guard let context = UIGraphicsGetCurrentContext() else { return nil }
-		context.setStrokeColor(UIColor.red.cgColor)
-		context.setLineWidth(1.0);
-		context.beginPath()
-		
-		super.pstart = 1
-		super.SetWidth(rect)
-		super.bdrawspiral = true
-		super.draw_spiral(context)
-		
-		for i in 1...Int(self.count) {
-			super.draw_number(context, ulamindex : i-1, p: UInt64(i))
-		}
-		let image  = UIGraphicsGetImageFromCurrentImageContext()
-		return image
+	private func DrawNumber(k: Int, spiralDrawer: UlamDrawer)
+	{
+		//print("Drawing", k, determined)
+		let color = getColor(k)
+		if luck[k] && k != determined { return }
+		spiralDrawer.draw_number(context, ulamindex: k, p: UInt64(k), color: color)
+		PreEmitter()
 	}
 	
 	//Helping routines
 	private func findLucky(which : Int) -> Int? {
 		if which <= 1 { return 2 }
 		var count = 1
-		for l in 1...luck.count-1 {
+		for l in 1...self.count {
 			if luck[l] == true {
 				if count == which {
 					return l
@@ -131,7 +167,7 @@ class LuckyDrawer : UlamDrawer {
 	}
 	private func getNext(from : Int, step: Int)  -> Int? {
 		var count = 0
-		for i in from ... luck.count-1 {
+		for i in from ... self.count {
 			if luck[i] == true {
 				count = count + 1
 			}
@@ -142,33 +178,39 @@ class LuckyDrawer : UlamDrawer {
 		return nil
 	}
 	
-	private func correct() {
-		let test = LuckyTester()
-		for i in 2..<luck.count {
-			if test.isSpecial(n: BigUInt(i)) {
-				luck[i] = true
-				determined = i
-				if let image = CreateImage() {
-					imagearr.append(image)
+	private func correct(spiralDrawer : UlamDrawer) -> UIImage? {
+		//return nil
+		let tester = LuckyTester()
+		for i in 2...spiralDrawer.count {
+			if !tester.isSpecial(n: BigUInt(i)) {
+				//assert(luck[i] == false)
+				if luck[i] == true {
+					luck[i] = false
+					DrawNumber(k: i, spiralDrawer: spiralDrawer)
 				}
-			} else {
-				luck[i] = false
+				continue
 			}
+			luck[i] = true
+			determined = i
+			DrawNumber(k: i, spiralDrawer: spiralDrawer)
+			//spiralDrawer.draw_number(context, ulamindex: i, p: UInt64(i), color : color)
+			//if let image = UIGraphicsGetImageFromCurrentImageContext() {
+			//	emitter?.Emit(image: image)
+			//}
 		}
 		// Final Picture {
-		if let image = CreateImage(force : true) {
-			imagearr.append(image)
-		}
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		return image
 	}
-	
-	override func getColor(_ p : UInt64) -> UIColor? {
+
+	private func getColor(_ p : Int) -> UIColor {
 		if self.luck[Int(p)] && p <= self.determined {
-			return .blue
+			return .orange
 		}
 		if luck[Int(p)] {
-			return .red
-		} else {
 			return .cyan
+		} else {
+			return .blue
 		}
 	}
 }

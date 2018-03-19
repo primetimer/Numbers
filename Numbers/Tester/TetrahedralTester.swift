@@ -15,6 +15,9 @@ class TetrahedralTest : NumTester {
 	func property() -> String {
 		return "tetrahedral"
 	}
+	func propertyString() -> String {
+		return "tetra\u{00AD}hedral"
+	}
 	
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }

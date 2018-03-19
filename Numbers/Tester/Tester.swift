@@ -15,7 +15,7 @@ protocol NumTester {
 	func getDesc(n: BigUInt) -> String?
 	func getLatex(n: BigUInt) -> String?
 	func property() -> String	//Name of tested property
-	
+	func propertyString() -> String
 	func invers() -> NumTester?
 	func subtester() -> [NumTester]?
 }
@@ -24,6 +24,9 @@ extension NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
 	}
+	func propertyString() -> String {
+		return property()
+	}
 }
 
 extension NumTester {
@@ -31,6 +34,21 @@ extension NumTester {
 	func subtester() -> [NumTester]? { return nil }
 }
 
+class EverTrueTester : NumTester {
+	func isSpecial(n: BigUInt) -> Bool {
+		return true
+	}
+	
+	func getLatex(n: BigUInt) -> String? {
+		return nil
+	}
+	
+	func property() -> String {
+		return "number"
+	}
+	
+	
+}
 class Tester : NumTester {
 	
 	func property() -> String {
@@ -207,6 +225,9 @@ class TriangleTester : NumTester {
 	func property() -> String {
 		return "triangle"
 	}
+	func propertyString() -> String {
+		return "tri\u{00AD}angle"
+	}
 
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }
@@ -242,6 +263,9 @@ class TriangleTester : NumTester {
 class PentagonalTester : NumTester {
 	func property() -> String {
 		return "pentagonal"
+	}
+	func propertyString() -> String {
+		return "penta\u{00AD}gonal"
 	}
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }
@@ -304,6 +328,9 @@ class Pow2Tester : NumTester {
 class HexagonalTester : NumTester {
 	func property() -> String {
 		return "hexagonal"
+	}
+	func propertyString() -> String {
+		return "hexa\u{00AD}gonal"
 	}
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }
@@ -373,6 +400,9 @@ class FibonacciTester : NumTester {
 	func property() -> String {
 		return "Fibonacci"
 	}
+	func propertyString() -> String {
+		return "Fibo\u{00AD}nacci"
+	}
 	
 	private func IsInt(x: Double) -> Bool {
 		if x == floor(x) { return true }
@@ -393,7 +423,16 @@ class FibonacciTester : NumTester {
 		return false
 	}
 	
-	private func Nth(n: BigUInt) -> Int {
+	static func Fn(n: Int) -> Double {
+		let phi = (1.0 + sqrt(5.0)) / 2.0
+		let psi = (1.0 - sqrt(5.0)) / 2.0
+		let f1 = pow(phi,Double(n))
+		let f2 = pow(psi,Double(n))
+		let ans = (f1-f2) / sqrt(5.0)
+		return ans
+	}
+	
+	private func NIndex(n: BigUInt) -> Int {
 		let phi = (1.0 + sqrt(5)) / 2.0
 		let a = Double(n)*sqrt(5.0)+0.5
 		let l = log(a) / log(phi)
@@ -422,7 +461,7 @@ class FibonacciTester : NumTester {
 			return ""
 		}
 		let prev2 = n - prev1
-		let nth = Nth(n:n)
+		let nth = NIndex(n:n)
 		var latex = String(n) + "=" + String(prev2) + "+" + String(prev1) + " = "
 		latex = latex + "f_{" + String(nth-2) + "} + f_{" + String(nth-1) + "}"
 		return latex
@@ -470,7 +509,7 @@ class LucasTester : NumTester {
 		return (0,0)
 	}
 	
-	
+	/*
 	func Nth(n: BigUInt) -> Int {
 		if n == 2 { return 1 }
 		if n == 1 { return 2 }
@@ -486,16 +525,31 @@ class LucasTester : NumTester {
 		}
 		return c
 	}
+	*/
+	static func NIndex(n: BigUInt) -> Int {
+		let a = Double(n)*sqrt(5.0)+0.5
+		let l = log(a) / log(Double.phi)
+		let nth = floor(l)
+		return Int(nth)
+	}
+	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n <= 2 {
 			return nil
 		}
 		let (l1,l2) = prev(n: n)
-		let nth = Nth(n: n)
+		let nth = LucasTester.NIndex(n: n)
 		var latex = String(n) + "=" + String(l1) + "+" + String(l2)
 		latex = latex + " = L_{" + String(nth-3) + "} + L_{" + String(nth-2) + "}"
 		return latex
+	}
+	
+	static func Ln(n: Int) -> Double {
+		let f1 = pow(Double.phi,Double(n))
+		let f2 = pow(Double.psi,Double(n))
+		let ans = f1+f2
+		return ans
 	}
 }
 

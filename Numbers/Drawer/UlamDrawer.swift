@@ -67,18 +67,19 @@ class UlamDrawer:  NSObject {
 		
 		switch utype {
 		case .square:
-			ptspiral = theulamrect
+			ptspiral = TheUlamRect.sharedInstance
 		case .spiral:
-			ptspiral = theulamspiral
+			ptspiral = TheUlamRound.sharedInstance
 		case .fibonacci:
-			ptspiral = theulamexplode
+			ptspiral = TheUlamFibonacci.sharedInstance
 		case .hexagon:
-			ptspiral = theulamhexagon
+			ptspiral = TheUlamHexagon.sharedInstance
+		case .lucas:
+			ptspiral = TheUlamLucas.sharedInstance
 		}
-		//count = min(count,TheUlamBase.defcount)
 	}
 	
-	internal func getColor(_ p : UInt64) -> UIColor?
+	internal func getColor(_ p : UInt64) -> UIColor
 	{
 		if PrimeCache.shared.IsPrime(p: BigUInt(p)) {
 			return .red
@@ -152,7 +153,7 @@ class UlamDrawer:  NSObject {
 		{
 			var dtheta : Double = 2.0 * pi / phi / phi
 			if direction < 0 { dtheta = -dtheta }
-			let t = -dtheta * (Double(pstart*1) + Double(nr*0.0))
+			let t = dtheta * (Double(pstart*1) + Double(nr*0.0))
 			let t1 = floor(t / 2.0 / pi)
 			let t2 = t / 2.0 / pi - t1
 			let theta = CGFloat(t2 * 2.0 * pi)
@@ -231,7 +232,7 @@ class UlamDrawer:  NSObject {
 	}
 	
 	
-	private func drawSphere(_ context : CGContext, xy: CGPoint, p : UInt64 )
+	private func drawSphere(_ context : CGContext, xy: CGPoint, p : UInt64, color: UIColor  )
 	{
 		let r = getPointSize(p)
 		var startPoint = CGPoint()
@@ -241,9 +242,9 @@ class UlamDrawer:  NSObject {
 		endPoint.x = startPoint.x - r * 0.0
 		endPoint.y = startPoint.y - r * 0.0
 		let startRadius: CGFloat = 0
-		let color = getColor(p)
-		if color == nil { return }
-		let colors = [UIColor.white.cgColor,color!.cgColor]
+		//let color = getColor(p)
+		//if color == nil { return }
+		let colors = [UIColor.white.cgColor,color.cgColor]
 		let colorspace = CGColorSpaceCreateDeviceRGB()
 		let locations: [CGFloat] = [0.0, 1.0]
 		let gradient = CGGradient(colorsSpace: colorspace,colors: colors as CFArray, locations: locations)
@@ -254,17 +255,17 @@ class UlamDrawer:  NSObject {
 									options: CGGradientDrawingOptions(rawValue: 0))
 	}
 	
-	private func drawRect(_ context : CGContext, xy: CGPoint, p : UInt64 )
+	private func drawRect(_ context : CGContext, xy: CGPoint, p : UInt64 , color : UIColor)
 	{
 		let r = getPointSize(p)
 		var startPoint = CGPoint()
 		startPoint.x = xy.x - r * 0.125
 		startPoint.y = xy.y - r * 0.125
-		let color = getColor(p)
-		if color == nil { return }
+		//let color = getColor(p)
+		//if color == nil { return }
 		let rect = CGRect(x: startPoint.x,y: startPoint.y ,width: r * scalex , height: r)
 		
-		color?.setFill()
+		color.setFill()
 		context.fill(rect)
 		if count < 200 && p <= 999  {
 			let textcolor = UIColor.white
@@ -274,17 +275,15 @@ class UlamDrawer:  NSObject {
 		}
 	}
 	
-	func draw_number(_ context : CGContext, ulamindex : Int, p: UInt64) {
-		
+	func draw_number(_ context : CGContext, ulamindex : Int, p: UInt64, color : UIColor) {		
 		let screenpt = getScreenXY(Float(ulamindex))
 		let xstart = screenpt.x - pointwidth * scalex * pointscale / 2.0
 		let ystart = screenpt.y - pointwidth * scaley * pointscale / 2.0
-		
 		let xy = CGPoint(x: xstart, y: ystart)
 		if bprimesphere {
-			drawSphere(context,xy: xy, p: p)
+			drawSphere(context,xy: xy, p: p, color : color)
 		} else {
-			drawRect(context, xy: xy, p: p)
+			drawRect(context, xy: xy, p: p, color: color)
 		}
 	}
 	
@@ -300,12 +299,13 @@ class UlamDrawer:  NSObject {
 			if (direction < 0) && (pstart <=  UInt64(j+1))  { continue }
 			let nr : UInt64 = UInt64( Int (pstart) + j * direction)
 			let p = nr
+			let color = getColor(p)
 			if colored {
-				draw_number(context, ulamindex: j, p: p)
+				draw_number(context, ulamindex: j, p: p, color : color)
 				continue
 			}
 			if p.isPrime {
-				draw_number(context, ulamindex: j, p: p)
+				draw_number(context, ulamindex: j, p: p, color : color)
 				continue
 			}
 		}

@@ -23,22 +23,22 @@ class PolygonalView : DrawNrView {
 	/*
 	private var _imageview : UIImageView? = nil
 	var imageview : UIImageView {
-		get {
-			if _imageview == nil {
-				let rect = CGRect(x: 0, y: 0 , width: frame.width, height: frame.height)
-				_imageview = UIImageView(frame:rect)
-				_imageview?.backgroundColor = self.backgroundColor
-				addSubview(_imageview!)
-			}
-			return _imageview!
-		}
+	get {
+	if _imageview == nil {
+	let rect = CGRect(x: 0, y: 0 , width: frame.width, height: frame.height)
+	_imageview = UIImageView(frame:rect)
+	_imageview?.backgroundColor = self.backgroundColor
+	addSubview(_imageview!)
+	}
+	return _imageview!
+	}
 	}
 	*/
 	
 	/*
 	private var nr : UInt64 = 1
 	func SetNumber(_ nextnr : UInt64) {
-		self.nr = nextnr
+	self.nr = nextnr
 	}
 	*/
 	
@@ -64,8 +64,8 @@ class PolygonalView : DrawNrView {
 		pentagon.DrawNumber(context : context)
 		let newimage  = UIGraphicsGetImageFromCurrentImageContext()
 		//images.append(newimage!)
-
-	
+		
+		
 		//imageview.animationImages = images
 		imageview.image = newimage
 	}
@@ -135,54 +135,83 @@ class PolygonDrawer : NSObject
 		return rx / CGFloat(r)
 	}
 	func DrawPoint(xy: CGPoint, radius : CGFloat, hue : Double) {
-		let color = PColor(hue : CGFloat(hue), saturation : 1.0, brightness : 1.0, alpha : 1.0)
+		let color = PColor(hue : CGFloat(hue), saturation : 1.0, brightness : 1.0, alpha : 0.5)
 		sphere.drawSphere(context, xy: xy, r: CGFloat(radius) / 2.0, col: [color])
 		color.setStroke()
 		color.setFill()
 	}
 	private func GetXYPoly(n: Int, ticks: Int , tickscale : Int) -> CGPoint
 	{
-		let m = n / ticks //Nummer der Kante
-		let tick = n % ticks
-		let x0 = pts[m].x
-		let y0 = pts[m].y
-		let x1 = pts[m+1].x
-		let y1 = pts[m+1].y
-		let dx = (x1 - x0) / Double(ticks) * Double(tick)
-		let dy = (y1 - y0) / Double(ticks) * Double(tick)
+		if ticks == 0 {
+			let (x0,y0) = (pts[0].x,pts[0].y)
+			let xx = self.rx / 2.0 * CGFloat(x0+0) + self.rx / 2.0
+			let yy =  self.ry / 2.0 * CGFloat(y0+0) + self.ry / 2.0
+			let xxx = (xx - rx / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + rx / 2.0
+			let yyy = yy * CGFloat(ticks) / CGFloat(tickscale)
+			return CGPoint(x: xxx, y: yyy)
+		} else {
+			let m = n / ticks   //Nummer der Kante
+			let tick = n % ticks
+			let (x0,y0) = (pts[m].x,pts[m].y)
+			let (x1,y1) = (pts[m+1].x,pts[m+1].y)
+			let dx = (x1 - x0) / Double(ticks) * Double(tick)
+			let dy = (y1 - y0) / Double(ticks) * Double(tick)
 		
-		let xx = self.rx / 2.0 * CGFloat(x0+dx) + self.rx / 2.0
-		let yy =  self.ry / 2.0 * CGFloat(y0+dy) + self.ry / 2.0
+			let xx = self.rx / 2.0 * CGFloat(x0+dx) + self.rx / 2.0
+			let yy =  self.ry / 2.0 * CGFloat(y0+dy) + self.ry / 2.0
 		
-		//Translate
-		let xxx = (xx - rx / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + rx / 2.0
-		//let yyy = (yy - ry / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + ry / 2.0
-		let yyy = yy * CGFloat(ticks) / CGFloat(tickscale)
-		return CGPoint(x: xxx, y: yyy)
+			//Translate
+			let xxx = (xx - rx / 2.0) * CGFloat(ticks) / CGFloat(tickscale) + rx / 2.0
+			let yyy = yy * CGFloat(ticks) / CGFloat(tickscale)
+			return CGPoint(x: xxx, y: yyy)
+		}
 	}
 	
 	func DrawNumber(context : CGContext)
 	{
 		self.context = context
-		/*
-		let color = UIColor.blue
-		color.setFill()
-		context.fill(CGRect(x: 0,y: 0 ,width: 320 , height: 320))
-		*/
 		let maxk = nth-1
-		if maxk<0 { return }
-		for l in 0...maxk {
-			let k = maxk - l
-			let hue = Double(k-1) / Double(maxk)
-			for j in 0..<polyn*k
-			{
-				let n = j
-				let pt = GetXYPoly(n:n, ticks: k, tickscale: maxk+1)
-				let radius = CGFloat(secant) * rx / 2.0 / CGFloat(maxk) * CGFloat(maxk) / CGFloat(maxk+1)
-				let pt2 = CGPoint(x: pt.x, y: pt.y + radius * 3 / 4)
-				DrawPoint(xy: pt2, radius: radius, hue: hue)
+		if maxk<=0 { return }
+		#if true
+			var drawcount = 1
+			let radius = CGFloat(secant) * rx / 2.0 / CGFloat(maxk) * CGFloat(maxk) / CGFloat(maxk+1)
+			for l in 0...maxk {
+				//if l != 0 { continue }
+				let k = l //maxk - l
+				let hue = Double(k-1) / Double(maxk)
+				if k == 0 {
+					let pt = GetXYPoly(n:0, ticks: k, tickscale: maxk+1)
+					let pt2 = CGPoint(x: pt.x, y: pt.y + radius * 3 / 4)
+					DrawPoint(xy: pt2, radius: radius, hue: hue)
+					continue
+				}
+				for n in  stride(from: k, through: (polyn-1)*k, by: 1)
+				{
+					if drawcount >= nr { break }
+					drawcount = drawcount + 1
+					let pt = GetXYPoly(n:n, ticks: k, tickscale: maxk+1)
+					let pt2 = CGPoint(x: pt.x, y: pt.y + radius * 3 / 4)
+					DrawPoint(xy: pt2, radius: radius, hue: hue)
+					
+					
+				}
 			}
-		}
+		#else
+			for l in 0...maxk {
+				let k = maxk - l
+				let hue = Double(k-1) / Double(maxk)
+				for j in 0..<polyn*k
+				{
+					let n = j
+					let pt = GetXYPoly(n:n, ticks: k, tickscale: maxk+1)
+					let radius = CGFloat(secant) * rx / 2.0 / CGFloat(maxk) * CGFloat(maxk) / CGFloat(maxk+1)
+					let pt2 = CGPoint(x: pt.x, y: pt.y + radius * 3 / 4)
+					DrawPoint(xy: pt2, radius: radius, hue: hue)
+				}
+			}
+		#endif
+		//print("drawcount:",drawcount)
+		return
 	}
 	
 	private func GetXY(_ i: Int, _ j : Int) -> CGPoint

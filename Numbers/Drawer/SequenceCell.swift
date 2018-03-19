@@ -14,24 +14,17 @@ class SequenceCell: BaseNrTableCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-		CreateConstraints()
 		self.accessoryType = .detailDisclosureButton
 	}
-	
-	private func CreateConstraints() {
-		#if false
-		uilabel.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(uilabel)
-		uilabel.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-		uilabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-		uilabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-		uilabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-		#endif
-	}
-	
-	//private (set) var uilabel = UILabel()
+
 	private (set) var isSpecial : Bool = false
-	
+	lazy var drawcell : DrawTableCell = {
+		var d = DrawTableCell()
+		d.numtester = numtester
+		d.nr = self.nr
+		d.isHidden = true
+		return d
+	}()
 	var numtester : NumTester? = nil {
 		didSet {
 			isSpecial = numtester?.isSpecial(n: nr) ?? false
@@ -42,27 +35,26 @@ class SequenceCell: BaseNrTableCell {
 		didSet {
 			if nr == oldValue { return }
 			isSpecial = numtester?.isSpecial(n: nr) ?? false
+			if self.expanded {
+				drawcell.nr = nr
+			}
+			
 			UpdateUI()
 		}
 	}
-	override var expanded: Bool {
-		didSet {
-			self.isHidden = !expanded
-		}
-	}
+	
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
 	private func UpdateUI() {
-		self.isHidden = !isSpecial
 		guard let tester = numtester else { return }
-		if nr < BigUInt(Int32.max) && self.imageView?.image == nil
+		if self.imageView?.image == nil
 		{
 			let rect = CGRect(x: 0, y: 0, width: 100.0, height: 100.0)
-			let drawer = SequenceDrawer(rect: rect, tester: tester, nr: UInt64(nr))
+			let drawer = SequenceDrawer(nr : 1, tester : tester, emitter : nil, worker: nil)
 			drawer.bgcolor = UIColor.white
-			let image = drawer.draw()
+			let image = drawer.DrawNrImage(rect: rect)
 			self.imageView?.backgroundColor = UIColor.white
 			self.imageView?.image = image
 		}

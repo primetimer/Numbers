@@ -9,10 +9,11 @@
 import UIKit
 import BigInt
 
-class SequenceView : DrawNrView {
+
+
+class FibonacciSequenceView : DrawNrView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		self.tester = PrimeTester()
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -20,17 +21,24 @@ class SequenceView : DrawNrView {
 	}
 	
 	override func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {
-		return SequenceDrawer(nr: nr, tester: tester!, emitter: self, worker: worker)
+		return FibonacciSequenceDrawer(nr: nr, tester: tester!, emitter: self, worker: worker)
 	}
 }
 
-class SequenceDrawer : ImageNrDrawer {
+class FibonacciSequenceDrawer : ImageNrDrawer {
 	var bgcolor: UIColor? = nil
 	var Direction : Int = 1
 	private var context : CGContext!
-	let count = 100
+	private var count : Int {
+		if nr < 10 {
+			return 10
+		}
+		if nr < 3600 {
+			return Int(nr)
+		}
+		return 3600
+	}
 	let ulammode = UlamType.fibonacci
-	
 
 	override func DrawNrImage(rect : CGRect) -> UIImage? {
 		self.rect = rect
@@ -49,7 +57,10 @@ class SequenceDrawer : ImageNrDrawer {
 		context.beginPath()
 		let spiral = CreateSpiralDrawer(rect)
 		spiral.draw_spiral(context)
-		DrawNumbers(spiralDrawer: spiral, since: 0)
+		for since in 0...count {
+					context.clear(rect)
+			DrawNumbers(spiralDrawer: spiral, since: since)
+		}
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		return image
 	}
@@ -63,25 +74,30 @@ class SequenceDrawer : ImageNrDrawer {
 		drawer.overscan = 1.0
 		drawer.setZoom(1.0)
 		drawer.SetWidth(rect)
-		drawer.pstart = nr
+		drawer.pstart = 0 //nr
 		return drawer
 	}
 	
 	private func DrawNumbers(spiralDrawer: UlamDrawer, since : Int)
 	{
-		guard let tester = tester else { return }
-		for k in since ..< count {
+		let dhue = 1.0 / CGFloat(count)
+		spiralDrawer.pstart = UInt64(since)
+		for k in 0 ..< since {
 			if worker?.isCancelled ?? false {
 				return
 			}
-			let j = k // count - 1 - k
-			let nr =  Int(self.nr) + j * Direction
-			if nr < 0 { break }
-			if !tester.isSpecial(n: BigUInt(nr)) { continue }
-			spiralDrawer.draw_number(context, ulamindex: j, p: UInt64(nr), color : UIColor.red)
-			guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
-			emitter?.Emit(image: image)
+			let j = k //count - 1 - k
+			let nr =  since - k //Int(self.nr) + j * Direction
+			if nr < 0 { continue }
+			//if !tester.isSpecial(n: BigUInt(nr)) { continue }
+			let hue = CGFloat(nr) * dhue
+			let color = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+			do {
+				spiralDrawer.draw_number(context, ulamindex: j, p: UInt64(nr), color : color)
+			}
 		}
+		guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+		emitter?.Emit(image: image)
 	}
 }
 

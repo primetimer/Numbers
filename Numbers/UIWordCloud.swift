@@ -157,7 +157,7 @@ public class UIWordCloudView: UIImageView {
 	private func GetStrSize(s : String, font: String?,fontsize : CGFloat, frame : CGRect) -> CGSize{
 		let attrString = getAttrString(s: s, fontname: font,fontsize: fontsize, color: UIColor.black)
 		let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-		let brect = CGSize(width: frame.width / 2,height: CGFloat.greatestFiniteMagnitude)
+		let brect = CGSize(width: frame.width * 0.6667 ,height: CGFloat.greatestFiniteMagnitude)
 		let rect = attrString.boundingRect(with: brect, options: drawingOptions, context: nil)
 		return rect.size
 	}
@@ -214,6 +214,9 @@ public class UIWordCloudView: UIImageView {
 			}
 			if iteration % 13 == 0 {
 				vertical = !vertical
+			}
+			if iteration % 17 == 0 {
+				vertical = false
 			}
 			
 		}

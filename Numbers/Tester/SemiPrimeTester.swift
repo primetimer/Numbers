@@ -39,4 +39,7 @@ class SemiPrimeTester : NumTester {
 	func property() -> String {
 		return "semiprime"
 	}
+	func propertyString() -> String {
+		return "semi\u{00AD}prime"
+	}
 }

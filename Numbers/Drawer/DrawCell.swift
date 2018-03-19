@@ -16,7 +16,6 @@ class DrawTableCell: BaseNrTableCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		LayoutUI()
 	}
-	
 	private func LayoutUI() {
 		guard let draw = uidraw else { return }
 		draw.translatesAutoresizingMaskIntoConstraints = false
@@ -27,8 +26,9 @@ class DrawTableCell: BaseNrTableCell {
 		draw.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 		self.accessoryType = .none
 	}
-	
-	private (set) var isSpecial : Bool = false
+	override func layoutSubviews() {
+		super.layoutSubviews()
+	}
 	
 	var uidraw : DrawNrView? = nil {
 		willSet {
@@ -38,45 +38,33 @@ class DrawTableCell: BaseNrTableCell {
 			LayoutUI()
 		}
 	}
-	
-	override var expanded: Bool {
+	override var isHidden: Bool {
 		willSet {
-			if newValue == true && newValue != expanded {
-				uidraw?.isHidden = true
-			}
-		}
-		didSet {
-			self.isHidden = !expanded
-			if expanded {
-				
-				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-					self.uidraw?.setNeedsDisplay()
-					self.uidraw?.isHidden = false
-				})
-			}
-			
+			self.uidraw?.isHidden = newValue
 		}
 	}
 	
 	var numtester : NumTester? = nil {
 		didSet {
-			if numtester?.property() != oldValue?.property() {
+			if oldValue?.property() != numtester?.property() {
 				uidraw = CreateDrawView()
-				uidraw?.setNeedsDisplay()
+				uidraw?.tester = numtester
+				uidraw?.isHidden = true
 			}
 		}
 	}
-	
 	private func CreateDrawView() -> DrawNrView {
+		//return PolygonalView(poly: 6)
+		//return DebugView()
+		//return FibonacciSequenceView()
+		//return CatalanView()
+		//return ConstructibleView()
 		if numtester is PrimeTester {
-			let ulam = UlamView()
-			if nr <= BigUInt(Int64.max) {
-				ulam.start = UInt64(nr)
-			}
+			let ulam = SequenceView()
 			return ulam
 		}
 		if numtester is FibonacciTester {
-			let ans = FiboView()
+			let ans = FiboView() //FibonacciSequenceView() //FiboView?
 			return ans
 		}
 		if numtester is CompositeTester {
@@ -122,89 +110,15 @@ class DrawTableCell: BaseNrTableCell {
 			return ConstructibleView()
 		}
 		let ans = SequenceView()
-		ans.tester = numtester
 		return ans
 	}
-
-	
-	/*
-	var type : TableCellType = TableCellType.None {
-		didSet {
-			if oldValue == type { return }
-			switch type {
-			case .Fibo:
-				uidraw = FiboView()
-				numtester = FibonacciTester()
-			case .Faktor:
-				let faktorview = FaktorView()
-				faktorview.param.type = .polygon
-				uidraw = faktorview
-				numtester = FactorTester()
-			case .Lucky:
-				let luckyview = LuckyView()
-				//faktorview.param.type = .lucky
-				uidraw = luckyview
-				numtester = LuckyTester()
-			case .Triangular:
-				uidraw = PolygonalView(poly: 3)
-				numtester = TriangleTester()
-			case .Square:
-				uidraw = PolygonalView(poly: 4)
-				numtester = SquareTester()
-			case .Pentagonal:
-				uidraw = PolygonalView(poly: 5)
-				numtester = PentagonalTester()
-			case .Hexagonal:
-				uidraw = PolygonalView(poly: 6)
-				numtester = HexagonalTester()
-			case .Palindromic:
-				uidraw = PalindromeView()
-				numtester = PalindromicTester()
-			case .None:
-				break
-			case .Prime:
-				let ulam = UlamView()
-				if nr <= BigUInt(Int64.max) {
-					ulam.start = UInt64(nr)
-					uidraw = ulam
-				}
-				numtester = PrimeTester()
-			case .Abundant:
-				let faktorview = FaktorView()
-				faktorview.param.type = .ulam
-				uidraw = faktorview
-				numtester = AbundanceTester()
-			case .Lucas:
-				uidraw = LucasView()
-				numtester = LucasTester()
-			case .Catalan:
-				uidraw = CatalanView()
-				numtester = CatalanTester()
-				
-			}
-			if let test = numtester {
-				isSpecial = test.isSpecial(n: nr)
-			}
-			self.setNeedsDisplay()
-		}
-	}
-	*/
 
 	override var nr : BigUInt {
 		didSet {
 			if oldValue == nr { return }
-			if let test = numtester  {
-				isSpecial = test.isSpecial(n: nr)
-			}
 			if nr.isInt64() {
-				uidraw?.SetNumber(UInt64(nr))
+				uidraw?.nr = UInt64(nr)
 			}
-			if !isSpecial {
-				uidraw?.isHidden = true
-				return
-			}
-			
-			uidraw?.isHidden = false
 			uidraw?.setNeedsDisplay()
 		}
 	}

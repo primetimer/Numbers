@@ -11,54 +11,14 @@
 import UIKit
 import BigInt
 
-class ConstructibleView : DrawNrView, EmitImage {
-	func Emit(image: UIImage) {
-		DispatchQueue.main.async(execute: {
-			self.imageview.image  = image
-			self.imageview.animationImages?.append(image)
-			self.imageview.startAnimating()
-		})
-	}
-	
-	/*
-	override var frame : CGRect {
-		didSet {
-			//print("con Frame:", frame,oldValue)
-			if frame != oldValue {
-				needredraw = true
-				
-				setNeedsDisplay()
-			}
-		}
-	}
-	*/
-	
-	private var tester = ConstructibleTester()
+class ConstructibleView : DrawNrView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 	}
-	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
 	
-	override func SetNumber(_ nextnr : UInt64) {
-		super.SetNumber(nextnr)
-		//self.start = nextnr
-	}
-	
-	private var needredraw = true
-	override var nr: UInt64 {
-		didSet {
-			//print("con nr:", nr,oldValue)
-			if nr != oldValue {
-				needredraw = true
-				setNeedsDisplay()
-			}
-		}
-	}
-	
-	private var workItem : DispatchWorkItem? = nil
 	override func draw(_ rect: CGRect) {
 		if self.isHidden { return }
 		if rect.height <= 10 { return }
@@ -71,7 +31,8 @@ class ConstructibleView : DrawNrView, EmitImage {
 		workItem?.cancel()
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
-			let drawer = ConstructibleDrawer(rect: rect, tester: self.tester, nr: self.nr)
+			guard let tester = self.tester as? ConstructibleTester else { return }
+			let drawer = ConstructibleDrawer(rect: rect, tester: tester, nr: self.nr)
 			drawer.emitdelegate = self
 			let image = drawer.draw()
 			if !worker.isCancelled {

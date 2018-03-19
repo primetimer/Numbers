@@ -92,6 +92,9 @@ class PerfectTester : NumTester {
 	func property() -> String {
 		return "perfect"
 	}
+	func propertyString() -> String {
+		return "per\u{00AD}fect"
+	}
 	func isSpecial(n: BigUInt) -> Bool {
 		let b = seq.contains(n)
 		return b
@@ -182,6 +185,9 @@ class AbundanceTester : NumTester {
 	}
 	func property() -> String {
 		return "abundant"
+	}
+	func propertyString() -> String {
+		return "abun\u{00AD}dant"
 	}
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }

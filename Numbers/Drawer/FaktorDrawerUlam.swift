@@ -61,7 +61,7 @@ class FaktorDrawerUlam : FaktorDrawer {
 			}
 			let p = UInt64(t)
 			let ulamindex = Int(p - ulam.pstart)
-			ulam.draw_number(context, ulamindex : ulamindex, p: p)
+			ulam.draw_number(context, ulamindex : ulamindex, p: p, color: UIColor.red)
 		}
 	}
 	

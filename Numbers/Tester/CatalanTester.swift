@@ -71,6 +71,9 @@ class CatalanTester : NumTester {
 	func property() -> String {
 		return "Catalan"
 	}
+	func propertyString() -> String {
+		return "Cata\u{00AD}lan"
+	}
 }
 
 

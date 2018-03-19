@@ -128,6 +128,9 @@ class CompositeTester : NumTester {
 	func property() -> String {
 		return "composite"
 	}
+	func propertyString() -> String {
+		return "com\u{00AD}po\u{00AD}site"
+	}
 	func isSpecial(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
 		return !PrimeTester().isSpecial(n: n)

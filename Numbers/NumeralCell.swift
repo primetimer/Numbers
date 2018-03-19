@@ -122,7 +122,7 @@ class NumeralCells {
 				height = max(height,label.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height)
 			}
 		}
-		return height + 20.0
+		return height + 30.0
 	}
 	
 	init() {

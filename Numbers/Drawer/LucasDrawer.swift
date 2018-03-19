@@ -25,16 +25,13 @@ class LucasView: DrawNrView {
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
-	
-	//private var dangle : Double = 0.0
-	override func SetNumber(_ nextnr : UInt64) {
-		super.SetNumber(nextnr)
-		let lucas = LucasTester()
-		maxlevel = Int(lucas.Nth(n: BigUInt(nextnr))) - 1
-		ry2 = ry / CGFloat(nextnr) / 4.0 * CGFloat(pow(2.0,Double(maxlevel)))
-		//dangle = Double.pi / Double(maxlevel) / 2.0
+
+	override var nr : UInt64 {
+		didSet {
+			maxlevel = Int(LucasTester.NIndex(n: BigUInt(nr))) - 1
+			ry2 = ry / CGFloat(nr) / 4.0 * CGFloat(pow(2.0,Double(maxlevel)))
+		}
 	}
-	
 
 	private var (rx,ry,rx2,ry2) = (CGFloat(0),CGFloat(0),CGFloat(0),CGFloat(0))
 	private var maxlevel = 10
