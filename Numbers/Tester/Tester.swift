@@ -18,6 +18,7 @@ protocol NumTester {
 	func propertyString() -> String
 	func invers() -> NumTester?
 	func subtester() -> [NumTester]?
+	func issubTester() -> Bool
 }
 
 extension NumTester {
@@ -32,6 +33,7 @@ extension NumTester {
 extension NumTester {
 	func invers() ->  NumTester? { return nil }
 	func subtester() -> [NumTester]? { return nil }
+	func issubTester() -> Bool { return false }
 }
 
 class EverTrueTester : NumTester {
@@ -70,14 +72,14 @@ class Tester : NumTester {
 	
 	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
 										 SOGPrimeTester(),SafePrimeTester()]
-	private (set) var complete : [NumTester] = []
+	private (set) var completetesters : [NumTester] = []
 	private init() {
 		for t in testers {
-			complete.append(t)
-			if t.invers() != nil { complete.append(t.invers()!)}
+			completetesters.append(t)
+			if t.invers() != nil { completetesters.append(t.invers()!)}
 			if t.subtester() != nil {
 				for sub in t.subtester()! {
-					complete.append(sub)
+					completetesters.append(sub)
 				}
 			}
 		}
@@ -109,7 +111,7 @@ class Tester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		
 		var str : String = ""
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				let desc = TesterCache.shared.getDesc(tester: t, n: n)
 				str = str + desc! + "\n"
@@ -120,7 +122,7 @@ class Tester : NumTester {
 	
 	func getLatex(n: BigUInt) -> String? {
 		var latex : String = ""
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				if let ltest = TesterCache.shared.getLatex(tester: t,n: n) {
 					latex = latex + ltest + "\\\\"
@@ -139,7 +141,7 @@ class Tester : NumTester {
 			ans.append("Neutral Element of multiplication")
 		}
 		
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				ans.append(t.property())
 			}

@@ -16,10 +16,22 @@ class TwinPrimeTester : PrimeTester {
 	}
 	override func isSpecial(n: BigUInt) -> Bool {
 		if !super.isSpecial(n: n) { return false }
-		if super.isSpecial(n: n-2) { return true }
+		//if super.isSpecial(n: n-2) { return true }
 		if super.isSpecial(n: n+2) { return true }
 		return false
 	}
+	
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let nstr = String(n)
+		var latex = ""
+		if PrimeCache.shared.IsPrime(p: BigUInt(n+2)) {
+			latex = nstr + subset(type:2)
+		}
+		return latex
+	}
+	
+	func issubTester() -> Bool { return true }
 }
 
 class CousinPrimeTester : PrimeTester {
@@ -31,6 +43,17 @@ class CousinPrimeTester : PrimeTester {
 		if super.isSpecial(n: n+4) { return true }
 		return false
 	}
+	
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let nstr = String(n)
+		var latex = ""
+		if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
+			latex = nstr + subset(type:4)
+		}
+		return latex
+	}
+		func issubTester() -> Bool { return true }
 }
 
 class SexyPrimeTester : PrimeTester {
@@ -42,6 +65,16 @@ class SexyPrimeTester : PrimeTester {
 		if super.isSpecial(n: n+6) { return true }
 		return false
 	}
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let nstr = String(n)
+		var latex = ""
+		if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
+			latex = nstr + subset(type:6)
+		}
+		return latex
+	}
+		func issubTester() -> Bool { return true }
 }
 class SOGPrimeTester : PrimeTester {
 	override func property() -> String {
@@ -52,6 +85,12 @@ class SOGPrimeTester : PrimeTester {
 		if super.isSpecial(n: 2*n+1) { return true }
 		return false
 	}
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let latex = "2\\cdot{" + String(n) + " + 1 \\in \\mathbb{N}"
+		return latex
+	}
+		func issubTester() -> Bool { return true }
 }
 
 class SafePrimeTester : PrimeTester {
@@ -63,6 +102,12 @@ class SafePrimeTester : PrimeTester {
 		if super.isSpecial(n: (n-1)/2) { return true }
 		return false
 	}
+	override func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		let latex = "\\frac{" + String(n) + "- 1}{2} \\in \\mathbb{N}"
+		return latex
+	}
+		func issubTester() -> Bool { return true }
 }
 
 class ProbablePrimeTester : NumTester {
@@ -197,6 +242,7 @@ class PrimeTester : NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		var desc = WikiLinks.shared.getLink(tester: self, n: n)
+		return desc
 		
 		if n<2 { return nil }
 		if n==2 { return desc + "2 is the one and only even prime" }
@@ -222,7 +268,7 @@ class PrimeTester : NumTester {
 		return desc
 	}
 	
-	private func subset(type : Int) -> String {
+	internal func subset(type : Int) -> String {
 		let difstr : String = (type > 0 ) ? "+" + String(type) : String(type)
 		let latex = "\\in \\mathbb{P}_{" + String(type) + "}:= \\{ p \\in \\mathbb{P} : p" + difstr + "\\in \\mathbb{P} \\}"
 		return latex
@@ -245,23 +291,25 @@ class PrimeTester : NumTester {
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
 		if n<2 { return nil }
-		//if n==2 { return "2 is the one and only even prime" }
 		let nstr = String(n)
-		var latex = ""
-		if PrimeCache.shared.IsPrime(p: BigUInt(n+2)) {
-			latex = nstr + subset(type:2)
-		} else 	if PrimeCache.shared.IsPrime(p: BigUInt(n-2)) {
-			latex = nstr + subset(type:-2)
-		} else 	if PrimeCache.shared.IsPrime(p: BigUInt(n+4)) {
-			latex = nstr + subset(type:4)
-		} else if PrimeCache.shared.IsPrime(p: BigUInt(n+6)) {
-			latex = nstr + subset(type:6)
-		} else {
-			latex = nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\}"
-		}
+		var latex = nstr + "\\in \\mathbb{P} := \\{ p \\in \\mathbb{N} | \\forall q : q\\mid p \\rightarrow q=1 \\lor q=p \\}"
+		
 		if let gausslatex = GaussianLatex(p: n) {
 			latex = latex + "\\\\" + gausslatex
 		}
 		return latex
+	}
+	
+	private var subtesters : [NumTester] = []
+	func subtester() -> [NumTester]? {
+		//avoid recursion
+		if self.property() != PrimeTester().property() {
+			return nil
+		}
+		if !subtesters.isEmpty { return subtesters }
+		subtesters.append(TwinPrimeTester())
+		subtesters.append(CousinPrimeTester())
+		subtesters.append(SexyPrimeTester())
+		return subtesters
 	}
 }

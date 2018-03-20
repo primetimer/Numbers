@@ -112,7 +112,7 @@ class WikiLinks {
 				break
 			}
 		}
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			if t.property() == property {
 				return t
 			}

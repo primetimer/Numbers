@@ -67,6 +67,9 @@ class DrawTableCell: BaseNrTableCell {
 			let ans = FiboView() //FibonacciSequenceView() //FiboView?
 			return ans
 		}
+		if numtester is LucasTester {
+			return FiboView() //LucasView()
+		}
 		if numtester is CompositeTester {
 			let faktorview = FaktorView()
 			faktorview.param.type = .polygon
@@ -97,9 +100,7 @@ class DrawTableCell: BaseNrTableCell {
 			faktorview.param.type = .ulam
 			return faktorview
 		}
-		if numtester is LucasTester {
-			return LucasView()
-		}
+		
 		if numtester is CatalanTester {
 			return CatalanView()
 		}

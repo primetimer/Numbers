@@ -41,7 +41,7 @@ class TesterArtCell : BaseNrTableCell {
 	private func CreateTesterArt(n : BigUInt)
 	{
 		uiart.Clear()
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			if TesterCache.shared.isSpecial(tester: t, n: n) {
 				uiart.AppendString(s: t.propertyString())
 			}

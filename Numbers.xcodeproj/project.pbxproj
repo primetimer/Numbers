@@ -153,6 +153,7 @@
 		5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStrokeAnimatedLabel.swift; sourceTree = "<group>"; };
 		5486C566203F2E0900778A81 /* UIWordCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWordCloud.swift; sourceTree = "<group>"; };
 		5486C5682040694E00778A81 /* NumeralArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralArtCell.swift; sourceTree = "<group>"; };
+		54880A64206065EF00A60096 /* Hermite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hermite.swift; sourceTree = "<group>"; };
 		548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiboDrawer.swift; sourceTree = "<group>"; };
 		54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromeDrawer.swift; sourceTree = "<group>"; };
 		54923FAB1FEE8047006993F2 /* GradientText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientText.swift; sourceTree = "<group>"; };
@@ -357,6 +358,7 @@
 				54924C7C2049B4250038716B /* WikiVC.swift */,
 				5430781D1FDE6C0A0036516F /* MainViewController.swift */,
 				54E43A6B1FD44B4100C25A42 /* Extensions.swift */,
+				54880A64206065EF00A60096 /* Hermite.swift */,
 				54E43A4F1FD44A1100C25A42 /* Main.storyboard */,
 				54E43A521FD44A1100C25A42 /* Assets.xcassets */,
 				54E43A541FD44A1100C25A42 /* LaunchScreen.storyboard */,

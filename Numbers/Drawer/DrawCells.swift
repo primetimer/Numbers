@@ -23,7 +23,7 @@ class DrawingCells {
 	private let dummycell = UITableViewCell()
 	
 	init() {
-		for t in Tester.shared.complete {
+		for t in Tester.shared.completetesters {
 			let seqcell = SequenceCell()
 			seqcell.expanded = false
 			seqcell.isHidden = true
@@ -62,7 +62,12 @@ class DrawingCells {
 			artcell.expanded = true
 			artcell.accessoryType = .none
 			for s in scells {
-				s.isHidden = false
+				guard let tester = s.numtester else { continue }
+				if tester.issubTester() && !tester.isSpecial(n: self.nr) {
+					s.isHidden = true
+				} else {
+					s.isHidden = false
+				}
 			}
 		}
 	}
