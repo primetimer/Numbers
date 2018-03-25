@@ -11,6 +11,12 @@ import BigInt
 import BigFloat
 @testable import Numbers
 
+extension BigInt : CustomDebugStringConvertible {
+	public var debugDescription: String {
+		return String(self)
+	}
+}
+
 class FloatExtTests: XCTestCase {
     
     override func setUp() {
@@ -43,34 +49,43 @@ class FloatExtTests: XCTestCase {
 		XCTAssert(abs(d19_2-19.0) <= 0.0000000001)
 	}
 	
-	func testcompouteSquareroot() {
+	func testcomputeSquareroot() {
 		
-		let f = BigFloat(5)
-		let f2 = BigFloat.sqrt(x: f)
-		let a = ContinuedFractions.shared.getSeries(value: f2)
-		for i in 1...10 {
-			let (n,d) = ContinuedFractions.shared.ValueRational(seq: a, count: i)
+		for fint in 2...19 {
+			let f = BigFloat(fint)
+			let f2 = BigFloat.sqrt(x: f)
+			let a = ContinuedFractions.shared.getSeries(value: f2,upto : 100)
+			//print(fint, ":", a)
+			let (n,d) = ContinuedFractions.shared.ValueRational(seq: a, count: 100)
 			let approx = BigFloat(BigInt(n)) / BigFloat(BigInt(d))
-			
-			let s = approx.asString(10, maxlen: 10, fix: 10)
-			//let approx2 = approx * approx
-			//let s2 = approx2.asString(10, maxlen: 10, fix: 10)
-			print(i,String(n),String(d),s)
+			let approx2 = approx * approx
+			let dif = BigFloat.abs(f - approx2)
+			print(fint, dif)
+			XCTAssert(dif <= BigFloat(Double(0.00001)))
 		}
-		/*
-		var a: [BInt] = []
-		let n = 5
-		let bf2 = BigFloat.sqrt(x: BigFloat(n))
-		var (a0,x) = (BigInt(0),bf2)
-		for _ in 0...10 {
-			(a0,x) = x.SplitIntFract()
-			a.append(Int(a0))
-			print(a)
-			x = BigFloat(1) / x
+	}
+	
+	func testNomenator() {
+		do {
+			let f0 = 2
+			let f = BigFloat.sqrt(x: BigFloat(f0))
+			let a = ContinuedFractions.shared.getSeries(value: f)
+			let r = ContinuedFractions.shared.RationalSequence(seq: a)
+			XCTAssert(r[0].n == BigUInt(1))
+			XCTAssert(r[1].n == BigUInt(3))
+			XCTAssert(r[5].n == BigUInt(99))
+			//https://oeis.org/A001333
 		}
-		*/
-		
-		
+		do { //https://oeis.org/A002485
+			let f = BigFloatConstant.pi
+			let a = ContinuedFractions.shared.getSeries(value: f)
+			let r = ContinuedFractions.shared.RationalSequence(seq: a)
+			let soll = [3,7,15,1,292,1,1,1,2,1,3,1,14]
+			for (index,s) in soll.enumerated() {
+				print(r[index])
+				XCTAssert(s == Int(a[index]))
+			}
+		}
 	}
     
     func testExample() {

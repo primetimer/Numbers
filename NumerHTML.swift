@@ -16,9 +16,10 @@ class WikiLinks {
 	private (set) var dict : [String:String] = [:]
 	
 	private init() {
-		AddWiki("triangle","https://en.wikipedia.org/wiki/Triangular_number")
-		AddWiki("square","https://en.wikipedia.org/wiki/Square_number")
-		AddWiki("cube","https://en.wikipedia.org/wiki/Cube_(algebra)")
+		AddWiki(TriangleTester().property(),"https://en.wikipedia.org/wiki/Triangular_number")
+		AddWiki(SquareTester().property(),"https://en.wikipedia.org/wiki/Square_number")
+		AddWiki(RamanujanNagellTester().property(),"https://en.wikipedia.org/wiki/Ramanujan–Nagell_equation")
+		AddWiki(CubeTester().property(),"https://en.wikipedia.org/wiki/Cube_(algebra)")
 		AddWiki("perfect","https://en.wikipedia.org/wiki/Perfect_number")
 		AddWiki("pentagonal","https://en.wikipedia.org/wiki/Pentagonal_number")
 		AddWiki("hexagonal","https://en.wikipedia.org/wiki/Hexagonal_number")
@@ -35,9 +36,10 @@ class WikiLinks {
 		AddWiki("sexy prime","https://en.wikipedia.org/wiki/Sexy_prime")
 		AddWiki("Sophie Germain prime","https://en.wikipedia.org/wiki/Sophie_Germain_prime")
 		AddWiki("safe prime","https://en.wikipedia.org/wiki/Safe_prime")
-		AddWiki("palindromic","https://en.wikipedia.org/wiki/Palindromic_number")
+		AddWiki(PalindromicTester().property(),"https://en.wikipedia.org/wiki/Palindromic_number")
 		AddWiki("nontotient","https://en.wikipedia.org/wiki/Nontotient")
 		AddWiki(MersenneTester().property(),"https://en.wikipedia.org/wiki/Mersenne_prime")
+		AddWiki(TitanicTester().property(),"https://en.wikipedia.org/wiki/Titanic_prime")
 		AddWiki(FermatTester().property(),"https://en.wikipedia.org/wiki/Fermat_number")
 		AddWiki(ConstructibleTester().property(),"https://en.wikipedia.org/wiki/Constructible_polygon")
 		//AddWiki("Fermat","https://en.wikipedia.org/wiki/Fermat_number")

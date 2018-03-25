@@ -23,7 +23,8 @@ class DrawingCells {
 	private let dummycell = UITableViewCell()
 	
 	init() {
-		for t in Tester.shared.completetesters {
+		let x = 1
+		for t in Tester.shared.testers {
 			let seqcell = SequenceCell()
 			seqcell.expanded = false
 			seqcell.isHidden = true

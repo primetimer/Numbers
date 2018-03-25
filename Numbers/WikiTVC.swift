@@ -11,12 +11,14 @@ import iosMath
 import BigInt
 import PrimeFactors
 import YouTubePlayer
+import GhostTypewriter
 
 enum TVCViewSection : Int {
 	case Art = 0
 	case Wiki = 1
 	case OEIS = 2
-	case Formula = 3
+	case Records = 3
+	case Formula = 4
 }
 
 class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
@@ -26,6 +28,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	private let formcellId = "formcellId"
 	private let oeiscellId = "oeiscellId"
 	private let wikicellId = "wikicellId"
+	private let recordCellId = "recordcellId"
 
 	static let wikiheight : CGFloat = 600.0
 	private let artcell = NumeralSequenceArtCell()
@@ -36,6 +39,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	//private var uiwebtemp : UIWebView? = nil
 	//private var uioeistemp : UIWebView? = nil
 	private var uitubetemp : YouTubePlayerView? = nil
+	private var uirecordtemp : TypewriterLabel? = nil
+
 	
 	private var htmldesc = ""
 	private var formula : String = "\\forall n \\in \\mathbb{N} : n = n + 0"
@@ -70,6 +75,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return 1
 		case TVCViewSection.OEIS.rawValue:
 			return 1
+		case TVCViewSection.Records.rawValue:
+			return 1
 		default:
 			assert(false)
 			return 0
@@ -77,7 +84,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	}
 	
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 3
+		return  TVCViewSection.Records.rawValue+1
 	}
 	
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -93,6 +100,8 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return nil
 		case TVCViewSection.Wiki.rawValue:
 			return "Wikipedia"
+		case TVCViewSection.Records.rawValue:
+			return "Records & digits"
 		case TVCViewSection.Formula.rawValue:
 			return "Formula"
 		case TVCViewSection.OEIS.rawValue:
@@ -127,6 +136,13 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			return NrViewController.wikiheight
 		case TVCViewSection.OEIS.rawValue:
 			return NrViewController.wikiheight
+		case TVCViewSection.Records.rawValue:
+			if let temp = uirecordtemp {
+				temp.sizeToFit()
+				let height = temp.sizeThatFits(CGSize(width:self.view.width, height: CGFloat.greatestFiniteMagnitude)).height
+				return height + 20.0
+			}
+			return 100.0
 		case TVCViewSection.Formula.rawValue:
 			return 100.0
 		default:
@@ -169,6 +185,14 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 				cell.accessoryType = .none
 				return cell
 			}
+		case TVCViewSection.Records.rawValue:
+			if let cell = tableView.dequeueReusableCell(withIdentifier: recordCellId, for: indexPath) as? RecordTableCell {
+				cell.tableparent = tableView
+				cell.tester = self.tester as? RecordTester
+				uirecordtemp = cell.uitypewriter
+				cell.nr = currnr
+				return cell
+			}
 			
 		default:
 			assert(false)
@@ -186,6 +210,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
+		tv.register(RecordTableCell.self, forCellReuseIdentifier: self.recordCellId)
 		
 		return tv
 	}()

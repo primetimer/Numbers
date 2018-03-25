@@ -11,6 +11,12 @@ import UIKit
 import BigInt
 import PrimeFactors
 
+extension BigUInt: CustomDebugStringConvertible {
+	public var debugDescription: String {
+		return String(self, radix: 10)
+	}
+}
+
 extension MutableCollection {
 	/// Shuffles the contents of this collection.
 	mutating func shuffle() {

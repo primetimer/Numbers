@@ -58,16 +58,16 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	let testers : [NumTester] = [PrimeTester(), SemiPrimeTester(), ProbablePrimeTester(),CarmichaelTester(),AbundanceTester(),
+	let testers : [NumTester] = [ExtraTester(),PrimeTester(), SemiPrimeTester(), ProbablePrimeTester(),CarmichaelTester(),AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
-										 Pow2Tester(),MersenneTester(),HeegnerTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
+										 Pow2Tester(),MersenneTester(),TitanicTester(),HeegnerTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),TaxiCabTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
-										 MathConstantTester(),LatticeTester()]
+										 MathConstantTester(),LatticeTester(),BernoulliTester()]
 	
 	
 	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
@@ -552,6 +552,21 @@ class LucasTester : NumTester {
 		let f2 = pow(Double.psi,Double(n))
 		let ans = f1+f2
 		return ans
+	}
+}
+
+class RamanujanNagellTester : MersenneTester {
+	override func isSpecial(n: BigUInt) -> Bool {
+		if n == 0 { return false }
+		return OEIS.shared.ContainsNumber(key: self.property(), n: n)
+	}
+	
+	override func getLatex(n: BigUInt) -> String? {
+		return nil //Solved by TriangleTester && MersenneTester
+	}
+	
+	override func property() -> String {
+		return "Ramanujan-Nagell"
 	}
 }
 

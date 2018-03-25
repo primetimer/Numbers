@@ -12,6 +12,8 @@ import BigInt
 import PrimeFactors
 import YouTubePlayer
 import SafariServices
+import BigFloat
+import GhostTypewriter
 
 enum NrViewSection : Int {
 	//case Description = 1
@@ -27,6 +29,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"
+	private let recordCellId = "recordcellId"
 	private let formcellId = "formcellId"
 	private let wikicellId = "wikicellId"
 	private let oeiscellId = "oeiscellId"
@@ -45,14 +48,16 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private var uidesctemp : UIWebView? = nil
 	private var uinumeraltemp : UILabel? = nil
 	private var uiformtemp : MTMathUILabel? = nil
+	private var uirecordtemp : TypewriterLabel? = nil
 	private var uiwebtemp : UIWebView? = nil
 	private var uitubetemp : YouTubePlayerView? = nil
-	private var htmldesc = ""
+	//private var htmldesc = ""
 	private var formula : String = "" // \\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiadr : String = "wikipedia.de"
 	
 	var currnr : BigUInt = 0 {
 		didSet {
+			NumberModel.shared.currnr = currnr
 			numeralcells.nr = currnr
 			drawcells.nr = currnr
 			if currnr != oldValue {
@@ -79,12 +84,37 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		self.present(safari, animated: true, completion: nil)
 	}
 	
+	var explanationWorker : DispatchWorkItem? = nil
 	private func GetExplanation() {
-		let exp = Explain.shared.GetExplanation(nr: currnr)
-		uisearch.text = String(currnr)
-		htmldesc = exp.html
-		formula = exp.latex
-		wikiadr = exp.wikilink
+		self.explanationWorker = DispatchWorkItem {
+			self.explanationWorker?.cancel()
+			let nr = self.currnr
+			let exp = Explain.shared.GetExplanation(nr: nr)
+			DispatchQueue.main.async(execute: {
+				self.uisearch.text = String(nr)
+				//self.htmldesc = exp.html
+				self.formula = exp.latex
+				self.wikiadr = exp.wikilink
+				do {
+					let indexPath = IndexPath(item: 0, section: NrViewSection.DrawNumber.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .top)
+				}
+				do {
+					let indexPath = IndexPath(item: 0, section: NrViewSection.Formula.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .top)
+				}
+				/*
+				do {
+					let indexPath = IndexPath(item: 1, section: NrViewSection.Formula.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .top)
+				}
+				*/
+				self.tv.beginUpdates()
+				self.tv.endUpdates()
+			})
+		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: explanationWorker!)
+		
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,6 +124,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return ans //
 		case NrViewSection.Numerals.rawValue:
 			return NumeralCellType.allValues.count*2 - 1
+		case NrViewSection.Formula.rawValue:
+			return 1
 		default:
 			return 1
 		}
@@ -115,7 +147,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		case NrViewSection.Numerals.rawValue:
 			return "Numerals"
 		case NrViewSection.Formula.rawValue:
-			return "Formula"
+			return "Formulas" //, Records & Digits"
 		case NrViewSection.DrawNumber.rawValue:
 			return "Properties"
 		case NrViewSection.Wiki.rawValue:
@@ -138,6 +170,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let width = tableView.frame.size.width // - 20
+		let row = indexPath.row
 		switch indexPath.section {
 			/*
 			case NrViewSection.Description.rawValue:
@@ -149,7 +182,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			}
 			*/
 		case NrViewSection.Numerals.rawValue:
-			let row = indexPath.row
+			
 			if numeralcells.getCell(row: row).isHidden {
 				return 0.0
 			}
@@ -157,18 +190,29 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 			return h
 			
 		case NrViewSection.DrawNumber.rawValue:
-			let row = indexPath.row
 			if drawcells.getCell(row: row).isHidden {
 				return 0.0
 			}
 			let h = drawcells.getRowHeight(row: row)
 			return h
 		case NrViewSection.Formula.rawValue:
-			if let temp = uiformtemp {
-				temp.sizeToFit()
-				let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
-				return height + 20.0
-			}
+			//return 100.0
+			switch row {
+			case 0:
+				if let temp = uiformtemp {
+					temp.sizeToFit()
+					let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
+					return height + 20.0
+				}
+			case 1:
+				if let temp = uirecordtemp {
+					temp.sizeToFit()
+					let height = temp.sizeThatFits(CGSize(width:width, height: CGFloat.greatestFiniteMagnitude)).height
+					return min(100.0,height + 20.0)
+				}
+			default:
+				assert(false)
+			}			
 		case NrViewSection.Wiki.rawValue:
 			if uiwebtemp != nil {
 				return NrViewController.wikiheight
@@ -257,12 +301,11 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let row = indexPath.row
 		switch indexPath.section {
 		case NrViewSection.Numerals.rawValue:
-			let row = indexPath.row
 			let cell = numeralcells.getCell(row: row)
 			return cell
-			
 		case NrViewSection.Formula.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: formcellId, for: indexPath) as? FormTableCell {
 				cell.tableparent = tableView
@@ -304,6 +347,8 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.dataSource = self
 		tv.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: self.headerId)
 		tv.register(FormTableCell.self, forCellReuseIdentifier: self.formcellId)
+		tv.register(RecordTableCell.self, forCellReuseIdentifier: self.recordCellId)
+		
 		tv.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		tv.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
 		tv.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
@@ -312,7 +357,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		currnr = initialnumber
+		currnr = NumberModel.shared.currnr
 		GetExplanation()
 		tv.reloadData()
 	}

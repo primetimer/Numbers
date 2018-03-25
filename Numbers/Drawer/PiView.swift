@@ -24,7 +24,7 @@ class PiView : DrawNrView {
 		self.imageview.stopAnimating()
 		self.imageview.animationImages = []
 		self.imageview.animationDuration = 2.0
-		self.imageview.animationRepeatCount = 0		
+		self.imageview.animationRepeatCount = 1
 		workItem?.cancel()
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }

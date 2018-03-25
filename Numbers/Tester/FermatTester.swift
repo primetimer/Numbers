@@ -26,7 +26,8 @@ class FermatTester : NumTester {
 	func getLatex(n: BigUInt) -> String? {
 		if n <= 2 { return nil }
 		if !isSpecial(n: n) { return nil }
-		guard let oeisseq = OEIS.shared.seq[self.property()] else { return nil }
+		
+		guard let oeisseq = OEIS.shared.GetSequence(key: self.property()) else { return nil }
 		for (index,p) in oeisseq.enumerated() {
 			if n == p {
 				let latex = String(n) + "= 2^{2^{" + String(index+1) + "}} + 1 = F_{" + String(index) + "}"
@@ -42,9 +43,7 @@ class FermatTester : NumTester {
 	
 	func isSpecial(n: BigUInt) -> Bool {
 		if n <= 2 { return false }
-		guard let oeisseq = OEIS.shared.seq[self.property()] else { return false }
-		if oeisseq.contains(n) { return true }
-		return false
+		return OEIS.shared.ContainsNumber(key: self.property(), n: n)
 	}
 }
 

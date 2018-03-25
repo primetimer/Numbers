@@ -312,4 +312,10 @@ class PrimeTester : NumTester {
 		subtesters.append(SexyPrimeTester())
 		return subtesters
 	}
+	
+	/*
+	func recordLatex() -> String? {
+		return "2^{77232917}-1 - \\text{Mersenne prime}"
+	}
+	*/
 }

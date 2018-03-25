@@ -28,7 +28,7 @@ class SupersingularTester : NumTester {
 	
 	func getLatex(n: BigUInt) -> String? {
 		var latex = ""
-		latex = latex + String(n) + " |\\ |M| = 2^{46}·\\cdot{3^{20}}·\\cdot{5^{9}}·\\cdot{7^{6}}·\\cdot{11^{2}}·\\cdot{13^3}\\cdot{} \\\\"
+		latex = latex + String(n) + " |\\ |M| = 2^{46}·\\cdot{3^{20}}·\\cdot{5^{9}}·\\cdot{7^{6}}·\\cdot{11^{2}}·\\cdot{13^3}·"
 		latex = latex + "\\cdot{17}\\cdot{19}\\cdot{23}\\cdot{29}\\cdot{31}\\cdot{41}·\\cdot{47}·\\cdot{59}\\cdot{71}\\\\"
 		
 		return latex

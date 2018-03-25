@@ -67,6 +67,13 @@ class MersenneTester : NumTester {
 		}
 		return true
 	}
+	func recordLatex() -> String? {
+		return "2^{77232917}-1 - \\text{Mersenne prime}(2018)"
+	}
+	
+	func subtester() -> [NumTester]? {
+		return [RamanujanNagellTester()]
+	}
 }
 
 class ProthTester : NumTester {
@@ -111,6 +118,11 @@ class ProthTester : NumTester {
 		let nn = (n-1) / k
 		return (k: k, pot2: pot2, nn: nn)
 	}
+	/*
+	func recordLatex() -> String? {
+		return "10223*2^{31172165}+1 - \\text{Proth prime}"
+	}
+	*/
 }
 
 class SierpinskiTester : NumTester {
@@ -141,5 +153,20 @@ class SierpinskiTester : NumTester {
 								2191531,2510177,2541601,2576089,2931767,2931991,
 								3083723,3098059,3555593,3608251]
 	
+}
+
+class TitanicTester : NumTester {
+	func isSpecial(n: BigUInt) -> Bool {
+		let special = OEIS.shared.ContainsNumber(key: property(), n: n)
+		return special
+	}
+	func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		var latex = "10^{999} + " + String(n) + "\\in \\mathbb{P}"
+		return latex
+	}
+	func property() -> String {
+		return "titanic"
+	}
 }
 

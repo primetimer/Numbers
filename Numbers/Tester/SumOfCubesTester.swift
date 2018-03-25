@@ -19,9 +19,7 @@ class TaxiCabTester : SumOfTwoCubesTester {
 	override func isSpecial(n: BigUInt) -> Bool {
 		if CubeTester().isSpecial(n: n) { return false }
 		if !super.isSpecial(n: n) { return false }
-		
-		guard let seq = OEIS.shared.seq[self.property()] else { return false }
-		return seq.contains(n)
+		return OEIS.shared.ContainsNumber(key: self.property(), n: n)
 	}
 	
 	override func getLatex(n: BigUInt) -> String? {

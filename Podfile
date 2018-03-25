@@ -15,6 +15,7 @@ target 'Numbers' do
 
   pod 'PrimeFactors', :git => 'https://github.com/primetimer/PrimeFactors'
   pod 'BigFloat',  :git => 'https://github.com/primetimer/BigFloat'
+  pod 'GhostTypewriter'
 target 'NumbersTests' do
     inherit! :search_paths
     # Pods for testing

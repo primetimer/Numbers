@@ -39,13 +39,10 @@ class HeegnerTester : NumTester {
 	}
 	
 	func isSpecial(n: BigUInt) -> Bool {
-		if let seq = OEIS.shared.seq[property()] {
-			if seq.contains(n) {
-				return true
-			}
-			return false
+		if OEIS.shared.ContainsNumber(key: self.property(), n: n) {
+			return true
 		}
-		assert(false)
+		return false
 	}
 }
 

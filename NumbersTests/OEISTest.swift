@@ -24,7 +24,7 @@ class OEISTests : XCTestCase {
     
     func testOEISConsistency() {
 		for t in Tester.shared.testers {
-			if let seq = OEIS.shared.seq[t.property()] {
+			if let seq = OEIS.shared.GetSequence(key: t.property()) {
 				for n in seq {
 					if n == 0 { continue }
 					let istest = t.isSpecial(n: n)
@@ -41,7 +41,7 @@ class OEISTests : XCTestCase {
 	
 	func testOEIS100() {
 		for t in Tester.shared.testers {
-			if let seq = OEIS.shared.seq[t.property()] {
+			if let seq = OEIS.shared.GetSequence(key: t.property()) {
 				for i in 1...100 {
 					let n = BigUInt(i)
 					let istest = t.isSpecial(n: n)

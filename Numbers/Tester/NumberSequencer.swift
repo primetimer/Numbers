@@ -13,7 +13,7 @@ import PrimeFactors
 protocol NumberSequencerProt {
 	func Next(n: BigUInt) -> BigUInt?
 	func Prev(n: BigUInt) -> BigUInt?
-	func StartSequence(count : Int) -> [BigUInt]
+	func StartSequence(count : Int) -> [BigInt]
 	func Neighbor(n: BigUInt,count : Int) -> [BigUInt]
 }
 
@@ -23,13 +23,13 @@ class PrimeSequence : NumberSequencer {
 		super.init(tester: PrimeTester())
 	}
 	
-	override func StartSequence(count: Int) -> [BigUInt] {
+	override func StartSequence(count: Int) -> [BigInt] {
 		if count >= start.count {
 			return super.StartSequence(count: count)
 		}
-		var ans : [BigUInt] = []
+		var ans : [BigInt] = []
 		for n in start {
-			ans.append(BigUInt(n))
+			ans.append(BigInt(n))
 		}
 		return ans
 	}
@@ -78,16 +78,11 @@ class NumberSequencer : NumberSequencerProt {
 		return nil
 	}
 	
-	func StartSequence(count: Int) -> [BigUInt] {
-		if let oeisseq = OEIS.shared.seq[tester.property()] {
-			var ans : [BigUInt] = []
-			for n in oeisseq {
-				ans.append(n)
-			}
-			return ans
+	func StartSequence(count: Int) -> [BigInt] {
+		if let seq = OEIS.shared.GetSequence(key: tester.property()) {
+			return seq
 		}
-		let ans = Neighbor(n: BigUInt(0), count: count)
-		return ans
+		return []
 	}
 }
 

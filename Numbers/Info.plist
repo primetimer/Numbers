@@ -36,6 +36,8 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>1942.ttf</string>
+		<string>AlbertsthalTypewriter.ttf</string>
 		<string>mayan.ttf</string>
 		<string>symbola.ttf</string>
 	</array>
@@ -48,6 +50,5 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Application needs permission to write photos...</string>
-
 </dict>
 </plist>

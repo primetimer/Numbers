@@ -39,8 +39,8 @@
 		545FEE1C205504C40040A3F4 /* FermatTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545FEE1B205504C40040A3F4 /* FermatTester.swift */; };
 		545FEE1E20553EEF0040A3F4 /* Constructible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545FEE1D20553EEF0040A3F4 /* Constructible.swift */; };
 		545FEE20205798890040A3F4 /* OEISTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545FEE1F205798890040A3F4 /* OEISTest.swift */; };
+		54610E0E206801FD0054FBB7 /* BernoulliTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54610E0D206801FD0054FBB7 /* BernoulliTester.swift */; };
 		546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546AB3541FDD5FEA007887E8 /* PrimeTester.swift */; };
-		546DD98D2041E3C6009A1A16 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 546DD98C2041E23C009A1A16 /* symbola.ttf */; };
 		546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */; };
 		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
@@ -52,6 +52,9 @@
 		5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */; };
 		5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C566203F2E0900778A81 /* UIWordCloud.swift */; };
 		5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486C5682040694E00778A81 /* NumeralArtCell.swift */; };
+		54880A672061BD9100A60096 /* ExtraTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880A662061BD9100A60096 /* ExtraTester.swift */; };
+		54880A6920627B7800A60096 /* RecordTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880A6820627B7800A60096 /* RecordTableCell.swift */; };
+		54880A6B2062B9BE00A60096 /* MersenneDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54880A6A2062B9BE00A60096 /* MersenneDigit.swift */; };
 		548DE2EE1FEA3BC500646D91 /* FiboDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */; };
 		54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */; };
 		54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54923FAB1FEE8047006993F2 /* GradientText.swift */; };
@@ -63,8 +66,14 @@
 		54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7E2049F5F10038716B /* WikiTVC.swift */; };
 		54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C80204A038D0038716B /* NumeralSequenceArt.swift */; };
 		54924C83204A9D720038716B /* TestURLNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C82204A9D720038716B /* TestURLNumber.swift */; };
+		54AA3CEC2064DA75000C7D1F /* AlbertsthalTypewriter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECA92064D66E00312E80 /* AlbertsthalTypewriter.ttf */; };
+		54AA3CED2064DA79000C7D1F /* 1942.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54AA3CEB2064D9B2000C7D1F /* 1942.ttf */; };
 		54C1FBC92051E89600860FC9 /* SequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C1FBC82051E89500860FC9 /* SequenceView.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
+		54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC5206316F20044F328 /* FloatExtTests.swift */; };
+		54D16CC8206402720044F328 /* RecordNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC7206402720044F328 /* RecordNumber.swift */; };
+		54D83B162064DAE000704A01 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECAA2064D66E00312E80 /* symbola.ttf */; };
+		54D83B1820655D0B00704A01 /* NumberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D83B1720655D0B00704A01 /* NumberModel.swift */; };
 		54D906D5204C891C009EED11 /* SmithTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D4204C891C009EED11 /* SmithTester.swift */; };
 		54D906D7204D2B41009EED11 /* SemiPrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */; };
 		54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBF80A2047225200F07FD7 /* DeepPress.swift */; };
@@ -78,6 +87,7 @@
 		54E43A561FD44A1100C25A42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54E43A541FD44A1100C25A42 /* LaunchScreen.storyboard */; };
 		54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A601FD44A1100C25A42 /* NumbersTests.swift */; };
 		54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A6B1FD44B4100C25A42 /* Extensions.swift */; };
+		54EDDA8C206639D100F3F36C /* ContinuedFractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */; };
 		54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0B91FFA7B59006DECED /* NumerHTML.swift */; };
 		54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0BB1FFA99BF006DECED /* DescCell.swift */; };
 		54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */; };
@@ -115,6 +125,8 @@
 		54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfSquares.swift; sourceTree = "<group>"; };
 		54062AE22045F837001F51B6 /* TestSumOfCubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfCubes.swift; sourceTree = "<group>"; };
 		54062AE42045F858001F51B6 /* SumOfCubesTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfCubesTester.swift; sourceTree = "<group>"; };
+		5414ECA92064D66E00312E80 /* AlbertsthalTypewriter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AlbertsthalTypewriter.ttf; path = Numbers/Fonts/AlbertsthalTypewriter.ttf; sourceTree = "<group>"; };
+		5414ECAA2064D66E00312E80 /* symbola.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = symbola.ttf; path = Numbers/Fonts/symbola.ttf; sourceTree = "<group>"; };
 		5416E949204AFBAB00CD8A06 /* TubeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TubeCell.swift; sourceTree = "<group>"; };
 		5416E94B204B06A200CD8A06 /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		5419D1982057F21800047D5C /* CatalanTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalanTester.swift; sourceTree = "<group>"; };
@@ -140,8 +152,8 @@
 		545FEE1B205504C40040A3F4 /* FermatTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FermatTester.swift; sourceTree = "<group>"; };
 		545FEE1D20553EEF0040A3F4 /* Constructible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constructible.swift; sourceTree = "<group>"; };
 		545FEE1F205798890040A3F4 /* OEISTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEISTest.swift; sourceTree = "<group>"; };
+		54610E0D206801FD0054FBB7 /* BernoulliTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BernoulliTester.swift; sourceTree = "<group>"; };
 		546AB3541FDD5FEA007887E8 /* PrimeTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTester.swift; sourceTree = "<group>"; };
-		546DD98C2041E23C009A1A16 /* symbola.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = symbola.ttf; sourceTree = "<group>"; };
 		546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -154,6 +166,9 @@
 		5486C566203F2E0900778A81 /* UIWordCloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWordCloud.swift; sourceTree = "<group>"; };
 		5486C5682040694E00778A81 /* NumeralArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralArtCell.swift; sourceTree = "<group>"; };
 		54880A64206065EF00A60096 /* Hermite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hermite.swift; sourceTree = "<group>"; };
+		54880A662061BD9100A60096 /* ExtraTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraTester.swift; sourceTree = "<group>"; };
+		54880A6820627B7800A60096 /* RecordTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableCell.swift; sourceTree = "<group>"; };
+		54880A6A2062B9BE00A60096 /* MersenneDigit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MersenneDigit.swift; sourceTree = "<group>"; };
 		548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiboDrawer.swift; sourceTree = "<group>"; };
 		54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalindromeDrawer.swift; sourceTree = "<group>"; };
 		54923FAB1FEE8047006993F2 /* GradientText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientText.swift; sourceTree = "<group>"; };
@@ -167,9 +182,13 @@
 		54924C80204A038D0038716B /* NumeralSequenceArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralSequenceArt.swift; sourceTree = "<group>"; };
 		54924C82204A9D720038716B /* TestURLNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestURLNumber.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
+		54AA3CEB2064D9B2000C7D1F /* 1942.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1942.ttf; path = Numbers/Fonts/1942.ttf; sourceTree = "<group>"; };
 		54C1FBC82051E89500860FC9 /* SequenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceView.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
+		54D16CC5206316F20044F328 /* FloatExtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatExtTests.swift; sourceTree = "<group>"; };
+		54D16CC7206402720044F328 /* RecordNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordNumber.swift; sourceTree = "<group>"; };
+		54D83B1720655D0B00704A01 /* NumberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberModel.swift; path = Numbers/NumberModel.swift; sourceTree = "<group>"; };
 		54D906D4204C891C009EED11 /* SmithTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmithTester.swift; sourceTree = "<group>"; };
 		54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiPrimeTester.swift; sourceTree = "<group>"; };
 		54DBF80A2047225200F07FD7 /* DeepPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepPress.swift; sourceTree = "<group>"; };
@@ -187,9 +206,10 @@
 		54E43A601FD44A1100C25A42 /* NumbersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersTests.swift; sourceTree = "<group>"; };
 		54E43A621FD44A1100C25A42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54E43A6B1FD44B4100C25A42 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinuedFractions.swift; sourceTree = "<group>"; };
 		54F5F0B91FFA7B59006DECED /* NumerHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumerHTML.swift; sourceTree = "<group>"; };
 		54F5F0BB1FFA99BF006DECED /* DescCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescCell.swift; sourceTree = "<group>"; };
-		54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeilSchrift.swift; path = Numbers/KeilSchrift.swift; sourceTree = "<group>"; };
+		54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeilSchrift.swift; sourceTree = "<group>"; };
 		54F7E0FD2039D97A00B4EAEF /* TesterCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesterCache.swift; sourceTree = "<group>"; };
 		54F7E0FF203A098600B4EAEF /* TetraHedral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetraHedral.swift; sourceTree = "<group>"; };
 		54F89F09205B8A9B003C8D72 /* DebugView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
@@ -245,6 +265,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5414ECA82064D65500312E80 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				54C35751203C924C0044803F /* mayan.ttf */,
+				5414ECA92064D66E00312E80 /* AlbertsthalTypewriter.ttf */,
+				54AA3CEB2064D9B2000C7D1F /* 1942.ttf */,
+				5414ECAA2064D66E00312E80 /* symbola.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		543078311FE4158C0036516F /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,12 +309,15 @@
 		54923FB51FF434C3006993F2 /* Tester */ = {
 			isa = PBXGroup;
 			children = (
+				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
+				54610E0D206801FD0054FBB7 /* BernoulliTester.swift */,
 				545ECE0C1FE664570035B9EA /* FactorCache.swift */,
 				54923FAD1FEF8724006993F2 /* TetrahedralTester.swift */,
 				54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */,
 				54749B5C1FDD0C3200F6B130 /* Tester.swift */,
 				54F8B6A7204E669100267020 /* NumberSequencer.swift */,
 				54FD752B1FF6144300AE24E8 /* PiTester.swift */,
+				54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */,
 				54923FB11FF0F137006993F2 /* MersenneTester.swift */,
 				5419D19A2057F5F100047D5C /* HeegnerTester.swift */,
 				5419D1982057F21800047D5C /* CatalanTester.swift */,
@@ -292,6 +326,7 @@
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				547C4F08204B492E00884B6C /* Supersingular.swift */,
+				54880A662061BD9100A60096 /* ExtraTester.swift */,
 				543078251FDF07A20036516F /* AbundanceTester.swift */,
 				54D906D4204C891C009EED11 /* SmithTester.swift */,
 				54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */,
@@ -306,12 +341,12 @@
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
+				54D83B1720655D0B00704A01 /* NumberModel.swift */,
+				54880A6A2062B9BE00A60096 /* MersenneDigit.swift */,
 				54DBF80A2047225200F07FD7 /* DeepPress.swift */,
 				546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */,
-				54C35751203C924C0044803F /* mayan.ttf */,
-				546DD98C2041E23C009A1A16 /* symbola.ttf */,
+				5414ECA82064D65500312E80 /* Fonts */,
 				5486C564203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift */,
-				54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */,
 				54F5F0B91FFA7B59006DECED /* NumerHTML.swift */,
 				54E199EE204EB9520078874B /* OEIS.swift */,
 				547C4F06204B098400884B6C /* NumberPhile.swift */,
@@ -336,24 +371,22 @@
 		54E43A4A1FD44A1100C25A42 /* Numbers */ = {
 			isa = PBXGroup;
 			children = (
+				54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */,
 				54F5F0BB1FFA99BF006DECED /* DescCell.swift */,
 				54A6140C2028F48C00408813 /* CollectionDescCell.swift */,
-				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
 				5403D96720505709007F6B21 /* TesterArtCell.swift */,
-				54924C80204A038D0038716B /* NumeralSequenceArt.swift */,
 				5486C566203F2E0900778A81 /* UIWordCloud.swift */,
-				54FD752D1FF7926100AE24E8 /* HCNTester.swift */,
-				5486C55F203D755600778A81 /* NumeralCell.swift */,
 				54DBF80C20497DBC00F07FD7 /* WikiCell.swift */,
 				54E199F0204F1B1C0078874B /* OEISTableCell.swift */,
 				5416E949204AFBAB00CD8A06 /* TubeCell.swift */,
 				543078311FE4158C0036516F /* Drawer */,
 				54923FB51FF434C3006993F2 /* Tester */,
-				543078231FDEC08B0036516F /* SpokenNumber.swift */,
-				54E43A4B1FD44A1100C25A42 /* AppDelegate.swift */,
+				54EDDA8A2066396000F3F36C /* Numeral */,
 				547565591FD99F9F00A09CA7 /* Explain.swift */,
 				54E43A4D1FD44A1100C25A42 /* NrViewController.swift */,
 				5416E94B204B06A200CD8A06 /* BaseCell.swift */,
+				54880A6820627B7800A60096 /* RecordTableCell.swift */,
+				54D16CC7206402720044F328 /* RecordNumber.swift */,
 				54924C7E2049F5F10038716B /* WikiTVC.swift */,
 				54924C7C2049B4250038716B /* WikiVC.swift */,
 				5430781D1FDE6C0A0036516F /* MainViewController.swift */,
@@ -372,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				54E43A601FD44A1100C25A42 /* NumbersTests.swift */,
+				54D16CC5206316F20044F328 /* FloatExtTests.swift */,
 				545FEE1F205798890040A3F4 /* OEISTest.swift */,
 				5419D19C20583A1600047D5C /* WikiTest.swift */,
 				54F7E0FF203A098600B4EAEF /* TetraHedral.swift */,
@@ -383,6 +417,18 @@
 				54E43A621FD44A1100C25A42 /* Info.plist */,
 			);
 			path = NumbersTests;
+			sourceTree = "<group>";
+		};
+		54EDDA8A2066396000F3F36C /* Numeral */ = {
+			isa = PBXGroup;
+			children = (
+				543078231FDEC08B0036516F /* SpokenNumber.swift */,
+				54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */,
+				5486C5682040694E00778A81 /* NumeralArtCell.swift */,
+				54924C80204A038D0038716B /* NumeralSequenceArt.swift */,
+				5486C55F203D755600778A81 /* NumeralCell.swift */,
+			);
+			path = Numeral;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -474,11 +520,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54AA3CEC2064DA75000C7D1F /* AlbertsthalTypewriter.ttf in Resources */,
 				54C35752203C924C0044803F /* mayan.ttf in Resources */,
 				54E43A561FD44A1100C25A42 /* LaunchScreen.storyboard in Resources */,
-				546DD98D2041E3C6009A1A16 /* symbola.ttf in Resources */,
 				54E43A531FD44A1100C25A42 /* Assets.xcassets in Resources */,
 				54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */,
+				54AA3CED2064DA79000C7D1F /* 1942.ttf in Resources */,
+				54D83B162064DAE000704A01 /* symbola.ttf in Resources */,
 				54E43A511FD44A1100C25A42 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,6 +616,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Numbers/Pods-Numbers-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigFloat/BigFloat.framework",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
+				"${BUILT_PRODUCTS_DIR}/GhostTypewriter/GhostTypewriter.framework",
 				"${BUILT_PRODUCTS_DIR}/PrimeFactors/PrimeFactors.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 				"${BUILT_PRODUCTS_DIR}/YouTubePlayer/YouTubePlayer.framework",
@@ -577,6 +626,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigFloat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GhostTypewriter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrimeFactors.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YouTubePlayer.framework",
@@ -623,13 +673,16 @@
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
 				54923FAC1FEE8047006993F2 /* GradientText.swift in Sources */,
 				5416E94A204AFBAB00CD8A06 /* TubeCell.swift in Sources */,
+				54D83B1820655D0B00704A01 /* NumberModel.swift in Sources */,
 				54062AE52045F858001F51B6 /* SumOfCubesTester.swift in Sources */,
 				5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */,
+				54880A672061BD9100A60096 /* ExtraTester.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
 				545ECE091FE64DBF0035B9EA /* DrawCell.swift in Sources */,
 				54F8B6A8204E669100267020 /* NumberSequencer.swift in Sources */,
 				5486C560203D755600778A81 /* NumeralCell.swift in Sources */,
 				5486C565203E9D5A00778A81 /* UIStrokeAnimatedLabel.swift in Sources */,
+				54880A6B2062B9BE00A60096 /* MersenneDigit.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
 				54E199EF204EB9520078874B /* OEIS.swift in Sources */,
 				54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */,
@@ -651,6 +704,7 @@
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
 				5403D96A20507665007F6B21 /* DrawCells.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
+				54880A6920627B7800A60096 /* RecordTableCell.swift in Sources */,
 				5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */,
 				547C4F09204B492E00884B6C /* Supersingular.swift in Sources */,
 				54923FB01FEF87B0006993F2 /* LucasDrawer.swift in Sources */,
@@ -667,6 +721,8 @@
 				54D906D5204C891C009EED11 /* SmithTester.swift in Sources */,
 				54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
+				54610E0E206801FD0054FBB7 /* BernoulliTester.swift in Sources */,
+				54D16CC8206402720044F328 /* RecordNumber.swift in Sources */,
 				54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */,
 				54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
@@ -675,6 +731,7 @@
 				5419D1992057F21800047D5C /* CatalanTester.swift in Sources */,
 				5416E94C204B06A200CD8A06 /* BaseCell.swift in Sources */,
 				54E199F1204F1B1C0078874B /* OEISTableCell.swift in Sources */,
+				54EDDA8C206639D100F3F36C /* ContinuedFractions.swift in Sources */,
 				545ECE0D1FE664570035B9EA /* FactorCache.swift in Sources */,
 				545FEE1E20553EEF0040A3F4 /* Constructible.swift in Sources */,
 			);
@@ -690,6 +747,7 @@
 				54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */,
 				54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */,
 				5419D19D20583A1600047D5C /* WikiTest.swift in Sources */,
+				54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */,
 				544D9300205AD25F008723AE /* LatticeTesterTest.swift in Sources */,
 				54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */,
 				545FEE20205798890040A3F4 /* OEISTest.swift in Sources */,
