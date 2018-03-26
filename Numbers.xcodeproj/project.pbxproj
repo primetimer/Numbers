@@ -68,6 +68,7 @@
 		54924C83204A9D720038716B /* TestURLNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C82204A9D720038716B /* TestURLNumber.swift */; };
 		54AA3CEC2064DA75000C7D1F /* AlbertsthalTypewriter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECA92064D66E00312E80 /* AlbertsthalTypewriter.ttf */; };
 		54AA3CED2064DA79000C7D1F /* 1942.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54AA3CEB2064D9B2000C7D1F /* 1942.ttf */; };
+		54B0742C206906EA008A35A8 /* NrTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B0742B206906EA008A35A8 /* NrTableView.swift */; };
 		54C1FBC92051E89600860FC9 /* SequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C1FBC82051E89500860FC9 /* SequenceView.swift */; };
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC5206316F20044F328 /* FloatExtTests.swift */; };
@@ -183,6 +184,7 @@
 		54924C82204A9D720038716B /* TestURLNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestURLNumber.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
 		54AA3CEB2064D9B2000C7D1F /* 1942.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1942.ttf; path = Numbers/Fonts/1942.ttf; sourceTree = "<group>"; };
+		54B0742B206906EA008A35A8 /* NrTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NrTableView.swift; sourceTree = "<group>"; };
 		54C1FBC82051E89500860FC9 /* SequenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceView.swift; sourceTree = "<group>"; };
 		54C35751203C924C0044803F /* mayan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mayan.ttf; path = Numbers/Fonts/mayan.ttf; sourceTree = "<group>"; };
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				54EDDA8A2066396000F3F36C /* Numeral */,
 				547565591FD99F9F00A09CA7 /* Explain.swift */,
 				54E43A4D1FD44A1100C25A42 /* NrViewController.swift */,
+				54B0742B206906EA008A35A8 /* NrTableView.swift */,
 				5416E94B204B06A200CD8A06 /* BaseCell.swift */,
 				54880A6820627B7800A60096 /* RecordTableCell.swift */,
 				54D16CC7206402720044F328 /* RecordNumber.swift */,
@@ -706,6 +709,7 @@
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				54880A6920627B7800A60096 /* RecordTableCell.swift in Sources */,
 				5486C5692040694E00778A81 /* NumeralArtCell.swift in Sources */,
+				54B0742C206906EA008A35A8 /* NrTableView.swift in Sources */,
 				547C4F09204B492E00884B6C /* Supersingular.swift in Sources */,
 				54923FB01FEF87B0006993F2 /* LucasDrawer.swift in Sources */,
 				547C4F07204B098400884B6C /* NumberPhile.swift in Sources */,

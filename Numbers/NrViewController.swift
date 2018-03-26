@@ -15,17 +15,11 @@ import SafariServices
 import BigFloat
 import GhostTypewriter
 
-enum NrViewSection : Int {
-	//case Description = 1
-	case Numerals = 0
-	case Formula = 2
-	case DrawNumber = 1
-	case Wiki = 3
-	case NumberPhile = 4
-}
 
-class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataSource , UISearchBarDelegate, NumberJump  {
+class NrViewController: UIViewController , UISearchBarDelegate, NumberJump  {
 	private let initialnumber = BigUInt(13)
+	lazy var uisearch: UISearchBar = UISearchBar()
+	/*
 	private let headerId = "headerId"
 	private let footerId = "footerId"
 	//private let desccellId = "desccellId"
@@ -34,14 +28,13 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	private let wikicellId = "wikicellId"
 	private let oeiscellId = "oeiscellId"
 	private let tubecellId = "tubecellId"
-	
-	//private let drawcellId = "drawcellId"
+
+
 	static let wikiheight : CGFloat = 400.0
 	static let numberphileheight : CGFloat = 200.0
 	private let drawcells = DrawingCells()
 	private let numeralcells = NumeralCells()
 	
-	lazy var uisearch: UISearchBar = UISearchBar()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
 
@@ -54,24 +47,24 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	//private var htmldesc = ""
 	private var formula : String = "" // \\forall n \\in \\mathbb{N} : n = n + 0"
 	private var wikiadr : String = "wikipedia.de"
+
+	*/
 	
 	var currnr : BigUInt = 0 {
 		didSet {
 			NumberModel.shared.currnr = currnr
-			numeralcells.nr = currnr
-			drawcells.nr = currnr
+			tv.numeralcells.nr = currnr
+			tv.drawcells.nr = currnr
 			if currnr != oldValue {
-				tv.beginUpdates()
-				tv.endUpdates()
+				GetExplanation()
+//				tv.beginUpdates()
+//				tv.endUpdates()
 			}
 		}
 	}
 	func Jump(to: BigUInt) {
 		currnr = to
 		GetExplanation()
-		tv.reloadData()
-		//let indexPath = IndexPath(row: 0, section: 0)
-		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
 		tv.reloadData()
 	}
 	func WikiTVCJump(wikiurl: URL) {
@@ -86,37 +79,50 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 	
 	var explanationWorker : DispatchWorkItem? = nil
 	private func GetExplanation() {
+		self.uisearch.text = String(currnr)		//Immedaite Update
+		self.explanationWorker?.cancel()
 		self.explanationWorker = DispatchWorkItem {
-			self.explanationWorker?.cancel()
+			let worker = self.explanationWorker
 			let nr = self.currnr
-			let exp = Explain.shared.GetExplanation(nr: nr)
+			let exp = Explain.shared.GetExplanation(nr: nr, worker : worker)
 			DispatchQueue.main.async(execute: {
+			if worker?.isCancelled ?? false { return }
 				self.uisearch.text = String(nr)
 				//self.htmldesc = exp.html
-				self.formula = exp.latex
-				self.wikiadr = exp.wikilink
+				self.tv.formula = exp.latex
+				self.tv.wikiadr = exp.wikilink
+				//self.tv.beginUpdates()
 				do {
-					let indexPath = IndexPath(item: 0, section: NrViewSection.DrawNumber.rawValue)
-					self.tv.reloadRows(at: [indexPath], with: .top)
+					let indexPath = IndexPath(item: 0, section: NrViewSection.Numerals.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .none)
+				}
+				do {
+					var indices : [IndexPath] = []
+					for row in 0..<self.tv.drawcells.count {
+						let indexPath = IndexPath(item: 0, section: NrViewSection.DrawNumber.rawValue)
+						indices.append(indexPath)
+					}
+					self.tv.reloadRows(at: indices, with: .none)
 				}
 				do {
 					let indexPath = IndexPath(item: 0, section: NrViewSection.Formula.rawValue)
-					self.tv.reloadRows(at: [indexPath], with: .top)
+					self.tv.reloadRows(at: [indexPath], with: .automatic)
 				}
-				/*
 				do {
-					let indexPath = IndexPath(item: 1, section: NrViewSection.Formula.rawValue)
-					self.tv.reloadRows(at: [indexPath], with: .top)
+					let indexPath = IndexPath(item: 0, section: NrViewSection.Wiki.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .none)
 				}
-				*/
-				self.tv.beginUpdates()
-				self.tv.endUpdates()
+				do {
+					let indexPath = IndexPath(item: 0, section: NrViewSection.NumberPhile.rawValue)
+					self.tv.reloadRows(at: [indexPath], with: .none)
+				}
+				//self.tv.endUpdates()
 			})
 		}
 		DispatchQueue.global(qos: .userInitiated).async(execute: explanationWorker!)
 		
 	}
-	
+	/*
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case NrViewSection.DrawNumber.rawValue:
@@ -224,22 +230,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 		return 150
 	}
-	
-	/*
-	func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-		if let cell = tableView.cellForRow(at: indexPath) as? DrawTableCell {
-			if cell.expanded {
-				tableView.beginUpdates()
-				cell.expanded = false
-				tableView.deselectRow(at: indexPath, animated: true)
-				tableView.endUpdates()
-				return nil
-			}
-		}
-		return indexPath
-	}
-	*/
-	
+
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let _ = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
@@ -286,6 +277,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 	}
 	
+	/*
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 		if let art = cell as? NumeralArtCell {
 			art.layoutIfNeeded()
@@ -299,6 +291,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 		
 	}
+	*/
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let row = indexPath.row
@@ -338,8 +331,11 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		}
 		return UITableViewCell()
 	}
-	
-	lazy var tv: UITableView = {
+	*/
+
+	lazy var tv: NrTableView = { return NrTableView(vc : self) }()
+	/*
+		{
 		let tv = UITableView(frame: .zero, style: .plain)
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		tv.backgroundColor = .lightGray
@@ -354,6 +350,7 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		tv.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
 		return tv
 	}()
+	*/
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
@@ -393,34 +390,34 @@ class NrViewController: UIViewController , UITableViewDelegate, UITableViewDataS
 		self.view.addSubview(myToolbar)
 	}
 	
+	private func LoopNext(direction : Int ) {
+		explanationWorker?.cancel()
+		self.explanationWorker = DispatchWorkItem {
+			let worker = self.explanationWorker
+			var nr = self.currnr
+			repeat {
+				if direction == -1 && nr == 0 { break }
+				nr = direction == -1 ? nr - BigUInt(1) : nr + BigUInt(1)
+				if worker?.isCancelled ?? false { break }
+				let isdull = Tester.shared.isRealDull(n: nr,worker: worker) ?? false
+				if !isdull { break }
+			} while true
+			let iscancelled = worker?.isCancelled ?? false
+			if !iscancelled {
+				DispatchQueue.main.async(execute: {
+					self.currnr = nr
+				})
+			}
+		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: explanationWorker!)
+	}
+	
+	
 	@objc func backButtonAction() {
-		var nr = currnr
-		repeat {
-			if currnr == 0 { break }
-			nr = nr - 1
-		} while Tester.shared.isDull(n: nr)
-		currnr = nr
-		GetExplanation()
-		tv.beginUpdates()
-		tv.endUpdates()
-		//tv.reloadData()
-		//let indexPath = IndexPath(row: 0, section: 0)
-		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
+		LoopNext(direction: -1)
 	}
 	@objc func fwdButtonAction() {
-		var nr = currnr
-		repeat {
-			nr = nr + 1
-		} while Tester.shared.isRealDull(n: nr)
-		currnr = nr
-	
-		GetExplanation()
-		tv.beginUpdates()
-		tv.endUpdates()
-
-		//tv.reloadData()
-		//let indexPath = IndexPath(row: 0, section: 0)
-		//self.tv.scrollToRow(at: indexPath, at: .top, animated: false)
+		LoopNext(direction: 1)
 	}
 	
 	override func viewDidLoad() {

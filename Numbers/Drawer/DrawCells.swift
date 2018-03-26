@@ -23,7 +23,6 @@ class DrawingCells {
 	private let dummycell = UITableViewCell()
 	
 	init() {
-		let x = 1
 		for t in Tester.shared.testers {
 			let seqcell = SequenceCell()
 			seqcell.expanded = false
@@ -147,6 +146,7 @@ class DrawingCells {
 		
 		if let cell = cell as? TesterArtCell {
 			let h = cell.expanded ? cell.contentView.width : 150.0
+			print("Testerart:",h)
 			return h
 		}
 		if let _ = cell as? SequenceCell {

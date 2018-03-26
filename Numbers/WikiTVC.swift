@@ -50,7 +50,7 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 	private var wikiurl = ""
 	private var oeisurl = ""
 	private func GetExplanation() {
-		let exp = Explain.shared.GetExplanation(nr: currnr)
+		let exp = Explain.shared.GetExplanation(nr: currnr, worker: nil)
 		htmldesc = exp.html
 		formula = exp.latex
 	}
@@ -133,9 +133,9 @@ class WikiTVC: UIViewController , UITableViewDelegate, UITableViewDataSource  {
 			}
 			return 150.0
 		case TVCViewSection.Wiki.rawValue:
-			return NrViewController.wikiheight
+			return NrTableView.wikiheight
 		case TVCViewSection.OEIS.rawValue:
-			return NrViewController.wikiheight
+			return NrTableView.wikiheight
 		case TVCViewSection.Records.rawValue:
 			if let temp = uirecordtemp {
 				temp.sizeToFit()

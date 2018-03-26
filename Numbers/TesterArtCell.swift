@@ -25,6 +25,7 @@ class TesterArtCell : BaseNrTableCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		let debdummy = 1
 		uiart.DrawCloud()
 	}
 	

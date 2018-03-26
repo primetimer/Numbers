@@ -95,8 +95,8 @@ class MersenneDigit {
 	func FirstDigits(count: Int) -> BigUInt {
 		
 		let ndig = count
-		//let p = 77232917
-		let m = BigInt(1) << p - 1
+
+		//let m = BigInt(1) << p - 1
 		let ten = BigFloat(10)
 		let l2 = BigFloat.ln(x: BigFloat(2))
 		let l10 = BigFloat.ln(x: BigFloat(10))

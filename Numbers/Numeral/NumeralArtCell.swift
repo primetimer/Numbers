@@ -45,19 +45,12 @@ import BigInt
 				if nr != newValue  {
 					super.nr = newValue
 					uiart.Clear()
-					#if false
-					let type = NumeralCellType.Maya
-						let s = nr.getNumeral(type: type)
-						let font = type == .Maya ? "mayan" : nil
-						uiart.AppendString(s: s,font: font)
-						#else
-						
+					
 					for type in NumeralCellType.allValues {
 						let s = nr.getNumeral(type: type)
 						let font = type == .Maya ? "mayan" : nil
 						uiart.AppendString(s: s,font: font)
 					}
-						#endif
 					uiart.DrawCloud()
 				}
 			}

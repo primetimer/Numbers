@@ -101,6 +101,8 @@ public class UIWordCloudView: UIImageView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	private var drawworker : DispatchWorkItem? = nil
+	
 	private var textarr : [(s: String,font : String?)] = []
 	func AppendString(s: String,font : String? = nil) {
 		//textarr.append((String(textarr.count),nil))
@@ -261,11 +263,15 @@ public class UIWordCloudView: UIImageView {
 					break
 				}
 				//Draw in progress
+				#if true
+					self.PerformDraw(rect: frame, params: params)
+					#else
 				DispatchQueue.main.async(execute: {
 					if self._verbose { print("DisplayingInProgress", t.s) }
 					self.PerformDraw(rect: frame, params: params)
 					if self._verbose { print("DisplayedInProgres",t.s) }
 				})
+				#endif
 			}
 			if !iscancel {
 				if self._verbose { print("Computing end") }
@@ -283,21 +289,33 @@ public class UIWordCloudView: UIImageView {
 		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
 	private func PerformDraw(rect : CGRect, params : [DrawCloudParam] ) {
-		let size = rect.size //CGSize(width: 800, height: 800)
-		UIGraphicsBeginImageContext(size)
-		defer { UIGraphicsEndImageContext() }
+		drawworker?.cancel()
+		self.drawworker = DispatchWorkItem {
+			let worker = self.drawworker
+			let size = rect.size //CGSize(width: 800, height: 800)
+			UIGraphicsBeginImageContext(size)
+			defer { UIGraphicsEndImageContext() }
 		
-		let dhue : CGFloat = textarr.count == 0 ? 0.0 : 1.0 / CGFloat(textarr.count)
-		var hue : CGFloat = 0.0
-		for p in params {
-			let color = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
-			let attrString = getAttrString(s: p.str, fontname: p.font, fontsize: p.fontsize, color: color)
-			let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-			attrString.draw(with: p.rect, options: drawingOptions, context: nil)
-			hue = hue + dhue
+			let dhue : CGFloat = self.textarr.count == 0 ? 0.0 : 1.0 / CGFloat(self.textarr.count)
+			var hue : CGFloat = 0.0
+			for p in params {
+				if worker?.isCancelled ?? false { break }
+				let color = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+				let attrString = self.getAttrString(s: p.str, fontname: p.font, fontsize: p.fontsize, color: color)
+				let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+				attrString.draw(with: p.rect, options: drawingOptions, context: nil)
+				hue = hue + dhue
+			}
+			let iscancelled = worker?.isCancelled ?? false
+			if !iscancelled {
+				let image = UIGraphicsGetImageFromCurrentImageContext()
+				self.image = image
+			}
 		}
-		let image = UIGraphicsGetImageFromCurrentImageContext()
-		self.image = image
+		
+		//DispatchQueue.global(qos: .userInteractive).async(execute: drawworker!)
+		DispatchQueue.main.async(execute: drawworker!)
+		
 	}
 	
 	/*

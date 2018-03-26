@@ -162,7 +162,7 @@ class TitanicTester : NumTester {
 	}
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		var latex = "10^{999} + " + String(n) + "\\in \\mathbb{P}"
+		let latex = "10^{999} + " + String(n) + "\\in \\mathbb{P}"
 		return latex
 	}
 	func property() -> String {

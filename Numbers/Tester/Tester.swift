@@ -68,10 +68,11 @@ class Tester : NumTester {
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
 										 MathConstantTester(),LatticeTester(),BernoulliTester()]
-	
+
 	
 	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
 										 SOGPrimeTester(),SafePrimeTester()]
+	
 	private (set) var completetesters : [NumTester] = []
 	private init() {
 		for t in testers {
@@ -89,9 +90,11 @@ class Tester : NumTester {
 		return true //!isDull(n: n)
 	}
 	
-	func isDull(n: BigUInt) -> Bool {
+	func isDull(n: BigUInt, worker : DispatchWorkItem? = nil) -> Bool? {
 		if n <= 2 { return false }
 		for t in Tester.shared.testers {
+			let iscancelled = worker?.isCancelled ?? false
+			if iscancelled { return nil }
 			if t is DullTester {
 				continue
 			}
@@ -103,9 +106,9 @@ class Tester : NumTester {
 		return true
 	}
 	
-	func isRealDull(n: BigUInt) -> Bool {
+	func isRealDull(n: BigUInt, worker : DispatchWorkItem? ) -> Bool? {
 		if n == 39 { return false }
-		return isDull(n:n)
+		return isDull(n:n, worker: worker)
 	}
 	
 	func getDesc(n: BigUInt) -> String? {
@@ -185,7 +188,7 @@ class DullTester : NumTester {
 	let firstdull = BigUInt(39)
 	let seconddull = BigUInt(46)
 	func isSpecial(n: BigUInt) -> Bool {
-		return Tester.shared.isDull(n: n)
+		return Tester.shared.isDull(n: n) ?? true
 	}
 	
 	func getDesc(n: BigUInt) -> String? {

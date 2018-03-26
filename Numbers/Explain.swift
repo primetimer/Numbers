@@ -21,17 +21,25 @@ class Explain {
 	
 	static let shared = Explain()
 	
-	private var dict : [BigUInt:Explanation] = [:]
+	//private var dict : [BigUInt:Explanation] = [:]
+	private var expcache = NSCache<NSString, Explanation>()
 	private init() {
-		dict[0] = Explanation(nr: 0)
-		dict[1] = Explanation(nr: 1)
+		//dict[0] = Explanation(nr: 0)
+		//dict[1] = Explanation(nr: 1)
 	}
 	
-	func GetExplanation(nr : BigUInt) -> Explanation {
-		if let ex = dict[nr] {
-			return ex
+	private func GetKey(nr: BigUInt) -> NSString {
+		let hash = String(nr.hashValue)
+		return NSString(string:hash)
+	}
+	func GetExplanation(nr : BigUInt, worker : DispatchWorkItem?) -> Explanation {
+		let key = GetKey(nr: nr)
+		if let exp = expcache.object(forKey: key) {
+			return exp
 		}
-		return Explanation(nr: nr)
+		let exp = Explanation(nr: nr,worker: worker)
+		expcache.setObject(exp, forKey: key)
+		return exp
 	}	
 }
 
@@ -105,8 +113,10 @@ class Explanation : NSObject {
 			return htmldesc
 		}
 	}
-	init(nr: BigUInt) {
+	var worker : DispatchWorkItem? = nil
+	init(nr: BigUInt, worker: DispatchWorkItem?) {
 		super.init()
+		self.worker = worker
 		self.nr = nr
 		self.desc = ""
 		

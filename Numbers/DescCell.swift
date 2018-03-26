@@ -45,7 +45,6 @@ class DescTableCell: BaseNrTableCell , UIWebViewDelegate {
 		if _loaded { return }
 		_loaded = true
 		tableparent?.beginUpdates()
-		//webView.frame.size = webView.sizeThatFits(.zero)
 		tableparent?.endUpdates()
 	}
 	
