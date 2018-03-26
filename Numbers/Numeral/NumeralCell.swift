@@ -61,6 +61,11 @@ class NumeralCells {
 	private var ncells : [NumeralCell] = []
 	private var wikicells : [WikiTableCell] = []
 	
+	var count : Int {
+		if !expanded { return 1 }
+		return NumeralCellType.allValues.count*2 - 1
+	}
+	
 	private var expanded : Bool = false {
 		didSet {
 			artcell.expanded = expanded
@@ -75,12 +80,24 @@ class NumeralCells {
 		}
 	}
 	
-	func Expand(row : Int) {
+	func Expand(row : Int, tv : UITableView) {
 		let cell = getCell(row: row)
-		if let _ = cell as? NumeralArtCell {
+		if let cell = cell as? NumeralArtCell {
 			expanded = !expanded
 			for cell in ncells { cell.expanded = false; cell.isHidden = !expanded }
 			for cell in wikicells { cell.expanded = false;  cell.isHidden = true }
+			
+			var indices : [IndexPath] = []
+			for i in 1..<ncells.count*2-1 {
+				let indexPath = IndexPath(row: i, section: NrViewSection.Numerals.rawValue)
+				indices.append(indexPath)
+			}
+			if expanded {
+				tv.insertRows(at: indices, with: .automatic)
+			} else {
+				tv.deleteRows(at: indices, with: .automatic)
+			}
+			
 		}
 		if let cell = cell as? NumeralCell {
 			guard let wikicell = getCell(row: row+1) as? WikiTableCell else { return }

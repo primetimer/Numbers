@@ -17,6 +17,7 @@ import BigInt
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.selectionStyle = .none
+		self.expanded = false
 		uiart.translatesAutoresizingMaskIntoConstraints = false
 		contentView.autoresizingMask = [.flexibleHeight , .flexibleRightMargin ]
 		contentView.addSubview(uiart)

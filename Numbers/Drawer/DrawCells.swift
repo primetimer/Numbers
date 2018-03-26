@@ -33,7 +33,11 @@ class DrawingCells {
 	}
 	
 	var count : Int {
-		get { return 2*scells.count+1 }
+		
+		get {
+			if selectionmode == .none { return 1 }
+			return 2*scells.count+1
+		}
 	}
 	
 	private func SetSelectionMode() {
@@ -72,39 +76,28 @@ class DrawingCells {
 		}
 	}
 	
-	func NextSelectionMode() {
+	func NextSelectionMode(tv: UITableView) {
+		var indices : [IndexPath] = []
+		for i in 1 ... 2*scells.count {
+			let index = IndexPath(row: i, section: NrViewSection.DrawNumber.rawValue)
+			indices.append(index)
+		}
 		switch selectionmode {
-		case .none:
+		case .none:			
 			selectionmode = .expand
+			tv.insertRows(at: indices, with: .automatic)
 		case .expand:
 			selectionmode = .expandall
 		case .expandall:
+		
 			selectionmode = .none
+			tv.deleteRows(at: indices, with: .automatic)
 		}
 	}
 	
-	func Select(row : Int) {
+	func Select(row : Int, tv: UITableView) {
 		if row == 0 {
-			NextSelectionMode()
-			/*
-				//Expand all property cells and hide all drawcells
-			if artcell.expanded == false {
-				artcell.expanded = true
-				for s in scells {
-					s.isHidden = false
-					s.expanded = false
-					s.drawcell.isHidden = true
-				}
-			} else {
-				artcell.expanded = false
-				for s in scells {
-					s.isHidden = true
-					s.expanded = false
-					s.drawcell.isHidden = true
-				}
-			}
-			return
-			*/
+			NextSelectionMode(tv: tv)
 		}
 		if let s = getCell(row: row) as? SequenceCell {
 			if s.expanded == false {

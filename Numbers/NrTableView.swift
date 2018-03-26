@@ -77,7 +77,8 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 			let ans = drawcells.count
 			return ans //
 		case NrViewSection.Numerals.rawValue:
-			return NumeralCellType.allValues.count*2 - 1
+			return numeralcells.count
+			
 		case NrViewSection.Formula.rawValue:
 			return 1
 		default:
@@ -225,11 +226,11 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 		guard let _ = tableView.cellForRow(at: indexPath) as? BaseNrTableCell else { return }
 		switch indexPath.section {
 		case NrViewSection.Numerals.rawValue:
-			numeralcells.Expand(row: indexPath.row)
+			numeralcells.Expand(row: indexPath.row, tv: tableView)
 			tableView.beginUpdates()
 			tableView.endUpdates()
 		case NrViewSection.DrawNumber.rawValue:
-			drawcells.Select(row: indexPath.row)
+			drawcells.Select(row: indexPath.row,tv : tableView)
 			tableView.beginUpdates()
 			tableView.endUpdates()
 		case NrViewSection.Wiki.rawValue:
