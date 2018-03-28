@@ -418,9 +418,7 @@ class FaktorDrawerTree : FaktorDrawer {
 			param.scaley = 1.0
 			context.move(to: CGPoint(x: CGFloat(xpos) * param.scalex, y: CGFloat(ypos) * param.scaley))
 			let xy = GetXY(i, teiler: teiler1, xpos: xpos, ypos: ypos, r: r, angle: angle)
-			//print(xpos,ypos,xy[0],xy[1],angle)
-			
-			let color = PColor(hue: CGFloat(h),saturation: 1.0,brightness: 1.0,                                        alpha: 1.0)
+			let color = PColor(hue: CGFloat(h),saturation: 1.0,brightness: 1.0,alpha: 1.0)
 			color.setStroke()
 			context.addLine(to: CGPoint(x: CGFloat(xy[0]) * param.scalex, y: CGFloat(xy[1]) * param.scaley))
 			context.setLineWidth(1.0)

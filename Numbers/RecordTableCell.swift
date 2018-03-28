@@ -68,7 +68,6 @@ class RecordTableCell : BaseNrTableCell {
 	
 	override var nr : BigUInt {
 		didSet {
-			print(nr,oldValue)
 			if nr != oldValue {
 				DisplayRecord()
 			}

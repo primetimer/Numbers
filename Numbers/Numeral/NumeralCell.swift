@@ -123,7 +123,6 @@ class NumeralCells {
 		let cell = getCell(row: row)
 		if cell is NumeralArtCell {
 			let h = expanded ? cell.contentView.width : 150.0
-			print("artcell:",h)
 			return h
 		}
 		if cell is WikiTableCell {

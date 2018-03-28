@@ -45,3 +45,54 @@ class BernoulliTester : NumTester {
 	
 }
 
+class IrregularTester : NumTester {
+	func isSpecial(n: BigUInt) -> Bool {
+		if !PrimeTester().isSpecial(n: n) { return false }
+		if GetBernoulliDivisor(n: n) != nil {
+			return true
+		}
+		return false
+	}
+	
+	private func GetBernoulliDivisor(n: BigUInt) -> (n: BigInt, index: Int)? {
+		
+		if n == BigUInt(59) {
+			var nom = BigInt(17)*BigInt(59)*BigInt(827)*BigInt(17833331)*BigInt("86023144558386407")
+			nom = nom * BigInt("299116358909830276447443337")*BigInt("8417841532399822926231891659")
+			return (nom,102)
+		}
+		
+		let oeisn = BernoulliTester().oeisn
+		guard let seqn = OEIS.shared.GetSequence(oeisnr: oeisn) else { return nil }
+		guard let seqd = OEIS.shared.GetSequence(oeisnr: oeisn) else { return nil }
+		for (index,b) in seqn.enumerated() {
+			let babs = BigUInt(abs(b))
+			if babs <= BigInt(1) { continue }
+			if babs % n == 0 {
+				let d = seqd[index]
+				return (b,index)
+			}
+		}
+		return nil
+	}
+	
+	func getLatex(n: BigUInt) -> String? {
+		if !isSpecial(n: n) { return nil }
+		if BernoulliTester().isSpecial(n: n) { return nil }
+		
+		if let (b,_) = GetBernoulliDivisor(n: n) {
+
+			let latex =  String(n) + "\\mid " + String(b) + "\\\\"
+			let blatex = BernoulliTester().getLatex(n: BigUInt(abs(b))) ?? ""
+			return latex + blatex
+			
+		}
+		return nil
+	}
+	
+	func property() -> String {
+		return "Irregular prime"
+	}
+	
+}
+

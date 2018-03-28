@@ -478,7 +478,7 @@ class Explanation : NSObject {
 	private func N32() {
 		nr = 32
 		desc = desc + "Thirtytwo (32) is a power of 2"
-		latex = latex + "32 = 2^5"
+		//latex = latex + "32 = 2^5"
 	}
 	
 	private func N33() {
@@ -515,8 +515,8 @@ class Explanation : NSObject {
 		nr = 37
 		desc = desc + "37 is the smallest prime, which is not a supersingular prime. \n"
 		desc = desc + "37 is the first irregular prime number. 37 is a divisor of the numerator of the Benroulli number B32"
-		latex = latex + "37 \\mid numerator(B_{32}), B_{32} = \\frac{-7709321041217}{510} \\\\"
-		latex = latex + "37 = min \\{ p \\in \\mathbb{P} | \\exists B_{2k} = \\frac{a_k}{b_k} : p \\mid a_k \\} \\\\"
+		//latex = latex + "37 \\mid numerator(B_{32}), B_{32} = \\frac{-7709321041217}{510} \\\\"
+		//latex = latex + "37 = min \\{ p \\in \\mathbb{P} | \\exists B_{2k} = \\frac{a_k}{b_k} : p \\mid a_k \\} \\\\"
 	}
 	
 	private func N38() {

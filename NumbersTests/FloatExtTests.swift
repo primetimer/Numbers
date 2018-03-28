@@ -42,7 +42,6 @@ class FloatExtTests: XCTestCase {
 			(h1,k1) = (h,k)
 			let approx = BigFloat(BigInt(h)) / BigFloat(BigInt(k))
 			let str = approx.asString(10, maxlen: 10, fix: 10)
-			//print(i,str)
 		}
 		let d19 = Double(h1) / Double(k1)
 		let d19_2 = d19*d19
@@ -55,12 +54,10 @@ class FloatExtTests: XCTestCase {
 			let f = BigFloat(fint)
 			let f2 = BigFloat.sqrt(x: f)
 			let a = ContinuedFractions.shared.getSeries(value: f2,upto : 100)
-			//print(fint, ":", a)
 			let (n,d) = ContinuedFractions.shared.ValueRational(seq: a, count: 100)
 			let approx = BigFloat(BigInt(n)) / BigFloat(BigInt(d))
 			let approx2 = approx * approx
 			let dif = BigFloat.abs(f - approx2)
-			print(fint, dif)
 			XCTAssert(dif <= BigFloat(Double(0.00001)))
 		}
 	}
@@ -70,7 +67,9 @@ class FloatExtTests: XCTestCase {
 			let f0 = 2
 			let f = BigFloat.sqrt(x: BigFloat(f0))
 			let a = ContinuedFractions.shared.getSeries(value: f)
-			let r = ContinuedFractions.shared.RationalSequence(seq: a)
+			var ai : [BigInt] = []
+			for i in a { ai.append(BigInt(i)) }
+			let r = ContinuedFractions.shared.RationalSequence(seq: ai)
 			XCTAssert(r[0].n == BigUInt(1))
 			XCTAssert(r[1].n == BigUInt(3))
 			XCTAssert(r[5].n == BigUInt(99))
@@ -79,10 +78,11 @@ class FloatExtTests: XCTestCase {
 		do { //https://oeis.org/A002485
 			let f = BigFloatConstant.pi
 			let a = ContinuedFractions.shared.getSeries(value: f)
-			let r = ContinuedFractions.shared.RationalSequence(seq: a)
+			var ai : [BigInt] = []
+			for i in a { ai.append(BigInt(i)) }
+			let r = ContinuedFractions.shared.RationalSequence(seq: ai)
 			let soll = [3,7,15,1,292,1,1,1,2,1,3,1,14]
 			for (index,s) in soll.enumerated() {
-				print(r[index])
 				XCTAssert(s == Int(a[index]))
 			}
 		}
@@ -120,10 +120,5 @@ class FloatExtTests: XCTestCase {
 		let (dig,fract) = retf.SplitIntFract()
 		let digstr = String(dig)
 		XCTAssert(digstr == "4673331833592310999883355855611155212513211028177144957985823385935679234805211772074843110997402088")
-		
-		print(dig)
 	}
-    
-	
-    
 }

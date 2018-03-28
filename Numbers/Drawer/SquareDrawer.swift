@@ -176,7 +176,6 @@ class PolygonDrawer : NSObject
 			var drawcount = 1
 			let radius = CGFloat(secant) * rx / 2.0 / CGFloat(maxk) * CGFloat(maxk) / CGFloat(maxk+1)
 			for l in 0...maxk {
-				//if l != 0 { continue }
 				let k = l //maxk - l
 				let hue = Double(k-1) / Double(maxk)
 				if k == 0 {
@@ -210,7 +209,6 @@ class PolygonDrawer : NSObject
 				}
 			}
 		#endif
-		//print("drawcount:",drawcount)
 		return
 	}
 	

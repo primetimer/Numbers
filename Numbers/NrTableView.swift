@@ -45,8 +45,16 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 	private var uirecordtemp : TypewriterLabel? = nil
 	private var uiwebtemp : UIWebView? = nil
 	private var uitubetemp : YouTubePlayerView? = nil
-	//private var htmldesc = ""
 	var formula : String = "" // \\forall n \\in \\mathbb{N} : n = n + 0"
+	{
+		didSet {
+			if formula != oldValue && uiformtemp != nil {
+				uiformtemp?.latex = formula
+			}
+		}
+	}
+	
+	
 	var wikiadr : String = "wikipedia.de"
 	
 	var vc : NrViewController!
@@ -139,11 +147,9 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 	}
 	
 	override func beginUpdates() {
-		print("BeginUpdates")
 		super.beginUpdates()
 	}
 	override func endUpdates() {
-		print("Endupdates")
 		super.endUpdates()
 	}
 		
@@ -153,7 +159,7 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		
 		let h = HeightForRow(indexPath: indexPath)
-		#if true //Only Debug
+		#if false //Only Debug
 		if let hdict = heightdict[indexPath] {
 			if h != hdict {
 				print("Heightchange : " ,indexPath,h,hdict)
@@ -193,7 +199,6 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 			let h = drawcells.getRowHeight(row: row)
 			return h
 		case NrViewSection.Formula.rawValue:
-			//return 100.0
 			switch row {
 			case 0:
 				if let temp = uiformtemp {
@@ -294,8 +299,8 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 		case NrViewSection.Formula.rawValue:
 			if let cell = tableView.dequeueReusableCell(withIdentifier: formcellId, for: indexPath) as? FormTableCell {
 				cell.tableparent = tableView
-				cell.uimath.latex = formula
 				uiformtemp = cell.uimath
+				uiformtemp?.latex = formula
 				return cell
 			}
 		case NrViewSection.DrawNumber.rawValue:

@@ -95,7 +95,6 @@ class HCNumber {
 			if hcn.div > div {
 				hcnarr.append(hcn)
 				div = hcn.div
-				//print(hcn.n,hcn.div,hcn.exponents)
 			}
 		}
 		possible_hcn = []
@@ -124,9 +123,6 @@ class HCNumber {
 			
 			let possible = HCN(n: n, div: div, exponents: exponents)
 			possible_hcn.append(possible)
-			//print(possible)
-
-
 			var maxe = 60
 			if l >= 1 {
 				maxe = exponents[l-1]

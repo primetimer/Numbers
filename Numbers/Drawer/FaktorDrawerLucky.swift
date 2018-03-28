@@ -35,35 +35,6 @@ class LuckyDrawer : ImageNrDrawer {
 	private var count : Int = 0
 	private let ulammode = UlamType.square
 	private var luck : [Bool] = []
-	/*
-	private func ComputeLucky {
-		
-		let luck : [Int] = []
-		for i in 1...count {
-			luck.append(i)
-		}
-		
-		
-		let  bbb = 3;
-		let j = luck.count
-		let a = 3;
-		while (bbb < j) {
-			let b = numbers.count
-			var p = 1;
-			var i = bbb
-			while i < b {
-				luck.remove(at: i-p)
-				p = p + 1;
-				i = i + bbb
-			}
-			b = numbers.size() - 1;
-			c = numbers.get(b);
-			j = j - numbers.size() / bbb;
-			bbb = numbers.get(a-1);
-			a = a + 1;
-			//  System.out.println(numbers);
-		}
-	*/
 	
 	private func PreEmitter() {
 		if emitter == nil { return }
@@ -144,7 +115,6 @@ class LuckyDrawer : ImageNrDrawer {
 	
 	private func DrawNumber(k: Int, spiralDrawer: UlamDrawer)
 	{
-		//print("Drawing", k, determined)
 		let color = getColor(k)
 		if luck[k] && k != determined { return }
 		spiralDrawer.draw_number(context, ulamindex: k, p: UInt64(k), color: color)

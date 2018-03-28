@@ -93,7 +93,6 @@ class ContinuedFractions {
 			if x == BigFloat(0) {
 				return a
 			}
-			//print(a)
 			x = BigFloat(1) / x
 		}
 		return a
@@ -129,30 +128,6 @@ class ContinuedFractions {
 		}
 		return (h1,k1)
 	}
-	
-	/*
-	private func CreateOEIS() {
-		for t in MathConstantType.allValues {
-			let name = t.Symbol() + " Approximation"
-			let val = t.asBigFloat()
-			let oeisnr = t.OEISnr()
-			CreateOEIS(key: oeisnr, seqname: name, f: val)
-		}
-	
-	}
-
-	private func CreateOEIS(key : String, seqname : String, f : BigFloat)
-	{
-		let cf = self.getSeries(value: f)
-		//print(seqname, cf)
-		let r = RationalSequence(seq: cf)
-		var numerator : [BigUInt] = []
-		for (n,_) in r {
-			numerator.append(n)
-		}
-		OEIS.shared.Add(key, seqname, numerator)
-	}
-	*/
 }
 
 

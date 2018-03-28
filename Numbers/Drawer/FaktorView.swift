@@ -21,45 +21,6 @@ class FaktorView: DrawNrView {
 		
 		return ans
 	}
-	/*
-	private func BackgroundWorker() -> DispatchWorkItem {
-		let workItem = DispatchWorkItem {
-			if self._verbose { print("Computing:") }
-			guard let worker = self.workItem else { return }
-			self.workItem = nil
-			var images = self.CreateImages(worker: worker)
-			if let last = images.last {
-				let stillcount = images.count
-				for _ in 0...stillcount {
-					images.append(last)
-				}
-			}
-			if worker.isCancelled {
-				if self._verbose { print("Calculation break") }
-				return
-			}
-			DispatchQueue.main.async(execute: {
-				if self._verbose { print("Displaying") }
-				self.workItem = nil
-				self.imageview.animationImages = images
-				self.imageview.image = images.last
-				self.imageview.animationDuration = 5.0 //TimeInterval(self.param.maxrekurs)
-				self.imageview.animationRepeatCount = 0
-				self.imageview.startAnimating()
-			})
-		}
-		return workItem
-	}
-	*/
-	/*
-	override func draw(_ rect : CGRect) {
-		if !needredraw { return }
-		super.draw(rect)
-		workItem  = BackgroundWorker()
-		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
-	}
-	*/
-	
 }
 
 class FaktorNrDrawer : ImageNrDrawer {

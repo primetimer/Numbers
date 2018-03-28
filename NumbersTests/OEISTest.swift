@@ -27,7 +27,7 @@ class OEISTests : XCTestCase {
 			if let seq = OEIS.shared.GetSequence(key: t.property()) {
 				for n in seq {
 					if n == 0 { continue }
-					let istest = t.isSpecial(n: n)
+					let istest = t.isSpecial(n: BigUInt(n))
 					print(t.property(),String(n))
 					if !istest {
 						print(t.property(), String(n))
@@ -45,8 +45,8 @@ class OEISTests : XCTestCase {
 				for i in 1...100 {
 					let n = BigUInt(i)
 					let istest = t.isSpecial(n: n)
-					let iscontained = seq.contains(n)
-					//print(t.property(),String(n))
+					let iscontained = seq.contains(BigInt(n))
+
 					
 					XCTAssert(istest == iscontained)
 					if istest != iscontained {

@@ -93,7 +93,6 @@ class LuckyArr {
 	private func emit_result(_ n: Int) {
 		luckyarr[n] = true
 		last = n
-		//print("n:" + String(n) + "\n seq " + String(describing: seq) + "\n count: " + String(describing: count))
 	}
 	
 	private func sieving(_ maxlucky : Int) {

@@ -41,7 +41,6 @@ class DyckWord : CustomStringConvertible {
 					test = test * 2
 				}
 			}
-			//print (xout, outstr + "\n")
 			return outstr
 		}
 	}
@@ -135,21 +134,16 @@ class DyckWord : CustomStringConvertible {
 	private func LexDyckWord(x: UInt64 , i: UInt64)
 	{
 		if n0<self.n && n1<self.n && n0>n1 {
-			//print("Case 1")
 			let x0 = Dyck0(x: x,i: i+1)
 			let _ = Dyck1(x: x0,i: i+1)
 		} else if n0<n && n1<n && n0==n1 {
-			//print("Case 2")
 			let _ = Dyck0(x: x, i: i+1)
 		} else if n0<n && n1==n {
-			//print("Case 3")
 			let _ = Dyck0(x: x, i: i+1)
 		} else if n0 == n && n1<n {
-			//print("Case 4")
 			let _ = Dyck1(x: x, i: i+1)
 		} else {
 			dyck.append(x)
-			//print (description + "\n")
 		}
 	}
 }

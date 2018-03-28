@@ -58,7 +58,9 @@ class Tester : NumTester {
 	}
 	
 	static var shared = Tester()
-	let testers : [NumTester] = [ExtraTester(),PrimeTester(), SemiPrimeTester(), ProbablePrimeTester(),CarmichaelTester(),AbundanceTester(),
+	let testers : [NumTester] = [ExtraTester(),PrimeTester(), SemiPrimeTester(),
+								 //ProbablePrimeTester(),
+								 CarmichaelTester(),AbundanceTester(),
 										 TriangleTester(),SquareTester(),CubeTester(),
 										 FibonacciTester(),TetrahedralTest(),
 										 PentagonalTester(),HexagonalTester(),
@@ -67,8 +69,9 @@ class Tester : NumTester {
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), LuckyTester(),SmithTester(),
-										 MathConstantTester(),LatticeTester(),BernoulliTester()]
-
+										 MathConstantTester(),LatticeTester(),BernoulliTester()
+								//,IrregularTester()
+								]
 	
 	let xtesters : [NumTester] = [TwinPrimeTester(),CousinPrimeTester(),SexyPrimeTester(),
 										 SOGPrimeTester(),SafePrimeTester()]

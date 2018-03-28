@@ -372,8 +372,6 @@ class ConstructibleDrawer {
 			let p = pt[i]
 			//cmd.append(CircleCmd(p, r: r))
 			let c = Flip(m: m, r: r, p: p)
-			//print(i,p,i1,a,i2,b,"c=",c)
-			//n2gon.append(a)
 			n2gon.append(c)
 			n2gon.append(b)
 			

@@ -14,17 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var nav : UINavigationController?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-		
-		// Override point for customization after application launch.
-		let mainvc =  NrViewController() // MainViewController() //
-		//self.window = UIWindow(frame: UIScreen.main.bounds)
-		nav = UINavigationController(rootViewController: mainvc)
-		//let mainView = MainViewController(nibName: nil, bundle: nil) //ViewController = Name of your controller
-	
-		nav!.viewControllers = [mainvc]
-		
-		self.window!.rootViewController = nav
-		self.window?.makeKeyAndVisible()
+
+		self.window = UIWindow(frame: UIScreen.main.bounds)
+		if let window = window {
+			let mainvc =  NrViewController()
+			nav = UINavigationController(rootViewController: mainvc)
+			window.rootViewController = nav
+			window.makeKeyAndVisible()
+		}
 		return true
 	}
 
