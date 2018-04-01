@@ -29,6 +29,8 @@ class WikiLinks {
 		AddWiki("superabundant","https://en.wikipedia.org/wiki/Superabundant_number")
 		AddWiki(LuckyTester().property(),"https://en.wikipedia.org/wiki/Lucky_number")
 		AddWiki(HappyTester().property(),"https://en.wikipedia.org/wiki/Happy_number")
+		AddWiki(AudioActiveTester().property(),"https://en.wikipedia.org/wiki/Look-and-say_sequence")
+		AddWiki(LookAndSayTester().property(),"https://en.wikipedia.org/wiki/Look-and-say_sequence")
 		AddWiki("highly composite","https://en.wikipedia.org/wiki/Highly_composite_number")
 		AddWiki("prime","https://en.wikipedia.org/wiki/Prime_number")
 		AddWiki("composite","https://en.wikipedia.org/wiki/Composite_number")

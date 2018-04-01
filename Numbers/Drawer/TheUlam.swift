@@ -10,7 +10,7 @@ import Foundation
 import BigInt
 
 enum UlamType : Int {
-	case square = 0, spiral = 1, fibonacci = 2, lucas = 3, hexagon = 4
+	case square = 0, spiral = 1, fibonacci = 2, lucas = 3, hexagon = 4, linear = 5
 }
 
 #if false
@@ -25,7 +25,7 @@ typealias SpiralXY = (x: Float, y: Float)
 class TheUlamBase  {
 	
 	static let defcount = 3600 //##
-	var count = defcount + 1
+	internal var count = defcount + 1
 	//private var pt : [SpiralXY] = []
 	
 	func Radius(_ count : Int) -> Double
@@ -146,6 +146,9 @@ class TheUlamHexagon : TheUlamBase {
 
 class TheUlamRect : TheUlamBase {
 	static let sharedInstance = TheUlamRect()
+	
+	
+
 	override func getPoint(_ n : Int) -> SpiralXY
 	{
 		let w2 = sqrt(Double(n))
@@ -172,6 +175,30 @@ class TheUlamRect : TheUlamBase {
 		return p
 	}
 }
+
+class TheUlamLinear : TheUlamBase {
+	static let sharedInstance = TheUlamLinear()
+	private (set) var spokes = 30
+	
+	override func Radius(_ count : Int) -> Double
+	{
+		let cd = ceil(sqrt(Double(count)))
+		spokes = Int(cd)
+		
+		return Double(count) / Double(spokes) / 4.0
+		//return ceil(sqrt(Double(count)))+1
+	}
+	
+	override func getPoint(_ n : Int) -> SpiralXY
+	{
+		let m : Int = spokes
+		let x = n % m 
+		let y = n / m
+		let p = (x: Float(2*x+1), y: Float(y)+0.75)
+		return p
+	}
+}
+
 
 
 

@@ -29,7 +29,7 @@ class SequenceDrawer : ImageNrDrawer {
 	var Direction : Int = 1
 	private var context : CGContext!
 	let count = 100
-	let ulammode = UlamType.fibonacci
+	let ulammode = UlamType.linear // UlamType.square //UlamType.fibonacci
 	
 
 	override func DrawNrImage(rect : CGRect) -> UIImage? {

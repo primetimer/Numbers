@@ -68,7 +68,7 @@ class Tester : NumTester {
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),TaxiCabTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
-										 DullTester(), HappyTester(),LuckyTester(), SmithTester(),
+										 DullTester(), HappyTester(),LookAndSayTester(),AudioActiveTester(), LuckyTester(), SmithTester(),
 										 MathConstantTester(),LatticeTester(),BernoulliTester()
 								//,IrregularTester()
 								]

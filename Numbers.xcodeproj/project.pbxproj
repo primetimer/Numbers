@@ -90,6 +90,7 @@
 		54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E43A6B1FD44B4100C25A42 /* Extensions.swift */; };
 		54EDDA8C206639D100F3F36C /* ContinuedFractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */; };
 		54F09DF1206CAA7F00588772 /* HappyTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F09DF0206CAA7F00588772 /* HappyTester.swift */; };
+		54F09DF3206EB67300588772 /* LookAndSayTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F09DF2206EB67200588772 /* LookAndSayTester.swift */; };
 		54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0B91FFA7B59006DECED /* NumerHTML.swift */; };
 		54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0BB1FFA99BF006DECED /* DescCell.swift */; };
 		54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */; };
@@ -211,6 +212,7 @@
 		54E43A6B1FD44B4100C25A42 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinuedFractions.swift; sourceTree = "<group>"; };
 		54F09DF0206CAA7F00588772 /* HappyTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HappyTester.swift; sourceTree = "<group>"; };
+		54F09DF2206EB67200588772 /* LookAndSayTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookAndSayTester.swift; sourceTree = "<group>"; };
 		54F5F0B91FFA7B59006DECED /* NumerHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumerHTML.swift; sourceTree = "<group>"; };
 		54F5F0BB1FFA99BF006DECED /* DescCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescCell.swift; sourceTree = "<group>"; };
 		54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeilSchrift.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				545FEE1B205504C40040A3F4 /* FermatTester.swift */,
 				54FD75271FF4EFBC00AE24E8 /* LuckyTester.swift */,
 				54F09DF0206CAA7F00588772 /* HappyTester.swift */,
+				54F09DF2206EB67200588772 /* LookAndSayTester.swift */,
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
 				547C4F08204B492E00884B6C /* Supersingular.swift */,
@@ -668,6 +671,7 @@
 				543078261FDF07A20036516F /* AbundanceTester.swift in Sources */,
 				54FD752E1FF7926100AE24E8 /* HCNTester.swift in Sources */,
 				54D906D7204D2B41009EED11 /* SemiPrimeTester.swift in Sources */,
+				54F09DF3206EB67300588772 /* LookAndSayTester.swift in Sources */,
 				545FEE1C205504C40040A3F4 /* FermatTester.swift in Sources */,
 				54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,

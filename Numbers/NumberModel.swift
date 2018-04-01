@@ -15,6 +15,6 @@ class NumberModel {
 	private init() {
 		currnr = BigUInt(initialnumber)
 	}
-	private let initialnumber = 691
+	private let initialnumber = 1112
 	var currnr : BigUInt
 }

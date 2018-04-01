@@ -203,7 +203,6 @@ class NrViewController: UIViewController , UISearchBarDelegate, NumberJump  {
 		self.uisearch.text = ""
 	}
 
-	
 	func setupAutoLayout() {
 		tv.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 		tv.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true

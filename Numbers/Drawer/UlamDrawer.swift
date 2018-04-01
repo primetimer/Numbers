@@ -76,6 +76,8 @@ class UlamDrawer:  NSObject {
 			ptspiral = TheUlamHexagon.sharedInstance
 		case .lucas:
 			ptspiral = TheUlamLucas.sharedInstance
+		case .linear:
+			ptspiral = TheUlamLinear.sharedInstance
 		}
 	}
 	
@@ -165,6 +167,14 @@ class UlamDrawer:  NSObject {
 			
 			return CGPoint(x: CGFloat(x*scalex), y: CGFloat(y*scaley))
 		}
+		if (utype == .linear)
+		{
+			pointwidth = size / CGFloat(TheUlamLinear.sharedInstance.spokes) 
+			let xlin = xp / CGFloat( TheUlamLinear.sharedInstance.spokes) * size / 2.0
+			let ylin = yp / CGFloat( TheUlamLinear.sharedInstance.spokes) * size
+			return CGPoint(x: xlin, y: ylin)
+		}
+			
 		
 		let x = (xp+1.0*CGFloat(rm)) * size / CGFloat(2.0*rm)
 		let y = (yp+1.0*CGFloat(rm)) * size / CGFloat(2.0*rm)
