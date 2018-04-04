@@ -73,6 +73,7 @@
 		54C35752203C924C0044803F /* mayan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54C35751203C924C0044803F /* mayan.ttf */; };
 		54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC5206316F20044F328 /* FloatExtTests.swift */; };
 		54D16CC8206402720044F328 /* RecordNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC7206402720044F328 /* RecordNumber.swift */; };
+		54D61B952072A5AD00DD15DF /* ConwayTestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */; };
 		54D83B162064DAE000704A01 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECAA2064D66E00312E80 /* symbola.ttf */; };
 		54D83B1820655D0B00704A01 /* NumberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D83B1720655D0B00704A01 /* NumberModel.swift */; };
 		54D906D5204C891C009EED11 /* SmithTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D4204C891C009EED11 /* SmithTester.swift */; };
@@ -91,6 +92,7 @@
 		54EDDA8C206639D100F3F36C /* ContinuedFractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */; };
 		54F09DF1206CAA7F00588772 /* HappyTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F09DF0206CAA7F00588772 /* HappyTester.swift */; };
 		54F09DF3206EB67300588772 /* LookAndSayTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F09DF2206EB67200588772 /* LookAndSayTester.swift */; };
+		54F09DF52070F37000588772 /* ConwayDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F09DF42070F37000588772 /* ConwayDrawer.swift */; };
 		54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0B91FFA7B59006DECED /* NumerHTML.swift */; };
 		54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F5F0BB1FFA99BF006DECED /* DescCell.swift */; };
 		54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */; };
@@ -192,6 +194,7 @@
 		54C67D6E1FD5529E00494CC4 /* Numbers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Numbers-Bridging-Header.h"; sourceTree = "<group>"; };
 		54D16CC5206316F20044F328 /* FloatExtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatExtTests.swift; sourceTree = "<group>"; };
 		54D16CC7206402720044F328 /* RecordNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordNumber.swift; sourceTree = "<group>"; };
+		54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConwayTestTest.swift; sourceTree = "<group>"; };
 		54D83B1720655D0B00704A01 /* NumberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberModel.swift; path = Numbers/NumberModel.swift; sourceTree = "<group>"; };
 		54D906D4204C891C009EED11 /* SmithTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmithTester.swift; sourceTree = "<group>"; };
 		54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiPrimeTester.swift; sourceTree = "<group>"; };
@@ -213,6 +216,7 @@
 		54EDDA8B206639D100F3F36C /* ContinuedFractions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinuedFractions.swift; sourceTree = "<group>"; };
 		54F09DF0206CAA7F00588772 /* HappyTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HappyTester.swift; sourceTree = "<group>"; };
 		54F09DF2206EB67200588772 /* LookAndSayTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookAndSayTester.swift; sourceTree = "<group>"; };
+		54F09DF42070F37000588772 /* ConwayDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConwayDrawer.swift; sourceTree = "<group>"; };
 		54F5F0B91FFA7B59006DECED /* NumerHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumerHTML.swift; sourceTree = "<group>"; };
 		54F5F0BB1FFA99BF006DECED /* DescCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescCell.swift; sourceTree = "<group>"; };
 		54F7E0FB203857C600B4EAEF /* KeilSchrift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeilSchrift.swift; sourceTree = "<group>"; };
@@ -293,6 +297,7 @@
 				54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */,
 				543078291FE3C1180036516F /* SquareDrawer.swift */,
 				548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */,
+				54F09DF42070F37000588772 /* ConwayDrawer.swift */,
 				54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */,
 				54F89F09205B8A9B003C8D72 /* DebugView.swift */,
 				54923FAB1FEE8047006993F2 /* GradientText.swift */,
@@ -419,6 +424,7 @@
 				5419D19C20583A1600047D5C /* WikiTest.swift */,
 				54F7E0FF203A098600B4EAEF /* TetraHedral.swift */,
 				54062ADC20432D80001F51B6 /* TestLucky.swift */,
+				54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */,
 				54924C82204A9D720038716B /* TestURLNumber.swift */,
 				54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */,
 				544D92FF205AD25F008723AE /* LatticeTesterTest.swift */,
@@ -676,6 +682,7 @@
 				54F5F0BC1FFA99BF006DECED /* DescCell.swift in Sources */,
 				54E43A4E1FD44A1100C25A42 /* NrViewController.swift in Sources */,
 				544D9302205AD2A0008723AE /* LatticeTester.swift in Sources */,
+				54F09DF52070F37000588772 /* ConwayDrawer.swift in Sources */,
 				54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */,
 				54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */,
 				54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */,
@@ -762,6 +769,7 @@
 				54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */,
 				544D9300205AD25F008723AE /* LatticeTesterTest.swift in Sources */,
 				54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */,
+				54D61B952072A5AD00DD15DF /* ConwayTestTest.swift in Sources */,
 				545FEE20205798890040A3F4 /* OEISTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

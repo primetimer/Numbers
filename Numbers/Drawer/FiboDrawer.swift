@@ -18,47 +18,13 @@ class FiboView : DrawNrView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	/*
-	override func draw(_ rect: CGRect) {
-		super.draw(rect)
-		CreateImages()
-	}
-	
-	
-	private func CreateImages()  {
-		let rect = CGRect(x: 0.0, y: 0.0, width: 400.0, height: 400.0)
-
-		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-		defer { UIGraphicsEndImageContext() }
-		guard let context = UIGraphicsGetCurrentContext() else { return }
-		context.setStrokeColor(UIColor.black.cgColor)
-		context.setLineWidth(1.0);
-		context.beginPath()
-		let fibodraw = FiboDrawer(nr: self.nr, rect: rect)
-		fibodraw.DrawNumber(context : context)
-		if let newimage  = UIGraphicsGetImageFromCurrentImageContext() {
-			Emit(image: newimage)
-			imageview.image = newimage
-		}
-
-	}
-	*/
-	
 	override func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {
 		return FiboDrawer(nr: nr, tester: self.tester, emitter: self, worker: self.workItem)
 	}
 }
 
 class FiboDrawer : ImageNrDrawer
-{
-	//enum fiboOrientation  { case left,top,right, bottom }
-	//private var context : CGContext!
-	//private var nr : UInt64 = 1
-	//internal var rect : CGRect!
-	//var rx : CGFloat = { return rect.width }()
-	//binternal var ry : CGFloat = { return self.rect.height }()
-	//private var sphere = SphereDrawer()
-	
+{	
 	private var pts : [(x:Double,y:Double)] = []
 	private var nth = 0
 

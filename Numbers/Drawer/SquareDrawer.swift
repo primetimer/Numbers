@@ -20,33 +20,9 @@ class PolygonalView : DrawNrView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	/*
-	private var _imageview : UIImageView? = nil
-	var imageview : UIImageView {
-	get {
-	if _imageview == nil {
-	let rect = CGRect(x: 0, y: 0 , width: frame.width, height: frame.height)
-	_imageview = UIImageView(frame:rect)
-	_imageview?.backgroundColor = self.backgroundColor
-	addSubview(_imageview!)
-	}
-	return _imageview!
-	}
-	}
-	*/
-	
-	/*
-	private var nr : UInt64 = 1
-	func SetNumber(_ nextnr : UInt64) {
-	self.nr = nextnr
-	}
-	*/
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		//imageview.animationDuration = 0
-		//imageview.animationRepeatCount = 1
-		
 		CreateImages()
 	}
 	
@@ -63,10 +39,6 @@ class PolygonalView : DrawNrView {
 		let pentagon = PolygonDrawer(nr: self.nr, poly: poly, rect: rect)
 		pentagon.DrawNumber(context : context)
 		let newimage  = UIGraphicsGetImageFromCurrentImageContext()
-		//images.append(newimage!)
-		
-		
-		//imageview.animationImages = images
 		imageview.image = newimage
 	}
 }

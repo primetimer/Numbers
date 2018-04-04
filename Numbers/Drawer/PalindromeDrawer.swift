@@ -98,26 +98,6 @@ class PalindromeView : DrawNrView {
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		return image
 	}
-	/*
-		}
-		
-		if let srcImage  =
-		{
-			let flippedImage = UIImage(cgImage: srcImage.cgImage!, scale: srcImage.scale, orientation: UIImageOrientation.upMirrored)
-			//UIGraphicsEndImageContext()
-			//UIGraphicsBeginImageContext(rect.size)
-			srcImage.draw(in: rect)
-			#if false
-			//let fliprect = CGRect(x:rect.minX,y:rect.minY + rect.height / 2.0, width: rect.width,height: rect.height)
-			let fliprect = rect
-			flippedImage.draw(in: fliprect, blendMode: .normal, alpha: 0.5)
-				#endif
-			let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-			//UIGraphicsEndImageContext()
-			imageview.image = newImage
-		}
-	}
-	*/
 }
 
 class PalindromeDrawer : NSObject

@@ -46,6 +46,18 @@ class PiView : DrawNrView {
 	}
 }
 
+extension Dictionary {
+	
+	mutating func merge(with dictionary: Dictionary) {
+		dictionary.forEach { updateValue($1, forKey: $0) }
+	}
+	
+	func merged(with dictionary: Dictionary) -> Dictionary {
+		var dict = self
+		dict.merge(with: dictionary)
+		return dict
+	}
+}
 extension String {
 	
 	func drawVerticallyCentered(in rect: CGRect, withAttributes attributes: [NSAttributedStringKey : Any]? = nil) {
@@ -57,6 +69,23 @@ extension String {
 		let size = self.size(withAttributes: attributes)
 		let centeredRect = CGRect(x: rect.origin.x + (rect.size.width-size.width)/2.0, y: rect.origin.y + (rect.size.height-size.height)/2.0, width: size.width, height: size.height)
 		self.draw(in: centeredRect, withAttributes: attributes)
+	}
+	func drawRight(in rect: CGRect, withAttributes attributes: [NSAttributedStringKey : Any]? = nil) {
+		var paragraph : NSMutableParagraphStyle {
+			get {
+				let p = NSMutableParagraphStyle()
+				p.alignment = .right
+				p.lineHeightMultiple = 1.0
+				//p.lineBreakMode = .byWordWrapping
+				return p
+			}
+		}
+		
+		var attr : [NSAttributedStringKey : Any] = 	[NSAttributedStringKey.paragraphStyle:paragraph]
+		if attributes != nil { attr.merge(with: attributes!) }
+		//let size = self.size(withAttributes: attributes)
+		//let rrect = CGRect(x: rect.origin.x + (rect.size.width-size.width)/2.0, y: rect.origin.y + (rect.size.height-size.height)/2.0, width: size.width, height: size.height)
+		self.draw(in: rect, withAttributes: attr)
 	}
 }
 

@@ -86,6 +86,7 @@ class FloatExtTests: XCTestCase {
 				XCTAssert(s == Int(a[index]))
 			}
 		}
+		
 	}
     
     func testExample() {

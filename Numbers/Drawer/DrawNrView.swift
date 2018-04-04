@@ -108,7 +108,7 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 	}
 	func StartImageShow(image: UIImage?) {
 		imageview.image = image
-		imageview.animationDuration = 5.0
+		imageview.animationDuration = 20.0
 		imageview.animationRepeatCount = 1
 		imageview.startAnimating()
 	}

@@ -40,6 +40,8 @@ extension MathConstantType {
 			return ("A000012","A000045+1","A000045+2")
 		case .crt2:
 			return ("A002945","A002945N","A002945D")
+		case .zeta3: 
+			return ("A013631","A084223","A084224")
 			
 		default:
 			let x = 666
@@ -69,6 +71,8 @@ extension MathConstantType {
 			return BigFloatConstant.crt2
 		case .bruns:
 			return BigFloatConstant.bruns
+		case .zeta3:
+			assert(false)
 		}
 	}
 }

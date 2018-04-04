@@ -15,6 +15,6 @@ class NumberModel {
 	private init() {
 		currnr = BigUInt(initialnumber)
 	}
-	private let initialnumber = 1112
+	private let initialnumber = 3 //1112
 	var currnr : BigUInt
 }

@@ -46,31 +46,53 @@ class AudioActiveTester : NumTester {
 	}
 }
 
-struct ConwayElem {
-	private (set) var index : Int = 0
+class ConwayPrimordial  {
 	private (set) var src : String = ""
 	private (set) var dest : String = ""
-	private (set) var name : String = ""
-	private (set) var isotopes : [String] = []
-	private (set) var nr : BigUInt = 0
+	
+	init(src: String) {
+		self.src = src
+		self.dest = ConwayElem.LookandSay(look: src)
+	}
+}
+
+class ConwayElem : ConwayPrimordial {
+	internal (set) var index : Int = 0
+	internal (set) var name : String = ""
+	internal (set) var isotopes : [String] = []
+	internal (set) var nr : BigUInt = 0
 	
 	var graph : [ConwayElem] = []
 	
 	init(index : Int, src: String, name: String, isotop: String) {
+		super.init(src: src)
 		self.index = index
-		self.src = src
-		self.dest = LookandSay(look: src)
 		self.name = name
 		self.nr = BigUInt(src)!
 		self.isotopes = isotop.split(separator: " ").map(String.init)
 	}
 	
-	func LookandSay(look : String) -> String {
+	func Isotops(upto : Int = 92) -> [ConwayElem] {
+		var ans : [ConwayElem] = []
+//		if self.name == "H" { return ans }
+		for s in isotopes {
+			guard let sub = ConwayActive.shared.contains(name: s) else {
+				assert(false);
+				return ans
+			}
+			if sub.index < upto {
+				ans.append(sub)
+			}
+		}
+		return ans
+	}
+	
+	static func LookandSay(look : String) -> String {
 		var ans = ""
 		let c = Array(look)
 		var rep = 1
 		var repdigit = c[0]
-		if c.count == 0 {
+		if c.count == 1 {
 			return "1" + String(c[0])
 		}
 		for i in 1..<c.count {
@@ -83,7 +105,7 @@ struct ConwayElem {
 				repdigit = nextdigit
 			}
 		}
-		ans = ans + "1" + String(repdigit)
+		ans = ans + String(rep) + String(repdigit)
 		return ans
 	}
 	
@@ -99,6 +121,71 @@ class ConwayActive {
 		}
 	}
 	
+	private func candidate(s: String) -> [ConwayElem] {
+		var cand : [ConwayElem] = []
+		for e in elems {
+			if e.src.count > s.count { continue }
+			let index1 = s.index(s.startIndex, offsetBy: e.src.count)
+			let substring1 = s[s.startIndex..<index1]
+			if e.src == substring1 {
+				cand.append(e)
+			}
+		}
+		return cand
+	}
+	
+	private func TestEvolution(elem: String, rest: String, org: String) -> Bool {
+		var ref1 = elem
+		var ref2 = rest
+		var check = org
+		for k in 1 ... 10 {
+			ref1 = ConwayElem.LookandSay(look: ref1)
+			ref2 = ConwayElem.LookandSay(look: ref2)
+			check = ConwayElem.LookandSay(look: check)
+			if ref1 + ref2 != check {
+				print("Incompatible")
+					return false
+			}
+		}
+		return true
+	}
+	
+	func ConvertToElems(prim: [ConwayPrimordial]) -> [ConwayElem]?
+	{
+		var ans : [ConwayElem] = []
+		for p in prim {
+			if let elem = p as? ConwayElem {
+				ans.append(elem)
+			}
+			else {
+				return nil
+			}
+		}
+		return ans
+	}
+	
+	func Compose(s: String) -> [ConwayPrimordial] {
+		for e in elems {
+			if e.src == s { return [e] }
+		}
+		var ans : [ConwayPrimordial] = []
+		let cand = candidate(s: s)
+		for e in cand {
+			let index2 = s.index(s.startIndex, offsetBy: e.src.count)
+			let rest = s[index2..<s.endIndex]
+			if TestEvolution(elem: e.src, rest: String(rest), org: s) {
+				ans.append(e)
+				let more = Compose(s: String(rest))
+				ans.append(contentsOf: more)
+				return ans
+			}
+		}
+		
+		//Nichts gefunden
+		let prim = ConwayPrimordial(src: s)
+		return [prim]
+	}
+		
 	func contains(nr: BigUInt) -> ConwayElem? {
 		let search = String(nr)
 		for e in elems {

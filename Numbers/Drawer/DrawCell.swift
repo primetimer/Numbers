@@ -63,6 +63,10 @@ class DrawTableCell: BaseNrTableCell {
 			let ulam = SequenceView()
 			return ulam
 		}
+		if numtester is AudioActiveTester {
+			let ans = ConwayView()
+			return ans
+		}
 		if numtester is FibonacciTester {
 			let ans = FiboView() //FibonacciSequenceView() //FiboView?
 			return ans
