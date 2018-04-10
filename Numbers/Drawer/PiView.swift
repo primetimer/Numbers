@@ -29,7 +29,7 @@ class PiView : DrawNrImageView {
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
 			guard let tester = self.tester as? MathConstantTester else { return }
-			let drawer = PiDrawer(rect: rect, tester: tester, nr: self.nr)
+			let drawer = PiDrawer(rect: rect, tester: tester, nr: self.nr64)
 			drawer.emitdelegate = self
 			drawer.worker = worker
 			let image = drawer.draw()

@@ -32,7 +32,7 @@ class ConstructibleView : DrawNrImageView {
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
 			guard let tester = self.tester as? ConstructibleTester else { return }
-			let drawer = ConstructibleDrawer(rect: rect, tester: tester, nr: self.nr)
+			let drawer = ConstructibleDrawer(rect: rect, tester: tester, nr: self.nr64)
 			drawer.emitdelegate = self
 			let image = drawer.draw()
 			if !worker.isCancelled {

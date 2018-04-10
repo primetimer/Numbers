@@ -27,10 +27,16 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 		}
 	}
 	internal var workItem : DispatchWorkItem? = nil
-	var nr : UInt64 = 1 {
+	var nr : BigUInt = 1 {
 		didSet {
 			if nr != oldValue {	needredraw = true }
 		}
+	}
+	var nr64 : UInt64 {
+		if self.nr.isInt64() {
+			return UInt64(self.nr)
+		}
+		return 1
 	}
 	var tester : NumTester? = nil {
 		didSet {
@@ -115,7 +121,7 @@ class DrawNrImageView : DrawNrView {
 		self.imageview.animationImages = []
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
-			guard let drawer = self.CreateImageDrawer(nr: self.nr, tester: self.tester, worker: worker) else { return }
+			guard let drawer = self.CreateImageDrawer(nr: self.nr64, tester: self.tester, worker: worker) else { return }
 			guard let image = drawer.DrawNrImage(rect: rect) else { return }
 			if !worker.isCancelled {
 				self.workItem = nil

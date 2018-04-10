@@ -178,7 +178,7 @@ class CatalanView: DrawNrImageView {
 		self.setNeedsDisplay()
 		self.clearsContextBeforeDrawing = false
 	}
-	override var nr : UInt64 {
+	override var nr : BigUInt {
 		didSet {
 			if nr == oldValue { return }
 			let catalan = CatalanTester()
@@ -224,7 +224,7 @@ class CatalanView: DrawNrImageView {
 		let dy = ry / CGFloat(nth+1)
 		let path = UIBezierPath()
 		
-		drawcounter = (drawcounter + 1) % self.nr
+		drawcounter = (drawcounter + 1) % self.nr64
 		var word : UInt64 = 0
 		var y : CGFloat = 0.0
 		var hue : CGFloat = 0.0

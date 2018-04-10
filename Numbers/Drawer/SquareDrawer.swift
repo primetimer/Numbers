@@ -36,7 +36,7 @@ class PolygonalView : DrawNrImageView {
 		context.setStrokeColor(UIColor.black.cgColor)
 		context.setLineWidth(1.0);
 		context.beginPath()
-		let pentagon = PolygonDrawer(nr: self.nr, poly: poly, rect: rect)
+		let pentagon = PolygonDrawer(nr: self.nr64, poly: poly, rect: rect)
 		pentagon.DrawNumber(context : context)
 		let newimage  = UIGraphicsGetImageFromCurrentImageContext()
 		imageview.image = newimage

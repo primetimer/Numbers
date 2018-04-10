@@ -117,7 +117,7 @@ class DullView : DrawNrView {
 		context.setStrokeColor(UIColor.black.cgColor)
 		context.setLineWidth(1.0);
 		context.beginPath()
-		let draw = DullDrawer(nr: self.nr, rect: rect)
+		let draw = DullDrawer(nr: self.nr64, rect: rect)
 		let size = draw.AttrDullSize()
 		//let size = draw.DrawNumber(context : context)
 		uiscrollv.contentSize = size

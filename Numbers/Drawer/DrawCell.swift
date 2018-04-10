@@ -129,9 +129,7 @@ class DrawTableCell: BaseNrTableCell {
 	override var nr : BigUInt {
 		didSet {
 			if oldValue == nr { return }
-			if nr.isInt64() {
-				uidraw?.nr = UInt64(nr)
-			}
+			uidraw?.nr = nr
 			uidraw?.setNeedsDisplay()
 		}
 	}

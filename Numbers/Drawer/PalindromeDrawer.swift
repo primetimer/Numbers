@@ -92,7 +92,7 @@ class PalindromeView : DrawNrImageView {
 		context.setStrokeColor(UIColor.black.cgColor)
 		context.setLineWidth(1.0);
 		context.beginPath()
-		let draw = PalindromeDrawer(nr: self.nr, rect: rect)
+		let draw = PalindromeDrawer(nr: self.nr64, rect: rect)
 		draw.DrawNumber(context : context)
 
 		let image = UIGraphicsGetImageFromCurrentImageContext()

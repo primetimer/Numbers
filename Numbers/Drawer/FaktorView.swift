@@ -16,7 +16,7 @@ class FaktorView: DrawNrImageView {
 	override func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {
 
 		let ans = FaktorNrDrawer(nr: nr, tester: tester, emitter: self, worker: worker)
-		param.nr = self.nr
+		param.nr = self.nr64
 		ans.param = param
 		
 		return ans

@@ -26,7 +26,7 @@ class LucasView: DrawNrImageView {
 		super.init(coder: aDecoder)
 	}
 
-	override var nr : UInt64 {
+	override var nr : BigUInt {
 		didSet {
 			maxlevel = Int(LucasTester.NIndex(n: BigUInt(nr))) - 1
 			ry2 = ry / CGFloat(nr) / 4.0 * CGFloat(pow(2.0,Double(maxlevel)))

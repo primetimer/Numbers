@@ -69,7 +69,7 @@ class PrattView : DrawNrView {
 	}
 	*/
 	
-	override var nr : UInt64 {
+	override var nr : BigUInt {
 		didSet {
 			ShowCertificat()
 			self.setNeedsLayout()
