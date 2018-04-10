@@ -9,7 +9,7 @@
 import UIKit
 import BigInt
 
-class SequenceView : DrawNrView {
+class SequenceView : DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.tester = PrimeTester()

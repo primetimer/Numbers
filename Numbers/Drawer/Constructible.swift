@@ -11,7 +11,7 @@
 import UIKit
 import BigInt
 
-class ConstructibleView : DrawNrView {
+class ConstructibleView : DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 	}

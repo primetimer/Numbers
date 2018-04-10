@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5403D96820505709007F6B21 /* TesterArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96720505709007F6B21 /* TesterArtCell.swift */; };
 		5403D96A20507665007F6B21 /* DrawCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96920507665007F6B21 /* DrawCells.swift */; };
-		5403D96C20507680007F6B21 /* DrawNrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96B20507680007F6B21 /* DrawNrView.swift */; };
+		5403D96C20507680007F6B21 /* DrawNrImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403D96B20507680007F6B21 /* DrawNrImageView.swift */; };
 		54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADC20432D80001F51B6 /* TestLucky.swift */; };
 		54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */; };
 		54062AE12045D9C4001F51B6 /* TestSumOfSquares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */; };
@@ -20,6 +20,9 @@
 		5419D1992057F21800047D5C /* CatalanTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5419D1982057F21800047D5C /* CatalanTester.swift */; };
 		5419D19B2057F5F100047D5C /* HeegnerTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5419D19A2057F5F100047D5C /* HeegnerTester.swift */; };
 		5419D19D20583A1600047D5C /* WikiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5419D19C20583A1600047D5C /* WikiTest.swift */; };
+		5422AA54207A745500A2D6B9 /* CompositeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA53207A745500A2D6B9 /* CompositeTester.swift */; };
+		5422AA56207A74C600A2D6B9 /* Pratt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA55207A74C600A2D6B9 /* Pratt.swift */; };
+		5422AA58207AACC900A2D6B9 /* TestPratt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA57207AACC900A2D6B9 /* TestPratt.swift */; };
 		54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54242CB22051098D00EC92FD /* SequenceCell.swift */; };
 		543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078231FDEC08B0036516F /* SpokenNumber.swift */; };
 		543078261FDF07A20036516F /* AbundanceTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078251FDF07A20036516F /* AbundanceTester.swift */; };
@@ -28,6 +31,23 @@
 		5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782B1FE3C1B60036516F /* FactorDrawer.swift */; };
 		5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782D1FE3C3BF0036516F /* SphereDrawer.swift */; };
 		543078301FE3E1350036516F /* FaktorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5430782F1FE3E1350036516F /* FaktorView.swift */; };
+		54330D2D207773ED00133D45 /* Dodecahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D22207773EA00133D45 /* Dodecahedron.gif */; };
+		54330D2E207773ED00133D45 /* Rhombicosidodecahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D23207773EA00133D45 /* Rhombicosidodecahedron.gif */; };
+		54330D2F207773ED00133D45 /* Hexahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D24207773EB00133D45 /* Hexahedron.gif */; };
+		54330D30207773ED00133D45 /* Rhombicuboctahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D25207773EB00133D45 /* Rhombicuboctahedron.gif */; };
+		54330D31207773ED00133D45 /* Icosidodecahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D26207773EB00133D45 /* Icosidodecahedron.gif */; };
+		54330D32207773ED00133D45 /* Octahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D27207773EB00133D45 /* Octahedron.gif */; };
+		54330D33207773ED00133D45 /* Cuboctahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D28207773EB00133D45 /* Cuboctahedron.gif */; };
+		54330D34207773ED00133D45 /* Icosahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D29207773EC00133D45 /* Icosahedron.gif */; };
+		54330D35207773ED00133D45 /* Impossible_cube_different_angle.png in Resources */ = {isa = PBXBuildFile; fileRef = 54330D2A207773EC00133D45 /* Impossible_cube_different_angle.png */; };
+		54330D36207773ED00133D45 /* Snubdodecahedronccw.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D2B207773EC00133D45 /* Snubdodecahedronccw.gif */; };
+		54330D37207773ED00133D45 /* Snubhexahedronccw.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D2C207773ED00133D45 /* Snubhexahedronccw.gif */; };
+		54330D392077774000133D45 /* impossible.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D382077774000133D45 /* impossible.gif */; };
+		54330D3B2077792A00133D45 /* Truncatedoctahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D3A2077792A00133D45 /* Truncatedoctahedron.gif */; };
+		54330D3D20778FC300133D45 /* Great_stellated_dodecahedron_truncations.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54330D3C20778FC200133D45 /* Great_stellated_dodecahedron_truncations.gif */; };
+		54458B4B2077313B00154729 /* PlatonicTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54458B4A2077313B00154729 /* PlatonicTester.swift */; };
+		54458B4D207739B900154729 /* PlatonicDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54458B4C207739B900154729 /* PlatonicDrawer.swift */; };
+		54458B4F20775AB400154729 /* Tetrahedron.gif in Resources */ = {isa = PBXBuildFile; fileRef = 54458B4E20775AB400154729 /* Tetrahedron.gif */; };
 		544D9300205AD25F008723AE /* LatticeTesterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544D92FF205AD25F008723AE /* LatticeTesterTest.swift */; };
 		544D9302205AD2A0008723AE /* LatticeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544D9301205AD2A0008723AE /* LatticeTester.swift */; };
 		545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545ECE021FE6375A0035B9EA /* UlamDrawer.swift */; };
@@ -66,6 +86,7 @@
 		54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C7E2049F5F10038716B /* WikiTVC.swift */; };
 		54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C80204A038D0038716B /* NumeralSequenceArt.swift */; };
 		54924C83204A9D720038716B /* TestURLNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54924C82204A9D720038716B /* TestURLNumber.swift */; };
+		54A81BDC207B7A7A0005CCA9 /* PrattView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A81BDB207B7A7A0005CCA9 /* PrattView.swift */; };
 		54AA3CEC2064DA75000C7D1F /* AlbertsthalTypewriter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECA92064D66E00312E80 /* AlbertsthalTypewriter.ttf */; };
 		54AA3CED2064DA79000C7D1F /* 1942.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54AA3CEB2064D9B2000C7D1F /* 1942.ttf */; };
 		54B0742C206906EA008A35A8 /* NrTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B0742B206906EA008A35A8 /* NrTableView.swift */; };
@@ -74,6 +95,7 @@
 		54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC5206316F20044F328 /* FloatExtTests.swift */; };
 		54D16CC8206402720044F328 /* RecordNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D16CC7206402720044F328 /* RecordNumber.swift */; };
 		54D61B952072A5AD00DD15DF /* ConwayTestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */; };
+		54D6DF992077A9AB009BA752 /* DullDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D6DF982077A9AB009BA752 /* DullDrawer.swift */; };
 		54D83B162064DAE000704A01 /* symbola.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5414ECAA2064D66E00312E80 /* symbola.ttf */; };
 		54D83B1820655D0B00704A01 /* NumberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D83B1720655D0B00704A01 /* NumberModel.swift */; };
 		54D906D5204C891C009EED11 /* SmithTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D906D4204C891C009EED11 /* SmithTester.swift */; };
@@ -124,7 +146,7 @@
 		1A04DC416C676164E1126677 /* Pods-Numbers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Numbers.release.xcconfig"; path = "Pods/Target Support Files/Pods-Numbers/Pods-Numbers.release.xcconfig"; sourceTree = "<group>"; };
 		5403D96720505709007F6B21 /* TesterArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TesterArtCell.swift; sourceTree = "<group>"; };
 		5403D96920507665007F6B21 /* DrawCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawCells.swift; sourceTree = "<group>"; };
-		5403D96B20507680007F6B21 /* DrawNrView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawNrView.swift; sourceTree = "<group>"; };
+		5403D96B20507680007F6B21 /* DrawNrImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawNrImageView.swift; sourceTree = "<group>"; };
 		54062ADC20432D80001F51B6 /* TestLucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLucky.swift; sourceTree = "<group>"; };
 		54062ADE20453EEE001F51B6 /* SumOfSquareTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SumOfSquareTester.swift; sourceTree = "<group>"; };
 		54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSumOfSquares.swift; sourceTree = "<group>"; };
@@ -137,6 +159,9 @@
 		5419D1982057F21800047D5C /* CatalanTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalanTester.swift; sourceTree = "<group>"; };
 		5419D19A2057F5F100047D5C /* HeegnerTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeegnerTester.swift; sourceTree = "<group>"; };
 		5419D19C20583A1600047D5C /* WikiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiTest.swift; sourceTree = "<group>"; };
+		5422AA53207A745500A2D6B9 /* CompositeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositeTester.swift; sourceTree = "<group>"; };
+		5422AA55207A74C600A2D6B9 /* Pratt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pratt.swift; sourceTree = "<group>"; };
+		5422AA57207AACC900A2D6B9 /* TestPratt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPratt.swift; sourceTree = "<group>"; };
 		54242CB22051098D00EC92FD /* SequenceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCell.swift; sourceTree = "<group>"; };
 		5430781D1FDE6C0A0036516F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		543078231FDEC08B0036516F /* SpokenNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
@@ -146,6 +171,23 @@
 		5430782B1FE3C1B60036516F /* FactorDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactorDrawer.swift; sourceTree = "<group>"; };
 		5430782D1FE3C3BF0036516F /* SphereDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereDrawer.swift; sourceTree = "<group>"; };
 		5430782F1FE3E1350036516F /* FaktorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaktorView.swift; sourceTree = "<group>"; };
+		54330D22207773EA00133D45 /* Dodecahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Dodecahedron.gif; sourceTree = "<group>"; };
+		54330D23207773EA00133D45 /* Rhombicosidodecahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Rhombicosidodecahedron.gif; sourceTree = "<group>"; };
+		54330D24207773EB00133D45 /* Hexahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Hexahedron.gif; sourceTree = "<group>"; };
+		54330D25207773EB00133D45 /* Rhombicuboctahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Rhombicuboctahedron.gif; sourceTree = "<group>"; };
+		54330D26207773EB00133D45 /* Icosidodecahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Icosidodecahedron.gif; sourceTree = "<group>"; };
+		54330D27207773EB00133D45 /* Octahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Octahedron.gif; sourceTree = "<group>"; };
+		54330D28207773EB00133D45 /* Cuboctahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Cuboctahedron.gif; sourceTree = "<group>"; };
+		54330D29207773EC00133D45 /* Icosahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Icosahedron.gif; sourceTree = "<group>"; };
+		54330D2A207773EC00133D45 /* Impossible_cube_different_angle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Impossible_cube_different_angle.png; sourceTree = "<group>"; };
+		54330D2B207773EC00133D45 /* Snubdodecahedronccw.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Snubdodecahedronccw.gif; sourceTree = "<group>"; };
+		54330D2C207773ED00133D45 /* Snubhexahedronccw.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Snubhexahedronccw.gif; sourceTree = "<group>"; };
+		54330D382077774000133D45 /* impossible.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = impossible.gif; sourceTree = "<group>"; };
+		54330D3A2077792A00133D45 /* Truncatedoctahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Truncatedoctahedron.gif; sourceTree = "<group>"; };
+		54330D3C20778FC200133D45 /* Great_stellated_dodecahedron_truncations.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Great_stellated_dodecahedron_truncations.gif; sourceTree = "<group>"; };
+		54458B4A2077313B00154729 /* PlatonicTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatonicTester.swift; sourceTree = "<group>"; };
+		54458B4C207739B900154729 /* PlatonicDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatonicDrawer.swift; sourceTree = "<group>"; };
+		54458B4E20775AB400154729 /* Tetrahedron.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Tetrahedron.gif; sourceTree = "<group>"; };
 		544D92FF205AD25F008723AE /* LatticeTesterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatticeTesterTest.swift; sourceTree = "<group>"; };
 		544D9301205AD2A0008723AE /* LatticeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatticeTester.swift; sourceTree = "<group>"; };
 		545ECE021FE6375A0035B9EA /* UlamDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UlamDrawer.swift; sourceTree = "<group>"; };
@@ -187,6 +229,7 @@
 		54924C80204A038D0038716B /* NumeralSequenceArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumeralSequenceArt.swift; sourceTree = "<group>"; };
 		54924C82204A9D720038716B /* TestURLNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestURLNumber.swift; sourceTree = "<group>"; };
 		54A6140C2028F48C00408813 /* CollectionDescCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDescCell.swift; sourceTree = "<group>"; };
+		54A81BDB207B7A7A0005CCA9 /* PrattView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrattView.swift; sourceTree = "<group>"; };
 		54AA3CEB2064D9B2000C7D1F /* 1942.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1942.ttf; path = Numbers/Fonts/1942.ttf; sourceTree = "<group>"; };
 		54B0742B206906EA008A35A8 /* NrTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NrTableView.swift; sourceTree = "<group>"; };
 		54C1FBC82051E89500860FC9 /* SequenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceView.swift; sourceTree = "<group>"; };
@@ -195,6 +238,7 @@
 		54D16CC5206316F20044F328 /* FloatExtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatExtTests.swift; sourceTree = "<group>"; };
 		54D16CC7206402720044F328 /* RecordNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordNumber.swift; sourceTree = "<group>"; };
 		54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConwayTestTest.swift; sourceTree = "<group>"; };
+		54D6DF982077A9AB009BA752 /* DullDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DullDrawer.swift; sourceTree = "<group>"; };
 		54D83B1720655D0B00704A01 /* NumberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberModel.swift; path = Numbers/NumberModel.swift; sourceTree = "<group>"; };
 		54D906D4204C891C009EED11 /* SmithTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmithTester.swift; sourceTree = "<group>"; };
 		54D906D6204D2B41009EED11 /* SemiPrimeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiPrimeTester.swift; sourceTree = "<group>"; };
@@ -292,13 +336,15 @@
 				54242CB22051098D00EC92FD /* SequenceCell.swift */,
 				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
 				5403D96920507665007F6B21 /* DrawCells.swift */,
-				5403D96B20507680007F6B21 /* DrawNrView.swift */,
+				5403D96B20507680007F6B21 /* DrawNrImageView.swift */,
 				545ECE0A1FE663740035B9EA /* FaktorDrawerUlam.swift */,
 				54FD75291FF58F0100AE24E8 /* FaktorDrawerLucky.swift */,
 				543078291FE3C1180036516F /* SquareDrawer.swift */,
 				548DE2ED1FEA3BC500646D91 /* FiboDrawer.swift */,
 				54F09DF42070F37000588772 /* ConwayDrawer.swift */,
 				54923FA91FEE7E51006993F2 /* PalindromeDrawer.swift */,
+				54D6DF982077A9AB009BA752 /* DullDrawer.swift */,
+				54458B4C207739B900154729 /* PlatonicDrawer.swift */,
 				54F89F09205B8A9B003C8D72 /* DebugView.swift */,
 				54923FAB1FEE8047006993F2 /* GradientText.swift */,
 				5430782D1FE3C3BF0036516F /* SphereDrawer.swift */,
@@ -310,11 +356,34 @@
 				545ECE041FE637C20035B9EA /* TheUlam.swift */,
 				545ECE061FE63E480035B9EA /* UlamView.swift */,
 				54C1FBC82051E89500860FC9 /* SequenceView.swift */,
+				54A81BDB207B7A7A0005CCA9 /* PrattView.swift */,
 				54F89F0B205D3041003C8D72 /* FibonacciSequenceView.swift */,
 				547EEED3205440DF00ED1423 /* PiView.swift */,
 				545FEE1D20553EEF0040A3F4 /* Constructible.swift */,
 			);
 			path = Drawer;
+			sourceTree = "<group>";
+		};
+		54330D21207773CB00133D45 /* Gifs */ = {
+			isa = PBXGroup;
+			children = (
+				54330D3C20778FC200133D45 /* Great_stellated_dodecahedron_truncations.gif */,
+				54330D382077774000133D45 /* impossible.gif */,
+				54458B4E20775AB400154729 /* Tetrahedron.gif */,
+				54330D28207773EB00133D45 /* Cuboctahedron.gif */,
+				54330D22207773EA00133D45 /* Dodecahedron.gif */,
+				54330D24207773EB00133D45 /* Hexahedron.gif */,
+				54330D29207773EC00133D45 /* Icosahedron.gif */,
+				54330D26207773EB00133D45 /* Icosidodecahedron.gif */,
+				54330D2A207773EC00133D45 /* Impossible_cube_different_angle.png */,
+				54330D27207773EB00133D45 /* Octahedron.gif */,
+				54330D3A2077792A00133D45 /* Truncatedoctahedron.gif */,
+				54330D23207773EA00133D45 /* Rhombicosidodecahedron.gif */,
+				54330D25207773EB00133D45 /* Rhombicuboctahedron.gif */,
+				54330D2B207773EC00133D45 /* Snubdodecahedronccw.gif */,
+				54330D2C207773ED00133D45 /* Snubhexahedronccw.gif */,
+			);
+			name = Gifs;
 			sourceTree = "<group>";
 		};
 		54923FB51FF434C3006993F2 /* Tester */ = {
@@ -337,7 +406,10 @@
 				54F09DF0206CAA7F00588772 /* HappyTester.swift */,
 				54F09DF2206EB67200588772 /* LookAndSayTester.swift */,
 				546AB3541FDD5FEA007887E8 /* PrimeTester.swift */,
+				5422AA55207A74C600A2D6B9 /* Pratt.swift */,
+				5422AA53207A745500A2D6B9 /* CompositeTester.swift */,
 				543078271FDF377A0036516F /* PalindromicTester.swift */,
+				54458B4A2077313B00154729 /* PlatonicTester.swift */,
 				547C4F08204B492E00884B6C /* Supersingular.swift */,
 				54880A662061BD9100A60096 /* ExtraTester.swift */,
 				543078251FDF07A20036516F /* AbundanceTester.swift */,
@@ -354,6 +426,7 @@
 		54E43A3F1FD44A1100C25A42 = {
 			isa = PBXGroup;
 			children = (
+				54330D21207773CB00133D45 /* Gifs */,
 				54D83B1720655D0B00704A01 /* NumberModel.swift */,
 				54880A6A2062B9BE00A60096 /* MersenneDigit.swift */,
 				54DBF80A2047225200F07FD7 /* DeepPress.swift */,
@@ -424,6 +497,7 @@
 				5419D19C20583A1600047D5C /* WikiTest.swift */,
 				54F7E0FF203A098600B4EAEF /* TetraHedral.swift */,
 				54062ADC20432D80001F51B6 /* TestLucky.swift */,
+				5422AA57207AACC900A2D6B9 /* TestPratt.swift */,
 				54D61B942072A5AD00DD15DF /* ConwayTestTest.swift */,
 				54924C82204A9D720038716B /* TestURLNumber.swift */,
 				54062AE02045D9C4001F51B6 /* TestSumOfSquares.swift */,
@@ -535,11 +609,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54330D37207773ED00133D45 /* Snubhexahedronccw.gif in Resources */,
 				54AA3CEC2064DA75000C7D1F /* AlbertsthalTypewriter.ttf in Resources */,
+				54330D32207773ED00133D45 /* Octahedron.gif in Resources */,
 				54C35752203C924C0044803F /* mayan.ttf in Resources */,
+				54330D2D207773ED00133D45 /* Dodecahedron.gif in Resources */,
+				54330D392077774000133D45 /* impossible.gif in Resources */,
 				54E43A561FD44A1100C25A42 /* LaunchScreen.storyboard in Resources */,
+				54330D2F207773ED00133D45 /* Hexahedron.gif in Resources */,
+				54330D33207773ED00133D45 /* Cuboctahedron.gif in Resources */,
+				54330D35207773ED00133D45 /* Impossible_cube_different_angle.png in Resources */,
+				54330D3D20778FC300133D45 /* Great_stellated_dodecahedron_truncations.gif in Resources */,
+				54458B4F20775AB400154729 /* Tetrahedron.gif in Resources */,
+				54330D31207773ED00133D45 /* Icosidodecahedron.gif in Resources */,
 				54E43A531FD44A1100C25A42 /* Assets.xcassets in Resources */,
+				54330D36207773ED00133D45 /* Snubdodecahedronccw.gif in Resources */,
 				54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */,
+				54330D34207773ED00133D45 /* Icosahedron.gif in Resources */,
+				54330D30207773ED00133D45 /* Rhombicuboctahedron.gif in Resources */,
+				54330D2E207773ED00133D45 /* Rhombicosidodecahedron.gif in Resources */,
+				54330D3B2077792A00133D45 /* Truncatedoctahedron.gif in Resources */,
 				54AA3CED2064DA79000C7D1F /* 1942.ttf in Resources */,
 				54D83B162064DAE000704A01 /* symbola.ttf in Resources */,
 				54E43A511FD44A1100C25A42 /* Main.storyboard in Resources */,
@@ -634,6 +723,7 @@
 				"${BUILT_PRODUCTS_DIR}/GhostTypewriter/GhostTypewriter.framework",
 				"${BUILT_PRODUCTS_DIR}/PrimeFactors/PrimeFactors.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/YouTubePlayer/YouTubePlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/iosMath/iosMath.framework",
 			);
@@ -644,6 +734,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GhostTypewriter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrimeFactors.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YouTubePlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iosMath.framework",
 			);
@@ -692,6 +783,7 @@
 				5416E94A204AFBAB00CD8A06 /* TubeCell.swift in Sources */,
 				54D83B1820655D0B00704A01 /* NumberModel.swift in Sources */,
 				54062AE52045F858001F51B6 /* SumOfCubesTester.swift in Sources */,
+				5422AA54207A745500A2D6B9 /* CompositeTester.swift in Sources */,
 				5486C567203F2E0900778A81 /* UIWordCloud.swift in Sources */,
 				54880A672061BD9100A60096 /* ExtraTester.swift in Sources */,
 				5430782E1FE3C3BF0036516F /* SphereDrawer.swift in Sources */,
@@ -702,14 +794,16 @@
 				54880A6B2062B9BE00A60096 /* MersenneDigit.swift in Sources */,
 				546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */,
 				54E199EF204EB9520078874B /* OEIS.swift in Sources */,
+				54A81BDC207B7A7A0005CCA9 /* PrattView.swift in Sources */,
 				54DBF80B2047225200F07FD7 /* DeepPress.swift in Sources */,
 				546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */,
-				5403D96C20507680007F6B21 /* DrawNrView.swift in Sources */,
+				5403D96C20507680007F6B21 /* DrawNrImageView.swift in Sources */,
 				545ECE031FE6375A0035B9EA /* UlamDrawer.swift in Sources */,
 				5430782C1FE3C1B60036516F /* FactorDrawer.swift in Sources */,
 				547EEED4205440DF00ED1423 /* PiView.swift in Sources */,
 				54F7E0FE2039D97A00B4EAEF /* TesterCache.swift in Sources */,
 				545ECE051FE637C20035B9EA /* TheUlam.swift in Sources */,
+				5422AA56207A74C600A2D6B9 /* Pratt.swift in Sources */,
 				548DE2EE1FEA3BC500646D91 /* FiboDrawer.swift in Sources */,
 				5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */,
 				54E43A6C1FD44B4100C25A42 /* Extensions.swift in Sources */,
@@ -719,6 +813,7 @@
 				5419D19B2057F5F100047D5C /* HeegnerTester.swift in Sources */,
 				54924C7D2049B4250038716B /* WikiVC.swift in Sources */,
 				543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */,
+				54458B4D207739B900154729 /* PlatonicDrawer.swift in Sources */,
 				5403D96A20507665007F6B21 /* DrawCells.swift in Sources */,
 				5430782A1FE3C1180036516F /* SquareDrawer.swift in Sources */,
 				54880A6920627B7800A60096 /* RecordTableCell.swift in Sources */,
@@ -736,8 +831,10 @@
 				54F7E0FC203857C600B4EAEF /* KeilSchrift.swift in Sources */,
 				54FD752C1FF6144300AE24E8 /* PiTester.swift in Sources */,
 				545ECE071FE63E480035B9EA /* UlamView.swift in Sources */,
+				54D6DF992077A9AB009BA752 /* DullDrawer.swift in Sources */,
 				54C1FBC92051E89600860FC9 /* SequenceView.swift in Sources */,
 				54D906D5204C891C009EED11 /* SmithTester.swift in Sources */,
+				54458B4B2077313B00154729 /* PlatonicTester.swift in Sources */,
 				54062ADF20453EEE001F51B6 /* SumOfSquareTester.swift in Sources */,
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
 				54610E0E206801FD0054FBB7 /* BernoulliTester.swift in Sources */,
@@ -765,6 +862,7 @@
 				54F7E100203A098600B4EAEF /* TetraHedral.swift in Sources */,
 				54E43A611FD44A1100C25A42 /* NumbersTests.swift in Sources */,
 				54062ADD20432D80001F51B6 /* TestLucky.swift in Sources */,
+				5422AA58207AACC900A2D6B9 /* TestPratt.swift in Sources */,
 				5419D19D20583A1600047D5C /* WikiTest.swift in Sources */,
 				54D16CC6206316F20044F328 /* FloatExtTests.swift in Sources */,
 				544D9300205AD25F008723AE /* LatticeTesterTest.swift in Sources */,

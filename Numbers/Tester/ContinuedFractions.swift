@@ -21,15 +21,6 @@ extension MathConstantType {
 			return ("A046114","A064115","A002852")
 		case .bruns:
 			return ("A065421","A065421N","A065421D")	//Bruns decimal not Continued Fractions"
-		/*
-		case .ln2:
-		case .mill:
-			//A123561
-			assert(false)
-		case .phi:
-			//A225204
-			assert(false)
-		*/
 		case .pisquare:
 			return nil //return ("A096456","A096463")
 		case .root2:
@@ -42,9 +33,9 @@ extension MathConstantType {
 			return ("A002945","A002945N","A002945D")
 		case .zeta3: 
 			return ("A013631","A084223","A084224")
-			
-		default:
-			let x = 666
+		case .conwaylambda:
+			return ("A014967","A014967N","A014967D")
+		case .mill:
 			return nil
 		}
 	}
@@ -71,6 +62,8 @@ extension MathConstantType {
 			return BigFloatConstant.crt2
 		case .bruns:
 			return BigFloatConstant.bruns
+		case .conwaylambda:
+			assert(false)
 		case .zeta3:
 			assert(false)
 		}

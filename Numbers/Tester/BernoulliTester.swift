@@ -69,7 +69,7 @@ class IrregularTester : NumTester {
 			let babs = BigUInt(abs(b))
 			if babs <= BigInt(1) { continue }
 			if babs % n == 0 {
-				let d = seqd[index]
+				//let d = seqd[index]
 				return (b,index)
 			}
 		}

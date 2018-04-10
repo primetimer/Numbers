@@ -10,10 +10,12 @@ import Foundation
 import UIKit
 import BigInt
 
-class ConwayView : DrawNrView {
+class ConwayView : DrawNrImageView {
 
 	init () {
 		super.init(frame: CGRect.zero)
+		self.imageview.animationDuration = 60.0
+		self.imageview.animationRepeatCount = 1
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -42,111 +44,8 @@ class ConwayDrawer : ImageNrDrawer
 	override init(nr : UInt64, tester : NumTester?, emitter : EmitImage?, worker: DispatchWorkItem?) {
 		super.init(nr: nr, tester: tester, emitter: emitter, worker: worker)
 	}
-	
-	
-	/*
-	private var drawnCounter : [Int] = []
-	
-	func ResetCounter() {
-		drawnCounter = Array(repeating: 0, count: 92)
-	}
-	func IncrementElem(elem : ConwayElem) -> Int {
-		drawnCounter[elem.index] = drawnCounter[elem.index]
-	}
-	*/
-	
-	/*
-	
-	private func DrawElem(context : CGContext, rect : CGRect, elems : [ConwayElem],rekurs : Int)
-	{
-		if rekurs >= 3 { return }
-		
-		let count = CGFloat(elems.count)
-		var dx : CGFloat = 0.0
-		var dy : CGFloat = 0.0
-		var w: CGFloat = rect.width
-		var h: CGFloat = rect.height
-		var (x0,y0) = (rect.minX,rect.minY)
-		
-		
-		if rect.width >= rect.height {
-			if elems.count % 2 == 1 {
-				y0 = y0 + rect.height / 10
-			}
-			dx = rect.width / count
-			dy = 0.0
-			w = dx
-			h = rect.height
-		} else {
-			if elems.count % 2 == 1 {
-				x0 = x0 + rect.height / 10
-			}
-			dx = 0.0
-			dy = rect.height / count
-			w = rect.width
-			h = dy
-		}
-		
 
-		
-		for i in 0..<elems.count {
-			
-			if worker?.isCancelled ?? false { return  }
-			let x = x0 + CGFloat(i) * dx
-			let y = y0 + CGFloat(i) * dy
-			let drect =  CGRect(x: x, y: y, width: w, height: h)
-			print(elems[i].name,drect)
-			
-			UIColor.white.setStroke()
-			context.setLineWidth(2.0)
-			//context.strokePath()
-			
-			//Wenn nur ein Subelem, dann direkte Evolutionslinie
-			let str = elems[i].get1Decay()
-			str.drawCentered(in: drect)
-			if emitter != nil {
-				guard let newimage  = UIGraphicsGetImageFromCurrentImageContext() else { continue }
-				emitter?.Emit(image: newimage)
-			}
-		}
-			
-		//Rest in Rekursion
-		for i in 0..<elems.count {
-			if worker?.isCancelled ?? false { return  }
-			let x = rect.minX + CGFloat(i) * dx
-			let y = rect.minY + CGFloat(i) * dy
-			let drect =  CGRect(x: x, y: y, width: w, height: h)
-
-			print("getting subelems for :", elems[i].name)
-			var subelems = elems[i].Isotops(upto: elems[i].index)
-			while subelems.count == 1 {
-				subelems = subelems[0].Isotops(upto: subelems[0].index)
-			}
-			if subelems.count > 0 {
-				DrawElem(context: context, rect: drect, elems: subelems, rekurs: rekurs + 1)
-			}
-		}
-		
-	}
-
-	private func DrawNumber(context : CGContext)
-	{
-		
-		guard let elem = ConwayActive.shared.contains(nr: BigUInt(self.nr)) else {
-			assert(false)
-			return
-		}
-		
-		let elems : [ConwayElem] = [elem]
-		DrawElem(context: context, rect: rect, elems: elems, rekurs: 0)
-		
-		
-	}
-
-	*/
-	
-	//U-Ta, Hf-Er, Ho-Gd, Eu-Sm, Pm-Y, Sr-Ga, Zn-Sc, Ca-He, H
-	private var cols : [(String,String)] = [("U","Ta"),("Hf","Er"),("Ho","Gd"),("Eu","Sm"),("Pm","Xe"),("I","Y"),("Sr","Ga"),("Zn","Sc"),("Ca","He"),("H","H")]
+	private var cols : [(String,String)] = [("U","Ta"),("Hf","Er"),("Ho","Sm"),("Pm","Xe"),("I","Y"),("Sr","Ga"),("Zn","Sc"),("Ca","He"),("H","H")]
 	private func GetColIndices(col : Int) -> (start:Int,end:Int) {
 		let end = cols[col].0
 		let start = cols[col].1
@@ -212,18 +111,47 @@ class ConwayDrawer : ImageNrDrawer
 		}
 	}
 	
-	private func EvolutionInfo(elems: [ConwayPrimordial]) -> String {
+	private func EvolutionInfo(elems: [ConwayElem]) -> String {
 		var str = ""
-		for e in elems {
-			if let c = e as? ConwayElem {
-				str = str + c.name
-			} else {
-				str = str + e.src
-			}
+		for (index,e) in elems.enumerated() {
+			if index > 0 { str = str + "-" }
+			str = str + e.name
 		}
-		//print(str)
 		return str
 	}
+	private func EvolutionNr(elems: [ConwayElem]) -> String {
+		var str = ""
+		for (index,e) in elems.enumerated() {
+			if index > 0 { str = str + "-" }
+			str = str + e.src
+		}
+		return str
+	}
+	
+	struct InfoString {
+		var srcnr : String = ""
+		var destnr : String = ""
+		var srcelem : String
+		var destelem : String
+		
+		init(srcnr : String, elems : [ConwayElem]) {
+			
+			let prim = ConwayPrimordial(src: srcnr)
+			self.srcelem = ""
+			self.destelem = ""
+			for e in elems {
+				if !srcelem.isEmpty { srcelem = srcelem + ":"}
+				if !destelem.isEmpty { destelem = destelem + ":"}
+				srcelem = srcelem + e.name
+				for i in e.Isotops() {
+					destelem = destelem + i.name
+				}
+			}
+			
+			if !elems.isEmpty && !srcnr.isEmpty { srcelem = srcelem + ":"}
+		}
+	}
+	
 	
 	private func EvoluteDiagramm() {
 		//Evolution of found elems
@@ -238,57 +166,61 @@ class ConwayDrawer : ImageNrDrawer
 			}
 		}
 	}
+
 	
 	private func DrawEvolution(context : CGContext) {
 		
 		let (dx,dy) = GetDxDy()
 		let x = CGFloat(0)
-		let y = dy * 10
+		let y = dy * 9
 		let rect1 = CGRect(x: x, y: y, width: rect.width, height: dy)
-		let rect2 = CGRect(x: x, y: y+dy, width: rect.width, height: dy)
+		let rect2 = CGRect(x: x, y: y+2*dy, width: rect.width, height: dy)
 		let attrs = [
 			NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
 			//NSParagraphStyleAttributeName: paragraphStyle,
 			NSAttributedStringKey.foregroundColor: UIColor.white]
-		var look = String(self.nr)
+		var dest = String(self.nr)
 		
-
-		var evolutingelems : [ConwayElem] = []
-		
+		var found : [ConwayElem] = []
 		for _ in 0..<92 {
-			var dest = "" // ConwayElem.LookandSay(look: look)
-
-			EvoluteDiagramm()
-			DrawPeriodSystem(context: context)
+			let look = dest
+			let drawsrc = EvolutionInfo(elems: found) + look + "\n" + EvolutionNr(elems: found)
 			
-			look.drawRight(in: rect1, withAttributes: attrs)
+			found = ConwayActive.shared.Evolute(src: found)
+			EvoluteDiagramm()
 			
 			if look != "" {
+				dest = ""
 				let elems = ConwayActive.shared.Compose(s: look)
 				for mark in elems {
-					if let markelem = mark as? ConwayElem {
-						marked[markelem.index] += 1
+					if let foundelem = mark as? ConwayElem {
+						marked[foundelem.index] += 1
+						found.append(foundelem)
 					} else {
 						dest = mark.dest	//Nextlook
 					}
 				}
-				let draw = EvolutionInfo(elems: elems)
-				draw.drawCentered(in: rect2, withAttributes: attrs)
 			}
-			
+			DrawPeriodSystem(context: context)
+
+			let drawdest = EvolutionInfo(elems: found) + dest + "\n" + EvolutionNr(elems: found) + dest
+			drawsrc.drawRight(in: rect1, withAttributes: attrs)
+			drawdest.drawRight(in: rect2, withAttributes: attrs)
+			while found.count > 50 {
+				found.remove(at: 0)
+			}
 			
 			if emitter != nil {
 				guard let newimage  = UIGraphicsGetImageFromCurrentImageContext() else { continue }
 				emitter?.Emit(image: newimage)
 			}
-			look = dest
-			//if dest == "" { break }
 		}
-		
 	}
 	
 	override func DrawNrImage(rect: CGRect) -> UIImage? {
 		_ = super.DrawNrImage(rect: rect)
+		
+		
 		
 		marked = Array(repeating: 0, count: 92)
 		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
@@ -298,18 +230,6 @@ class ConwayDrawer : ImageNrDrawer
 		DrawPeriodSystem(context: context)
 		DrawEvolution(context : context)
 
-		/*
-		context.setStrokeColor(UIColor.black.cgColor)
-		context.setLineWidth(1.0);
-		context.beginPath()
-		
-		let color = UIColor.white
-		color.setFill()
-		context.fill(rect)
-		
-		DrawNumber(context : context)
-		*/
-		
 		guard let newimage  = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
 		emitter?.Emit(image: newimage)
 		return newimage

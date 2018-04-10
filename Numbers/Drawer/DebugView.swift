@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import BigInt
 
-class DebugView : DrawNrView {
+class DebugView : DrawNrImageView {
 	init () {		
 		super.init(frame: CGRect.zero)
 		self.tester = PrimeTester()

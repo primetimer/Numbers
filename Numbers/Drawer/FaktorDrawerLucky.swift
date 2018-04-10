@@ -11,7 +11,7 @@ import UIKit
 import BigInt
 import PrimeFactors
 
-class LuckyView : DrawNrView {
+class LuckyView : DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.tester = LuckyTester()

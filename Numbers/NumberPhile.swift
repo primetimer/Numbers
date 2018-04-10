@@ -64,10 +64,7 @@ class NumberphileLinks {
 		AddTube("10000","https://youtu.be/1GCf29FPM4k")
 		AddTube("100000","https://youtu.be/1GCf29FPM4k")
 		AddTube("1000000","https://youtu.be/1GCf29FPM4k")
-		
-		
-		
-		
+
 		AddTube("11","https://youtu.be/sPFWfAxIiwg")
 		AddTube("12","https://youtu.be/U6xJfP7-HCc")
 		AddTube("12","https://www.youtube.com/watch?v=w-I6XTVZXww&t=156s")
@@ -126,6 +123,7 @@ class NumberphileLinks {
 			AddTube("78557","https://youtu.be/fcVjitaM3LY")
 		AddTube("196883","https://youtu.be/jsSeoGpiWsw")
 		AddTube("supersingular","https://youtu.be/jsSeoGpiWsw")
+		
 		/*
 		AddTube("71","https://youtu.be/jsSeoGpiWsw")
 		AddTube("59","https://youtu.be/jsSeoGpiWsw")
@@ -161,7 +159,7 @@ class NumberphileLinks {
 		AddTube("pi","https://youtu.be/HrRMnzANHHs")
 		AddTube("pi","https://youtu.be/ZoaEPXEcLFI")
 		
-		AddTube("triangle","https://youtu.be/xu-RSUGBgpA")
+		AddTube(TriangleTester().property(),"https://youtu.be/xu-RSUGBgpA")
 		AddTube("square","https://youtu.be/NoRjwZomUK0")
 		AddTube("Proth","https://youtu.be/fcVjitaM3LY")
 		AddTube("Catalan","https://youtu.be/eoofvKI_Okg")
@@ -169,7 +167,7 @@ class NumberphileLinks {
 		AddTube("cousin prime","https://www.youtube.com/watch?v=vkMXdShDdtY")
 		AddTube("sexy prime","https://youtu.be/WJ12DYBuazY")
 		
-		AddTube("prime","https://youtu.be/BH1GMGDYndo")
+		AddTube(PrimeTester().property(),"https://youtu.be/BH1GMGDYndo")
 		AddTube("twin prime","https://youtu.be/BH1GMGDYndo")
 		AddTube("cousin prime","https://youtu.be/BH1GMGDYndo")
 		AddTube("sexy prime","https://youtu.be/BH1GMGDYndo")
@@ -187,13 +185,16 @@ class NumberphileLinks {
 		AddTube("nontotient","https://youtu.be/8Ag6Ao1PNbI")
 		AddTube("perfect","https://youtu.be/ZfKTD5lvToE")
 		AddTube("lucky","https://youtu.be/RxxDD2LWAyY")
-		AddTube("palindrome","https://youtu.be/bN8PE3eljdA")
+		AddTube(PalindromicTester().property(),"https://youtu.be/bN8PE3eljdA")
 		
 		AddTube("sum of two squares","https://youtu.be/yu_aqA7mw7E")
 		AddTube("sum of two cubes","https://youtu.be/_o0cIpLQApk")
-		AddTube("dull","https://youtu.be/ygqIfLHGTu4")
-		AddTube("dull","https://youtu.be/_YysNM2JoFo")
-		AddTube("dull","https://youtu.be/FK3kifY-geM")
+		AddTube(DullTester().property(),"https://youtu.be/ygqIfLHGTu4")
+		AddTube(DullTester().property(),"https://youtu.be/_YysNM2JoFo")
+		AddTube(DullTester().property(),"https://youtu.be/FK3kifY-geM")
+		
+		AddTube(PlatonicTester().property(),"https://www.youtube.com/watch?v=gVzu1_12FUc")
+		AddTube("5","https://www.youtube.com/watch?v=gVzu1_12FUc")
 		
 		/*
 

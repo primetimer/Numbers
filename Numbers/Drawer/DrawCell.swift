@@ -54,12 +54,14 @@ class DrawTableCell: BaseNrTableCell {
 		}
 	}
 	private func CreateDrawView() -> DrawNrView {
+		//return DullView()
 		//return PolygonalView(poly: 6)
 		//return DebugView()
 		//return FibonacciSequenceView()
 		//return CatalanView()
 		//return ConstructibleView()
 		if numtester is PrimeTester {
+			return PrattView()
 			let ulam = SequenceView()
 			return ulam
 		}
@@ -97,6 +99,12 @@ class DrawTableCell: BaseNrTableCell {
 		}
 		if numtester is PalindromicTester {
 			return PalindromeView()
+		}
+		if numtester is PlatonicTester {
+			return PlatonicView()
+		}
+		if numtester is DullTester {
+			return DullView()
 		}
 		
 		if numtester is AbundanceTester {

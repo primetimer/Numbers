@@ -11,7 +11,7 @@ import BigInt
 
 
 
-class FibonacciSequenceView : DrawNrView {
+class FibonacciSequenceView : DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 	}

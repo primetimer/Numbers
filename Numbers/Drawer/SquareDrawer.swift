@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PolygonalView : DrawNrView {
+class PolygonalView : DrawNrImageView {
 	
 	private var poly : Int = 4
 	init (poly : Int) {

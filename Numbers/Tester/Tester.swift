@@ -67,6 +67,7 @@ class Tester : NumTester {
 										 Pow2Tester(),MersenneTester(),TitanicTester(),HeegnerTester(), PerfectTester(),ProthTester(),FermatTester(),ConstructibleTester(),
 										 HCNTester(),SumOfTwoSquaresTester(),SumOfTwoCubesTester(),TaxiCabTester(),
 										 SierpinskiTester(),CatalanTester(),NonTotientTester(),
+										 PlatonicTester(),
 										 PalindromicTester(),LucasTester(),SupersingularTester(),
 										 DullTester(), HappyTester(),LookAndSayTester(),AudioActiveTester(), LuckyTester(), SmithTester(),
 										 MathConstantTester(),LatticeTester(),BernoulliTester()

@@ -9,7 +9,7 @@
 import UIKit
 import BigInt
 
-class PiView : DrawNrView {
+class PiView : DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.tester = MathConstantTester()
@@ -19,7 +19,7 @@ class PiView : DrawNrView {
 	}
 	override func draw(_ rect: CGRect) {
 		if !needredraw { return }
-		guard let tester = self.tester as? MathConstantTester else { return }
+		guard let tester = self.tester as? MathConstantTester else { assert(false); return }
 		super.draw(rect)
 		self.imageview.stopAnimating()
 		self.imageview.animationImages = []

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import BigInt
 
-class PalindromeView : DrawNrView {
+class PalindromeView : DrawNrImageView {
 	init () {
 		super.init(frame: CGRect.zero)
 		//let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))

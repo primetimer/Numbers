@@ -1,5 +1,5 @@
 //
-//  PalindromicTester.swift
+//  Supersingular
 //  Numbers
 //
 //  Created by Stephan Jancar on 11.12.17.

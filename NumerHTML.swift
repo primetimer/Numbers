@@ -40,6 +40,7 @@ class WikiLinks {
 		AddWiki("Sophie Germain prime","https://en.wikipedia.org/wiki/Sophie_Germain_prime")
 		AddWiki("safe prime","https://en.wikipedia.org/wiki/Safe_prime")
 		AddWiki(PalindromicTester().property(),"https://en.wikipedia.org/wiki/Palindromic_number")
+		AddWiki(PlatonicTester().property(),"https://en.wikipedia.org/wiki/Platonic_solid")
 		AddWiki("nontotient","https://en.wikipedia.org/wiki/Nontotient")
 		AddWiki(MersenneTester().property(),"https://en.wikipedia.org/wiki/Mersenne_prime")
 		AddWiki(TitanicTester().property(),"https://en.wikipedia.org/wiki/Titanic_prime")

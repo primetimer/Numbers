@@ -148,7 +148,7 @@ class DyckWord : CustomStringConvertible {
 	}
 }
 
-class CatalanView: DrawNrView {
+class CatalanView: DrawNrImageView {
 	
 	private let maxdraw : UInt64 = 132
 	override init(frame: CGRect) {

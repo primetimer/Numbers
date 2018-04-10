@@ -44,7 +44,7 @@ extension BigFloatConstant {
 		return "1.3063778838630806904686144926026057129167845851567136443680537599664340537668265988215014037011973957".asBigFloat()
 	}
 	static var bruns : BigFloat {
-			return "1.902160583104".asBigFloat()
+		return "1.902160583104".asBigFloat()
 	}
 }
 
@@ -61,18 +61,18 @@ enum MathConstantType : Int {
 	case phi
 	case crt2
 	case zeta3
+	case conwaylambda
 	
-	
-	static let allValues = [pi,e,gamma,mill,bruns,root2,ln2,pisquare,phi,crt2,zeta3]
-	static let name = ["π","e","γ","θ","B2","√2","ln(2)","π^2","φ",",∛2","ζ(3)"]
-	private static let latex = ["\\pi","e","\\gamma","\\theta","B_{2}","\\sqrt{2}","ln(2)","\\pi^2","\\phi","\\sqrt[3]{2}","\\zeta (3)"]
+	static let allValues = [pi,e,gamma,mill,bruns,root2,ln2,pisquare,phi,crt2,zeta3,conwaylambda]
+	static let name = ["π","e","γ","θ","B2","√2","ln(2)","π^2","φ",",∛2","ζ(3)","λ"]
+	private static let latex = ["\\pi","e","\\gamma","\\theta","B_{2}","\\sqrt{2}","ln(2)","\\pi^2","\\phi","\\sqrt[3]{2}","\\zeta (3)","\\lambda"]
 	
 	func asString() -> String {
 		return MathConstant.shared.dict[self] ?? ""
 	}
 	func withPot() -> Int{
 		switch self {
-		case .pi, .e, .pisquare,.root2,.mill,.phi,.crt2,.bruns,.zeta3:
+		case .pi, .e, .pisquare,.root2,.mill,.phi,.crt2,.bruns,.zeta3,.conwaylambda:
 			return 0
 		case .ln2, .gamma:
 			return -1
@@ -109,6 +109,8 @@ enum MathConstantType : Int {
 			return Double(1.902160583104)
 		case .zeta3:
 			return Double(1.20205690315959428539973816)
+		case .conwaylambda:
+			return Double (1.3035772690342963912570991)
 		}
 	}
 }
@@ -119,12 +121,12 @@ class MathConstant {
 	private init() {
 		for type in MathConstantType.allValues {
 			#if false
-			let val = Value(type: type)
-			let s = val.asString(10, maxlen: 2000, fix: 2000)
-			print(s)
-				#else
+				let val = Value(type: type)
+				let s = val.asString(10, maxlen: 2000, fix: 2000)
+				print(s)
+			#else
 				let s = ValueStr(type: type)
-				#endif
+			#endif
 			
 			let s0 = s.replacingOccurrences(of: "0.", with: "")
 			let s1 = s0.replacingOccurrences(of: ".", with: "")
@@ -159,33 +161,35 @@ class MathConstant {
 			
 			return "1.20205690315959428539973816151144999076498629234049888179227155534183820578631309018645587360933525815493902129267719635293025148023562729223189504235099765549710236098910130402551126846637825903855732756290159779841586518567105233889870420808454064157898408705286825141217192266761637166504627943237277558629119970639543829392728449964423307735015032638443385833148783580030198240782927555606559736039039911560157567181314242376073706558940843159984432414004545116738229404139394736976624199465023676"
 			//return "1.3063778838630806904686144926026057129167845851567136443680537599664340537668265988215014037011973957"
+		case .conwaylambda:
+			return "1.30357726903429639125709911215255189073070250465940487575486139062855088785246155712681576686442522555347139304709490268396284989355155434737582485669108897777021657600666661361819575814997141621174776792313242993257201430462771329538801692527531631121241602789744556311221192891765945442844221050348398443048435036597886163656869612293300521796781212742072742833841858538978046297536211133257131559611428416463649306506851827429249157508076047165548732899031406796262775210982301850098048676804171127036928277045556992541047253255296002396741615176130075769952394147092096272977965252838128952923998421466469700636280871859847376432425963753778614871491804177943882564549629612672676317034139989238683800174993391638325504197387433764046442309634163773429999640279534778123150369381113619691931011055122243280653348729498516353501800086189800442695696203908949639604105938945262628974848057200498952058940831545115274641841512518024730200193796777836621406609110475293228758836385887695696199420516499767643762266466055465244027494584094408262251386608655407221"
 		}
 	}
 	
 	#if false
 	private func Value(type : MathConstantType) -> BigFloat {
-		switch type {
-		case .pi:
-			return BigFloatConstant.pi
-		case .e:
-			return BigFloatConstant.e
-		case .root2:
-			return BigFloatConstant.sqrt2
-		case .ln2:
-			return BigFloatConstant.ln2
-		case .gamma:
-			return BigFloatConstant.gamma
-		case .mill:
-			return BigFloatConstant.mills
-		case .bruns:
-			return BigFloatConstant.bruns
-		case .pisquare:
-			return BigFloatConstant.pi2
-		case .phi:
-			return BigFloatConstant.phi
-		case .crt2:
-			return BigFloatConstant.crt2
-		}
+	switch type {
+	case .pi:
+	return BigFloatConstant.pi
+	case .e:
+	return BigFloatConstant.e
+	case .root2:
+	return BigFloatConstant.sqrt2
+	case .ln2:
+	return BigFloatConstant.ln2
+	case .gamma:
+	return BigFloatConstant.gamma
+	case .mill:
+	return BigFloatConstant.mills
+	case .bruns:
+	return BigFloatConstant.bruns
+	case .pisquare:
+	return BigFloatConstant.pi2
+	case .phi:
+	return BigFloatConstant.phi
+	case .crt2:
+	return BigFloatConstant.crt2
+	}
 	}
 	#endif
 }
@@ -323,47 +327,4 @@ class MathConstantTester : NumTester {
 		return "Math Constant"
 	}
 }
-
-/*
-class PiContinuedFractionTester : NumTester {
-
-init() {
-if PiContinuedFractionTester.rationals.isEmpty {
-ComputeRationals()
-}
-}
-private static var rationals : [(n:BigUInt,d:BigUInt)] = []
-
-private func ComputeRationals() {
-guard let seq = OEIS.shared.seq["cfpi"] else { assert(false) }
-PiContinuedFractionTester.rationals = ContinuedFractions.shared.RationalSequence(seq: seq)
-}
-func isSpecial(n: BigUInt) -> Bool {
-for r in PiContinuedFractionTester.rationals {
-if r.n == n { return true }
-if r.n > n { return false }
-}
-return false
-/*
-for t in MathConstantType.allValues {
-let oeisnr = t.OEISnr()
-if OEIS.shared.ContainsNumber(key: <#T##String#>, n: <#T##BigUInt#>)
-let isspecial = OEIS.shared.ContainsNumber(key: oeisnr, n: n)
-return isspecial
-}
-*/
-}
-
-func getLatex(n: BigUInt) -> String? {
-return nil
-}
-
-func property() -> String {
-return "Numerator for rational pi approximation"
-}
-}
-*/
-
-
-
 

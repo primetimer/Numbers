@@ -18,6 +18,7 @@ protocol ImageWorker {
 	func CreateImageDrawer(nr : UInt64, tester : NumTester?,worker : DispatchWorkItem?) -> ImageNrDrawer?
 	func StartImageShow(image : UIImage?)
 }
+
 class DrawNrView : UIView, EmitImage, ImageWorker {
 	internal var needredraw : Bool = true {
 		didSet {
@@ -26,33 +27,6 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 		}
 	}
 	internal var workItem : DispatchWorkItem? = nil
-	
-	lazy var imageview : UIImageView = {
-		let imageview = UIImageView()
-		imageview.backgroundColor = self.backgroundColor
-		imageview.translatesAutoresizingMaskIntoConstraints = false
-		addSubview(imageview)
-		imageview.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-		imageview.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		imageview.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-		imageview.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-		imageview.isUserInteractionEnabled = true
-		imageview.addGestureRecognizer(tapGestureRecognizer)
-		return imageview
-	}()
-	
-	@objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-	{
-		if !imageview.isAnimating {
-			imageview.startAnimating()
-		}
-		else {
-			imageview.stopAnimating()
-		}
-		//let tappedImage = tapGestureRecognizer.view as! UIImageView
-	}
-	
 	var nr : UInt64 = 1 {
 		didSet {
 			if nr != oldValue {	needredraw = true }
@@ -86,8 +60,58 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 		StartImageWorker(rect:rect)
 	}
 	
-	//Some Default Implementations
 	func StartImageWorker(rect : CGRect) {
+		return
+	}
+	func CreateImageDrawer(nr : UInt64, tester : NumTester?,worker : DispatchWorkItem?) -> ImageNrDrawer? {
+		return nil
+	}
+	func StartImageShow(image : UIImage?) {
+		return
+	}
+	func Emit(image: UIImage) {
+		return
+	}
+
+}
+
+class DrawNrImageView : DrawNrView {
+	
+	lazy var imageview : UIImageView = {
+		let imageview = UIImageView()
+		imageview.backgroundColor = self.backgroundColor
+		imageview.translatesAutoresizingMaskIntoConstraints = false
+		addSubview(imageview)
+		imageview.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+		imageview.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+		imageview.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+		imageview.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+		imageview.isUserInteractionEnabled = true
+		imageview.addGestureRecognizer(tapGestureRecognizer)
+		return imageview
+	}()
+	
+	@objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+	{
+		if !imageview.isAnimating {
+			imageview.startAnimating()
+		}
+		else {
+			imageview.stopAnimating()
+		}
+		//let tappedImage = tapGestureRecognizer.view as! UIImageView
+	}
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+	}
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	
+	//Some Default Implementations
+	override func StartImageWorker(rect : CGRect) {
 		self.imageview.animationImages = []
 		self.workItem = DispatchWorkItem {
 			guard let worker = self.workItem else { return }
@@ -103,16 +127,13 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 		DispatchQueue.global(qos: .userInitiated).async(execute: self.workItem!)
 	}
 	
-	func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {
-		return nil
-	}
-	func StartImageShow(image: UIImage?) {
+	override func StartImageShow(image: UIImage?) {
 		imageview.image = image
-		imageview.animationDuration = 20.0
+		imageview.animationDuration = 92.0
 		imageview.animationRepeatCount = 1
 		imageview.startAnimating()
 	}
-	func Emit(image: UIImage) {
+	override func Emit(image: UIImage) {
 		DispatchQueue.main.async(execute: {
 			self.imageview.image  = image
 			self.imageview.animationImages?.append(image)
@@ -138,4 +159,4 @@ class ImageNrDrawer {
 		return nil
 	}
 }
-	
+

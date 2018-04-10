@@ -18,7 +18,7 @@ extension CGFloat {
 	}
 }
 
-class LucasView: DrawNrView {
+class LucasView: DrawNrImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 	}

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class FiboView : DrawNrView {
+class FiboView : DrawNrImageView {
 
 	init () {
 		super.init(frame: CGRect.zero)

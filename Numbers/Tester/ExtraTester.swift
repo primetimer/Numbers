@@ -1,5 +1,5 @@
 //
-//  PalindromicTester.swift
+//  ExtraTester
 //  Numbers
 //
 //  Created by Stephan Jancar on 11.12.17.

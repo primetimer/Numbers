@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class FaktorView: DrawNrView {
+class FaktorView: DrawNrImageView {
 	
 	var param = FaktorDrawerParam()
 	override func CreateImageDrawer(nr: UInt64, tester: NumTester?, worker: DispatchWorkItem?) -> ImageNrDrawer? {

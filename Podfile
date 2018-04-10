@@ -11,6 +11,7 @@ target 'Numbers' do
 	pod 'BigInt', '~> 3.0'
 	pod 'SipHash', '~>1.2'
 	pod 'YouTubePlayer'
+	pod 'SwiftyGif'
 
 
   pod 'PrimeFactors', :git => 'https://github.com/primetimer/PrimeFactors'

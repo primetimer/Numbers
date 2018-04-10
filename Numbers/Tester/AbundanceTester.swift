@@ -16,6 +16,19 @@ extension BigUInt {
 	}
 }
 
+struct FactorWithPot {
+	init(f: BigUInt) {
+		self.f = f
+		self.e = 1
+	}
+	init(f: BigUInt, e: Int) {
+		self.f = f
+		self.e = e
+	}
+	
+	var f: BigUInt = 0
+	var e: Int = 0
+}
 
 extension FactorCache {
 	public func Latex(n: BigUInt, withpot : Bool) -> String? {
@@ -47,21 +60,7 @@ extension FactorCache {
 		return latex
 	}
 	
-	struct FactorWithPot {
-		
-		init(f: BigUInt) {
-			self.f = f
-			self.e = 1
-		}
-		init(f: BigUInt, e: Int) {
-			self.f = f
-			self.e = e
-		}
-		
-		var f: BigUInt = 0
-		var e: Int = 0
-		
-	}
+	
 	
 	func FactorsWithPot(n: BigUInt) -> [FactorWithPot] {
 		var ans : [FactorWithPot] = []

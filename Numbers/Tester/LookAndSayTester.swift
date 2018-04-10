@@ -138,27 +138,24 @@ class ConwayActive {
 		var ref1 = elem
 		var ref2 = rest
 		var check = org
-		for k in 1 ... 10 {
+		for _ in 1 ... 10 {
 			ref1 = ConwayElem.LookandSay(look: ref1)
 			ref2 = ConwayElem.LookandSay(look: ref2)
 			check = ConwayElem.LookandSay(look: check)
 			if ref1 + ref2 != check {
-				print("Incompatible")
+				//print("Incompatible")
 					return false
 			}
 		}
 		return true
 	}
 	
-	func ConvertToElems(prim: [ConwayPrimordial]) -> [ConwayElem]?
+	func Evolute(src: [ConwayElem]) -> [ConwayElem]
 	{
 		var ans : [ConwayElem] = []
-		for p in prim {
-			if let elem = p as? ConwayElem {
-				ans.append(elem)
-			}
-			else {
-				return nil
+		for e in src {
+			for s in e.Isotops() {
+				ans.append(s)
 			}
 		}
 		return ans
