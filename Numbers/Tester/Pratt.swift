@@ -10,7 +10,7 @@ import Foundation
 import BigInt
 import PrimeFactors
 
-
+typealias LatexString = String
 class PrattTester : NumTester {
 	func isSpecial(n: BigUInt) -> Bool {
 		let pratt = PrattCertficate(nr: n)
@@ -56,7 +56,7 @@ class PrattCertficate  {
 		var a = BigUInt(2)
 		let p = n - 1
 		
-		while  true {
+		repeat {
 			var allunequal1 = true
 			for f in factors {
 				let test = a.power(p / f.f, modulus: n)
@@ -70,10 +70,11 @@ class PrattCertficate  {
 				return a
 			}
 			a = a + 1
-		}
+		} while a < n
+		return 1
 	}
 	
-	private func witnesslatex(witness : BigUInt,p : BigUInt, mod : BigUInt) -> String {
+	private func witnesslatex(witness : BigUInt,p : BigUInt, mod : BigUInt) -> LatexString {
 		var ans = String(witness)
 		ans = ans + "^{" + String(p) + "} = "
 		let m = witness.power(p / witness, modulus: mod)
@@ -82,17 +83,108 @@ class PrattCertficate  {
 		return ans
 	}
 	
-	func LatexGeneralInfo() -> String {
+	/*
+	func LatexGeneralInfo() -> LatexString {
 		var ans = "\\exists a : a^{n-1} \\equiv 1 \\text{ mod } n, \\\\"
-		ans = ans + "\\forall q | (p-1) : a^{\\frac{n-1}{q}} \\neq 1 \\text{ mod } n,\\\\"
+		ans = ans + "\\forall q | (n-1) : a^{\\frac{n-1}{q}} \\neq 1 \\text{ mod } n,\\\\"
 		ans = ans + "\\Rightarrow n \\in \\mathbb{P} \\\\ "
 		return ans
 		
 	}
+	*/
+	
+	func LatexGeneralInfo() -> LatexString {
+		var ans = "n \\in \\mathbb{P}  \\Leftrightarrow \\exists a < n : \\\\"
+		ans = ans + "\\quad1: a^{n-1} \\equiv 1 \\text{ mod } n, \\\\"
+		ans = ans + "\\quad2:\\forall q \\in \\mathbb{P}, q | (n-1) : a^{\\frac{n-1}{q}} \\neq 1 \\text{ mod } n \\\\"
+		return ans
+		
+	}
+	
+	func LatexCertificate() -> [LatexString] {
+		if PrimeCache.shared.IsPrime(p: nr) {
+			return LatexPrimeCertfificate()
+		}
+		else {
+			return LatexCompositeCertificate()
+		}
+	}
+	
+	private func LatexCompositeCertificate() -> [LatexString] {
+		
+		let errtext = "\\text{ contradiction } "
+		if nr <= 1 {
+			let err = String(nr) + "\\text{ not in definition range } "
+			return [err]
+		}
+		if nr <= 3 {
+			let err = String(nr) + "\\text{ is self-evident prime } "
+			return [err]
+		}
+		if nr % 2 == 0 {
+			let latex = String(nr) + "\\text{ is divisble by 2 }"
+			let reason = "\\text{(last digit is in [0,2,4,6,8])}"
+			return [latex,reason]
+		}
+		/*
+		if nr % 3 == 0 {
+			let latex = String(nr) + "\\text{ is divisble by 3 }"
+			let reason = "\\text {(crosssum is divisble by 3)}"
+			return [latex,reason]
+		}
+		if nr % 5 == 0 {
+			let latex = String(nr) + "\\text{ is divisble by 5 }"
+			let reason = "\\text {because last digit is in [0,2,4,6,8] }"
+			return [latex,reason]
+		}
+		if nr % 11 == 0 {
+			let latex = String(nr) + "\\text{ is divisble by 11 }"
+			let reason = "\\text {because alternating cross sum is divisible by 11 }"
+			return [latex,reason]
+		}
+		*/
+
+		//Spannender Teil
+		var ans : [LatexString] = []
+		let p = nr - 1
+		
+		
+		let a = PrimitiveRoot(n: nr)
+		do {
+			let info = "\\text{certificate for n = }" + String(nr)
+			let witnesslatex = info + "\\text{ witness } a = " + String(a)
+			ans.append(witnesslatex)
+		}
+		
+		let m = a.power(p, modulus: nr)
+		if m != 1 {
+			let m = a.power(p, modulus: nr)
+			var witnesslatex = String(a)
+			witnesslatex = witnesslatex + "^{" + String(p) + "} \\equiv " + String(m) + " (\\neq 1) \\text{ mod }" + String(nr)
+			if m != 1 { witnesslatex = witnesslatex + errtext }
+			ans.append(witnesslatex)
+			return ans
+		}
+		
+		var platex = String(nr) + " - 1 = "
+		if let factorlatex = FactorCache.shared.Latex(n: p, withpot: true) {
+			platex = platex + factorlatex
+		}
+		ans.append(platex)
+		
+		for f in factors {
+			let m = a.power(p / f.f / 2, modulus: nr)
+			if m == 1 {
+				var witnesslatex = String(a) + "^{\\frac{" + String(p) + "}{" + String(f.f) + "}} \\equiv " + String(m) + "(\\neq 1) \\text{ mod }" + String(nr)
+				witnesslatex = witnesslatex + errtext
+				ans.append(witnesslatex)
+			}
+		}
+		return ans
+	}
 	
 	
-	
-	func LatexCertfificate() -> [String] {
+	private func LatexPrimeCertfificate() -> [LatexString] {
 		
 		let errtext = "\\text{ contradiction } "
 		if nr % 2 == 0 && nr > 2 {
@@ -146,9 +238,9 @@ class PrattCertficate  {
 		
 		for f in factors {
 			let subpratt = PrattCertficate(nr: f.f)
-			let subcert = subpratt.LatexCertfificate()
+			let subcert = subpratt.LatexPrimeCertfificate()
 			for s in subcert {
-				ans.append(":" + s)
+				ans.append("\\quad" + s)
 			}
 		}
 		return ans

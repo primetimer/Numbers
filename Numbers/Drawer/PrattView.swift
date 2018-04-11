@@ -26,7 +26,7 @@ class PrattView : DrawNrView {
 		
 		uipratt.fontSize = 20.0
 		addSubview(uiscrollv)
-
+		
 		uiscrollv.addSubview(uipratt)
 		uiscrollv.leftAnchor.constraint (equalTo: self.leftAnchor, constant : 10.0).isActive = true
 		uiscrollv.rightAnchor.constraint(equalTo: self.rightAnchor, constant : -10.0 ).isActive = true
@@ -62,10 +62,10 @@ class PrattView : DrawNrView {
 	
 	/*
 	override var frame : CGRect {
-		didSet {
-			uiscrollv.frame = frame
-			self.setNeedsDisplay()
-		}
+	didSet {
+	uiscrollv.frame = frame
+	self.setNeedsDisplay()
+	}
 	}
 	*/
 	
@@ -85,18 +85,23 @@ class PrattView : DrawNrView {
 	
 	private func ShowCertificat() {
 		CreatePratt()
-			let prattcert = PrattCertficate(nr: BigUInt(self.nr))
-			let latex = prattcert.LatexCertfificate()
-			var latexconcat = "\\text{ PRATT CERTIFICATE }" //+ "\\\\" //+ general
-			for l in latex {
-				if latexconcat != "" { latexconcat = latexconcat + " \\\\" }
-				latexconcat = latexconcat + l
-			}
-			latexconcat = latexconcat + "\\\\ \\\\" +  prattcert.LatexGeneralInfo()
+		let prattcert = PrattCertficate(nr: BigUInt(self.nr))
+		let latex = prattcert.LatexCertificate()
+		var latexconcat = ""
+		if prattcert.PrattTest() {
+			latexconcat = "\\text{ PRATT CERTIFICATE }" //+ "\\\\" //+ general
+		} else {
+			latexconcat = "\\text{ COMPOSITE CERTIFICATE }" //+ "\\\\" //+ general
+		}
+		for l in latex {
+			if latexconcat != "" { latexconcat = latexconcat + " \\\\" }
+			latexconcat = latexconcat + l
+		}
+		latexconcat = latexconcat + "\\\\ \\\\" +  prattcert.LatexGeneralInfo()
 		
-			uipratt.latex = latexconcat
-			uipratt.sizeToFit()
-			let size : CGSize = uipratt.sizeThatFits(CGSize(width:1000.0, height: CGFloat.greatestFiniteMagnitude))
+		uipratt.latex = latexconcat
+		uipratt.sizeToFit()
+		let size : CGSize = uipratt.sizeThatFits(CGSize(width:1000.0, height: CGFloat.greatestFiniteMagnitude))
 		uipratt.removeFromSuperview()
 		uiscrollv.addSubview(uipratt)
 		uipratt.sizeToFit()
