@@ -23,7 +23,6 @@
 		5422AA54207A745500A2D6B9 /* CompositeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA53207A745500A2D6B9 /* CompositeTester.swift */; };
 		5422AA56207A74C600A2D6B9 /* Pratt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA55207A74C600A2D6B9 /* Pratt.swift */; };
 		5422AA58207AACC900A2D6B9 /* TestPratt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422AA57207AACC900A2D6B9 /* TestPratt.swift */; };
-		54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54242CB22051098D00EC92FD /* SequenceCell.swift */; };
 		543078241FDEC08B0036516F /* SpokenNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078231FDEC08B0036516F /* SpokenNumber.swift */; };
 		543078261FDF07A20036516F /* AbundanceTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078251FDF07A20036516F /* AbundanceTester.swift */; };
 		543078281FDF377A0036516F /* PalindromicTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543078271FDF377A0036516F /* PalindromicTester.swift */; };
@@ -62,6 +61,7 @@
 		54610E0E206801FD0054FBB7 /* BernoulliTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54610E0D206801FD0054FBB7 /* BernoulliTester.swift */; };
 		546AB3551FDD5FEA007887E8 /* PrimeTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546AB3541FDD5FEA007887E8 /* PrimeTester.swift */; };
 		546DD98F2041FB12009A1A16 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */; };
+		546F332520822AF9005D1AD8 /* SequenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F332420822AF8005D1AD8 /* SequenceCell.swift */; };
 		54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54749B5C1FDD0C3200F6B130 /* Tester.swift */; };
 		54749B5F1FDD5C3F00F6B130 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 54749B5E1FDD5C3F00F6B130 /* Podfile */; };
 		5475655A1FD99F9F00A09CA7 /* Explain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547565591FD99F9F00A09CA7 /* Explain.swift */; };
@@ -162,7 +162,6 @@
 		5422AA53207A745500A2D6B9 /* CompositeTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositeTester.swift; sourceTree = "<group>"; };
 		5422AA55207A74C600A2D6B9 /* Pratt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pratt.swift; sourceTree = "<group>"; };
 		5422AA57207AACC900A2D6B9 /* TestPratt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPratt.swift; sourceTree = "<group>"; };
-		54242CB22051098D00EC92FD /* SequenceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCell.swift; sourceTree = "<group>"; };
 		5430781D1FDE6C0A0036516F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		543078231FDEC08B0036516F /* SpokenNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
 		543078251FDF07A20036516F /* AbundanceTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbundanceTester.swift; sourceTree = "<group>"; };
@@ -202,6 +201,7 @@
 		54610E0D206801FD0054FBB7 /* BernoulliTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BernoulliTester.swift; sourceTree = "<group>"; };
 		546AB3541FDD5FEA007887E8 /* PrimeTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTester.swift; sourceTree = "<group>"; };
 		546DD98E2041FB12009A1A16 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		546F332420822AF8005D1AD8 /* SequenceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCell.swift; sourceTree = "<group>"; };
 		54749B5C1FDD0C3200F6B130 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		54749B5E1FDD5C3F00F6B130 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		547565591FD99F9F00A09CA7 /* Explain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explain.swift; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 		543078311FE4158C0036516F /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
-				54242CB22051098D00EC92FD /* SequenceCell.swift */,
+				546F332420822AF8005D1AD8 /* SequenceCell.swift */,
 				545ECE081FE64DBF0035B9EA /* DrawCell.swift */,
 				5403D96920507665007F6B21 /* DrawCells.swift */,
 				5403D96B20507680007F6B21 /* DrawNrImageView.swift */,
@@ -776,6 +776,7 @@
 				54F09DF52070F37000588772 /* ConwayDrawer.swift in Sources */,
 				54FD75281FF4EFBC00AE24E8 /* LuckyTester.swift in Sources */,
 				54923FAA1FEE7E51006993F2 /* PalindromeDrawer.swift in Sources */,
+				546F332520822AF9005D1AD8 /* SequenceCell.swift in Sources */,
 				54924C81204A038D0038716B /* NumeralSequenceArt.swift in Sources */,
 				54F5F0BA1FFA7B59006DECED /* NumerHTML.swift in Sources */,
 				54749B5D1FDD0C3200F6B130 /* Tester.swift in Sources */,
@@ -839,7 +840,6 @@
 				545ECE0B1FE663740035B9EA /* FaktorDrawerUlam.swift in Sources */,
 				54610E0E206801FD0054FBB7 /* BernoulliTester.swift in Sources */,
 				54D16CC8206402720044F328 /* RecordNumber.swift in Sources */,
-				54242CB32051098D00EC92FD /* SequenceCell.swift in Sources */,
 				54924C7F2049F5F10038716B /* WikiTVC.swift in Sources */,
 				54E43A4C1FD44A1100C25A42 /* AppDelegate.swift in Sources */,
 				54923FB41FF25700006993F2 /* CatalanDrawer.swift in Sources */,

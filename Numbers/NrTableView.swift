@@ -35,7 +35,7 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 	
 	static let wikiheight : CGFloat = 400.0
 	static let numberphileheight : CGFloat = 200.0
-	let drawcells = DrawingCells()
+	let drawcells = PropertyCells()
 	let numeralcells = NumeralCells()
 	
 	//Zwiwchenspeicher fuer Cell-Subviews
@@ -73,6 +73,7 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 		self.register(WikiTableCell.self, forCellReuseIdentifier: self.wikicellId)
 		self.register(OEISTableCell.self, forCellReuseIdentifier: self.oeiscellId)
 		self.register(YoutTubeTableCell.self, forCellReuseIdentifier: self.tubecellId)
+		drawcells.tv = self
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -193,10 +194,10 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 			return h
 			
 		case NrViewSection.DrawNumber.rawValue:
-			if drawcells.getCell(row: row).isHidden {
+			if drawcells.getCell(tv: self, row: row).isHidden {
 				return 0.0
 			}
-			let h = drawcells.getRowHeight(row: row)
+			let h = drawcells.getRowHeight(tv: self, row: row)
 			return h
 		case NrViewSection.Formula.rawValue:
 			switch row {
@@ -266,7 +267,7 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 				vc.WikiJump(wikiurl: typeurl)
 			}
 		}
-		if let scell = cell as? SequenceCell {
+		if let scell = cell as? PropertyCell {
 			guard let property = scell.numtester?.property() else { return }
 			let wiki = WikiLinks.shared.Address(key:property)
 			guard let url = URL(string: wiki) else { return }
@@ -305,7 +306,7 @@ class NrTableView : UITableView , UITableViewDelegate , UITableViewDataSource {
 			}
 		case NrViewSection.DrawNumber.rawValue:
 			let row = indexPath.row
-			let cell = drawcells.getCell(row: row)
+			let cell = drawcells.getCell(tv: tableView, row: row)
 			return cell
 			
 		case NrViewSection.Wiki.rawValue:

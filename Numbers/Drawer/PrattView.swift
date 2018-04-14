@@ -83,34 +83,45 @@ class PrattView : DrawNrView {
 		uiscrollv.addSubview(uipratt)
 	}
 	
+	//private var workItem: DispatchWorkItem? = nil
 	private func ShowCertificat() {
 		CreatePratt()
-		let prattcert = PrattCertficate(nr: BigUInt(self.nr))
-		let latex = prattcert.LatexCertificate()
-		var latexconcat = ""
-		if prattcert.PrattTest() {
-			latexconcat = "\\text{ PRATT CERTIFICATE }" //+ "\\\\" //+ general
-		} else {
-			latexconcat = "\\text{ COMPOSITE CERTIFICATE }" //+ "\\\\" //+ general
-		}
-		for l in latex {
-			if latexconcat != "" { latexconcat = latexconcat + " \\\\" }
-			latexconcat = latexconcat + l
-		}
-		latexconcat = latexconcat + "\\\\ \\\\" +  prattcert.LatexGeneralInfo()
 		
-		uipratt.latex = latexconcat
-		uipratt.sizeToFit()
-		let size : CGSize = uipratt.sizeThatFits(CGSize(width:1000.0, height: CGFloat.greatestFiniteMagnitude))
-		uipratt.removeFromSuperview()
-		uiscrollv.addSubview(uipratt)
-		uipratt.sizeToFit()
-		uiscrollv.contentSize = CGSize(width: 1000.0, height: size.height+40.0)
-		
-		uipratt.leftAnchor.constraint (equalTo: uiscrollv.leftAnchor,constant: 0.0).isActive = true
-		uipratt.topAnchor.constraint(equalTo: uiscrollv.topAnchor,constant: 0.0).isActive = true
-		uipratt.heightAnchor.constraint(equalToConstant: uiscrollv.contentSize.height).isActive = true
-		uipratt.widthAnchor.constraint(equalToConstant: 1000.0).isActive = true
+		workItem?.cancel()
+		self.workItem = DispatchWorkItem {
+			let worker = self.workItem
+			let prattcert = PrattCertficate(nr: BigUInt(self.nr))
+			let latex = prattcert.LatexCertificate()
+			var latexconcat = ""
+			if prattcert.PrattTest() {
+				latexconcat = "\\text{ PRATT CERTIFICATE }" //+ "\\\\" //+ general
+			} else {
+				latexconcat = "\\text{ COMPOSITE CERTIFICATE }" //+ "\\\\" //+ general
+			}
+			for l in latex {
+				if latexconcat != "" { latexconcat = latexconcat + " \\\\" }
+				latexconcat = latexconcat + l
+			}
+			latexconcat = latexconcat + "\\\\ \\\\" +  prattcert.LatexGeneralInfo()
+			
+			
+			DispatchQueue.main.async(execute: {
+				
+				self.uipratt.latex = latexconcat
+				self.uipratt.sizeToFit()
+				let size : CGSize = self.uipratt.sizeThatFits(CGSize(width:1000.0, height: CGFloat.greatestFiniteMagnitude))
+				self.uipratt.removeFromSuperview()
+				self.uiscrollv.addSubview(self.uipratt)
+				self.uipratt.sizeToFit()
+				self.uiscrollv.contentSize = CGSize(width: 1000.0, height: size.height+40.0)
+				
+				self.uipratt.leftAnchor.constraint (equalTo: self.uiscrollv.leftAnchor,constant: 0.0).isActive = true
+				self.uipratt.topAnchor.constraint(equalTo: self.uiscrollv.topAnchor,constant: 0.0).isActive = true
+				self.uipratt.heightAnchor.constraint(equalToConstant: self.uiscrollv.contentSize.height).isActive = true
+				self.uipratt.widthAnchor.constraint(equalToConstant: 1000.0).isActive = true
+			})
+		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
 	}
 }
 

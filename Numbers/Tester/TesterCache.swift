@@ -47,6 +47,15 @@ class TesterCache  {
 		return Test(tester: tester,n: n).special
 	}
 	
+	func  isSpecialAsync(tester : NumTester, n: BigUInt, notify : NumTesterEmission) -> DispatchWorkItem? {
+		let worker = DispatchWorkItem {
+			let result = self.Test(tester: tester, n: n) //tester.isSpecial(n: n)
+			notify.NotifySpecial(t: tester, nr: n, special: result.special)
+		}
+		DispatchQueue.global(qos: .userInitiated).async(execute: worker)		
+		return worker
+	}
+	
 	func getDesc(tester: NumTester,n: BigUInt) -> String? {
 		return Test(tester: tester,n:n).desc
 	}

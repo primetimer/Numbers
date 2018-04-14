@@ -185,10 +185,10 @@ class CatalanView: DrawNrImageView {
 			displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
 			displayLink = nil
 			while !shapeLayer.isEmpty {	ClearShapes() }
-			let n = nr //min(nextnr,maxdraw)
-				self.nth = catalan.Nth(n: BigUInt(n))
+			//let n = nr //min(nextnr,maxdraw)
+				self.nth = catalan.Nth(n: nr)
 				dyck = DyckWord(n: UInt64(nth))
-			if catalan.isSpecial(n: BigUInt(Int(n))) {
+			if catalan.isSpecial(n: nr) {
 				CreateDisplayLink()
 			}
 		}

@@ -21,6 +21,16 @@ protocol NumTester {
 	func issubTester() -> Bool
 }
 
+protocol NumTesterEmission {
+	func NotifySpecial(t: NumTester, nr : BigUInt, special : Bool)
+}
+
+extension NumTester {
+	func TestSpecialAsync(n: BigUInt, notify: NumTesterEmission) {
+		let special = self.isSpecial(n: n)
+		notify.NotifySpecial(t: self, nr: n, special: special)
+	}
+}
 extension NumTester {
 	func getDesc(n: BigUInt) -> String? {
 		return WikiLinks.shared.getLink(tester: self, n: n)
@@ -242,14 +252,30 @@ class TriangleTester : NumTester {
 		if x == floor(x) { return true }
 		return false
 	}
+	/*
 	private func troot(x: Double) -> Double {
 		let troot = (sqrt(8.0*x+1) - 1.0) / 2.0
 		return troot
 	}
+	*/
+	private func triangleroot(n: BigUInt) -> BigUInt? {
+		let m = (8 * n + 1)
+		let r = m.squareRoot()
+		if r*r != m { return nil }
+		
+		let t = (r - 1)
+		if t % 2 == 0 {
+			return t / 2
+		}
+		return nil
+	}
+	
 	func isSpecial(n: BigUInt) -> Bool {
 		if n == 0 { return false }
-		let tr = troot(x: Double(n))
-		return IsInt(x: tr)
+		if triangleroot(n: n) != nil {
+			return true
+		}
+		return false
 	}
 	func getDesc(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
@@ -263,9 +289,11 @@ class TriangleTester : NumTester {
 	
 	func getLatex(n: BigUInt) -> String? {
 		if !isSpecial(n: n) { return nil }
-		let nth = Int(troot(x: Double(n)))
-		let latex = String(n) + "= \\sum_{k=1}^{" + String(nth) + "}  k"
-		return latex
+		
+		if let nth = triangleroot(n: n) {
+			return  String(n) + "= \\sum_{k=1}^{" + String(nth) + "}  k"
+		}
+		return ""
 	}
 }
 

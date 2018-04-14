@@ -45,6 +45,7 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 	}
 	override var isHidden: Bool {
 		willSet {
+			assert(false)
 			if newValue == false && isHidden == true {
 				self.setNeedsDisplay()
 			}
@@ -52,7 +53,7 @@ class DrawNrView : UIView, EmitImage, ImageWorker {
 	}
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		self.isHidden = true
+		//drself.isHidden = true
 	}
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -135,7 +136,8 @@ class DrawNrImageView : DrawNrView {
 	
 	override func StartImageShow(image: UIImage?) {
 		imageview.image = image
-		imageview.animationDuration = 92.0
+		let customizeanimationDuration = 92.0
+		imageview.animationDuration = 5.0 //92.0
 		imageview.animationRepeatCount = 1
 		imageview.startAnimating()
 	}

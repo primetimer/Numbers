@@ -103,6 +103,25 @@ public class UIWordCloudView: UIImageView {
 	
 	private var drawworker : DispatchWorkItem? = nil
 	
+	private var _rect : CGRect = CGRect.zero
+	override public func layoutSubviews() {
+		super.layoutSubviews()
+		if self.frame != _rect {
+			contentchanged = true
+		}
+		_rect = self.frame
+	}
+	/*
+	override public var frame: CGRect {
+		didSet {
+			if frame != _rect {
+				contentchanged = true
+				_rect = frame
+			}
+		}
+	}
+	*/
+	
 	private var textarr : [(s: String,font : String?)] = []
 	func AppendString(s: String,font : String? = nil) {
 		//textarr.append((String(textarr.count),nil))
@@ -254,7 +273,7 @@ public class UIWordCloudView: UIImageView {
 			
 			for t in self.textarr {
 				let tsplit = t.s
-				if let p = self.GetParam(str: tsplit, font: t.font,frame : frame, params: params) {
+				if let p = self.GetParam(str: tsplit, font: t.font,frame : self._rect, params: params) {
 					params.append(p)
 				}
 				iscancel = worker?.isCancelled ?? true
@@ -264,11 +283,11 @@ public class UIWordCloudView: UIImageView {
 				}
 				//Draw in progress
 				#if true
-					self.PerformDraw(rect: frame, params: params)
+					self.PerformDraw(rect: self._rect, params: params)
 					#else
 				DispatchQueue.main.async(execute: {
 					if self._verbose { print("DisplayingInProgress", t.s) }
-					self.PerformDraw(rect: frame, params: params)
+					self.PerformDraw(rect: _rect, params: params)
 					if self._verbose { print("DisplayedInProgres",t.s) }
 				})
 				#endif
@@ -291,6 +310,8 @@ public class UIWordCloudView: UIImageView {
 	private func PerformDraw(rect : CGRect, params : [DrawCloudParam] ) {
 		drawworker?.cancel()
 		self.drawworker = DispatchWorkItem {
+			if self.frame.size == CGSize.zero { return }
+
 			let worker = self.drawworker
 			let size = rect.size //CGSize(width: 800, height: 800)
 			UIGraphicsBeginImageContext(size)
@@ -318,35 +339,20 @@ public class UIWordCloudView: UIImageView {
 		
 	}
 	
-	/*
-	private func InitialImage(rect : CGRect) {
-		let size = rect.size //CGSize(width: 800, height: 800)
-		UIGraphicsBeginImageContext(size)
-		defer { UIGraphicsEndImageContext() }
-		
-		//Initial Image
-		if let s = textarr.first {
-			let infin = "\u{221E}"
-			let attrString = getAttrString(s: s.s, fontname: nil, fontsize: 20.0, color: UIColor.darkGray)
-			let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-			attrString.draw(with: self.frame, options: drawingOptions, context: nil)
-		}
-		let image = UIGraphicsGetImageFromCurrentImageContext()
-		self.image = image
-	}
-	*/
-	
-	private var lastsize = CGSize.zero
+	//private var lastsize = CGSize.zero
 	public func DrawCloud(force : Bool = false) {
-		if self.frame.size == CGSize.zero { return }
+		if _rect == CGRect.zero { return }
 		if force { contentchanged = true }
+		
+		/*
 		if frame.size.height != lastsize.height {
 			contentchanged = true;
 			lastsize = self.frame.size
 		}
+		*/
 		if contentchanged {
 			//	InitialImage(rect: self.frame)
-			Compute(frame: self.frame)
+			Compute(frame: self._rect)
 		}
 	}
 }

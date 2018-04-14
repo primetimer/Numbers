@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 import BigInt
 
-class TesterArtCell : BaseNrTableCell {
+class TesterArtCell : BaseNrTableCell, NumTesterEmission {
+	
+	
 	private (set) var uiart = UIWordCloudView()
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -25,7 +27,6 @@ class TesterArtCell : BaseNrTableCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		let debdummy = 1
 		uiart.DrawCloud()
 	}
 	
@@ -39,13 +40,27 @@ class TesterArtCell : BaseNrTableCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	func NotifySpecial(t: NumTester, nr: BigUInt, special: Bool) {
+		if special {
+			uiart.AppendString(s: t.propertyString())
+			uiart.DrawCloud()
+		}
+
+		
+	}
+	
+	//private var testworker : [DispatchWorkItem] = []
 	private func CreateTesterArt(n : BigUInt)
 	{
 		uiart.Clear()
+		//testworker?.cancel()
 		for t in Tester.shared.completetesters {
-			if TesterCache.shared.isSpecial(tester: t, n: n) {
+			let worker = TesterCache.shared.isSpecialAsync(tester: t, n: n, notify: self)
+			/*
+			if TesterCache.shared.isSpecial (tester: t, n: n) {
 				uiart.AppendString(s: t.propertyString())
 			}
+			*/
 		}
 		uiart.DrawCloud()
 	}

@@ -10,6 +10,77 @@ import Foundation
 import UIKit
 import BigInt
 
+extension NumTester {
+	
+	func CreateDrawView() -> DrawNrView {
+		if self is PrimeTester {
+			return PrattView()
+			let ulam = SequenceView()
+			return ulam
+		}
+		if self is AudioActiveTester {
+			let ans = ConwayView()
+			return ans
+		}
+		if self is FibonacciTester {
+			let ans = FiboView() //FibonacciSequenceView() //FiboView?
+			return ans
+		}
+		if self is LucasTester {
+			return FiboView() //LucasView()
+		}
+		if self is CompositeTester {
+			let faktorview = FaktorView()
+			faktorview.param.type = .polygon
+			return faktorview
+		}
+		if self is LuckyTester {
+			let luckyview = LuckyView()
+			return luckyview
+		}
+		if self is TriangleTester {
+			return PolygonalView(poly: 3)
+		}
+		if self is SquareTester {
+			return PolygonalView(poly: 4)
+		}
+		if self is PentagonalTester {
+			return PolygonalView(poly: 5)
+		}
+		if self is HexagonalTester {
+			return PolygonalView(poly : 6)
+		}
+		if self is PalindromicTester {
+			return PalindromeView()
+		}
+		if self is PlatonicTester {
+			return PlatonicView()
+		}
+		if self is DullTester {
+			return DullView()
+		}
+		
+		if self is AbundanceTester {
+			let faktorview = FaktorView()
+			faktorview.param.type = .ulam
+			return faktorview
+		}
+		
+		if self is CatalanTester {
+			return CatalanView()
+		}
+		if self is MathConstantTester {
+			return PiView()
+		}
+		if self is ConstructibleTester {
+			return ConstructibleView()
+		}
+		let ans = SequenceView()
+		return ans
+	}
+
+}
+
 class DrawTableCell: BaseNrTableCell {
 	
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -38,94 +109,17 @@ class DrawTableCell: BaseNrTableCell {
 			LayoutUI()
 		}
 	}
-	override var isHidden: Bool {
-		willSet {
-			self.uidraw?.isHidden = newValue
-		}
-	}
 	
 	var numtester : NumTester? = nil {
 		didSet {
 			if oldValue?.property() != numtester?.property() {
-				uidraw = CreateDrawView()
-				uidraw?.tester = numtester
-				uidraw?.isHidden = true
+				self.uidraw = numtester?.CreateDrawView()
+				self.uidraw?.tester = numtester
+				//uidraw?.isHidden = true
 			}
 		}
 	}
-	private func CreateDrawView() -> DrawNrView {
-		//return DullView()
-		//return PolygonalView(poly: 6)
-		//return DebugView()
-		//return FibonacciSequenceView()
-		//return CatalanView()
-		//return ConstructibleView()
-		if numtester is PrimeTester {
-			return PrattView()
-			let ulam = SequenceView()
-			return ulam
-		}
-		if numtester is AudioActiveTester {
-			let ans = ConwayView()
-			return ans
-		}
-		if numtester is FibonacciTester {
-			let ans = FiboView() //FibonacciSequenceView() //FiboView?
-			return ans
-		}
-		if numtester is LucasTester {
-			return FiboView() //LucasView()
-		}
-		if numtester is CompositeTester {
-			let faktorview = FaktorView()
-			faktorview.param.type = .polygon
-			return faktorview
-		}
-		if numtester is LuckyTester {
-			let luckyview = LuckyView()
-			return luckyview
-		}
-		if numtester is TriangleTester {
-			return PolygonalView(poly: 3)
-		}
-		if numtester is SquareTester {
-			return PolygonalView(poly: 4)
-		}
-		if numtester is PentagonalTester {
-			return PolygonalView(poly: 5)
-		}
-		if numtester is HexagonalTester {
-			return PolygonalView(poly : 6)
-		}
-		if numtester is PalindromicTester {
-			return PalindromeView()
-		}
-		if numtester is PlatonicTester {
-			return PlatonicView()
-		}
-		if numtester is DullTester {
-			return DullView()
-		}
-		
-		if numtester is AbundanceTester {
-			let faktorview = FaktorView()
-			faktorview.param.type = .ulam
-			return faktorview
-		}
-		
-		if numtester is CatalanTester {
-			return CatalanView()
-		}
-		if numtester is MathConstantTester {
-			return PiView()
-		}
-		if numtester is ConstructibleTester {
-			return ConstructibleView()
-		}
-		let ans = SequenceView()
-		return ans
-	}
-
+	
 	override var nr : BigUInt {
 		didSet {
 			if oldValue == nr { return }

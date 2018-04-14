@@ -17,7 +17,6 @@ import GhostTypewriter
 
 
 class NrViewController: UIViewController , UISearchBarDelegate, NumberJump  {
-	private let initialnumber = BigUInt(13)
 	lazy var uisearch: UISearchBar = UISearchBar()
 	var currnr : BigUInt = 0 {
 		didSet {

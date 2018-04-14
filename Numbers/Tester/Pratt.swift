@@ -112,7 +112,7 @@ class PrattCertficate  {
 	
 	private func LatexCompositeCertificate() -> [LatexString] {
 		
-		let errtext = "\\text{ contradiction } "
+		let errtext = "\\text{ guilty } "
 		if nr <= 1 {
 			let err = String(nr) + "\\text{ not in definition range } "
 			return [err]
@@ -186,7 +186,7 @@ class PrattCertficate  {
 	
 	private func LatexPrimeCertfificate() -> [LatexString] {
 		
-		let errtext = "\\text{ contradiction } "
+		let errtext = "\\text{ guilty } "
 		if nr % 2 == 0 && nr > 2 {
 			let err = String(nr) + "\\text{ is divisible by 2} " + errtext
 			return [err]
